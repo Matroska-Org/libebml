@@ -1,0 +1,14 @@
+--- libebml-0.7.1/make/linux/Makefile~	2004-09-01 22:24:12.520218192 +0200
++++ libebml-0.7.1/make/linux/Makefile	2004-09-01 22:25:30.976291056 +0200
+@@ -14,9 +14,9 @@
+ ifeq (BeOS,$(shell uname -s))
+ prefix=/boot/home/config
+ else
+-prefix=/usr/local
++prefix=$(PREFIX)
+ endif
+-libdir=$(prefix)/lib
++libdir=$(LIBDIR)
+ includedir=$(prefix)/include/ebml
+ 
+ # Programs
