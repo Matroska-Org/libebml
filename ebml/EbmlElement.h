@@ -150,11 +150,11 @@ class EBML_DLL_API EbmlSemanticContext {
 */
 class EBML_DLL_API EbmlElement {
 	public:
-		EbmlElement(const uint64 aDefaultSize, bool bValueSet = false);
+		EbmlElement(uint64 aDefaultSize, bool bValueSet = false);
 		virtual ~EbmlElement() {assert(!bLocked);}
 	
 		/// Set the minimum length that will be used to write the element size (-1 = optimal)
-		void SetSizeLength(const int NewSizeLength) {SizeLength = NewSizeLength;}
+		void SetSizeLength(int NewSizeLength) {SizeLength = NewSizeLength;}
 		int GetSizeLength() const {return SizeLength;}
 		
 		static EbmlElement * FindNextElement(IOCallback & DataStream, const EbmlSemanticContext & Context, int & UpperLevel, uint64 MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel = 1);
@@ -236,7 +236,7 @@ class EBML_DLL_API EbmlElement {
 		/*!
 			\brief set the default size of an element
 		*/
-		virtual void SetDefaultSize(const uint64 aDefaultSize) {DefaultSize = aDefaultSize;}
+		virtual void SetDefaultSize(uint64 aDefaultSize) {DefaultSize = aDefaultSize;}
 
 		bool ValueIsSet() const {return bValueIsSet;}
 

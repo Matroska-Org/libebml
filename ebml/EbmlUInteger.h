@@ -52,15 +52,15 @@ const int DEFAULT_UINT_SIZE = 0; ///< optimal size stored
 class EBML_DLL_API EbmlUInteger : public EbmlElement {
 	public:
 		EbmlUInteger();
-		EbmlUInteger(const uint64 DefaultValue);
+		EbmlUInteger(uint64 DefaultValue);
 		EbmlUInteger(const EbmlUInteger & ElementToClone);
 	
-		EbmlUInteger & operator=(const uint64 NewValue) {Value = NewValue; bValueIsSet = true; return *this;}
+		EbmlUInteger & operator=(uint64 NewValue) {Value = NewValue; bValueIsSet = true; return *this;}
 
 		/*!
 			Set the default size of the integer (usually 1,2,4 or 8)
 		*/
-		void SetDefaultSize(const int nDefaultSize = DEFAULT_UINT_SIZE) {Size = nDefaultSize;}
+		void SetDefaultSize(int nDefaultSize = DEFAULT_UINT_SIZE) {Size = nDefaultSize;}
 
 		bool ValidateSize() const {return (Size <= 8);}
 		uint32 RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);

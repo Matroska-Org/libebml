@@ -52,10 +52,10 @@ const int DEFAULT_INT_SIZE = 1; ///< optimal size stored
 class EBML_DLL_API EbmlSInteger : public EbmlElement {
 	public:
 		EbmlSInteger();
-		EbmlSInteger(const int64 DefaultValue);
+		EbmlSInteger(int64 DefaultValue);
 		EbmlSInteger(const EbmlSInteger & ElementToClone);
 	
-		EbmlSInteger & operator=(const int64 NewValue) {Value = NewValue; bValueIsSet = true; return *this;}
+		EbmlSInteger & operator=(int64 NewValue) {Value = NewValue; bValueIsSet = true; return *this;}
 
 		/*!
 			Set the default size of the integer (usually 1,2,4 or 8)

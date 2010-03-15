@@ -89,13 +89,13 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 		/*!
 			\brief find the first element corresponding to the ID of the element
 		*/
-		EbmlElement *FindFirstElt(const EbmlCallbacks & Callbacks, const bool bCreateIfNull);
+		EbmlElement *FindFirstElt(const EbmlCallbacks & Callbacks, bool bCreateIfNull);
 		EbmlElement *FindFirstElt(const EbmlCallbacks & Callbacks) const;
 
 		/*!
 			\brief find the element of the same type of PasElt following in the list of elements
 		*/
-		EbmlElement *FindNextElt(const EbmlElement & PastElt, const bool bCreateIfNull);
+		EbmlElement *FindNextElt(const EbmlElement & PastElt, bool bCreateIfNull);
 		EbmlElement *FindNextElt(const EbmlElement & PastElt) const;
 		EbmlElement *AddNewElt(const EbmlCallbacks & Callbacks);
 

@@ -44,7 +44,7 @@
 
 START_LIBEBML_NAMESPACE
 
-EbmlMaster::EbmlMaster(const EbmlSemanticContext & aContext, const bool bSizeIsknown)
+EbmlMaster::EbmlMaster(const EbmlSemanticContext & aContext, bool bSizeIsknown)
  :EbmlElement(0), Context(aContext), bChecksumUsed(bChecksumUsedByDefault)
 {
 	bSizeIsFinite = bSizeIsknown;
@@ -273,7 +273,7 @@ EbmlElement *EbmlMaster::FindElt(const EbmlCallbacks & Callbacks) const
 	return NULL;
 }
 
-EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks, const bool bCreateIfNull)
+EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks, bool bCreateIfNull)
 {
 	size_t Index;
 	
@@ -314,7 +314,7 @@ EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks) const
 	\todo only return elements that are from the same type !
 	\todo the element might be the unique in the context !
 */
-EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt, const bool bCreateIfNull)
+EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt, bool bCreateIfNull)
 {
 	size_t Index;
 	

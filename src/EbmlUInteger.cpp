@@ -44,7 +44,7 @@ EbmlUInteger::EbmlUInteger()
  :EbmlElement(DEFAULT_UINT_SIZE, false)
 {}
 
-EbmlUInteger::EbmlUInteger(const uint64 aDefaultValue)
+EbmlUInteger::EbmlUInteger(uint64 aDefaultValue)
  :EbmlElement(DEFAULT_UINT_SIZE, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
 {
 	DefaultIsSet = true;

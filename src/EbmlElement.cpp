@@ -201,7 +201,7 @@ int64 ReadCodedSizeSignedValue(const binary * InBuffer, uint32 & BufferSize, uin
 	return Result;
 }
 
-EbmlElement::EbmlElement(const uint64 aDefaultSize, bool bValueSet)
+EbmlElement::EbmlElement(uint64 aDefaultSize, bool bValueSet)
  :DefaultSize(aDefaultSize)
  ,SizeLength(0) ///< write optimal size by default
  ,bSizeIsFinite(true)
