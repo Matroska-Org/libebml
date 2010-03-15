@@ -327,7 +327,7 @@ EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt, bool bCreateIf
 	}
 
 	while (Index < ElementList.size()) {
-		if (PastElt.Generic().GlobalId == ElementList[Index]->Generic().GlobalId)
+		if ((EbmlId)PastElt == (EbmlId)(*ElementList[Index]))
 			break;
 		Index++;
 	}
@@ -364,7 +364,7 @@ EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt) const
 	}
 
 	while (Index < ElementList.size()) {
-		if (PastElt.Generic().GlobalId == ElementList[Index]->Generic().GlobalId)
+		if ((EbmlId)PastElt == (EbmlId)(*ElementList[Index]))
 			return ElementList[Index];
 		Index++;
 	}
@@ -456,7 +456,7 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
 		}
 	processCrc:
 		for (Index=0; Index<ElementList.size(); Index++) {
-			if (ElementList[Index]->Generic().GlobalId == EbmlCrc32::ClassInfos.GlobalId) {
+			if ((EbmlId)(*ElementList[Index]) == EbmlCrc32::ClassInfos.GlobalId) {
 				bChecksumUsed = true;
 				// remove the element
 				Checksum = *(static_cast<EbmlCrc32*>(ElementList[Index]));
