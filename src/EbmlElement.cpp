@@ -415,8 +415,8 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
 							Result->SetSizeInfinite();
 						}
 
-						Result->SizePosition = DataStream.getFilePointer() - SizeIdx + PossibleID.Length;
-						Result->ElementPosition = Result->SizePosition - PossibleID.Length;
+						Result->SizePosition = DataStream.getFilePointer() - SizeIdx + EBML_ID_LENGTH(PossibleID);
+						Result->ElementPosition = Result->SizePosition - EBML_ID_LENGTH(PossibleID);
 						// place the file at the beggining of the data
 						DataStream.setFilePointer(Result->SizePosition + _SizeLength);
 						return Result;
@@ -579,7 +579,7 @@ uint32 EbmlElement::Render(IOCallback & output, bool bKeepIntact, bool bKeepPosi
 */
 uint32 EbmlElement::RenderHead(IOCallback & output, bool bForceRender, bool bKeepIntact, bool bKeepPosition)
 {
-	if (EbmlId(*this).Length <= 0 || EbmlId(*this).Length > 4)
+	if (EBML_ID_LENGTH(EbmlId(*this)) <= 0 || EBML_ID_LENGTH(EbmlId(*this)) > 4)
 		return 0;
 	
 	UpdateSize(bKeepIntact, bForceRender);
@@ -592,7 +592,7 @@ uint32 EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
 	binary FinalHead[4+8]; // Class D + 64 bits coded size
 	unsigned int FinalHeadSize;
 	
-	FinalHeadSize = EbmlId(*this).Length;
+	FinalHeadSize = EBML_ID_LENGTH(EbmlId(*this));
 	EbmlId(*this).Fill(FinalHead);
 
 	int CodedSize = CodedSizeLength(Size, SizeLength, bSizeIsFinite);
@@ -602,7 +602,7 @@ uint32 EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
 	output.writeFully(FinalHead, FinalHeadSize);
 	if (!bKeepPosition) {
 		ElementPosition = output.getFilePointer() - FinalHeadSize;
-		SizePosition = ElementPosition + EbmlId(*this).Length;
+		SizePosition = ElementPosition + EBML_ID_LENGTH(EbmlId(*this));
 	}
 	
 	return FinalHeadSize;
@@ -612,7 +612,7 @@ uint64 EbmlElement::ElementSize(bool bKeepIntact) const
 {
 	if (!bKeepIntact && IsDefaultValue())
 		return 0; // won't be saved
-	return Size + EbmlId(*this).Length + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+	return Size + EBML_ID_LENGTH(EbmlId(*this)) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
 }
 
 bool EbmlElement::CompareElements(const EbmlElement *A, const EbmlElement *B)

@@ -40,6 +40,8 @@
 
 START_LIBEBML_NAMESPACE
 
+#define EBML_ID_VALUE(id)  id.Value
+#define EBML_ID_LENGTH(id)  id.Length
 /*!
 	\class EbmlId
 */

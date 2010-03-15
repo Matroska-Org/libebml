@@ -217,7 +217,7 @@ class EBML_DLL_API EbmlElement {
 		virtual bool IsMaster() const {return false;}
 
 		uint8 HeadSize() const {
-			return EbmlId(*this).Length + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+			return EBML_ID_LENGTH(EbmlId(*this)) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
 		} /// return the size of the head, on reading/writing
 		
 		/*!

@@ -79,7 +79,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 		}
 		
 		uint64 GetDataStart() const {
-			return GetElementPosition() + EbmlId(*this).Length + CodedSizeLength(GetSize(), GetSizeLength(), IsFiniteSize());
+			return GetElementPosition() + EBML_ID_LENGTH(EbmlId(*this)) + CodedSizeLength(GetSize(), GetSizeLength(), IsFiniteSize());
 		}
 
 		/*!
