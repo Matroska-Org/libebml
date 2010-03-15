@@ -82,7 +82,11 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
 			return (DefaultISset() && Value == DefaultValue);
 		}
 
-	protected:
+#if defined(EBML_STRICT_API)
+    private:
+#else
+    protected:
+#endif
 		uint64 Value; /// The actual value of the element
 		uint64 DefaultValue;
 };

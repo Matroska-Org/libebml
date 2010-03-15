@@ -50,7 +50,11 @@ class EBML_DLL_API EbmlDummy : public EbmlBinary {
 		bool IsDummy() const {return true;}
 		bool IsDefaultValue() const {return true;}
 
-	protected:
+#if defined(EBML_STRICT_API)
+    private:
+#else
+    protected:
+#endif
 		const EbmlId DummyId;
 		static const EbmlId DummyRawId;
 

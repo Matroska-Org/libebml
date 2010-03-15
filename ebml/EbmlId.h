@@ -40,8 +40,15 @@
 
 START_LIBEBML_NAMESPACE
 
+
+#if defined(EBML_STRICT_API)
+#define EBML_ID_VALUE(id)  id.GetValue()
+#define EBML_ID_LENGTH(id)  id.GetLength()
+#else
 #define EBML_ID_VALUE(id)  id.Value
 #define EBML_ID_LENGTH(id)  id.Length
+#endif
+
 /*!
 	\class EbmlId
 */
@@ -80,6 +87,9 @@ class EBML_DLL_API EbmlId {
         inline size_t GetLength() const { return Length; }
         inline uint32 GetValue() const { return Value; }
 
+#if defined(EBML_STRICT_API)
+    private:
+#endif
 		uint32 Value;
 		size_t Length;
 };

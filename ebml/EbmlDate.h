@@ -81,7 +81,11 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 			return false;
 		}
 
-	protected:
+#if defined(EBML_STRICT_API)
+    private:
+#else
+    protected:
+#endif
 		uint32 RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
 		
 		int64 myDate; ///< internal format of the date

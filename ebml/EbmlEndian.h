@@ -86,7 +86,11 @@ template<class TYPE, endianess ENDIAN> class Endian
 	    inline size_t size() const   { return sizeof(TYPE); }
 	    inline bool operator!=(const binary *buffer) const {return *((TYPE*)buffer) == platform_value;}
 
+#if defined(EBML_STRICT_API)
+    private:
+#else
     protected:
+#endif
 	    TYPE platform_value;
 	    TYPE endian_value;
 

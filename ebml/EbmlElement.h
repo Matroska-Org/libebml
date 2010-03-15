@@ -144,6 +144,25 @@ class EBML_DLL_API EbmlSemanticContext {
 		const EbmlCallbacks *MasterElt;
 };
 
+#if defined(EBML_STRICT_API)
+#define EBML_CONCRETE_CLASS(Type) \
+    public: \
+        virtual const EbmlSemanticContext &Context() const {return ClassInfos.Context;} \
+        virtual const char *DebugName() const {return ClassInfos.DebugName;} \
+		virtual operator const EbmlId &() const {return ClassInfos.GlobalId;} \
+        virtual EbmlElement & CreateElement() const {return Create();} \
+        virtual EbmlElement * Clone() const { return new Type(*this); } \
+		static EbmlElement & Create() {return *(new Type);} \
+        static const EbmlCallbacks & ClassInfo() {return ClassInfos;} \
+        static const EbmlId & ClassId() {return ClassInfos.GlobalId;} \
+    private: \
+		static const EbmlCallbacks ClassInfos; \
+
+#define EBML_INFO(ref)  ref::ClassInfo()
+#define EBML_ID(ref)    ref::ClassId()
+#define EBML_CONTEXT(e) e->Context()
+#define EBML_NAME(e)    e->DebugName()
+#else
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
 		virtual const EbmlCallbacks & Generic() const {return ClassInfos;} \
@@ -157,6 +176,7 @@ class EBML_DLL_API EbmlSemanticContext {
 #define EBML_ID(ref)    ref::ClassInfos.GlobalId
 #define EBML_CONTEXT(e) e->Generic().Context
 #define EBML_NAME(e)    e->Generic().DebugName
+#endif
 
 /*!
 	\class EbmlElement
@@ -188,8 +208,13 @@ class EBML_DLL_API EbmlElement {
 		virtual EbmlElement * Clone() const = 0;
 
 		virtual operator const EbmlId &() const = 0;
+#if defined(EBML_STRICT_API)
+        virtual const char *DebugName() const = 0;
+        virtual const EbmlSemanticContext &Context() const = 0;
+#else
 		/// return the generic callback to monitor a derived class
 		virtual const EbmlCallbacks & Generic() const = 0;
+#endif
         virtual EbmlElement & CreateElement() const = 0;
 
 		// by default only allow to set element as finite (override when needed)
@@ -285,6 +310,9 @@ class EBML_DLL_API EbmlElement {
         inline void SetSizeIsFinite(bool Set = true) {bSizeIsFinite = Set;}
         inline uint64 GetSizePosition() const {return SizePosition;}
 
+#if defined(EBML_STRICT_API)
+	private:
+#endif
 		uint64 Size;        ///< the size of the data to write
 		uint64 DefaultSize; ///< Minimum data size to fill on rendering (0 = optimal)
 		int SizeLength; /// the minimum size on which the size will be written (0 = optimal)

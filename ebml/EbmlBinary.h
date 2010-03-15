@@ -95,6 +95,9 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
 	protected:
         binary *GetData() const {return Data;}
 
+#if defined(EBML_STRICT_API)
+	private:
+#endif
 		binary *Data; // the binary data inside the element
 };
 

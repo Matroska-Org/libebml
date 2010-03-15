@@ -63,7 +63,11 @@ class EBML_DLL_API EbmlStream {
 		inline IOCallback & I_O() {return Stream;}
         operator IOCallback &() {return Stream;}
 
-	protected:
+#if defined(EBML_STRICT_API)
+    private:
+#else
+    protected:
+#endif
 		IOCallback & Stream;
 };
 

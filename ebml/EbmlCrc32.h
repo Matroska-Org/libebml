@@ -99,7 +99,11 @@ class EBML_DLL_API EbmlCrc32 : public EbmlBinary {
 	
 		void ForceCrc32(uint32 NewValue) { m_crc_final = NewValue; SetValueIsSet();}
 
-	protected:
+#if defined(EBML_STRICT_API)
+    private:
+#else
+    protected:
+#endif
 		void ResetCRC() {m_crc = CRC32_NEGL;}
 		void UpdateByte(binary b) {m_crc = m_tab[CRC32_INDEX(m_crc) ^ b] ^ CRC32_SHIFTED(m_crc);}
 
