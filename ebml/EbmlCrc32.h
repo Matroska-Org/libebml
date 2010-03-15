@@ -69,7 +69,6 @@ class EBML_DLL_API EbmlCrc32 : public EbmlBinary {
 		}
 
 		operator const EbmlId &() const {return ClassInfos.GlobalId;}
-		bool IsYourId(const EbmlId & TestId) const;
 	
 		void AddElementCRC32(EbmlElement &ElementToCRC);
 		bool CheckElementCRC32(EbmlElement &ElementToCRC);

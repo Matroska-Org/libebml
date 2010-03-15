@@ -174,6 +174,8 @@ class EBML_DLL_API EbmlElement {
 		virtual EbmlElement * Clone() const = 0;
 
 		virtual operator const EbmlId &() const = 0;
+		/// return the generic callback to monitor a derived class
+		virtual const EbmlCallbacks & Generic() const = 0;
 
 		// by default only allow to set element as finite (override when needed)
 		virtual bool SetSizeInfinite(bool bIsInfinite = true) {return !bIsInfinite;}
@@ -194,9 +196,6 @@ class EBML_DLL_API EbmlElement {
 		virtual uint64 ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) = 0;
 		virtual void Read(EbmlStream & inDataStream, const EbmlSemanticContext & Context, int & UpperEltFound, EbmlElement * & FoundElt, bool AllowDummyElt = false, ScopeMode ReadFully = SCOPE_ALL_DATA);
 		
-		/// return the generic callback to monitor a derived class
-		virtual const EbmlCallbacks & Generic() const = 0;
-
 		bool IsLocked() const {return bLocked;}
 		void Lock(bool bLock = true) { bLocked = bLock;}
 
@@ -245,16 +244,6 @@ class EBML_DLL_API EbmlElement {
 		}
 		
 	protected:
-		uint64 Size;        ///< the size of the data to write
-		uint64 DefaultSize; ///< Minimum data size to fill on rendering (0 = optimal)
-		int SizeLength; /// the minimum size on which the size will be written (0 = optimal)
-		bool bSizeIsFinite;
-		uint64 ElementPosition;
-		uint64 SizePosition;
-		bool bValueIsSet;
-		bool DefaultIsSet;
-		bool bLocked;
-
 		/*!
 			\brief find any element in the stream
 			\return a DummyRawElement if the element is unknown or NULL if the element dummy is not allowed
@@ -273,6 +262,16 @@ class EBML_DLL_API EbmlElement {
 			\brief special constructor for cloning
 		*/
 		EbmlElement(const EbmlElement & ElementToClone);
+
+		uint64 Size;        ///< the size of the data to write
+		uint64 DefaultSize; ///< Minimum data size to fill on rendering (0 = optimal)
+		int SizeLength; /// the minimum size on which the size will be written (0 = optimal)
+		bool bSizeIsFinite;
+		uint64 ElementPosition;
+		uint64 SizePosition;
+		bool bValueIsSet;
+		bool DefaultIsSet;
+		bool bLocked;
 };
 
 END_LIBEBML_NAMESPACE
