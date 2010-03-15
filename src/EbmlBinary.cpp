@@ -50,9 +50,9 @@ EbmlBinary::EbmlBinary(const EbmlBinary & ElementToClone)
 	if (ElementToClone.Data == NULL)
 		Data = NULL;
 	else {
-		Data = (binary *)malloc(Size * sizeof(binary));
+		Data = (binary *)malloc(GetSize() * sizeof(binary));
 		assert(Data != NULL);
-		memcpy(Data, ElementToClone.Data, Size);
+		memcpy(Data, ElementToClone.Data, GetSize());
 	}
 }
 
@@ -63,9 +63,9 @@ EbmlBinary::~EbmlBinary(void) {
 
 uint32 EbmlBinary::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
 {
-	output.writeFully(Data,Size);
+	output.writeFully(Data,GetSize());
 
-	return Size;
+	return GetSize();
 }
 	
 /*!
@@ -73,7 +73,7 @@ uint32 EbmlBinary::RenderData(IOCallback & output, bool bForceRender, bool bKeep
 */
 uint64 EbmlBinary::UpdateSize(bool bKeepIntact, bool bForceRender)
 {
-	return Size;
+	return GetSize();
 }
 
 uint64 EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
@@ -84,18 +84,18 @@ uint64 EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
 	if (ReadFully == SCOPE_NO_DATA)
 	{
 		Data = NULL;
-		return Size;
+		return GetSize();
 	}
 
-	Data = (binary *)malloc(Size * sizeof(binary));
+	Data = (binary *)malloc(GetSize() * sizeof(binary));
 	assert(Data != NULL);
-	bValueIsSet = true;
-	return input.read(Data, Size);
+	SetValueIsSet();
+	return input.read(Data, GetSize());
 }
 
 bool EbmlBinary::operator==(const EbmlBinary & ElementToCompare) const
 {
-	return ((Size == ElementToCompare.Size) && !memcmp(Data, ElementToCompare.Data, Size));
+	return ((GetSize() == ElementToCompare.GetSize()) && !memcmp(Data, ElementToCompare.Data, GetSize()));
 }
 
 END_LIBEBML_NAMESPACE

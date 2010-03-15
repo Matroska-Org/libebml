@@ -43,7 +43,7 @@ const EbmlCallbacks EbmlVoid::ClassInfos(EbmlVoid::Create, EbmlVoid_TheId, "EBML
 
 EbmlVoid::EbmlVoid()
 {
-	bValueIsSet = true;
+	SetValueIsSet();
 }
 
 uint32 EbmlVoid::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
@@ -51,24 +51,24 @@ uint32 EbmlVoid::RenderData(IOCallback & output, bool bForceRender, bool bKeepIn
 	// write dummy data by 4KB chunks
 	static binary DummyBuf[4*1024];
 
-	uint64 SizeToWrite = Size;
+	uint64 SizeToWrite = GetSize();
 	while (SizeToWrite > 4*1024)
 	{
 		output.writeFully(DummyBuf, 4*1024);
 		SizeToWrite -= 4*1024;
 	}
 	output.writeFully(DummyBuf, SizeToWrite);
-	return Size;
+	return GetSize();
 }
 
 uint64 EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output, bool ComeBackAfterward, bool bKeepIntact)
 {
 	EltToReplaceWith.UpdateSize(bKeepIntact);
-	if (HeadSize() + Size < EltToReplaceWith.GetSize() + EltToReplaceWith.HeadSize()) {
+	if (HeadSize() + GetSize() < EltToReplaceWith.GetSize() + EltToReplaceWith.HeadSize()) {
 		// the element can't be written here !
 		return 0;
 	}
-	if (HeadSize() + Size - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() == 1) {
+	if (HeadSize() + GetSize() - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() == 1) {
 		// there is not enough space to put a filling element
 		return 0;
 	}
@@ -78,15 +78,15 @@ uint64 EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output
 	output.setFilePointer(GetElementPosition());
 	EltToReplaceWith.Render(output, bKeepIntact);
 
-	if (HeadSize() + Size - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() > 1) {
+	if (HeadSize() + GetSize() - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() > 1) {
 	  // fill the rest with another void element
 	  EbmlVoid aTmp;
-	  aTmp.SetSize(HeadSize() + Size - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() - 1); // 1 is the length of the Void ID
+	  aTmp.SetSize_(HeadSize() + GetSize() - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() - 1); // 1 is the length of the Void ID
 	  int HeadBefore = aTmp.HeadSize();
-	  aTmp.SetSize(aTmp.GetSize() - CodedSizeLength(aTmp.Size, aTmp.SizeLength, aTmp.bSizeIsFinite));
+	  aTmp.SetSize_(aTmp.GetSize() - CodedSizeLength(aTmp.GetSize(), aTmp.GetSizeLength(), aTmp.IsFiniteSize()));
 	  int HeadAfter = aTmp.HeadSize();
 	  if (HeadBefore != HeadAfter) {
-		  aTmp.SetSizeLength(CodedSizeLength(aTmp.Size, aTmp.SizeLength, aTmp.bSizeIsFinite) - (HeadAfter - HeadBefore));
+		  aTmp.SetSizeLength(CodedSizeLength(aTmp.GetSize(), aTmp.GetSizeLength(), aTmp.IsFiniteSize()) - (HeadAfter - HeadBefore));
 	  }
 	  aTmp.RenderHead(output, false, bKeepIntact); // the rest of the data is not rewritten
 	}
@@ -95,7 +95,7 @@ uint64 EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output
 		output.setFilePointer(CurrentPosition);
 	}
 
-	return Size + HeadSize();
+	return GetSize() + HeadSize();
 }
 
 uint64 EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & output, bool ComeBackAfterward, bool bKeepIntact)
@@ -115,17 +115,17 @@ uint64 EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & output, b
 	output.setFilePointer(EltToVoid.GetElementPosition());
 
 	// compute the size of the voided data based on the original one
-	Size = EltToVoid.GetSize() + EltToVoid.HeadSize() - 1; // 1 for the ID
-	Size -= CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+	SetSize(EltToVoid.GetSize() + EltToVoid.HeadSize() - 1); // 1 for the ID
+	SetSize(GetSize() - CodedSizeLength(GetSize(), GetSizeLength(), IsFiniteSize()));
 	// make sure we handle even the strange cases
-	//uint32 A1 = Size + HeadSize();
+	//uint32 A1 = GetSize() + HeadSize();
 	//uint32 A2 = EltToVoid.GetSize() + EltToVoid.HeadSize();
-	if (Size + HeadSize() != EltToVoid.GetSize() + EltToVoid.HeadSize()) {
-		Size--;
-		SetSizeLength(CodedSizeLength(Size, SizeLength, bSizeIsFinite) + 1);
+	if (GetSize() + HeadSize() != EltToVoid.GetSize() + EltToVoid.HeadSize()) {
+		SetSize(GetSize()-1);
+		SetSizeLength(CodedSizeLength(GetSize(), GetSizeLength(), IsFiniteSize()) + 1);
 	}
 
-	if (Size != 0) {
+	if (GetSize() != 0) {
 		RenderHead(output, false, bKeepIntact); // the rest of the data is not rewritten
 	}
 

@@ -58,7 +58,7 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
 
 		bool ValidateSize() const 
 		{
-			return (Size == 4 || Size == 8);
+			return (GetSize() == 4 || GetSize() == 8);
 		}
 	
 		uint32 RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
@@ -68,23 +68,23 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
 		void SetPrecision(const EbmlFloat::Precision prec = FLOAT_32) 
 		{
 			if (prec == FLOAT_64)
-				Size = 8;
+				SetSize_(8);
 			else
-				Size = 4; // default size
+				SetSize_(4); // default size
 		}
 
 	
 //		EbmlFloat & operator=(const float NewValue) { Value = NewValue; return *this;}
-		EbmlFloat & operator=(const double NewValue) { Value = NewValue; bValueIsSet = true; return *this;}
+		EbmlFloat & operator=(const double NewValue) { Value = NewValue; SetValueIsSet(); return *this;}
 
 		bool operator<(const EbmlFloat & EltCmp) const {return Value < EltCmp.Value;}
 		
 		operator const float() const {return float(Value);}
 		operator const double() const {return double(Value);}
 
-		void SetDefaultValue(double aValue) {assert(!DefaultIsSet); DefaultValue = aValue; DefaultIsSet = true;}
+		void SetDefaultValue(double aValue) {assert(!DefaultISset()); DefaultValue = aValue; SetDefaultIsSet();}
     
-		const double DefaultVal() const {assert(DefaultIsSet); return DefaultValue;}
+		const double DefaultVal() const {assert(DefaultISset()); return DefaultValue;}
 
 		bool IsDefaultValue() const {
 			return (DefaultISset() && Value == DefaultValue);

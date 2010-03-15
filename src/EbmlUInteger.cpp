@@ -47,7 +47,7 @@ EbmlUInteger::EbmlUInteger()
 EbmlUInteger::EbmlUInteger(uint64 aDefaultValue)
  :EbmlElement(DEFAULT_UINT_SIZE, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
 {
-	DefaultIsSet = true;
+	SetDefaultIsSet();
 }
 
 EbmlUInteger::EbmlUInteger(const EbmlUInteger & ElementToClone)
@@ -64,18 +64,18 @@ uint32 EbmlUInteger::RenderData(IOCallback & output, bool bForceRender, bool bKe
 {
 	binary FinalData[8]; // we don't handle more than 64 bits integers
 	
-	if (SizeLength > 8)
+	if (GetSizeLength() > 8)
 		return 0; // integer bigger coded on more than 64 bits are not supported
 	
 	uint64 TempValue = Value;
-	for (unsigned int i=0; i<Size;i++) {
-		FinalData[Size-i-1] = TempValue & 0xFF;
+	for (unsigned int i=0; i<GetSize();i++) {
+		FinalData[GetSize()-i-1] = TempValue & 0xFF;
 		TempValue >>= 8;
 	}
 	
-	output.writeFully(FinalData,Size);
+	output.writeFully(FinalData,GetSize());
 
-	return Size;
+	return GetSize();
 }
 
 uint64 EbmlUInteger::UpdateSize(bool bKeepIntact, bool bForceRender)
@@ -84,28 +84,28 @@ uint64 EbmlUInteger::UpdateSize(bool bKeepIntact, bool bForceRender)
 		return 0;
 
 	if (Value <= 0xFF) {
-		Size = 1;
+		SetSize_(1);
 	} else if (Value <= 0xFFFF) {
-		Size = 2;
+		SetSize_(2);
 	} else if (Value <= 0xFFFFFF) {
-		Size = 3;
+		SetSize_(3);
 	} else if (Value <= 0xFFFFFFFF) {
-		Size = 4;
+		SetSize_(4);
 	} else if (Value <= EBML_PRETTYLONGINT(0xFFFFFFFFFF)) {
-		Size = 5;
+		SetSize_(5);
 	} else if (Value <= EBML_PRETTYLONGINT(0xFFFFFFFFFFFF)) {
-		Size = 6;
+		SetSize_(6);
 	} else if (Value <= EBML_PRETTYLONGINT(0xFFFFFFFFFFFFFF)) {
-		Size = 7;
+		SetSize_(7);
 	} else {
-		Size = 8;
+		SetSize_(8);
 	}
 
-	if (DefaultSize > Size) {
-		Size = DefaultSize;
+	if (GetDefaultSize() > GetSize()) {
+		SetSize_(GetDefaultSize());
 	}
 
-	return Size;
+	return GetSize();
 }
 
 uint64 EbmlUInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
@@ -113,18 +113,18 @@ uint64 EbmlUInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
 	if (ReadFully != SCOPE_NO_DATA)
 	{
 		binary Buffer[8];
-		input.readFully(Buffer, Size);
+		input.readFully(Buffer, GetSize());
 		Value = 0;
 		
-		for (unsigned int i=0; i<Size; i++)
+		for (unsigned int i=0; i<GetSize(); i++)
 		{
 			Value <<= 8;
 			Value |= Buffer[i];
 		}
-		bValueIsSet = true;
+		SetValueIsSet();
 	}
 
-	return Size;
+	return GetSize();
 }
 
 END_LIBEBML_NAMESPACE

@@ -156,11 +156,11 @@ const uint32 EbmlCrc32::m_tab[] = {
 EbmlCrc32::EbmlCrc32()
 {
 	ResetCRC();
-	DefaultSize = DIGESTSIZE;
+	SetDefaultSize(DIGESTSIZE);
 	m_crc_final = 0;
-	Size = 4;
+	SetSize_(4);
 	//This EbmlElement has been set
-//	bValueIsSet = true;
+//	SetValueIsSet();
 }
 
 EbmlCrc32::EbmlCrc32(const EbmlCrc32 & ElementToClone)
@@ -201,14 +201,14 @@ uint32 EbmlCrc32::RenderData(IOCallback & output, bool bForceRender, bool bKeepI
 	    output.writeFully(&m_crc_final, Result);
 	}
 
-	if (Result < DefaultSize) {
+	if (Result < GetDefaultSize()) {
 		// pad the rest with 0
-		binary *Pad = new binary[DefaultSize - Result];
+		binary *Pad = new binary[GetDefaultSize() - Result];
 		if (Pad != NULL) {
-			memset(Pad, 0x00, DefaultSize - Result);
-			output.writeFully(Pad, DefaultSize - Result);
+			memset(Pad, 0x00, GetDefaultSize() - Result);
+			output.writeFully(Pad, GetDefaultSize() - Result);
 
-			Result = DefaultSize;
+			Result = GetDefaultSize();
 			delete [] Pad;
 		}
 	}
@@ -220,20 +220,20 @@ uint64 EbmlCrc32::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
 	if (ReadFully != SCOPE_NO_DATA)
 	{
-		binary *Buffer = new binary[Size];
+		binary *Buffer = new binary[GetSize()];
 		if (Buffer == NULL) {
 			// impossible to read, skip it
-			input.setFilePointer(Size, seek_current);
+			input.setFilePointer(GetSize(), seek_current);
 		} else {
-			input.readFully(Buffer, Size);
+			input.readFully(Buffer, GetSize());
 
 			memcpy((void *)&m_crc_final, Buffer, 4);
 			delete [] Buffer;
-			bValueIsSet = true;
+			SetValueIsSet();
 		}
 	}
 
-	return Size;
+	return GetSize();
 }
 
 bool EbmlCrc32::CheckCRC(uint32 inputCRC, const binary *input, uint32 length)
@@ -333,7 +333,7 @@ void EbmlCrc32::Finalize()
 	//Reset the holding CRC member (m_crc)
 	ResetCRC();
 	//This EbmlElement has been set
-	bValueIsSet = true;
+	SetValueIsSet();
 }
 
 END_LIBEBML_NAMESPACE

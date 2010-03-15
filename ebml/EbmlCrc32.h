@@ -58,7 +58,7 @@ class EBML_DLL_API EbmlCrc32 : public EbmlBinary {
 		EbmlCrc32(const EbmlCrc32 & ElementToClone);
 		static EbmlElement & Create() {return *(new EbmlCrc32);}
 		const EbmlCallbacks & Generic() const {return ClassInfos;}
-		bool ValidateSize() const {return (Size == 4);}
+		bool ValidateSize() const {return (GetSize() == 4);}
 		uint32 RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
 		uint64 ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
 //		uint64 UpdateSize(bool bKeepIntact = false);
@@ -102,7 +102,7 @@ class EBML_DLL_API EbmlCrc32 : public EbmlBinary {
 			return m_crc_final;
 		};
 	
-		void ForceCrc32(uint32 NewValue) { m_crc_final = NewValue; bValueIsSet = true;}
+		void ForceCrc32(uint32 NewValue) { m_crc_final = NewValue; SetValueIsSet();}
 
 		EbmlElement * Clone() const;
 

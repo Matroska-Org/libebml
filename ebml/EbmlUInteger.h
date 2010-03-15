@@ -55,14 +55,14 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
 		EbmlUInteger(uint64 DefaultValue);
 		EbmlUInteger(const EbmlUInteger & ElementToClone);
 	
-		EbmlUInteger & operator=(uint64 NewValue) {Value = NewValue; bValueIsSet = true; return *this;}
+		EbmlUInteger & operator=(uint64 NewValue) {Value = NewValue; SetValueIsSet(); return *this;}
 
 		/*!
 			Set the default size of the integer (usually 1,2,4 or 8)
 		*/
-		void SetDefaultSize(int nDefaultSize = DEFAULT_UINT_SIZE) {Size = nDefaultSize;}
+		void SetDefaultSize(int nDefaultSize = DEFAULT_UINT_SIZE) {SetSize_(nDefaultSize);}
 
-		bool ValidateSize() const {return (Size <= 8);}
+		bool ValidateSize() const {return (GetSize() <= 8);}
 		uint32 RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
 		uint64 ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
 		uint64 UpdateSize(bool bKeepIntact = false, bool bForceRender = false);
@@ -74,9 +74,9 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
 		operator uint32() const {return uint32(Value);}
 		operator uint64() const {return Value;}
 
-		void SetDefaultValue(uint64 aValue) {assert(!DefaultIsSet); DefaultValue = aValue; DefaultIsSet = true;}
+		void SetDefaultValue(uint64 aValue) {assert(!DefaultISset()); DefaultValue = aValue; SetDefaultIsSet();}
     
-		const uint64 DefaultVal() const {assert(DefaultIsSet); return DefaultValue;}
+		const uint64 DefaultVal() const {assert(DefaultISset()); return DefaultValue;}
 
 		bool IsDefaultValue() const {
 			return (DefaultISset() && Value == DefaultValue);

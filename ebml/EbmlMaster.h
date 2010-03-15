@@ -68,18 +68,18 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 		/*!
 			\brief Set wether the size is finite (size is known in advance when writing, or infinite size is not known on writing)
 		*/
-		bool SetSizeInfinite(bool aIsInfinite = true) {bSizeIsFinite = !aIsInfinite; return true;}
+		bool SetSizeInfinite(bool aIsInfinite = true) {SetSizeIsFinite(!aIsInfinite); return true;}
 	
 		bool PushElement(EbmlElement & element);
 		uint64 GetSize() const { 
-			if (bSizeIsFinite)
-				return Size;
+			if (IsFiniteSize())
+				return GetSize();
 			else
 				return (0-1);
 		}
 		
 		uint64 GetDataStart() const {
-			return ElementPosition + EbmlId(*this).Length + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+			return GetElementPosition() + EbmlId(*this).Length + CodedSizeLength(GetSize(), GetSizeLength(), IsFiniteSize());
 		}
 
 		/*!

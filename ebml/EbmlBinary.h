@@ -69,8 +69,8 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
 	
 		void SetBuffer(const binary *Buffer, const uint32 BufferSize) {
 			Data = (binary *) Buffer;
-			Size = BufferSize;
-			bValueIsSet = true;
+			SetSize_(BufferSize);
+			SetValueIsSet();
 		}
 
 		binary *GetBuffer() const {return Data;}
@@ -80,8 +80,8 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
 				free(Data);
 			Data = (binary *)malloc(BufferSize * sizeof(binary));
 			memcpy(Data, Buffer, BufferSize);
-			Size = BufferSize;
-			bValueIsSet = true;
+			SetSize_(BufferSize);
+			SetValueIsSet();
 		}
 		
 		operator const binary &() const {return *Data;}

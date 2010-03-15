@@ -52,7 +52,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 			\brief set the date with a UNIX/C/EPOCH form
 			\param NewDate UNIX/C date in UTC (no timezone)
 		*/
-		void SetEpochDate(int32 NewDate) {bValueIsSet = true; myDate = int64(NewDate - UnixEpochDelay) * 1000000000; bValueIsSet = true;}
+		void SetEpochDate(int32 NewDate) {myDate = int64(NewDate - UnixEpochDelay) * 1000000000; SetValueIsSet();}
 
 		/*!
 			\brief get the date with a UNIX/C/EPOCH form
@@ -60,17 +60,17 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 		*/
 		int32 GetEpochDate() const {return int32(myDate/1000000000 + UnixEpochDelay);}
 	
-		bool ValidateSize() const {return ((Size == 8) || (Size == 0));}
+		bool ValidateSize() const {return ((GetSize() == 8) || (GetSize() == 0));}
 
 		/*!
 			\note no Default date handled
 		*/
 		uint64 UpdateSize(bool bKeepIntact = false, bool bForceRender = false) {
-			if(!bValueIsSet) 
-				Size = 0;
+			if(!ValueIsSet()) 
+				SetSize_(0);
 			else
-				Size = 8;
-			return Size;
+				SetSize_(8);
+			return GetSize();
 		}
 		
 		bool operator<(const EbmlDate & EltCmp) const {return myDate < EltCmp.myDate;}

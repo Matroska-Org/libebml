@@ -207,14 +207,14 @@ bool UTFstring::wcscmp_internal(const wchar_t *str1, const wchar_t *str2)
 EbmlUnicodeString::EbmlUnicodeString()
 :EbmlElement(0, false)
 {
-	DefaultSize = 0;
+	SetDefaultSize(0);
 }
 
 EbmlUnicodeString::EbmlUnicodeString(const UTFstring & aDefaultValue)
 :EbmlElement(0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
 {
-	DefaultSize = 0;
-	DefaultIsSet = true;
+	SetDefaultSize(0);
+	SetDefaultIsSet();
 }
 
 EbmlUnicodeString::EbmlUnicodeString(const EbmlUnicodeString & ElementToClone)
@@ -236,14 +236,14 @@ uint32 EbmlUnicodeString::RenderData(IOCallback & output, bool bForceRender, boo
 		output.writeFully(Value.GetUTF8().c_str(), Result);
 	}
 
-	if (Result < DefaultSize) {
+	if (Result < GetDefaultSize()) {
 		// pad the rest with 0
-		binary *Pad = new binary[DefaultSize - Result];
+		binary *Pad = new binary[GetDefaultSize() - Result];
 		if (Pad != NULL) {
-			memset(Pad, 0x00, DefaultSize - Result);
-			output.writeFully(Pad, DefaultSize - Result);
+			memset(Pad, 0x00, GetDefaultSize() - Result);
+			output.writeFully(Pad, GetDefaultSize() - Result);
 
-			Result = DefaultSize;
+			Result = GetDefaultSize();
 			delete [] Pad;
 		}
 	}
@@ -254,7 +254,7 @@ uint32 EbmlUnicodeString::RenderData(IOCallback & output, bool bForceRender, boo
 EbmlUnicodeString & EbmlUnicodeString::operator=(const UTFstring & NewString)
 {
 	Value = NewString;
-	bValueIsSet = true;
+	SetValueIsSet();
 	return *this;
 }
 
@@ -266,11 +266,11 @@ uint64 EbmlUnicodeString::UpdateSize(bool bKeepIntact, bool bForceRender)
 	if (!bKeepIntact && IsDefaultValue())
 		return 0;
 
-	Size = Value.GetUTF8().length();
-	if (Size < DefaultSize)
-		Size = DefaultSize;
+	SetSize_(Value.GetUTF8().length());
+	if (GetSize() < GetDefaultSize())
+		SetSize_(GetDefaultSize());
 
-	return Size;
+	return GetSize();
 }
 
 /*!
@@ -280,28 +280,28 @@ uint64 EbmlUnicodeString::ReadData(IOCallback & input, ScopeMode ReadFully)
 {	
 	if (ReadFully != SCOPE_NO_DATA)
 	{
-		if (Size == 0) {
+		if (GetSize() == 0) {
 			Value = UTFstring::value_type(0);
-			bValueIsSet = true;
+			SetValueIsSet();
 		} else {
-			char *Buffer = new char[Size+1];
+			char *Buffer = new char[GetSize()+1];
 			if (Buffer == NULL) {
 				// impossible to read, skip it
-				input.setFilePointer(Size, seek_current);
+				input.setFilePointer(GetSize(), seek_current);
 			} else {
-				input.readFully(Buffer, Size);
-				if (Buffer[Size-1] != 0) {
-					Buffer[Size] = 0;
+				input.readFully(Buffer, GetSize());
+				if (Buffer[GetSize()-1] != 0) {
+					Buffer[GetSize()] = 0;
 				}
 
 				Value.SetUTF8(Buffer); // implicit conversion to std::string
 				delete [] Buffer;
-				bValueIsSet = true;
+				SetValueIsSet();
 			}
 		}
 	}
 
-	return Size;
+	return GetSize();
 }
 
 END_LIBEBML_NAMESPACE

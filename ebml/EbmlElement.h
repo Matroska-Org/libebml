@@ -263,12 +263,12 @@ class EBML_DLL_API EbmlElement {
 		*/
 		EbmlElement(const EbmlElement & ElementToClone);
 
-        uint64 GetDefaultSize() const {return DefaultSize;}
+        inline uint64 GetDefaultSize() const {return DefaultSize;}
         inline void SetSize_(uint64 aSize) {Size = aSize;}
         inline void SetValueIsSet(bool Set = true) {bValueIsSet = Set;}
-        void SetDefaultIsSet(bool Set = true) {DefaultIsSet = Set;}
-        void SetSizeIsFinite(bool Set = true) {bSizeIsFinite = Set;}
-        uint64 GetSizePosition() const {return SizePosition;}
+        inline void SetDefaultIsSet(bool Set = true) {DefaultIsSet = Set;}
+        inline void SetSizeIsFinite(bool Set = true) {bSizeIsFinite = Set;}
+        inline uint64 GetSizePosition() const {return SizePosition;}
 
 		uint64 Size;        ///< the size of the data to write
 		uint64 DefaultSize; ///< Minimum data size to fill on rendering (0 = optimal)

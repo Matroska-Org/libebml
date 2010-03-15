@@ -47,8 +47,8 @@ START_LIBEBML_NAMESPACE
 EbmlMaster::EbmlMaster(const EbmlSemanticContext & aContext, bool bSizeIsknown)
  :EbmlElement(0), Context(aContext), bChecksumUsed(bChecksumUsedByDefault)
 {
-	bSizeIsFinite = bSizeIsknown;
-	bValueIsSet = true;
+	SetSizeIsFinite(bSizeIsknown);
+	SetValueIsSet();
 	ProcessMandatory();
 }
 
@@ -72,7 +72,7 @@ EbmlMaster::EbmlMaster(const EbmlMaster & ElementToClone)
 
 EbmlMaster::~EbmlMaster()
 {
-	assert(!bLocked); // you're trying to delete a locked element !!!
+	assert(!IsLocked()); // you're trying to delete a locked element !!!
 
 	size_t Index;
 	
@@ -103,7 +103,7 @@ uint32 EbmlMaster::RenderData(IOCallback & output, bool bForceRender, bool bKeep
 			Result += (ElementList[Index])->Render(output, bKeepIntact, false ,bForceRender);
 		}
 	} else { // new school
-		MemIOCallback TmpBuf(Size - 6);
+		MemIOCallback TmpBuf(GetSize() - 6);
 		for (Index = 0; Index < ElementList.size(); Index++) {
 			if (!bKeepIntact && (ElementList[Index])->IsDefaultValue())
 				continue;
@@ -129,9 +129,9 @@ bool EbmlMaster::PushElement(EbmlElement & element)
 
 uint64 EbmlMaster::UpdateSize(bool bKeepIntact, bool bForceRender)
 {
-	Size = 0;
+	SetSize_(0);
 
-	if (!bSizeIsFinite)
+	if (!IsFiniteSize())
 		return (0-1);
 
 	if (!bForceRender) {
@@ -149,13 +149,13 @@ uint64 EbmlMaster::UpdateSize(bool bKeepIntact, bool bForceRender)
 		if (SizeToAdd == (0-1))
 			return (0-1);
 #endif // DEBUG
-		Size += SizeToAdd;
+		SetSize_(GetSize() + SizeToAdd);
 	}
 	if (bChecksumUsed) {
-		Size += Checksum.ElementSize();
+		SetSize_(GetSize() + Checksum.ElementSize());
 	}
 
-	return Size;
+	return GetSize();
 }
 
 uint32 EbmlMaster::WriteHead(IOCallback & output, int nSizeLength, bool bKeepIntact)
@@ -169,8 +169,8 @@ uint32 EbmlMaster::WriteHead(IOCallback & output, int nSizeLength, bool bKeepInt
 */
 uint64 EbmlMaster::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-	input.setFilePointer(Size, seek_current);
-	return Size;
+	input.setFilePointer(GetSize(), seek_current);
+	return GetSize();
 }
 
 /*!
@@ -409,11 +409,11 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
 			}
 		}
 		ElementList.clear();
-		uint64 MaxSizeToRead = Size;
+		uint64 MaxSizeToRead = GetSize();
 
 		// read blocks and discard the ones we don't care about
 		if (MaxSizeToRead > 0) {
-			inDataStream.I_O().setFilePointer(SizePosition + SizeLength, seek_beginning);
+			inDataStream.I_O().setFilePointer(GetSizePosition() + GetSizeLength(), seek_beginning);
 			ElementLevelA = inDataStream.FindNextElement(sContext, UpperEltFound, MaxSizeToRead, AllowDummyElt);
 			while (ElementLevelA != NULL && MaxSizeToRead > 0 && UpperEltFound <= 0) {
 				MaxSizeToRead = GetEndPosition() - ElementLevelA->GetEndPosition(); // even if it's the default value
@@ -464,7 +464,7 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
 				Remove(Index--);
 			}
 		}
-		bValueIsSet = true;
+		SetValueIsSet();
 	}
 }
 
@@ -488,7 +488,7 @@ bool EbmlMaster::VerifyChecksum() const
 	EbmlCrc32 aChecksum;
 	/// \todo remove the Checksum if it's in the list
 	/// \todo find another way when not all default values are saved or (unknown from the reader !!!)
-	MemIOCallback TmpBuf(Size - 6);
+	MemIOCallback TmpBuf(GetSize() - 6);
 	for (size_t Index = 0; Index < ElementList.size(); Index++) {
 		(ElementList[Index])->Render(TmpBuf, true, false, true);
 	}

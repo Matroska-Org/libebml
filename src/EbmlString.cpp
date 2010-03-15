@@ -42,22 +42,22 @@ START_LIBEBML_NAMESPACE
 EbmlString::EbmlString()
  :EbmlElement(0, false)
 {
-	DefaultSize = 0;
+	SetDefaultSize(0);
 /* done automatically	
-	Size = Value.length();
-	if (DefaultSize > Size)
-		Size = DefaultSize;*/
+	SetSize_(Value.length());
+	if (GetDefaultSize() > GetSize())
+		SetSize_(GetDefaultSize());*/
 }
 
 EbmlString::EbmlString(const std::string & aDefaultValue)
  :EbmlElement(0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
 {
-	DefaultSize = 0;
-	DefaultIsSet = true;
+	SetDefaultSize(0);
+	SetDefaultIsSet();
 /* done automatically	
-	Size = Value.length();
-	if (DefaultSize > Size)
-		Size = DefaultSize;*/
+	SetSize_(Value.length());
+	if (GetDefaultSize() > GetSize())
+		SetSize_(GetDefaultSize());*/
 }
 
 /*!
@@ -79,16 +79,16 @@ uint32 EbmlString::RenderData(IOCallback & output, bool bForceRender, bool bKeep
 	output.writeFully(Value.c_str(), Value.length());
 	Result = Value.length();
 	
-	if (Result < DefaultSize) {
+	if (Result < GetDefaultSize()) {
 		// pad the rest with 0
-		binary *Pad = new binary[DefaultSize - Result];
+		binary *Pad = new binary[GetDefaultSize() - Result];
 		if (Pad == NULL)
 		{
 			return Result;
 		}
-		memset(Pad, 0x00, DefaultSize - Result);
-		output.writeFully(Pad, DefaultSize - Result);
-		Result = DefaultSize;
+		memset(Pad, 0x00, GetDefaultSize() - Result);
+		output.writeFully(Pad, GetDefaultSize() - Result);
+		Result = GetDefaultSize();
 		delete [] Pad;
 	}
 	
@@ -98,11 +98,11 @@ uint32 EbmlString::RenderData(IOCallback & output, bool bForceRender, bool bKeep
 EbmlString & EbmlString::operator=(const std::string NewString)
 {
 	Value = NewString;
-	bValueIsSet = true;
+	SetValueIsSet();
 /* done automatically	
-	Size = Value.length();
-	if (DefaultSize > Size)
-		Size = DefaultSize;*/
+	SetSize_(Value.length());
+	if (GetDefaultSize() > GetSize())
+		SetSize_(GetDefaultSize());*/
 	return *this;
 }
 
@@ -111,39 +111,39 @@ uint64 EbmlString::UpdateSize(bool bKeepIntact, bool bForceRender)
 	if (!bKeepIntact && IsDefaultValue())
 		return 0;
 
-	if (Value.length() < DefaultSize) {
-		Size = DefaultSize;
+	if (Value.length() < GetDefaultSize()) {
+		SetSize_(GetDefaultSize());
 	} else {
-		Size = Value.length();
+		SetSize_(Value.length());
 	}
-	return Size;
+	return GetSize();
 }
 
 uint64 EbmlString::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
 	if (ReadFully != SCOPE_NO_DATA)
 	{
-		if (Size == 0) {
+		if (GetSize() == 0) {
 			Value = "";
-			bValueIsSet = true;
+			SetValueIsSet();
 		} else {
-			char *Buffer = new char[Size + 1];
+			char *Buffer = new char[GetSize() + 1];
 			if (Buffer == NULL) {
 				// unable to store the data, skip it
-				input.setFilePointer(Size, seek_current);
+				input.setFilePointer(GetSize(), seek_current);
 			} else {
-				input.readFully(Buffer, Size);
-				if (Buffer[Size-1] != '\0') {
-					Buffer[Size] = '\0';
+				input.readFully(Buffer, GetSize());
+				if (Buffer[GetSize()-1] != '\0') {
+					Buffer[GetSize()] = '\0';
 				}
 				Value = Buffer;
 				delete [] Buffer;
-				bValueIsSet = true;
+				SetValueIsSet();
 			}
 		}
 	}
 
-	return Size;
+	return GetSize();
 }
 
 END_LIBEBML_NAMESPACE

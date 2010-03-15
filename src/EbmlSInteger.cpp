@@ -45,7 +45,7 @@ EbmlSInteger::EbmlSInteger()
 EbmlSInteger::EbmlSInteger(int64 aDefaultValue)
  :EbmlElement(DEFAULT_INT_SIZE, true), Value(aDefaultValue)
 {
-	DefaultIsSet = true;
+	SetDefaultIsSet();
 }
 
 EbmlSInteger::EbmlSInteger(const EbmlSInteger & ElementToClone)
@@ -63,18 +63,18 @@ uint32 EbmlSInteger::RenderData(IOCallback & output, bool bForceRender, bool bKe
 	binary FinalData[8]; // we don't handle more than 64 bits integers
 	unsigned int i;
 	
-	if (SizeLength > 8)
+	if (GetSizeLength() > 8)
 		return 0; // integer bigger coded on more than 64 bits are not supported
 	
 	int64 TempValue = Value;
-	for (i=0; i<Size;i++) {
-		FinalData[Size-i-1] = binary(TempValue & 0xFF);
+	for (i=0; i<GetSize();i++) {
+		FinalData[GetSize()-i-1] = binary(TempValue & 0xFF);
 		TempValue >>= 8;
 	}
 	
-	output.writeFully(FinalData,Size);
+	output.writeFully(FinalData,GetSize());
 
-	return Size;
+	return GetSize();
 }
 
 uint64 EbmlSInteger::UpdateSize(bool bKeepIntact, bool bForceRender)
@@ -83,31 +83,31 @@ uint64 EbmlSInteger::UpdateSize(bool bKeepIntact, bool bForceRender)
 		return 0;
 
 	if (Value <= 0x7F && Value >= (-0x80)) {
-		Size = 1;
+		SetSize_(1);
 	} else if (Value <= 0x7FFF && Value >= (-0x8000)) {
-		Size = 2;
+		SetSize_(2);
 	} else if (Value <= 0x7FFFFF && Value >= (-0x800000)) {
-		Size = 3;
+		SetSize_(3);
 	} else if (Value <= 0x7FFFFFFF && Value >= (-0x80000000)) {
-		Size = 4;
+		SetSize_(4);
 	} else if (Value <= EBML_PRETTYLONGINT(0x7FFFFFFFFF) &&
 		   Value >= EBML_PRETTYLONGINT(-0x8000000000)) {
-		Size = 5;
+		SetSize_(5);
 	} else if (Value <= EBML_PRETTYLONGINT(0x7FFFFFFFFFFF) &&
 		   Value >= EBML_PRETTYLONGINT(-0x800000000000)) {
-		Size = 6;
+		SetSize_(6);
 	} else if (Value <= EBML_PRETTYLONGINT(0x7FFFFFFFFFFFFF) &&
 		   Value >= EBML_PRETTYLONGINT(-0x80000000000000)) {
-		Size = 7;
+		SetSize_(7);
 	} else {
-		Size = 8;
+		SetSize_(8);
 	}
 
-	if (DefaultSize > Size) {
-		Size = DefaultSize;
+	if (GetDefaultSize() > GetSize()) {
+		SetSize_(GetDefaultSize());
 	}
 
-	return Size;
+	return GetSize();
 }
 
 uint64 EbmlSInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
@@ -115,22 +115,22 @@ uint64 EbmlSInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
 	if (ReadFully != SCOPE_NO_DATA)
 	{
 		binary Buffer[8];
-		input.readFully(Buffer, Size);
+		input.readFully(Buffer, GetSize());
 		
 		if (Buffer[0] & 0x80)
 			Value = -1; // this is a negative value
 		else
 			Value = 0; // this is a positive value
 		
-		for (unsigned int i=0; i<Size; i++)
+		for (unsigned int i=0; i<GetSize(); i++)
 		{
 			Value <<= 8;
 			Value |= Buffer[i];
 		}
-		bValueIsSet = true;
+		SetValueIsSet();
 	}
 
-	return Size;
+	return GetSize();
 }
 
 END_LIBEBML_NAMESPACE

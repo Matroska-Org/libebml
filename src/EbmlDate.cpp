@@ -49,32 +49,32 @@ uint64 EbmlDate::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
 	if (ReadFully != SCOPE_NO_DATA)
 	{
-		if (Size != 0) {
-			assert(Size == 8);
+		if (GetSize() != 0) {
+			assert(GetSize() == 8);
 			binary Buffer[8];
-			input.readFully(Buffer, Size);
+			input.readFully(Buffer, GetSize());
 		
 			big_int64 b64;
 			b64.Eval(Buffer);
 			
 			myDate = b64;
-			bValueIsSet = true;
+			SetValueIsSet();
 		}
 	}
 	
-	return Size;
+	return GetSize();
 }
 
 uint32 EbmlDate::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
 {
-	if (Size != 0) {
-		assert(Size == 8);
+	if (GetSize() != 0) {
+		assert(GetSize() == 8);
 		big_int64 b64(myDate);
 		
-		output.writeFully(&b64.endian(),Size);
+		output.writeFully(&b64.endian(),GetSize());
 	}
 
-	return Size;
+	return GetSize();
 }
 
 END_LIBEBML_NAMESPACE

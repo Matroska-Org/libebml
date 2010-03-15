@@ -56,7 +56,7 @@ class EBML_DLL_API EbmlVoid : public EbmlBinary {
 		/*!
 			\brief Set the size of the data (not the complete size of the element)
 		*/
-		void SetSize(uint64 aSize) {Size = aSize;}
+		void SetSize(uint64 aSize) {SetSize_(aSize);}
 
 		/*!
 			\note overwrite to write fake data 

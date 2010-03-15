@@ -49,7 +49,7 @@ EbmlFloat::EbmlFloat(const EbmlFloat::Precision prec)
 EbmlFloat::EbmlFloat(const double aDefaultValue, const EbmlFloat::Precision prec)
  :EbmlElement(0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
 {
-	DefaultIsSet = true;
+	SetDefaultIsSet();
 	SetPrecision(prec);
 }
 
@@ -66,30 +66,30 @@ EbmlFloat::EbmlFloat(const EbmlFloat & ElementToClone)
 */
 uint32 EbmlFloat::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
 {
-	assert(Size == 4 || Size == 8);
+	assert(GetSize() == 4 || GetSize() == 8);
 
-	if (Size == 4) {
+	if (GetSize() == 4) {
 		float val = Value;
 		int Tmp;
 		memcpy(&Tmp, &val, 4);
 		big_int32 TmpToWrite(Tmp);
-		output.writeFully(&TmpToWrite.endian(), Size);
-	} else if (Size == 8) {
+		output.writeFully(&TmpToWrite.endian(), GetSize());
+	} else if (GetSize() == 8) {
 		double val = Value;
 		int64 Tmp;
 		memcpy(&Tmp, &val, 8);
 		big_int64 TmpToWrite(Tmp);
-		output.writeFully(&TmpToWrite.endian(), Size);
+		output.writeFully(&TmpToWrite.endian(), GetSize());
 	} 
 
-	return Size;
+	return GetSize();
 }
 
 uint64 EbmlFloat::UpdateSize(bool bKeepIntact, bool bForceRender)
 {
 	if (!bKeepIntact && IsDefaultValue())
 		return 0;
-	return Size;
+	return GetSize();
 }
 
 /*!
@@ -100,29 +100,29 @@ uint64 EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
 	if (ReadFully != SCOPE_NO_DATA)
 	{
 		binary Buffer[20];
-		assert(Size <= 20);
-		input.readFully(Buffer, Size);
+		assert(GetSize() <= 20);
+		input.readFully(Buffer, GetSize());
 		
-		if (Size == 4) {
+		if (GetSize() == 4) {
 			big_int32 TmpRead;
 			TmpRead.Eval(Buffer);
 			int32 tmpp = int32(TmpRead);
 			float val;
 			memcpy(&val, &tmpp, 4);
 			Value = val;
-			bValueIsSet = true;
-		} else if (Size == 8) {
+			SetValueIsSet();
+		} else if (GetSize() == 8) {
 			big_int64 TmpRead;
 			TmpRead.Eval(Buffer);
 			int64 tmpp = int64(TmpRead);
 			double val;
 			memcpy(&val, &tmpp, 8);
 			Value = val;
-			bValueIsSet = true;
+			SetValueIsSet();
 		}
 	}
 
-	return Size;
+	return GetSize();
 }
 
 END_LIBEBML_NAMESPACE
