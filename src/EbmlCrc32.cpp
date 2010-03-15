@@ -170,11 +170,6 @@ EbmlCrc32::EbmlCrc32(const EbmlCrc32 & ElementToClone)
 	m_crc_final = ElementToClone.m_crc_final;
 }
 
-EbmlElement * EbmlCrc32::Clone() const
-{
-	return new EbmlCrc32(*this);
-}
-
 void EbmlCrc32::AddElementCRC32(EbmlElement &ElementToCRC)
 {
 	// Use a special IOCallback class that Render's to memory instead of to disk
