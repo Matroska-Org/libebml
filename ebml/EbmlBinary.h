@@ -84,7 +84,6 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
 			bValueIsSet = true;
 		}
 		
-		uint64 GetSize() const {return Size;}
 		operator const binary &() const {return *Data;}
 	
 		bool IsDefaultValue() const {
@@ -94,6 +93,8 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
 		bool operator==(const EbmlBinary & ElementToCompare) const;
 
 	protected:
+        binary *GetData() const {return Data;}
+
 		binary *Data; // the binary data inside the element
 };
 
