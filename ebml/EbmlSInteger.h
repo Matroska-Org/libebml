@@ -60,7 +60,7 @@ class EBML_DLL_API EbmlSInteger : public EbmlElement {
 		/*!
 			Set the default size of the integer (usually 1,2,4 or 8)
 		*/
-		void SetDefaultSize(const int nDefaultSize = DEFAULT_INT_SIZE) {Size = nDefaultSize;}
+		void SetDefaultSize(int nDefaultSize = DEFAULT_INT_SIZE) {Size = nDefaultSize;}
 
 		bool ValidateSize() const {return (Size <= 8);}
 		uint32 RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
@@ -76,7 +76,7 @@ class EBML_DLL_API EbmlSInteger : public EbmlElement {
 
 		void SetDefaultValue(int64 aValue) {assert(!DefaultIsSet); DefaultValue = aValue; DefaultIsSet = true;}
     
-		const int64 DefaultVal() const {assert(DefaultIsSet); return DefaultValue;}
+		int64 DefaultVal() const {assert(DefaultIsSet); return DefaultValue;}
 
 		bool IsDefaultValue() const {
 			return (DefaultISset() && Value == DefaultValue);

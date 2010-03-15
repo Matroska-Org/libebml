@@ -45,9 +45,6 @@ START_LIBEBML_NAMESPACE
 */
 class EBML_DLL_API EbmlId {
 	public:
-		uint32 Value;
-		unsigned int Length;
-
 		EbmlId(const binary aValue[4], const unsigned int aLength)
 			:Length(aLength)
 		{
@@ -77,6 +74,9 @@ class EBML_DLL_API EbmlId {
 				Buffer[i] = (Value >> (8*(Length-i-1))) & 0xFF;
 			}
 		}
+
+		uint32 Value;
+		size_t Length;
 };
 
 END_LIBEBML_NAMESPACE

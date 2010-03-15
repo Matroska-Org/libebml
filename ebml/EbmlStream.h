@@ -61,6 +61,7 @@ class EBML_DLL_API EbmlStream {
 		EbmlElement * FindNextElement(const EbmlSemanticContext & Context, int & UpperLevel, const uint64 MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel = 1);
 
 		inline IOCallback & I_O() {return Stream;}
+        operator IOCallback &() {return Stream;}
 
 	protected:
 		IOCallback & Stream;
