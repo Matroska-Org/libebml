@@ -335,9 +335,9 @@ EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt, bool bCreateIf
 	if (Index != ElementList.size())
 		return ElementList[Index];
 
-	if (bCreateIfNull && PastElt.Generic().Create != NULL) {
+	if (bCreateIfNull) {
 		// add the element
-		EbmlElement *NewElt = &(PastElt.Generic().Create());
+		EbmlElement *NewElt = &(PastElt.CreateElement());
 		if (NewElt == NULL)
 			return NULL;
 
