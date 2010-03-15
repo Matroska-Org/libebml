@@ -41,8 +41,8 @@ START_LIBEBML_NAMESPACE
 
 const EbmlSemantic EbmlGlobal_ContextList[2] =
 {
-	EbmlSemantic(false, false, EbmlCrc32::ClassInfos),   ///< EbmlCrc32
-	EbmlSemantic(false, false, EbmlVoid::ClassInfos),    ///< EbmlVoid
+	EbmlSemantic(false, false, EBML_INFO(EbmlCrc32)),   ///< EbmlCrc32
+	EbmlSemantic(false, false, EBML_INFO(EbmlVoid)),    ///< EbmlVoid
 };
 
 const EbmlSemanticContext EbmlVoid_Context = EbmlSemanticContext(0, NULL, NULL, *GetEbmlGlobal_Context, NULL);

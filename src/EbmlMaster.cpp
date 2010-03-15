@@ -227,9 +227,9 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements()
 		if (!childElement->ValueIsSet()) {
 			std::string missingValue;
 			missingValue = "The Child Element \"";
-			missingValue.append(childElement->Generic().DebugName);
+			missingValue.append(EBML_NAME(childElement));
 			missingValue.append("\" of EbmlMaster \"");
-			missingValue.append(this->Generic().DebugName);
+			missingValue.append(EBML_NAME(this));
 			missingValue.append("\", does not have a value set.");
 			missingElements.push_back(missingValue);
 		}
@@ -424,10 +424,10 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
 					// more logical to do it afterward
 					ElementList.push_back(ElementLevelA);
 
-					ElementLevelA->Read(inDataStream, ElementLevelA->Generic().Context, UpperEltFound, FoundElt, AllowDummyElt, ReadFully);
+					ElementLevelA->Read(inDataStream, EBML_CONTEXT(ElementLevelA), UpperEltFound, FoundElt, AllowDummyElt, ReadFully);
 
 					// just in case
-					ElementLevelA->SkipData(inDataStream, ElementLevelA->Generic().Context);
+					ElementLevelA->SkipData(inDataStream, EBML_CONTEXT(ElementLevelA));
 				}
 
 				if (UpperEltFound > 0) {
@@ -456,7 +456,7 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
 		}
 	processCrc:
 		for (Index=0; Index<ElementList.size(); Index++) {
-			if ((EbmlId)(*ElementList[Index]) == EbmlCrc32::ClassInfos.GlobalId) {
+			if ((EbmlId)(*ElementList[Index]) == EBML_ID(EbmlCrc32)) {
 				bChecksumUsed = true;
 				// remove the element
 				Checksum = *(static_cast<EbmlCrc32*>(ElementList[Index]));

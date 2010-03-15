@@ -39,7 +39,7 @@
 START_LIBEBML_NAMESPACE
 
 const EbmlId EbmlDummy::DummyRawId(0xFF, 1);
-const EbmlSemanticContext EbmlDummy_Context = EbmlSemanticContext(0, NULL, NULL, *GetEbmlGlobal_Context, &EbmlDummy::ClassInfos);
+const EbmlSemanticContext EbmlDummy_Context = EbmlSemanticContext(0, NULL, NULL, *GetEbmlGlobal_Context, &EBML_INFO(EbmlDummy));
 const EbmlCallbacks EbmlDummy::ClassInfos(NULL, DummyRawId, "DummyElement", EbmlDummy_Context);
 
 END_LIBEBML_NAMESPACE

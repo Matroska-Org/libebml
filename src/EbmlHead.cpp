@@ -41,16 +41,16 @@ START_LIBEBML_NAMESPACE
 
 const EbmlSemantic EbmlHead_ContextList[] =
 {
-	EbmlSemantic(true, true, EVersion::ClassInfos),        ///< EBMLVersion
-	EbmlSemantic(true, true, EReadVersion::ClassInfos),    ///< EBMLReadVersion
-	EbmlSemantic(true, true, EMaxIdLength::ClassInfos),    ///< EBMLMaxIdLength
-	EbmlSemantic(true, true, EMaxSizeLength::ClassInfos),  ///< EBMLMaxSizeLength
-	EbmlSemantic(true, true, EDocType::ClassInfos),        ///< DocType
-	EbmlSemantic(true, true, EDocTypeVersion::ClassInfos), ///< DocTypeVersion
-	EbmlSemantic(true, true, EDocTypeReadVersion::ClassInfos), ///< DocTypeReadVersion
+	EbmlSemantic(true, true, EBML_INFO(EVersion)),        ///< EBMLVersion
+	EbmlSemantic(true, true, EBML_INFO(EReadVersion)),    ///< EBMLReadVersion
+	EbmlSemantic(true, true, EBML_INFO(EMaxIdLength)),    ///< EBMLMaxIdLength
+	EbmlSemantic(true, true, EBML_INFO(EMaxSizeLength)),  ///< EBMLMaxSizeLength
+	EbmlSemantic(true, true, EBML_INFO(EDocType)),        ///< DocType
+	EbmlSemantic(true, true, EBML_INFO(EDocTypeVersion)), ///< DocTypeVersion
+	EbmlSemantic(true, true, EBML_INFO(EDocTypeReadVersion)), ///< DocTypeReadVersion
 };
 
-const EbmlSemanticContext EbmlHead_Context = EbmlSemanticContext(countof(EbmlHead_ContextList), EbmlHead_ContextList, NULL, *GetEbmlGlobal_Context, &EbmlHead::ClassInfos);
+const EbmlSemanticContext EbmlHead_Context = EbmlSemanticContext(countof(EbmlHead_ContextList), EbmlHead_ContextList, NULL, *GetEbmlGlobal_Context, &EBML_INFO(EbmlHead));
 
 EbmlId EbmlHead_TheId(0x1A45DFA3, 4);
 const EbmlCallbacks EbmlHead::ClassInfos(EbmlHead::Create, EbmlHead_TheId, "EBMLHead\0ratamapaga", EbmlHead_Context);

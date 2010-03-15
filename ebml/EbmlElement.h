@@ -144,6 +144,11 @@ class EBML_DLL_API EbmlSemanticContext {
 		const EbmlCallbacks *MasterElt;
 };
 
+#define EBML_INFO(ref)  ref::ClassInfos
+#define EBML_ID(ref)    ref::ClassInfos.GlobalId
+#define EBML_CONTEXT(e) e->Generic().Context
+#define EBML_NAME(e)    e->Generic().DebugName
+
 /*!
 	\class EbmlElement
 	\brief Hold basic informations about an EBML element (ID + length)

@@ -54,12 +54,12 @@ const EbmlCallbacks EDocType::ClassInfos(EDocType::Create,               EDocTyp
 const EbmlCallbacks EDocTypeVersion::ClassInfos(EDocTypeVersion::Create, EDocTypeVersion_TheId, "EBMLDocTypeVersion",                 EDocTypeVersion_Context);
 const EbmlCallbacks EDocTypeReadVersion::ClassInfos(EDocTypeReadVersion::Create, EDocTypeReadVersion_TheId, "EBMLDocTypeReadVersion", EDocTypeReadVersion_Context);
 
-const EbmlSemanticContext EVersion_Context        = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EVersion::ClassInfos);
-const EbmlSemanticContext EReadVersion_Context    = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EReadVersion::ClassInfos);
-const EbmlSemanticContext EMaxIdLength_Context    = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EMaxIdLength::ClassInfos);
-const EbmlSemanticContext EMaxSizeLength_Context  = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EMaxSizeLength::ClassInfos);
-const EbmlSemanticContext EDocType_Context        = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EDocType::ClassInfos);
-const EbmlSemanticContext EDocTypeVersion_Context = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EDocTypeVersion::ClassInfos);
-const EbmlSemanticContext EDocTypeReadVersion_Context = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EDocTypeReadVersion::ClassInfos);
+const EbmlSemanticContext EVersion_Context        = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EBML_INFO(EVersion));
+const EbmlSemanticContext EReadVersion_Context    = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EBML_INFO(EReadVersion));
+const EbmlSemanticContext EMaxIdLength_Context    = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EBML_INFO(EMaxIdLength));
+const EbmlSemanticContext EMaxSizeLength_Context  = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EBML_INFO(EMaxSizeLength));
+const EbmlSemanticContext EDocType_Context        = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EBML_INFO(EDocType));
+const EbmlSemanticContext EDocTypeVersion_Context = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EBML_INFO(EDocTypeVersion));
+const EbmlSemanticContext EDocTypeReadVersion_Context = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EBML_INFO(EDocTypeReadVersion));
 
 END_LIBEBML_NAMESPACE

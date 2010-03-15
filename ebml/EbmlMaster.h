@@ -183,7 +183,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 template <typename Type>
 Type & GetChild(EbmlMaster & Master)
 {
-	return *(static_cast<Type *>(Master.FindFirstElt(Type::ClassInfos, true)));
+	return *(static_cast<Type *>(Master.FindFirstElt(EBML_INFO(Type), true)));
 }
 // call with
 // MyDocType = GetChild<EDocType>(TestHead);
@@ -191,7 +191,7 @@ Type & GetChild(EbmlMaster & Master)
 template <typename Type>
 Type * FindChild(EbmlMaster & Master)
 {
-	return static_cast<Type *>(Master.FindFirstElt(Type::ClassInfos, false));
+	return static_cast<Type *>(Master.FindFirstElt(EBML_INFO(Type), false));
 }
 
 template <typename Type>
@@ -203,7 +203,7 @@ Type & GetNextChild(EbmlMaster & Master, const Type & PastElt)
 template <typename Type>
 Type & AddNewChild(EbmlMaster & Master)
 {
-	return *(static_cast<Type *>(Master.AddNewElt(Type::ClassInfos)));
+	return *(static_cast<Type *>(Master.AddNewElt(EBML_INFO(Type))));
 }
 
 END_LIBEBML_NAMESPACE
