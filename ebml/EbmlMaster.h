@@ -117,6 +117,9 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 
 		size_t ListSize() const {return ElementList.size();}
 
+        inline std::vector<EbmlElement *>::const_iterator begin() {return ElementList.begin();}
+        inline std::vector<EbmlElement *>::const_iterator end() {return ElementList.end();}
+
 		EbmlElement * operator[](unsigned int position) {return ElementList[position];}
 		const EbmlElement * operator[](unsigned int position) const {return ElementList[position];}
 

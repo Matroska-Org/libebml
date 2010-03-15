@@ -75,6 +75,9 @@ class EBML_DLL_API EbmlId {
 			}
 		}
 
+        inline size_t GetLength() const { return Length; }
+        inline uint32 GetValue() const { return Value; }
+
 		uint32 Value;
 		size_t Length;
 };
