@@ -45,13 +45,7 @@ class EBML_DLL_API EbmlVoid : public EbmlBinary {
 	public:
 		EbmlVoid();
 		EbmlVoid(const EbmlVoid & ElementToClone) :EbmlBinary(ElementToClone){}
-		static EbmlElement & Create() {return *(new EbmlVoid);}
-		const EbmlCallbacks & Generic() const {return ClassInfos;}
 		bool ValidateSize() const {return true;} // any void element is accepted
-		static const EbmlCallbacks ClassInfos;
-
-		operator const EbmlId &() const {return ClassInfos.GlobalId;}
-		bool IsYourId(const EbmlId & TestId) const;
 
 		/*!
 			\brief Set the size of the data (not the complete size of the element)
@@ -73,7 +67,7 @@ class EBML_DLL_API EbmlVoid : public EbmlBinary {
 		*/
 		uint64 Overwrite(const EbmlElement & EltToVoid, IOCallback & output, bool ComeBackAfterward = true, bool bKeepIntact = false);
 
-		EbmlElement * Clone() const {return new EbmlVoid(*this);}
+        EBML_CONCRETE_CLASS(EbmlVoid)
 };
 
 END_LIBEBML_NAMESPACE

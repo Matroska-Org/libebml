@@ -45,13 +45,8 @@ class EBML_DLL_API EbmlHead : public EbmlMaster {
 	public:
 		EbmlHead();
 		EbmlHead(const EbmlHead & ElementToClone) : EbmlMaster(ElementToClone) {}
-		static EbmlElement & Create() {return *(new EbmlHead);}
-		const EbmlCallbacks & Generic() const {return ClassInfos;}
-		static const EbmlCallbacks ClassInfos;
 
-		operator const EbmlId &() const {return ClassInfos.GlobalId;}
-		bool IsYourId(const EbmlId & TestId) const;
-		EbmlElement * Clone() const {return new EbmlHead(*this);}
+        EBML_CONCRETE_CLASS(EbmlHead)
 };
 
 END_LIBEBML_NAMESPACE

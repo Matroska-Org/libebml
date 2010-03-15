@@ -56,20 +56,15 @@ class EBML_DLL_API EbmlCrc32 : public EbmlBinary {
 	public:
 		EbmlCrc32();
 		EbmlCrc32(const EbmlCrc32 & ElementToClone);
-		static EbmlElement & Create() {return *(new EbmlCrc32);}
-		const EbmlCallbacks & Generic() const {return ClassInfos;}
 		bool ValidateSize() const {return (GetSize() == 4);}
 		uint32 RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
 		uint64 ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
 //		uint64 UpdateSize(bool bKeepIntact = false);
 		
-		static const EbmlCallbacks ClassInfos;
 		bool IsDefaultValue() const {
 			return false;
 		}
 
-		operator const EbmlId &() const {return ClassInfos.GlobalId;}
-	
 		void AddElementCRC32(EbmlElement &ElementToCRC);
 		bool CheckElementCRC32(EbmlElement &ElementToCRC);
 		
@@ -104,8 +99,6 @@ class EBML_DLL_API EbmlCrc32 : public EbmlBinary {
 	
 		void ForceCrc32(uint32 NewValue) { m_crc_final = NewValue; SetValueIsSet();}
 
-		EbmlElement * Clone() const;
-
 	protected:
 		void ResetCRC() {m_crc = CRC32_NEGL;}
 		void UpdateByte(binary b) {m_crc = m_tab[CRC32_INDEX(m_crc) ^ b] ^ CRC32_SHIFTED(m_crc);}
@@ -113,6 +106,8 @@ class EBML_DLL_API EbmlCrc32 : public EbmlBinary {
 		static const uint32 m_tab[256];
 		uint32 m_crc;
 		uint32 m_crc_final;
+        
+        EBML_CONCRETE_CLASS(EbmlCrc32)
 };
 
 template <class T>

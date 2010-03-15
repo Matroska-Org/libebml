@@ -144,6 +144,15 @@ class EBML_DLL_API EbmlSemanticContext {
 		const EbmlCallbacks *MasterElt;
 };
 
+#define EBML_CONCRETE_CLASS(Type) \
+    public: \
+		virtual const EbmlCallbacks & Generic() const {return ClassInfos;} \
+		virtual operator const EbmlId &() const {return ClassInfos.GlobalId;} \
+        virtual EbmlElement & CreateElement() const {return Create();} \
+        virtual EbmlElement * Clone() const { return new Type(*this); } \
+		static EbmlElement & Create() {return *(new Type);} \
+		static const EbmlCallbacks ClassInfos; \
+
 #define EBML_INFO(ref)  ref::ClassInfos
 #define EBML_ID(ref)    ref::ClassInfos.GlobalId
 #define EBML_CONTEXT(e) e->Generic().Context
@@ -181,6 +190,7 @@ class EBML_DLL_API EbmlElement {
 		virtual operator const EbmlId &() const = 0;
 		/// return the generic callback to monitor a derived class
 		virtual const EbmlCallbacks & Generic() const = 0;
+        virtual EbmlElement & CreateElement() const = 0;
 
 		// by default only allow to set element as finite (override when needed)
 		virtual bool SetSizeInfinite(bool bIsInfinite = true) {return !bIsInfinite;}

@@ -45,20 +45,16 @@ class EBML_DLL_API EbmlDummy : public EbmlBinary {
 		EbmlDummy() :DummyId(DummyRawId)  {}
 		EbmlDummy(const EbmlId & aId) :EbmlBinary(), DummyId(aId) {}
 		EbmlDummy(const EbmlDummy & ElementToClone):EbmlBinary(ElementToClone), DummyId(ElementToClone.DummyId) {}
-		static EbmlElement & Create() {return *(new EbmlDummy);}
-		const EbmlCallbacks & Generic() const {return ClassInfos;}
-		static const EbmlCallbacks ClassInfos;
-		operator const EbmlId &() const {return DummyId;}
 
 		bool ValidateSize() const {return true;}
 		bool IsDummy() const {return true;}
 		bool IsDefaultValue() const {return true;}
 
-		EbmlElement * Clone() const {return new EbmlDummy(*this);}
-
 	protected:
 		const EbmlId DummyId;
 		static const EbmlId DummyRawId;
+
+        EBML_CONCRETE_CLASS(EbmlDummy)
 };
 
 END_LIBEBML_NAMESPACE
