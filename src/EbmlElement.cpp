@@ -259,7 +259,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
 			if (PossibleId[0] & BitMask) {
 				// this is the last octet of the ID
 				// check wether that's the one we're looking for
-/*			if (PossibleID == ClassInfos.GlobalId) {
+/*			if (PossibleID == EBML_INFO_ID(ClassInfos)) {
 					break;
 				} else {
 					/// \todo This element should be skipped (use a context ?)
@@ -286,9 +286,9 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
 	
 	EbmlElement *Result = NULL;
 	EbmlId PossibleID(PossibleId, PossibleID_Length);
-	if (PossibleID == ClassInfos.GlobalId) {
+	if (PossibleID == EBML_INFO_ID(ClassInfos)) {
 		// the element is the one expected
-		Result = &ClassInfos.Create();
+		Result = &EBML_INFO_CREATE(ClassInfos);
 	} else {
 		/// \todo find the element in the context
 		Result = new EbmlDummy(PossibleID);
@@ -465,17 +465,17 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
 			if (Result != NULL) {
 				unsigned int EltIndex;
 				// data known in this Master's context
-				for (EltIndex = 0; EltIndex < Context.Size; EltIndex++) {
-					if (EbmlId(*Result) == Context.MyTable[EltIndex].GetCallbacks.GlobalId) {
+				for (EltIndex = 0; EltIndex < EBML_CTX_SIZE(Context); EltIndex++) {
+					if (EbmlId(*Result) == EBML_INFO_ID(EBML_SEM_INFO(Context.MyTable[EltIndex]))) {
 						// skip the data with its own context
-						Result = Result->SkipData(DataStream, Context.MyTable[EltIndex].GetCallbacks.Context, NULL);
+						Result = Result->SkipData(DataStream, EBML_INFO_CONTEXT(EBML_SEM_INFO(Context.MyTable[EltIndex])), NULL);
 						break; // let's go to the next ID
 					}
 				}
 
-				if (EltIndex >= Context.Size) {
-					if (Context.UpTable != NULL) {
-						Result = SkipData(DataStream, *Context.UpTable, Result);
+				if (EltIndex >= EBML_CTX_SIZE(Context)) {
+					if (EBML_CTX_PARENT(Context) != NULL) {
+						Result = SkipData(DataStream, *EBML_CTX_PARENT(Context), Result);
 					} else {
 						assert(Context.GetGlobalContext != NULL);
 						if (Context != Context.GetGlobalContext()) {
@@ -500,9 +500,9 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 	EbmlElement *Result = NULL;
 
 	// elements at the current level
-	for (ContextIndex = 0; ContextIndex < Context.Size; ContextIndex++) {
-		if (aID == Context.MyTable[ContextIndex].GetCallbacks.GlobalId) {
-			return &Context.MyTable[ContextIndex].GetCallbacks.Create();
+	for (ContextIndex = 0; ContextIndex < EBML_CTX_SIZE(Context); ContextIndex++) {
+		if (aID == EBML_INFO_ID(EBML_SEM_INFO(Context.MyTable[ContextIndex]))) {
+            return &Context.MyTable[ContextIndex].Create();
 		}
 	}
 
@@ -524,16 +524,16 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 	}
 
 	// parent elements
-	if (Context.MasterElt != NULL && aID == Context.MasterElt->GlobalId) {
+	if (EBML_CTX_MASTER(Context) != NULL && aID == EBML_INFO_ID(*EBML_CTX_MASTER(Context))) {
 		LowLevel++; // already one level up (same as context)
-		return &Context.MasterElt->Create();
+		return &EBML_INFO_CREATE(*EBML_CTX_MASTER(Context));
 	}
 
 	// check wether it's not part of an upper context
-	if (Context.UpTable != NULL) {
+	if (EBML_CTX_PARENT(Context) != NULL) {
 		LowLevel++;
 		MaxLowerLevel++;
-		return CreateElementUsingContext(aID, *Context.UpTable, LowLevel, IsGlobalContext, bAllowDummy, MaxLowerLevel);
+		return CreateElementUsingContext(aID, *EBML_CTX_PARENT(Context), LowLevel, IsGlobalContext, bAllowDummy, MaxLowerLevel);
 	}
 
 	if (!IsGlobalContext && bAllowDummy) {

@@ -179,7 +179,7 @@ uint64 EbmlMaster::ReadData(IOCallback & input, ScopeMode ReadFully)
 */
 bool EbmlMaster::ProcessMandatory()
 {
-	if (Context.Size == 0)
+	if (EBML_CTX_SIZE(Context) == 0)
 	{
 		return true;
 	}
@@ -187,10 +187,10 @@ bool EbmlMaster::ProcessMandatory()
 	assert(Context.MyTable != NULL);
 
 	unsigned int EltIdx;
-	for (EltIdx = 0; EltIdx < Context.Size; EltIdx++) {
-		if (Context.MyTable[EltIdx].Mandatory && Context.MyTable[EltIdx].Unique) {
-			assert(Context.MyTable[EltIdx].GetCallbacks.Create != NULL);
-			PushElement(Context.MyTable[EltIdx].GetCallbacks.Create());
+	for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
+		if (Context.MyTable[EltIdx].IsMandatory() && Context.MyTable[EltIdx].IsUnique()) {
+//			assert(Context.MyTable[EltIdx].Create() != NULL);
+            PushElement(Context.MyTable[EltIdx].Create());
 		}
 	}
 	return true;
@@ -201,12 +201,12 @@ bool EbmlMaster::CheckMandatory() const
 	assert(Context.MyTable != NULL);
 
 	unsigned int EltIdx;
-	for (EltIdx = 0; EltIdx < Context.Size; EltIdx++) {
-		if (Context.MyTable[EltIdx].Mandatory) {
-			if (FindElt(Context.MyTable[EltIdx].GetCallbacks) == NULL) {
+	for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
+		if (Context.MyTable[EltIdx].IsMandatory()) {
+			if (FindElt(EBML_SEM_INFO(Context.MyTable[EltIdx])) == NULL) {
 #if defined(_DEBUG) || defined(DEBUG)
 				// you are missing this Mandatory element
-// 				const char * MissingName = Context.MyTable[EltIdx].GetCallbacks.DebugName;
+// 				const char * MissingName = EBML_INFO_NAME(EBML_SEM_INFO(Context.MyTable[EltIdx]));
 #endif // DEBUG
 				return false;
 			}
@@ -243,14 +243,14 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements()
 		}
 	}
 	unsigned int EltIdx;
-	for (EltIdx = 0; EltIdx < Context.Size; EltIdx++) {
-		if (Context.MyTable[EltIdx].Mandatory) {
-			if (FindElt(Context.MyTable[EltIdx].GetCallbacks) == NULL) {
+	for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
+		if (Context.MyTable[EltIdx].IsMandatory()) {
+			if (FindElt(EBML_SEM_INFO(Context.MyTable[EltIdx])) == NULL) {
 				std::string missingElement;
 				missingElement = "Missing element \"";
-				missingElement.append(Context.MyTable[EltIdx].GetCallbacks.DebugName);				
+                missingElement.append(EBML_INFO_NAME(EBML_SEM_INFO(Context.MyTable[EltIdx])));
 				missingElement.append("\" in EbmlMaster \"");
-				missingElement.append(Context.MasterElt->DebugName);
+                missingElement.append(EBML_INFO_NAME(*EBML_CTX_MASTER(Context)));
 				missingElement.append("\"");
 				missingElements.push_back(missingElement);
 			}
@@ -266,7 +266,7 @@ EbmlElement *EbmlMaster::FindElt(const EbmlCallbacks & Callbacks) const
 	
 	for (Index = 0; Index < ElementList.size(); Index++) {
 		EbmlElement * tmp = ElementList[Index];
-		if (EbmlId(*tmp) == Callbacks.GlobalId)
+		if (EbmlId(*tmp) == EBML_INFO_ID(Callbacks))
 			return tmp;
 	}
 
@@ -278,13 +278,13 @@ EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks, bool bCre
 	size_t Index;
 	
 	for (Index = 0; Index < ElementList.size(); Index++) {
-		if (EbmlId(*(ElementList[Index])) == Callbacks.GlobalId)
+		if (EbmlId(*(ElementList[Index])) == EBML_INFO_ID(Callbacks))
 			return ElementList[Index];
 	}
 	
-	if (bCreateIfNull && Callbacks.Create != NULL) {
+	if (bCreateIfNull) {
 		// add the element
-		EbmlElement *NewElt = &(Callbacks.Create());
+		EbmlElement *NewElt = &EBML_INFO_CREATE(Callbacks);
 		if (NewElt == NULL)
 			return NULL;
 
@@ -303,7 +303,7 @@ EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks) const
 	size_t Index;
 	
 	for (Index = 0; Index < ElementList.size(); Index++) {
-		if (EbmlId(*(ElementList[Index])) == Callbacks.GlobalId)
+		if (EbmlId(*(ElementList[Index])) == EBML_INFO_ID(Callbacks))
 			return ElementList[Index];
 	}
 	
@@ -375,7 +375,7 @@ EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt) const
 EbmlElement *EbmlMaster::AddNewElt(const EbmlCallbacks & Callbacks)
 {
 	// add the element
-	EbmlElement *NewElt = &(Callbacks.Create());
+	EbmlElement *NewElt = &EBML_INFO_CREATE(Callbacks);
 	if (NewElt == NULL)
 		return NULL;
 

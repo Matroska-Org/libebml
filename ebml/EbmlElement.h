@@ -83,14 +83,14 @@ class EbmlElement;
 #if defined(EBML_STRICT_API)
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
-        virtual const EbmlSemanticContext &Context() const {return ClassInfos.Context;} \
-        virtual const char *DebugName() const {return ClassInfos.DebugName;} \
-		virtual operator const EbmlId &() const {return ClassInfos.GlobalId;} \
+        virtual const EbmlSemanticContext &Context() const {return ClassInfos.GetContext();} \
+        virtual const char *DebugName() const {return ClassInfos.GetName();} \
+		virtual operator const EbmlId &() const {return ClassInfos.ClassId();} \
         virtual EbmlElement & CreateElement() const {return Create();} \
         virtual EbmlElement * Clone() const { return new Type(*this); } \
 		static EbmlElement & Create() {return *(new Type);} \
         static const EbmlCallbacks & ClassInfo() {return ClassInfos;} \
-        static const EbmlId & ClassId() {return ClassInfos.GlobalId;} \
+        static const EbmlId & ClassId() {return ClassInfos.ClassId();} \
     private: \
 		static const EbmlCallbacks ClassInfos; \
 
@@ -98,6 +98,18 @@ class EbmlElement;
 #define EBML_ID(ref)    ref::ClassId()
 #define EBML_CONTEXT(e) (e)->Context()
 #define EBML_NAME(e)    (e)->DebugName()
+
+#define EBML_INFO_ID(cb)      (cb).ClassId()
+#define EBML_INFO_NAME(cb)    (cb).GetName()
+#define EBML_INFO_CREATE(cb)  (cb).NewElement()
+#define EBML_INFO_CONTEXT(cb) (cb).GetContext()
+
+#define EBML_SEM_UNIQUE(s)  (s).IsUnique()
+#define EBML_SEM_INFO(s)    (const EbmlCallbacks &)(s)
+
+#define EBML_CTX_SIZE(c)    (c).GetSize()
+#define EBML_CTX_MASTER(c)  (c).GetMaster()
+#define EBML_CTX_PARENT(c)  (c).Parent()
 #else
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
@@ -112,6 +124,18 @@ class EbmlElement;
 #define EBML_ID(ref)    ref::ClassInfos.GlobalId
 #define EBML_CONTEXT(e) (e)->Generic().Context
 #define EBML_NAME(e)    (e)->Generic().DebugName
+
+#define EBML_INFO_ID(cb)      (cb).GlobalId
+#define EBML_INFO_NAME(cb)    (cb).DebugName
+#define EBML_INFO_CREATE(cb)  (cb).Create()
+#define EBML_INFO_CONTEXT(cb) (cb).Context
+
+#define EBML_SEM_UNIQUE(s)  (s).Unique
+#define EBML_SEM_INFO(s)    (s).GetCallbacks
+
+#define EBML_CTX_SIZE(c)    (c).Size
+#define EBML_CTX_MASTER(c)  (c).MasterElt
+#define EBML_CTX_PARENT(c)  (c).UpTable
 #endif
 
 // functions for generic handling of data (should be static to all classes)
@@ -125,8 +149,17 @@ class EBML_DLL_API EbmlCallbacks {
 			,GlobalId(aGlobalId)
 			,DebugName(aDebugName)
 			,Context(aContext)
-		{}
+		{
+        }
 
+        inline const EbmlId & ClassId() const { return GlobalId; }
+        inline const EbmlSemanticContext & GetContext() const { return Context; }
+        inline const char * GetName() const { return DebugName; }
+        inline EbmlElement & NewElement() const { return Create(); }
+
+#if defined(EBML_STRICT_API)
+    private:
+#endif
 		EbmlElement & (*Create)();
 		const EbmlId & GlobalId;
 		const char * DebugName;
@@ -142,6 +175,14 @@ class EBML_DLL_API EbmlSemantic {
 		EbmlSemantic(bool aMandatory, bool aUnique, const EbmlCallbacks & aGetCallbacks)
 			:Mandatory(aMandatory), Unique(aUnique), GetCallbacks(aGetCallbacks) {}
 
+        inline bool IsMandatory() const { return Mandatory; }
+        inline bool IsUnique() const { return Unique; }
+        inline EbmlElement & Create() const { return EBML_INFO_CREATE(GetCallbacks); }
+        inline operator const EbmlCallbacks &() { return GetCallbacks; }
+
+#if defined(EBML_STRICT_API)
+    private:
+#endif
 		bool Mandatory; ///< wether the element is mandatory in the context or not
 		bool Unique;
 		const EbmlCallbacks & GetCallbacks;
@@ -155,7 +196,7 @@ typedef const class EbmlSemanticContext & (*_GetSemanticContext)();
 */
 class EBML_DLL_API EbmlSemanticContext {
 	public:
-		EbmlSemanticContext(unsigned int aSize,
+		EbmlSemanticContext(size_t aSize,
 			const EbmlSemantic *aMyTable,
 			const EbmlSemanticContext *aUpTable,
 			const _GetSemanticContext aGetGlobalContext,
@@ -169,12 +210,19 @@ class EBML_DLL_API EbmlSemanticContext {
 				(MasterElt != aElt.MasterElt));
 		}
 
+        inline size_t GetSize() const { return Size; }
+        inline const EbmlCallbacks* GetMaster() const { return MasterElt; }
+        inline const EbmlSemanticContext* Parent() const { return UpTable; }
 
-		unsigned int Size;          ///< number of elements in the table
-		const EbmlSemantic *MyTable; ///< First element in the table
+        const EbmlSemantic *MyTable; ///< First element in the table
+		const _GetSemanticContext GetGlobalContext; ///< global elements supported at this level
+
+#if defined(EBML_STRICT_API)
+    private:
+#endif
+		size_t Size;          ///< number of elements in the table
 		const EbmlSemanticContext *UpTable; ///< Parent element
 		/// \todo replace with the global context directly
-		const _GetSemanticContext GetGlobalContext; ///< global elements supported at this level
 		const EbmlCallbacks *MasterElt;
 };
 
