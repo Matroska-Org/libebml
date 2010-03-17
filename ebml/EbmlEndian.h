@@ -99,11 +99,10 @@ template<class TYPE, endianess ENDIAN> class Endian
 	        endian_value = platform_value;
 #ifdef WORDS_BIGENDIAN
 	        if (ENDIAN == little_endian)
-		    std::reverse(reinterpret_cast<uint8*>(&endian_value),reinterpret_cast<uint8*>(&endian_value+1));
 #else  // _ENDIANESS_
 	        if (ENDIAN == big_endian)
-		    std::reverse(reinterpret_cast<uint8*>(&endian_value),reinterpret_cast<uint8*>(&endian_value+1));
 #endif // _ENDIANESS_
+    		    std::reverse(reinterpret_cast<uint8*>(&endian_value),reinterpret_cast<uint8*>(&endian_value+1));
 	    }
 
 	    inline void process_platform()
@@ -111,11 +110,10 @@ template<class TYPE, endianess ENDIAN> class Endian
 	        platform_value = endian_value;
 #ifdef WORDS_BIGENDIAN
 	        if (ENDIAN == little_endian)
-		    std::reverse(reinterpret_cast<uint8*>(&platform_value),reinterpret_cast<uint8*>(&platform_value+1));
 #else  // _ENDIANESS_
 	        if (ENDIAN == big_endian)
-		    std::reverse(reinterpret_cast<uint8*>(&platform_value),reinterpret_cast<uint8*>(&platform_value+1));
 #endif // _ENDIANESS_
+    		    std::reverse(reinterpret_cast<uint8*>(&platform_value),reinterpret_cast<uint8*>(&platform_value+1));
 	    }
 };
 
