@@ -91,11 +91,10 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
 
 		bool operator==(const EbmlBinary & ElementToCompare) const;
 
-	protected:
-        binary *GetData() const {return Data;}
-
 #if defined(EBML_STRICT_API)
 	private:
+#else
+	protected:
 #endif
 		binary *Data; // the binary data inside the element
 };
