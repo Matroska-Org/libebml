@@ -483,9 +483,9 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
 				unsigned int EltIndex;
 				// data known in this Master's context
 				for (EltIndex = 0; EltIndex < EBML_CTX_SIZE(Context); EltIndex++) {
-					if (EbmlId(*Result) == EBML_INFO_ID(EBML_SEM_INFO(Context.MyTable[EltIndex]))) {
+					if (EbmlId(*Result) == EBML_SEM_ID(Context.MyTable[EltIndex])) {
 						// skip the data with its own context
-						Result = Result->SkipData(DataStream, EBML_INFO_CONTEXT(EBML_SEM_INFO(Context.MyTable[EltIndex])), NULL);
+						Result = Result->SkipData(DataStream, EBML_SEM_CONTEXT(Context.MyTable[EltIndex]), NULL);
 						break; // let's go to the next ID
 					}
 				}
@@ -518,7 +518,7 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 
 	// elements at the current level
 	for (ContextIndex = 0; ContextIndex < EBML_CTX_SIZE(Context); ContextIndex++) {
-		if (aID == EBML_INFO_ID(EBML_SEM_INFO(Context.MyTable[ContextIndex]))) {
+		if (aID == EBML_SEM_ID(Context.MyTable[ContextIndex])) {
             return &Context.MyTable[ContextIndex].Create();
 		}
 	}
