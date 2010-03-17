@@ -112,9 +112,9 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
 		EbmlUnicodeString & operator=(const UTFstring &); ///< platform dependant code
 		operator const UTFstring &() const {return Value;}
 	
-		void SetDefaultValue(UTFstring & aValue) {assert(!DefaultISset()); DefaultValue = aValue; SetDefaultIsSet();}
+		void SetDefaultValue(UTFstring &);
     
-		UTFstring DefaultVal() const {assert(DefaultISset()); return DefaultValue;}
+		const UTFstring & DefaultVal() const;
 
 		bool IsDefaultValue() const {
 			return (DefaultISset() && Value == DefaultValue);

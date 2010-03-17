@@ -57,6 +57,20 @@ EbmlUInteger::EbmlUInteger(const EbmlUInteger & ElementToClone)
 {
 }
 
+void EbmlUInteger::SetDefaultValue(uint64 aValue)
+{
+    assert(!DefaultISset());
+    DefaultValue = aValue;
+    SetDefaultIsSet();
+}
+
+const uint64 EbmlUInteger::DefaultVal() const
+{
+    assert(DefaultISset());
+    return DefaultValue;
+}
+
+
 /*!
 	\todo handle exception on errors
 */

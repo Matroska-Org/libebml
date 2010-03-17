@@ -201,6 +201,18 @@ int64 ReadCodedSizeSignedValue(const binary * InBuffer, uint32 & BufferSize, uin
 	return Result;
 }
 
+
+EbmlCallbacks::EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, const char * aDebugName, const EbmlSemanticContext & aContext)
+	:Create(Creator)
+	,GlobalId(aGlobalId)
+	,DebugName(aDebugName)
+	,Context(aContext)
+{
+    assert(Create!=NULL);
+}
+
+
+
 EbmlElement::EbmlElement(uint64 aDefaultSize, bool bValueSet)
  :DefaultSize(aDefaultSize)
  ,SizeLength(0) ///< write optimal size by default
@@ -225,6 +237,11 @@ EbmlElement::EbmlElement(const EbmlElement & ElementToClone)
  ,DefaultIsSet(ElementToClone.DefaultIsSet)
  ,bLocked(ElementToClone.bLocked)
 {
+}
+
+EbmlElement::~EbmlElement()
+{
+    assert(!bLocked);
 }
 
 /*!

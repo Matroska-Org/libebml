@@ -34,8 +34,6 @@
 #ifndef LIBEBML_ELEMENT_H
 #define LIBEBML_ELEMENT_H
 
-#include <cassert>
-
 #include "EbmlTypes.h"
 #include "EbmlId.h"
 #include "IOCallback.h"
@@ -144,13 +142,7 @@ class EbmlElement;
 */
 class EBML_DLL_API EbmlCallbacks {
 	public:
-		EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, const char * aDebugName, const EbmlSemanticContext & aContext)
-			:Create(Creator)
-			,GlobalId(aGlobalId)
-			,DebugName(aDebugName)
-			,Context(aContext)
-		{
-        }
+		EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, const char * aDebugName, const EbmlSemanticContext & aContext);
 
         inline const EbmlId & ClassId() const { return GlobalId; }
         inline const EbmlSemanticContext & GetContext() const { return Context; }
@@ -233,7 +225,7 @@ class EBML_DLL_API EbmlSemanticContext {
 class EBML_DLL_API EbmlElement {
 	public:
 		EbmlElement(uint64 aDefaultSize, bool bValueSet = false);
-		virtual ~EbmlElement() {assert(!bLocked);}
+		virtual ~EbmlElement();
 	
 		/// Set the minimum length that will be used to write the element size (-1 = optimal)
 		void SetSizeLength(int NewSizeLength) {SizeLength = NewSizeLength;}

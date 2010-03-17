@@ -60,6 +60,20 @@ EbmlFloat::EbmlFloat(const EbmlFloat & ElementToClone)
 {
 }
 
+void EbmlFloat::SetDefaultValue(double aValue)
+{
+    assert(!DefaultISset());
+    DefaultValue = aValue;
+    SetDefaultIsSet();
+}
+
+const double EbmlFloat::DefaultVal() const
+{
+    assert(DefaultISset());
+    return DefaultValue;
+}
+
+
 /*!
 	\todo handle exception on errors
 	\todo handle 10 bits precision

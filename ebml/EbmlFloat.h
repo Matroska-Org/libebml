@@ -82,9 +82,9 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
 		operator const float() const {return float(Value);}
 		operator const double() const {return double(Value);}
 
-		void SetDefaultValue(double aValue) {assert(!DefaultISset()); DefaultValue = aValue; SetDefaultIsSet();}
+		void SetDefaultValue(double);
     
-		const double DefaultVal() const {assert(DefaultISset()); return DefaultValue;}
+		const double DefaultVal() const;
 
 		bool IsDefaultValue() const {
 			return (DefaultISset() && Value == DefaultValue);

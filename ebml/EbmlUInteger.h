@@ -74,9 +74,9 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
 		operator uint32() const {return uint32(Value);}
 		operator uint64() const {return Value;}
 
-		void SetDefaultValue(uint64 aValue) {assert(!DefaultISset()); DefaultValue = aValue; SetDefaultIsSet();}
+		void SetDefaultValue(uint64);
     
-		const uint64 DefaultVal() const {assert(DefaultISset()); return DefaultValue;}
+		const uint64 DefaultVal() const;
 
 		bool IsDefaultValue() const {
 			return (DefaultISset() && Value == DefaultValue);

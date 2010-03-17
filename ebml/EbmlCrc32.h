@@ -37,6 +37,8 @@
 #ifndef LIBEBML_CRC32_H
 #define LIBEBML_CRC32_H
 
+#include <cassert>
+
 #include "EbmlTypes.h"
 #include "EbmlBinary.h"
 

@@ -33,9 +33,6 @@
 #ifndef LIBEBML_TYPES_H
 #define LIBEBML_TYPES_H
 
-#include <clocale>
-#include <string>
-
 #include "ebml/c/libebml_t.h"
 #include "ebml/EbmlConfig.h"
 #include "EbmlEndian.h" // binary needs to be defined

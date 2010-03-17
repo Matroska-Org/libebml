@@ -70,6 +70,20 @@ EbmlString::EbmlString(const EbmlString & ElementToClone)
 {
 }
 
+void EbmlString::SetDefaultValue(std::string & aValue)
+{
+    assert(!DefaultISset());
+    DefaultValue = aValue;
+    SetDefaultIsSet();
+}
+
+const std::string & EbmlString::DefaultVal() const
+{
+    assert(DefaultISset());
+    return DefaultValue;
+}
+
+
 /*!
 	\todo handle exception on errors
 */

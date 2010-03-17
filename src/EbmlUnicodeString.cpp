@@ -224,6 +224,20 @@ EbmlUnicodeString::EbmlUnicodeString(const EbmlUnicodeString & ElementToClone)
 {
 }
 
+void EbmlUnicodeString::SetDefaultValue(UTFstring & aValue)
+{
+    assert(!DefaultISset());
+    DefaultValue = aValue;
+    SetDefaultIsSet();
+}
+
+const UTFstring & EbmlUnicodeString::DefaultVal() const
+{
+    assert(DefaultISset());
+    return DefaultValue;
+}
+
+
 /*!
 \note limited to UCS-2
 \todo handle exception on errors
