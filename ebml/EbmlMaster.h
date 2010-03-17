@@ -73,7 +73,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 		bool PushElement(EbmlElement & element);
 		uint64 GetSize() const { 
 			if (IsFiniteSize())
-				return GetSize();
+                return EbmlElement::GetSize();
 			else
 				return (0-1);
 		}
