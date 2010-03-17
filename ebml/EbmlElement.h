@@ -80,6 +80,40 @@ class EbmlStream;
 class EbmlSemanticContext;
 class EbmlElement;
 
+#if defined(EBML_STRICT_API)
+#define EBML_CONCRETE_CLASS(Type) \
+    public: \
+        virtual const EbmlSemanticContext &Context() const {return ClassInfos.Context;} \
+        virtual const char *DebugName() const {return ClassInfos.DebugName;} \
+		virtual operator const EbmlId &() const {return ClassInfos.GlobalId;} \
+        virtual EbmlElement & CreateElement() const {return Create();} \
+        virtual EbmlElement * Clone() const { return new Type(*this); } \
+		static EbmlElement & Create() {return *(new Type);} \
+        static const EbmlCallbacks & ClassInfo() {return ClassInfos;} \
+        static const EbmlId & ClassId() {return ClassInfos.GlobalId;} \
+    private: \
+		static const EbmlCallbacks ClassInfos; \
+
+#define EBML_INFO(ref)  ref::ClassInfo()
+#define EBML_ID(ref)    ref::ClassId()
+#define EBML_CONTEXT(e) (e)->Context()
+#define EBML_NAME(e)    (e)->DebugName()
+#else
+#define EBML_CONCRETE_CLASS(Type) \
+    public: \
+		virtual const EbmlCallbacks & Generic() const {return ClassInfos;} \
+		virtual operator const EbmlId &() const {return ClassInfos.GlobalId;} \
+        virtual EbmlElement & CreateElement() const {return Create();} \
+        virtual EbmlElement * Clone() const { return new Type(*this); } \
+		static EbmlElement & Create() {return *(new Type);} \
+		static const EbmlCallbacks ClassInfos; \
+
+#define EBML_INFO(ref)  ref::ClassInfos
+#define EBML_ID(ref)    ref::ClassInfos.GlobalId
+#define EBML_CONTEXT(e) (e)->Generic().Context
+#define EBML_NAME(e)    (e)->Generic().DebugName
+#endif
+
 // functions for generic handling of data (should be static to all classes)
 /*!
 	\todo Handle default value
@@ -143,40 +177,6 @@ class EBML_DLL_API EbmlSemanticContext {
 		const _GetSemanticContext GetGlobalContext; ///< global elements supported at this level
 		const EbmlCallbacks *MasterElt;
 };
-
-#if defined(EBML_STRICT_API)
-#define EBML_CONCRETE_CLASS(Type) \
-    public: \
-        virtual const EbmlSemanticContext &Context() const {return ClassInfos.Context;} \
-        virtual const char *DebugName() const {return ClassInfos.DebugName;} \
-		virtual operator const EbmlId &() const {return ClassInfos.GlobalId;} \
-        virtual EbmlElement & CreateElement() const {return Create();} \
-        virtual EbmlElement * Clone() const { return new Type(*this); } \
-		static EbmlElement & Create() {return *(new Type);} \
-        static const EbmlCallbacks & ClassInfo() {return ClassInfos;} \
-        static const EbmlId & ClassId() {return ClassInfos.GlobalId;} \
-    private: \
-		static const EbmlCallbacks ClassInfos; \
-
-#define EBML_INFO(ref)  ref::ClassInfo()
-#define EBML_ID(ref)    ref::ClassId()
-#define EBML_CONTEXT(e) e->Context()
-#define EBML_NAME(e)    e->DebugName()
-#else
-#define EBML_CONCRETE_CLASS(Type) \
-    public: \
-		virtual const EbmlCallbacks & Generic() const {return ClassInfos;} \
-		virtual operator const EbmlId &() const {return ClassInfos.GlobalId;} \
-        virtual EbmlElement & CreateElement() const {return Create();} \
-        virtual EbmlElement * Clone() const { return new Type(*this); } \
-		static EbmlElement & Create() {return *(new Type);} \
-		static const EbmlCallbacks ClassInfos; \
-
-#define EBML_INFO(ref)  ref::ClassInfos
-#define EBML_ID(ref)    ref::ClassInfos.GlobalId
-#define EBML_CONTEXT(e) e->Generic().Context
-#define EBML_NAME(e)    e->Generic().DebugName
-#endif
 
 /*!
 	\class EbmlElement
