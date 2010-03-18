@@ -43,6 +43,8 @@
 #include "EbmlElement.h"
 #include "EbmlCrc32.h"
 
+#define EBML_MASTER_ITERATOR  std::vector<EbmlElement *>::const_iterator
+
 START_LIBEBML_NAMESPACE
 
 const bool bChecksumUsedByDefault = false;
