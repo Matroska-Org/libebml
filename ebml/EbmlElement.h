@@ -106,6 +106,7 @@ class EbmlElement;
 #define EBML_SEM_INFO(s)    (const EbmlCallbacks &)(s)
 #define EBML_SEM_ID(s)      ((const EbmlCallbacks &)(s)).ClassId()
 #define EBML_SEM_CONTEXT(s) ((const EbmlCallbacks &)(s)).GetContext()
+#define EBML_SEM_CREATE(s)  (s).Create()
 
 #define EBML_CTX_SIZE(c)    (c).GetSize()
 #define EBML_CTX_MASTER(c)  (c).GetMaster()
@@ -134,6 +135,7 @@ class EbmlElement;
 #define EBML_SEM_INFO(s)    (s).GetCallbacks
 #define EBML_SEM_ID(s)      (s).GetCallbacks.GlobalId
 #define EBML_SEM_CONTEXT(s) (s).GetCallbacks.Context
+#define EBML_SEM_CREATE(s)  (s).Create()
 
 #define EBML_CTX_SIZE(c)    (c).Size
 #define EBML_CTX_MASTER(c)  (c).MasterElt
