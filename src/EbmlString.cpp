@@ -109,7 +109,7 @@ uint32 EbmlString::RenderData(IOCallback & output, bool bForceRender, bool bKeep
 	return Result;
 }
 
-EbmlString & EbmlString::operator=(const std::string NewString)
+EbmlString & EbmlString::operator=(const std::string & NewString)
 {
 	Value = NewString;
 	SetValueIsSet();

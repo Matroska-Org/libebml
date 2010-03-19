@@ -60,7 +60,7 @@ class EBML_DLL_API EbmlString : public EbmlElement {
 		uint64 ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
 		uint64 UpdateSize(bool bKeepIntact = false, bool bForceRender = false);
 	
-		EbmlString & operator=(const std::string);
+		EbmlString & operator=(const std::string &);
 		operator const std::string &() const {return Value;}
 	
 		void SetDefaultValue(std::string &);
