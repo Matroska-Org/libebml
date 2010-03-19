@@ -63,9 +63,9 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
 		void SetDefaultSize(int nDefaultSize = DEFAULT_UINT_SIZE) {SetSize_(nDefaultSize);}
 
 		bool ValidateSize() const {return (GetSize() <= 8);}
-		uint32 RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
-		uint64 ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
-		uint64 UpdateSize(bool bKeepIntact = false, bool bForceRender = false);
+		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
+		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
+		filepos_t UpdateSize(bool bKeepIntact = false, bool bForceRender = false);
 		
 		bool operator<(const EbmlUInteger & EltCmp) const {return Value < EltCmp.Value;}
 		

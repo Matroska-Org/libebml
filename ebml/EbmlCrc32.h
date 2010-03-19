@@ -59,9 +59,9 @@ class EBML_DLL_API EbmlCrc32 : public EbmlBinary {
 		EbmlCrc32();
 		EbmlCrc32(const EbmlCrc32 & ElementToClone);
 		bool ValidateSize() const {return (GetSize() == 4);}
-		uint32 RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
-		uint64 ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
-//		uint64 UpdateSize(bool bKeepIntact = false);
+		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
+		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
+//		filepos_t UpdateSize(bool bKeepIntact = false);
 		
 		bool IsDefaultValue() const {
 			return false;

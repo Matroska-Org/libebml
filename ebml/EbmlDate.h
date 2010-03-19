@@ -65,7 +65,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 		/*!
 			\note no Default date handled
 		*/
-		uint64 UpdateSize(bool bKeepIntact = false, bool bForceRender = false) {
+		filepos_t UpdateSize(bool bKeepIntact = false, bool bForceRender = false) {
 			if(!ValueIsSet()) 
 				SetSize_(0);
 			else
@@ -75,7 +75,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 		
 		bool operator<(const EbmlDate & EltCmp) const {return myDate < EltCmp.myDate;}
 		
-		uint64 ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
+		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
 
 		bool IsDefaultValue() const {
 			return false;
@@ -86,7 +86,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 #else
     protected:
 #endif
-		uint32 RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
+		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
 		
 		int64 myDate; ///< internal format of the date
 	

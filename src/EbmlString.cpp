@@ -87,9 +87,9 @@ const std::string & EbmlString::DefaultVal() const
 /*!
 	\todo handle exception on errors
 */
-uint32 EbmlString::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
+filepos_t EbmlString::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
 {
-	uint32 Result;
+	filepos_t Result;
 	output.writeFully(Value.c_str(), Value.length());
 	Result = Value.length();
 	
@@ -133,7 +133,7 @@ uint64 EbmlString::UpdateSize(bool bKeepIntact, bool bForceRender)
 	return GetSize();
 }
 
-uint64 EbmlString::ReadData(IOCallback & input, ScopeMode ReadFully)
+filepos_t EbmlString::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
 	if (ReadFully != SCOPE_NO_DATA)
 	{

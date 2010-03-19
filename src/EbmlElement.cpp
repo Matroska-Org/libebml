@@ -564,7 +564,7 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 /*!
 	\todo verify that the size written is the same as the data written
 */
-uint32 EbmlElement::Render(IOCallback & output, bool bKeepIntact, bool bKeepPosition, bool bForceRender)
+filepos_t EbmlElement::Render(IOCallback & output, bool bKeepIntact, bool bKeepPosition, bool bForceRender)
 {
 	assert(bValueIsSet || (bKeepIntact && DefaultISset())); // an element is been rendered without a value set !!!
 		                 // it may be a mandatory element without a default value
@@ -575,7 +575,7 @@ uint32 EbmlElement::Render(IOCallback & output, bool bKeepIntact, bool bKeepPosi
 #if defined(_DEBUG) || defined(DEBUG)
 		uint64 SupposedSize = UpdateSize(bKeepIntact, bForceRender);
 #endif // _DEBUG
-		uint32 result = RenderHead(output, bForceRender, bKeepIntact, bKeepPosition);
+		filepos_t result = RenderHead(output, bForceRender, bKeepIntact, bKeepPosition);
 		uint64 WrittenSize = RenderData(output, bForceRender, bKeepIntact);
 #if defined(_DEBUG) || defined(DEBUG)
 	if (SupposedSize != (0-1)) assert(WrittenSize == SupposedSize);
@@ -594,7 +594,7 @@ uint32 EbmlElement::Render(IOCallback & output, bool bKeepIntact, bool bKeepPosi
 	\todo handle exceptions on errors
 	\todo handle CodeSize bigger than 5 bytes
 */
-uint32 EbmlElement::RenderHead(IOCallback & output, bool bForceRender, bool bKeepIntact, bool bKeepPosition)
+filepos_t EbmlElement::RenderHead(IOCallback & output, bool bForceRender, bool bKeepIntact, bool bKeepPosition)
 {
 	if (EBML_ID_LENGTH(EbmlId(*this)) <= 0 || EBML_ID_LENGTH(EbmlId(*this)) > 4)
 		return 0;
@@ -604,7 +604,7 @@ uint32 EbmlElement::RenderHead(IOCallback & output, bool bForceRender, bool bKee
 	return MakeRenderHead(output, bKeepPosition);
 }
 	
-uint32 EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
+filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
 {
 	binary FinalHead[4+8]; // Class D + 64 bits coded size
 	unsigned int FinalHeadSize;
@@ -665,7 +665,7 @@ bool EbmlElement::ForceSize(uint64 NewSize)
 	return false;
 }
 
-uint32 EbmlElement::OverwriteHead(IOCallback & output, bool bKeepPosition)
+filepos_t EbmlElement::OverwriteHead(IOCallback & output, bool bKeepPosition)
 {
 	if (ElementPosition == 0) {
 		return 0; // the element has not been written
@@ -673,7 +673,7 @@ uint32 EbmlElement::OverwriteHead(IOCallback & output, bool bKeepPosition)
 
 	uint64 CurrentPosition = output.getFilePointer();
 	output.setFilePointer(GetElementPosition());
-	uint32 Result = MakeRenderHead(output, bKeepPosition);
+	filepos_t Result = MakeRenderHead(output, bKeepPosition);
 	output.setFilePointer(CurrentPosition);
 	return Result;
 }

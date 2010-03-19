@@ -87,9 +87,9 @@ EbmlMaster::~EbmlMaster()
 	\todo handle exception on errors
 	\todo write all the Mandatory elements in the Context, otherwise assert
 */
-uint32 EbmlMaster::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
+filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
 {
-	uint32 Result = 0;
+	filepos_t Result = 0;
 	size_t Index;
 
 	if (!bForceRender) {
@@ -158,7 +158,7 @@ uint64 EbmlMaster::UpdateSize(bool bKeepIntact, bool bForceRender)
 	return GetSize();
 }
 
-uint32 EbmlMaster::WriteHead(IOCallback & output, int nSizeLength, bool bKeepIntact)
+filepos_t EbmlMaster::WriteHead(IOCallback & output, int nSizeLength, bool bKeepIntact)
 {
 	SetSizeLength(nSizeLength);
 	return RenderHead(output, false, bKeepIntact);
@@ -167,7 +167,7 @@ uint32 EbmlMaster::WriteHead(IOCallback & output, int nSizeLength, bool bKeepInt
 /*!
 	\todo this code is very suspicious !
 */
-uint64 EbmlMaster::ReadData(IOCallback & input, ScopeMode ReadFully)
+filepos_t EbmlMaster::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
 	input.setFilePointer(GetSize(), seek_current);
 	return GetSize();

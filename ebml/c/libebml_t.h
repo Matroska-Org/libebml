@@ -114,7 +114,7 @@ extern "C" {
 #endif /* anything else */
 
 typedef uint8  binary;
-
+typedef uint64 filepos_t;
 
 typedef enum open_mode {
     MODE_READ,

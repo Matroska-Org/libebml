@@ -105,9 +105,9 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
 		virtual ~EbmlUnicodeString() {}
 	
 		bool ValidateSize() const {return true;} // any size is possible
-		uint32 RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
-		uint64 ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
-		uint64 UpdateSize(bool bKeepIntact = false, bool bForceRender = false);
+		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
+		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
+		filepos_t UpdateSize(bool bKeepIntact = false, bool bForceRender = false);
 	
 		EbmlUnicodeString & operator=(const UTFstring &); ///< platform dependant code
 		operator const UTFstring &() const {return Value;}

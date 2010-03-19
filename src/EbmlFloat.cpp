@@ -78,7 +78,7 @@ const double EbmlFloat::DefaultVal() const
 	\todo handle exception on errors
 	\todo handle 10 bits precision
 */
-uint32 EbmlFloat::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
+filepos_t EbmlFloat::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
 {
 	assert(GetSize() == 4 || GetSize() == 8);
 
@@ -109,7 +109,7 @@ uint64 EbmlFloat::UpdateSize(bool bKeepIntact, bool bForceRender)
 /*!
 	\todo remove the hack for possible endianess pb (test on little & big endian)
 */
-uint64 EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
+filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
 	if (ReadFully != SCOPE_NO_DATA)
 	{

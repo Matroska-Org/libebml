@@ -61,7 +61,7 @@ EbmlBinary::~EbmlBinary(void) {
 		free(Data);
 }
 
-uint32 EbmlBinary::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
+filepos_t EbmlBinary::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
 {
 	output.writeFully(Data,GetSize());
 
@@ -76,7 +76,7 @@ uint64 EbmlBinary::UpdateSize(bool bKeepIntact, bool bForceRender)
 	return GetSize();
 }
 
-uint64 EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
+filepos_t EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
 	if (Data != NULL)
 		free(Data);

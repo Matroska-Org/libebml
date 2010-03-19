@@ -188,9 +188,9 @@ bool EbmlCrc32::CheckElementCRC32(EbmlElement &ElementToCRC)
 	return CheckCRC(m_crc_final, memoryBuffer.GetDataBuffer(), memoryBuffer.GetDataBufferSize());
 };
 
-uint32 EbmlCrc32::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
+filepos_t EbmlCrc32::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
 {
-	uint32 Result = DIGESTSIZE;
+	filepos_t Result = DIGESTSIZE;
 
 	if (Result != 0) {
 	    output.writeFully(&m_crc_final, Result);
@@ -211,7 +211,7 @@ uint32 EbmlCrc32::RenderData(IOCallback & output, bool bForceRender, bool bKeepI
 	return Result;
 }
 
-uint64 EbmlCrc32::ReadData(IOCallback & input, ScopeMode ReadFully)
+filepos_t EbmlCrc32::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
 	if (ReadFully != SCOPE_NO_DATA)
 	{

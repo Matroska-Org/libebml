@@ -55,7 +55,7 @@ class EBML_DLL_API EbmlVoid : public EbmlBinary {
 		/*!
 			\note overwrite to write fake data 
 		*/
-		uint32 RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
+		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
 
 		/*!
 			\brief Replace the void element content (written) with this one

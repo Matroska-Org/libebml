@@ -45,7 +45,7 @@ EbmlDate::EbmlDate(const EbmlDate & ElementToClone)
 	myDate = ElementToClone.myDate;
 }
 
-uint64 EbmlDate::ReadData(IOCallback & input, ScopeMode ReadFully)
+filepos_t EbmlDate::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
 	if (ReadFully != SCOPE_NO_DATA)
 	{
@@ -65,7 +65,7 @@ uint64 EbmlDate::ReadData(IOCallback & input, ScopeMode ReadFully)
 	return GetSize();
 }
 
-uint32 EbmlDate::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
+filepos_t EbmlDate::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
 {
 	if (GetSize() != 0) {
 		assert(GetSize() == 8);

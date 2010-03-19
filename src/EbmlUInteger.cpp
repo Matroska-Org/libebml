@@ -74,7 +74,7 @@ const uint64 EbmlUInteger::DefaultVal() const
 /*!
 	\todo handle exception on errors
 */
-uint32 EbmlUInteger::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
+filepos_t EbmlUInteger::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
 {
 	binary FinalData[8]; // we don't handle more than 64 bits integers
 	
@@ -122,7 +122,7 @@ uint64 EbmlUInteger::UpdateSize(bool bKeepIntact, bool bForceRender)
 	return GetSize();
 }
 
-uint64 EbmlUInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
+filepos_t EbmlUInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
 	if (ReadFully != SCOPE_NO_DATA)
 	{

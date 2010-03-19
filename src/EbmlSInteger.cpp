@@ -58,7 +58,7 @@ EbmlSInteger::EbmlSInteger(const EbmlSInteger & ElementToClone)
 /*!
 	\todo handle exception on errors
 */
-uint32 EbmlSInteger::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
+filepos_t EbmlSInteger::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
 {
 	binary FinalData[8]; // we don't handle more than 64 bits integers
 	unsigned int i;
@@ -110,7 +110,7 @@ uint64 EbmlSInteger::UpdateSize(bool bKeepIntact, bool bForceRender)
 	return GetSize();
 }
 
-uint64 EbmlSInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
+filepos_t EbmlSInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
 	if (ReadFully != SCOPE_NO_DATA)
 	{
