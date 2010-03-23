@@ -9,12 +9,12 @@
 ** modify it under the terms of the GNU Lesser General Public
 ** License as published by the Free Software Foundation; either
 ** version 2.1 of the License, or (at your option) any later version.
-** 
+**
 ** This library is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ** Lesser General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU Lesser General Public
 ** License along with this library; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -33,6 +33,7 @@
 */
 
 #include <cassert>
+#include <cstring>
 
 #include "ebml/EbmlElement.h"
 #include "ebml/EbmlMaster.h"
@@ -208,7 +209,7 @@ EbmlCallbacks::EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalI
 	,DebugName(aDebugName)
 	,Context(aContext)
 {
-    assert(Create!=NULL);
+  assert((Create!=NULL) || !strcmp(aDebugName, "DummyElement"));
 }
 
 
@@ -257,7 +258,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
 	uint64 SizeUnknown;
 	uint64 SizeFound;
 	bool bElementFound = false;
-	
+
 	binary BitMask;
 	uint64 aElementPosition, aSizePosition;
 	while (!bElementFound) {
@@ -286,7 +287,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
 			}
 			BitMask >>= 1;
 		}
-		
+
 		// read the data size
 		aSizePosition = DataStream.getFilePointer();
 		uint32 _SizeLength;
@@ -300,7 +301,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
 			SizeFound = ReadCodedSizeValue(&PossibleSize[0], _SizeLength, SizeUnknown);
 		} while (_SizeLength == 0);
 	}
-	
+
 	EbmlElement *Result = NULL;
 	EbmlId PossibleID(PossibleId, PossibleID_Length);
 	if (PossibleID == EBML_INFO_ID(ClassInfos)) {
@@ -310,9 +311,9 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
 		/// \todo find the element in the context
 		Result = new EbmlDummy(PossibleID);
 	}
-	
+
 	Result->SetSizeLength(PossibleSizeLength);
-	
+
 	Result->Size = SizeFound;
 
 	if (!Result->ValidateSize() || (SizeFound != SizeUnknown && MaxDataSize < Result->Size)) {
@@ -332,7 +333,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
 	} else Result->SetSizeInfinite(false);
 	Result->ElementPosition = aElementPosition;
 	Result->SizePosition = aSizePosition;
-	
+
 	return Result;
 }
 
@@ -343,7 +344,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
 	\todo better check of the size checking for upper elements (using a list of size for each level)
 	\param LowLevel Will be returned with the level of the element found compared to the context given
 */
-EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSemanticContext & Context, int & UpperLevel, 
+EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSemanticContext & Context, int & UpperLevel,
 			uint64 MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel)
 {
 	int PossibleID_Length = 0;
@@ -356,7 +357,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
 	int SizeIdx;
 	bool bFound;
 	int UpperLevel_original = UpperLevel;
-	
+
 	do {
 		// read a potential ID
 		do {
@@ -420,7 +421,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
 			if (Result != NULL) {
 				if (AllowDummyElt || !Result->IsDummy()) {
 					Result->SetSizeLength(_SizeLength);
-					
+
 					Result->Size = SizeFound;
 					// UpperLevel values
 					// -1 : global element
@@ -478,7 +479,7 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
 			} else {
 				Result = TestReadElt;
 			}
-			
+
 			if (Result != NULL) {
 				unsigned int EltIndex;
 				// data known in this Master's context
@@ -598,30 +599,30 @@ filepos_t EbmlElement::RenderHead(IOCallback & output, bool bForceRender, bool b
 {
 	if (EBML_ID_LENGTH(EbmlId(*this)) <= 0 || EBML_ID_LENGTH(EbmlId(*this)) > 4)
 		return 0;
-	
+
 	UpdateSize(bKeepIntact, bForceRender);
-	
+
 	return MakeRenderHead(output, bKeepPosition);
 }
-	
+
 filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
 {
 	binary FinalHead[4+8]; // Class D + 64 bits coded size
 	unsigned int FinalHeadSize;
-	
+
 	FinalHeadSize = EBML_ID_LENGTH(EbmlId(*this));
 	EbmlId(*this).Fill(FinalHead);
 
 	int CodedSize = CodedSizeLength(Size, SizeLength, bSizeIsFinite);
 	CodedValueLength(Size, CodedSize, &FinalHead[FinalHeadSize]);
 	FinalHeadSize += CodedSize;
-	
+
 	output.writeFully(FinalHead, FinalHeadSize);
 	if (!bKeepPosition) {
 		ElementPosition = output.getFilePointer() - FinalHeadSize;
 		SizePosition = ElementPosition + EBML_ID_LENGTH(EbmlId(*this));
 	}
-	
+
 	return FinalHeadSize;
 }
 
