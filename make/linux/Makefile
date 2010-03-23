@@ -20,10 +20,11 @@ libdir=$(prefix)/lib
 includedir=$(prefix)/include/ebml
 
 # Programs
-CXX=g++
-LD=$(CXX)
-AR = ar rcvu
-RANLIB = ranlib
+CROSS =
+CXX = $(CROSS)g++
+LD = $(CXX)
+AR = $(CROSS)ar
+RANLIB = $(CROSS)ranlib
 INSTALL = install
 INSTALL_OPTS = -m 644
 INSTALL_OPTS_LIB = -m 644
@@ -34,10 +35,6 @@ EXTENSION=.cpp
 
 ifeq (yes,$(DEBUG))
 DEBUGFLAGS=-g -DDEBUG
-endif
-
-ifneq (,$(shell $(CXX) -v 2>&1 | tail -n 1 | grep -i mingw))
-$(error Please use the Makefile in ../mingw32)
 endif
 
 CWD=$(shell pwd)
@@ -90,7 +87,7 @@ lib:
 	$(CXX) -c $(COMPILEFLAGS) -fPIC -o $@ $<
 
 $(LIBRARY): $(objects)
-	$(AR) $@ $(objects)
+	$(AR) rcvu $@ $(objects)
 	$(RANLIB) $@
 
 $(LIBRARY_SO): $(objects_so)
