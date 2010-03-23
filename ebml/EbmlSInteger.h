@@ -11,12 +11,12 @@
 ** modify it under the terms of the GNU Lesser General Public
 ** License as published by the Free Software Foundation; either
 ** version 2.1 of the License, or (at your option) any later version.
-** 
+**
 ** This library is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ** Lesser General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU Lesser General Public
 ** License along with this library; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -38,6 +38,8 @@
 #ifndef LIBEBML_SINTEGER_H
 #define LIBEBML_SINTEGER_H
 
+#include <cassert>
+
 #include "EbmlTypes.h"
 #include "EbmlElement.h"
 
@@ -54,7 +56,7 @@ class EBML_DLL_API EbmlSInteger : public EbmlElement {
 		EbmlSInteger();
 		EbmlSInteger(int64 DefaultValue);
 		EbmlSInteger(const EbmlSInteger & ElementToClone);
-	
+
 		EbmlSInteger & operator = (int64 NewValue) {Value = NewValue; SetValueIsSet(); return *this;}
 
 		/*!
@@ -66,16 +68,16 @@ class EBML_DLL_API EbmlSInteger : public EbmlElement {
 		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
 		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
 		filepos_t UpdateSize(bool bKeepIntact = false, bool bForceRender = false);
-	
+
 		bool operator<(const EbmlSInteger & EltCmp) const {return Value < EltCmp.Value;}
-		
+
 		operator int8() {return  int8(Value);}
 		operator int16() {return int16(Value);}
 		operator int32() {return int32(Value);}
 		operator int64() {return Value;}
 
 		void SetDefaultValue(int64 aValue) {assert(!DefaultISset()); DefaultValue = aValue; SetDefaultIsSet();}
-    
+
 		int64 DefaultVal() const {assert(DefaultISset()); return DefaultValue;}
 
 		bool IsDefaultValue() const {
