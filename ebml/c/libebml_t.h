@@ -11,12 +11,12 @@
 ** modify it under the terms of the GNU Lesser General Public
 ** License as published by the Free Software Foundation; either
 ** version 2.1 of the License, or (at your option) any later version.
-** 
+**
 ** This library is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ** Lesser General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU Lesser General Public
 ** License along with this library; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -34,7 +34,7 @@
     \author Steve Lhomme     <robux4 @ users.sf.net>
     \author Ingo Ralf Blum   <ingoralfblum @ users.sf.net>
     \author Moritz Bunkus <moritz@bunkus.org>
-    
+
     \brief Misc type definitions for the C API of LIBEBML
 
     \note These types should be compiler/language independant (just platform dependant)
@@ -101,6 +101,7 @@ extern "C" {
 #elif defined(__BEOS__)
 # include <support/SupportDefs.h>
 #else // anything else (Linux, BSD, ...)
+# include <inttypes.h>
 # include <sys/types.h>
     typedef int64_t int64;
     typedef int32_t int32;
