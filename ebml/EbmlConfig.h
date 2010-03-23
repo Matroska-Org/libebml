@@ -36,6 +36,14 @@
 #ifndef LIBEBML_CONFIG_H
 #define LIBEBML_CONFIG_H
 
+#if defined(__linux__)
+#include <endian.h>
+#if __BYTE_ORDER == __LITTLE_ENDIAN
+#undef WORDS_BIGENDIAN
+#elif __BYTE_ORDER == __BIG_ENDIAN
+#define WORDS_BIGENDIAN 1
+#endif
+#else
 // automatic endianess detection working on GCC
 #if !defined(WORDS_BIGENDIAN)
 #if (defined (__arm__) && ! defined (__ARMEB__)) || defined (__i386__) || defined (__i860__) || defined (__ns32000__) || defined (__vax__) || defined (__amd64__) || defined (__x86_64__)
@@ -47,6 +55,7 @@
 #undef WORDS_BIGENDIAN // for my testing platform (x86)
 #endif
 #endif // not autoconf
+#endif
 
 #define LIBEBML_NAMESPACE libebml
 #if defined(NO_NAMESPACE) // for older GCC
