@@ -9,12 +9,12 @@
 ** modify it under the terms of the GNU Lesser General Public
 ** License as published by the Free Software Foundation; either
 ** version 2.1 of the License, or (at your option) any later version.
-** 
+**
 ** This library is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ** Lesser General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU Lesser General Public
 ** License along with this library; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -199,8 +199,8 @@ class EBML_DLL_API EbmlSemanticContext {
 			const EbmlSemanticContext *aUpTable,
 			const _GetSemanticContext aGetGlobalContext,
 			const EbmlCallbacks *aMasterElt)
-			:Size(aSize), MyTable(aMyTable), UpTable(aUpTable),
-			 GetGlobalContext(aGetGlobalContext), MasterElt(aMasterElt) {}
+			: MyTable(aMyTable), GetGlobalContext(aGetGlobalContext), Size(aSize),
+			  UpTable(aUpTable), MasterElt(aMasterElt) {}
 
 		bool operator!=(const EbmlSemanticContext & aElt) const {
 			return ((Size != aElt.Size) || (MyTable != aElt.MyTable) ||
@@ -232,11 +232,11 @@ class EBML_DLL_API EbmlElement {
 	public:
 		EbmlElement(uint64 aDefaultSize, bool bValueSet = false);
 		virtual ~EbmlElement();
-	
+
 		/// Set the minimum length that will be used to write the element size (-1 = optimal)
 		void SetSizeLength(int NewSizeLength) {SizeLength = NewSizeLength;}
 		int GetSizeLength() const {return SizeLength;}
-		
+
 		static EbmlElement * FindNextElement(IOCallback & DataStream, const EbmlSemanticContext & Context, int & UpperLevel, uint64 MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel = 1);
 		static EbmlElement * FindNextID(IOCallback & DataStream, const EbmlCallbacks & ClassInfos, const uint64 MaxDataSize);
 
@@ -273,7 +273,7 @@ class EBML_DLL_API EbmlElement {
 		}
 
 		uint64 ElementSize(bool bKeepIntact = false) const; /// return the size of the header+data, before writing
-		
+
 		filepos_t Render(IOCallback & output, bool bKeepIntact = false, bool bKeepPosition = false, bool bForceRender = false);
 
 		virtual filepos_t UpdateSize(bool bKeepIntact = false, bool bForceRender = false) = 0; /// update the Size of the Data stored
@@ -281,7 +281,7 @@ class EBML_DLL_API EbmlElement {
 
 		virtual filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) = 0;
 		virtual void Read(EbmlStream & inDataStream, const EbmlSemanticContext & Context, int & UpperEltFound, EbmlElement * & FoundElt, bool AllowDummyElt = false, ScopeMode ReadFully = SCOPE_ALL_DATA);
-		
+
 		bool IsLocked() const {return bLocked;}
 		void Lock(bool bLock = true) { bLocked = bLock;}
 
@@ -300,7 +300,7 @@ class EBML_DLL_API EbmlElement {
 		uint8 HeadSize() const {
 			return EBML_ID_LENGTH(EbmlId(*this)) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
 		} /// return the size of the head, on reading/writing
-		
+
 		/*!
 			\brief Force the size of an element
 			\warning only possible if the size is "undefined"
@@ -328,7 +328,7 @@ class EBML_DLL_API EbmlElement {
 		inline uint64 GetEndPosition() const {
 			return SizePosition + CodedSizeLength(Size, SizeLength, bSizeIsFinite) + Size;
 		}
-		
+
 	protected:
 		/*!
 			\brief find any element in the stream
@@ -338,7 +338,7 @@ class EBML_DLL_API EbmlElement {
 
 		filepos_t RenderHead(IOCallback & output, bool bForceRender, bool bKeepIntact = false, bool bKeepPosition = false);
 		filepos_t MakeRenderHead(IOCallback & output, bool bKeepPosition);
-	
+
 		/*!
 			\brief prepare the data before writing them (in case it's not already done by default)
 		*/
