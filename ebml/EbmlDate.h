@@ -9,12 +9,12 @@
 ** modify it under the terms of the GNU Lesser General Public
 ** License as published by the Free Software Foundation; either
 ** version 2.1 of the License, or (at your option) any later version.
-** 
+**
 ** This library is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ** Lesser General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU Lesser General Public
 ** License along with this library; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -47,7 +47,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 	public:
 		EbmlDate() :EbmlElement(8, false), myDate(0) {}
 		EbmlDate(const EbmlDate & ElementToClone);
-		
+
 		/*!
 			\brief set the date with a UNIX/C/EPOCH form
 			\param NewDate UNIX/C date in UTC (no timezone)
@@ -59,22 +59,22 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 			\note the date is in UTC (no timezone)
 		*/
 		int32 GetEpochDate() const {return int32(myDate/1000000000 + UnixEpochDelay);}
-	
+
 		bool ValidateSize() const {return ((GetSize() == 8) || (GetSize() == 0));}
 
 		/*!
 			\note no Default date handled
 		*/
 		filepos_t UpdateSize(bool bKeepIntact = false, bool bForceRender = false) {
-			if(!ValueIsSet()) 
+			if(!ValueIsSet())
 				SetSize_(0);
 			else
 				SetSize_(8);
 			return GetSize();
 		}
-		
-		bool operator<(const EbmlDate & EltCmp) const {return myDate < EltCmp.myDate;}
-		
+
+		virtual bool IsSmallerThan(const EbmlElement *Cmp) const;
+
 		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
 
 		bool IsDefaultValue() const {
@@ -87,9 +87,9 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
     protected:
 #endif
 		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
-		
+
 		int64 myDate; ///< internal format of the date
-	
+
 		static const uint64 UnixEpochDelay;
 };
 

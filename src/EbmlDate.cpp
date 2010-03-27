@@ -9,12 +9,12 @@
 ** modify it under the terms of the GNU Lesser General Public
 ** License as published by the Free Software Foundation; either
 ** version 2.1 of the License, or (at your option) any later version.
-** 
+**
 ** This library is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ** Lesser General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU Lesser General Public
 ** License along with this library; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -53,15 +53,15 @@ filepos_t EbmlDate::ReadData(IOCallback & input, ScopeMode ReadFully)
 			assert(GetSize() == 8);
 			binary Buffer[8];
 			input.readFully(Buffer, GetSize());
-		
+
 			big_int64 b64;
 			b64.Eval(Buffer);
-			
+
 			myDate = b64;
 			SetValueIsSet();
 		}
 	}
-	
+
 	return GetSize();
 }
 
@@ -70,11 +70,19 @@ filepos_t EbmlDate::RenderData(IOCallback & output, bool bForceRender, bool bKee
 	if (GetSize() != 0) {
 		assert(GetSize() == 8);
 		big_int64 b64(myDate);
-		
+
 		output.writeFully(&b64.endian(),GetSize());
 	}
 
 	return GetSize();
+}
+
+bool EbmlDate::IsSmallerThan(const EbmlElement *Cmp) const
+{
+	if (EbmlId(*this) == EbmlId(*Cmp))
+		return this->myDate < static_cast<const EbmlDate *>(Cmp)->myDate;
+	else
+		return false;
 }
 
 END_LIBEBML_NAMESPACE

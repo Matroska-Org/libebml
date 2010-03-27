@@ -69,7 +69,7 @@ class EBML_DLL_API EbmlSInteger : public EbmlElement {
 		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
 		filepos_t UpdateSize(bool bKeepIntact = false, bool bForceRender = false);
 
-		bool operator<(const EbmlSInteger & EltCmp) const {return Value < EltCmp.Value;}
+		virtual bool IsSmallerThan(const EbmlElement *Cmp) const;
 
 		operator int8() {return  int8(Value);}
 		operator int16() {return int16(Value);}

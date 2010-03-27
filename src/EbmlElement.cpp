@@ -633,10 +633,15 @@ uint64 EbmlElement::ElementSize(bool bKeepIntact) const
 	return Size + EBML_ID_LENGTH(EbmlId(*this)) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
 }
 
+bool EbmlElement::IsSmallerThan(const EbmlElement *Cmp) const
+{
+	return EbmlId(*this) == EbmlId(*Cmp);
+}
+
 bool EbmlElement::CompareElements(const EbmlElement *A, const EbmlElement *B)
 {
 	if (EbmlId(*A) == EbmlId(*B))
-		return *A < *B;
+		return A->IsSmallerThan(B);
 	else
 		return false;
 }

@@ -288,10 +288,7 @@ class EBML_DLL_API EbmlElement {
 		/*!
 			\brief default comparison for elements that can't be compared
 		*/
-		virtual bool operator<(const EbmlElement & EltB) const {
-			return true;
-		}
-
+		virtual bool IsSmallerThan(const EbmlElement *Cmp) const;
 		static bool CompareElements(const EbmlElement *A, const EbmlElement *B);
 
 		virtual bool IsDummy() const {return false;}

@@ -77,7 +77,7 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
 //		EbmlFloat & operator=(const float NewValue) { Value = NewValue; return *this;}
 		EbmlFloat & operator=(const double NewValue) { Value = NewValue; SetValueIsSet(); return *this;}
 
-		bool operator<(const EbmlFloat & EltCmp) const {return Value < EltCmp.Value;}
+		virtual bool IsSmallerThan(const EbmlElement *Cmp) const;
 		
 		operator const float() const {return float(Value);}
 		operator const double() const {return double(Value);}
