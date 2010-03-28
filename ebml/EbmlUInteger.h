@@ -60,7 +60,7 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
 		/*!
 			Set the default size of the integer (usually 1,2,4 or 8)
 		*/
-		void SetDefaultSize(int nDefaultSize = DEFAULT_UINT_SIZE) {SetSize_(nDefaultSize);}
+		virtual void SetDefaultSize(uint64 nDefaultSize = DEFAULT_UINT_SIZE) {SetSize_(nDefaultSize);}
 
 		bool ValidateSize() const {return (GetSize() <= 8);}
 		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
