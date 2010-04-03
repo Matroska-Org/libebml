@@ -40,8 +40,7 @@
 
 START_LIBEBML_NAMESPACE
 
-EbmlId EbmlCrc32_TheId(0xBF, 1);
-const EbmlCallbacks EbmlCrc32::ClassInfos(EbmlCrc32::Create, EbmlCrc32_TheId, "EBMLCrc32\0ratamadabapa", EbmlVoid_Context);
+DEFINE_EBML_CLASS_GLOBAL(EbmlCrc32, 0xBF, 1, "EBMLCrc32\0ratamadabapa");
 
 const uint32 EbmlCrc32::m_tab[] = {
 #ifdef WORDS_BIGENDIAN

@@ -39,7 +39,7 @@
 
 START_LIBEBML_NAMESPACE
 
-const EbmlSemantic EbmlHead_ContextList[] =
+static const EbmlSemantic ContextList_EbmlHead[7] =
 {
 	EbmlSemantic(true, true, EBML_INFO(EVersion)),        ///< EBMLVersion
 	EbmlSemantic(true, true, EBML_INFO(EReadVersion)),    ///< EBMLReadVersion
@@ -50,10 +50,7 @@ const EbmlSemantic EbmlHead_ContextList[] =
 	EbmlSemantic(true, true, EBML_INFO(EDocTypeReadVersion)), ///< DocTypeReadVersion
 };
 
-const EbmlSemanticContext EbmlHead_Context = EbmlSemanticContext(countof(EbmlHead_ContextList), EbmlHead_ContextList, NULL, *GetEbmlGlobal_Context, &EBML_INFO(EbmlHead));
-
-EbmlId EbmlHead_TheId(0x1A45DFA3, 4);
-const EbmlCallbacks EbmlHead::ClassInfos(EbmlHead::Create, EbmlHead_TheId, "EBMLHead\0ratamapaga", EbmlHead_Context);
+DEFINE_EBML_MASTER_GLOBAL(EbmlHead, 0x1A45DFA3, 4, "EBMLHead\0ratamapaga");
 
 EbmlHead::EbmlHead()
  :EbmlMaster(EbmlHead_Context)

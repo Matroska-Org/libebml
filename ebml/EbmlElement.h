@@ -78,6 +78,8 @@ class EbmlStream;
 class EbmlSemanticContext;
 class EbmlElement;
 
+extern const EbmlSemanticContext Context_EbmlGlobal;
+
 #if defined(EBML_STRICT_API)
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
@@ -91,6 +93,38 @@ class EbmlElement;
         static const EbmlId & ClassId() {return ClassInfos.ClassId();} \
     private: \
 		static const EbmlCallbacks ClassInfos; \
+
+
+#define DEFINE_xxx_MASTER(x,id,idl,parent,name,global) \
+    const EbmlId Id_##x    (id, idl); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
+    const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
+
+#define DEFINE_xxx_MASTER_GLOBAL(x,id,idl,name,global) \
+    const EbmlId Id_##x    (id, idl); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, NULL, global, &EBML_INFO(x)); \
+    const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
+
+#define DEFINE_xxx_CLASS(x,id,idl,parent,name,global) \
+    const EbmlId Id_##x    (id, idl); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, &Context_##parent, global, &EBML_INFO(x)); \
+    const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
+
+#define DEFINE_xxx_CLASS_GLOBAL(x,id,idl,name,global) \
+    const EbmlId Id_##x    (id, idl); \
+    const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_EbmlGlobal); \
+
+#define DEFINE_xxx_CLASS_ORPHAN(x,id,idl,name,global) \
+    const EbmlId Id_##x    (id, idl); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, NULL, global, &EBML_INFO(x)); \
+    const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
+
+#define DEFINE_EBML_MASTER(x,id,idl,parent,name)       DEFINE_xxx_MASTER(x,id,idl,parent,name,*GetEbmlGlobal_Context)
+#define DEFINE_EBML_MASTER_GLOBAL(x,id,idl,name)       DEFINE_xxx_MASTER_GLOBAL(x,id,idl,name,*GetEbmlGlobal_Context)
+#define DEFINE_EBML_CLASS(x,id,idl,parent,name)        DEFINE_xxx_CLASS(x,id,idl,parent,name,*GetEbmlGlobal_Context)
+#define DEFINE_EBML_CLASS_GLOBAL(x,id,idl,name)        DEFINE_xxx_CLASS_GLOBAL(x,id,idl,name,*GetEbmlGlobal_Context)
+#define DEFINE_EBML_CLASS_ORPHAN(x,id,idl,name)        DEFINE_xxx_CLASS_ORPHAN(x,id,idl,name,*GetEbmlGlobal_Context)
+
 
 #define EBML_INFO(ref)  ref::ClassInfo()
 #define EBML_ID(ref)    ref::ClassId()

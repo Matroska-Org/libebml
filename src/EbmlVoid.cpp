@@ -38,8 +38,7 @@
 
 START_LIBEBML_NAMESPACE
 
-EbmlId EbmlVoid_TheId(0xEC, 1);
-const EbmlCallbacks EbmlVoid::ClassInfos(EbmlVoid::Create, EbmlVoid_TheId, "EBMLVoid", EbmlVoid_Context);
+DEFINE_EBML_CLASS_GLOBAL(EbmlVoid, 0xEC, 1, "EBMLVoid");
 
 EbmlVoid::EbmlVoid()
 {

@@ -38,28 +38,12 @@
 
 START_LIBEBML_NAMESPACE
 
-EbmlId EVersion_TheId            (0x4286, 2);
-EbmlId EReadVersion_TheId        (0x42F7, 2);
-EbmlId EMaxIdLength_TheId        (0x42F2, 2);
-EbmlId EMaxSizeLength_TheId      (0x42F3, 2);
-EbmlId EDocType_TheId            (0x4282, 2);
-EbmlId EDocTypeVersion_TheId     (0x4287, 2);
-EbmlId EDocTypeReadVersion_TheId (0x4285, 2);
-
-const EbmlCallbacks EVersion::ClassInfos(EVersion::Create,               EVersion_TheId,        "EBMLVersion",                        EVersion_Context);
-const EbmlCallbacks EReadVersion::ClassInfos(EReadVersion::Create,       EReadVersion_TheId,    "EBMLReadVersion",                    EReadVersion_Context);
-const EbmlCallbacks EMaxIdLength::ClassInfos(EMaxIdLength::Create,       EMaxIdLength_TheId,    "EBMLMaxIdLength",                    EMaxIdLength_Context);
-const EbmlCallbacks EMaxSizeLength::ClassInfos(EMaxSizeLength::Create,   EMaxSizeLength_TheId,  "EBMLMaxSizeLength",                  EMaxSizeLength_Context);
-const EbmlCallbacks EDocType::ClassInfos(EDocType::Create,               EDocType_TheId,        "EBMLDocType",                        EDocType_Context);
-const EbmlCallbacks EDocTypeVersion::ClassInfos(EDocTypeVersion::Create, EDocTypeVersion_TheId, "EBMLDocTypeVersion",                 EDocTypeVersion_Context);
-const EbmlCallbacks EDocTypeReadVersion::ClassInfos(EDocTypeReadVersion::Create, EDocTypeReadVersion_TheId, "EBMLDocTypeReadVersion", EDocTypeReadVersion_Context);
-
-const EbmlSemanticContext EVersion_Context        = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EBML_INFO(EVersion));
-const EbmlSemanticContext EReadVersion_Context    = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EBML_INFO(EReadVersion));
-const EbmlSemanticContext EMaxIdLength_Context    = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EBML_INFO(EMaxIdLength));
-const EbmlSemanticContext EMaxSizeLength_Context  = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EBML_INFO(EMaxSizeLength));
-const EbmlSemanticContext EDocType_Context        = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EBML_INFO(EDocType));
-const EbmlSemanticContext EDocTypeVersion_Context = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EBML_INFO(EDocTypeVersion));
-const EbmlSemanticContext EDocTypeReadVersion_Context = EbmlSemanticContext(0, NULL, &EbmlHead_Context, *GetEbmlGlobal_Context, &EBML_INFO(EDocTypeReadVersion));
+DEFINE_EBML_CLASS(EVersion,            0x4286, 2, EbmlHead, "EBMLVersion");
+DEFINE_EBML_CLASS(EReadVersion,        0x42F7, 2, EbmlHead, "EBMLReadVersion");
+DEFINE_EBML_CLASS(EMaxIdLength,        0x42F2, 2, EbmlHead, "EBMLMaxIdLength");
+DEFINE_EBML_CLASS(EMaxSizeLength,      0x42F3, 2, EbmlHead, "EBMLMaxSizeLength");
+DEFINE_EBML_CLASS(EDocType,            0x4282, 2, EbmlHead, "EBMLDocType");
+DEFINE_EBML_CLASS(EDocTypeVersion,     0x4287, 2, EbmlHead, "EBMLDocTypeVersion");
+DEFINE_EBML_CLASS(EDocTypeReadVersion, 0x4285, 2, EbmlHead, "EBMLDocTypeReadVersion");
 
 END_LIBEBML_NAMESPACE

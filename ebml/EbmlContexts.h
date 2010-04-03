@@ -50,8 +50,9 @@ extern const EbmlSemanticContext EBML_DLL_API EDocType_Context;
 extern const EbmlSemanticContext EBML_DLL_API EDocTypeVersion_Context;
 extern const EbmlSemanticContext EBML_DLL_API EDocTypeReadVersion_Context;
 
+#define Context_EbmlHead EbmlHead_Context
+	
 // global elements
-extern const EbmlSemanticContext EBML_DLL_API EbmlVoid_Context;
 extern const EbmlSemanticContext EBML_DLL_API & GetEbmlGlobal_Context();
 	
 END_LIBEBML_NAMESPACE
