@@ -50,7 +50,7 @@ static const EbmlSemantic ContextList_EbmlHead[7] =
 	EbmlSemantic(true, true, EBML_INFO(EDocTypeReadVersion)), ///< DocTypeReadVersion
 };
 
-DEFINE_EBML_MASTER_GLOBAL(EbmlHead, 0x1A45DFA3, 4, "EBMLHead\0ratamapaga");
+DEFINE_EBML_MASTER_ORPHAN(EbmlHead, 0x1A45DFA3, 4, "EBMLHead\0ratamapaga");
 
 EbmlHead::EbmlHead()
  :EbmlMaster(EbmlHead_Context)
