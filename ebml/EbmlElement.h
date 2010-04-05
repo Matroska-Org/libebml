@@ -95,14 +95,13 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 		static const EbmlCallbacks ClassInfos; \
 
 
+#define DEFINE_xxx_CONTEXT(x,global) \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, NULL, global, NULL); \
+
 #define DEFINE_xxx_MASTER(x,id,idl,parent,name,global) \
     const EbmlId Id_##x    (id, idl); \
     const EbmlSemanticContext Context_##x = EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
     const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
-
-#define DEFINE_xxx_MASTER_GLOBAL(x,id,idl,name,global) \
-    const EbmlId Id_##x    (id, idl); \
-    const EbmlSemanticContext Context_##x = EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, NULL, global, NULL); \
 
 #define DEFINE_xxx_MASTER_ORPHAN(x,id,idl,name,global) \
     const EbmlId Id_##x    (id, idl); \
@@ -123,8 +122,8 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
     const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, NULL, global, &EBML_INFO(x)); \
     const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
 
+#define DEFINE_EBML_CONTEXT(x)                         DEFINE_xxx_CONTEXT(x,*GetEbmlGlobal_Context)
 #define DEFINE_EBML_MASTER(x,id,idl,parent,name)       DEFINE_xxx_MASTER(x,id,idl,parent,name,*GetEbmlGlobal_Context)
-#define DEFINE_EBML_MASTER_GLOBAL(x,id,idl,name)       DEFINE_xxx_MASTER_GLOBAL(x,id,idl,name,*GetEbmlGlobal_Context)
 #define DEFINE_EBML_MASTER_ORPHAN(x,id,idl,name)       DEFINE_xxx_MASTER_ORPHAN(x,id,idl,name,*GetEbmlGlobal_Context)
 #define DEFINE_EBML_CLASS(x,id,idl,parent,name)        DEFINE_xxx_CLASS(x,id,idl,parent,name,*GetEbmlGlobal_Context)
 #define DEFINE_EBML_CLASS_GLOBAL(x,id,idl,name)        DEFINE_xxx_CLASS_GLOBAL(x,id,idl,name,*GetEbmlGlobal_Context)
