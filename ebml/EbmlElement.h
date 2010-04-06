@@ -99,7 +99,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
     const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
     x::x() {}
 
-#define DEFINE_xxx_CLASS_CUS(x,id,idl,parent,name,global) \
+#define DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
     const EbmlId Id_##x    (id, idl); \
     const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, &Context_##parent, global, &EBML_INFO(x)); \
     const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x);
