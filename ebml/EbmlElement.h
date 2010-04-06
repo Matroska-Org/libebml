@@ -80,21 +80,6 @@ class EbmlElement;
 
 extern const EbmlSemanticContext Context_EbmlGlobal;
 
-#if defined(EBML_STRICT_API)
-#define EBML_CONCRETE_CLASS(Type) \
-    public: \
-        virtual const EbmlSemanticContext &Context() const {return ClassInfos.GetContext();} \
-        virtual const char *DebugName() const {return ClassInfos.GetName();} \
-		virtual operator const EbmlId &() const {return ClassInfos.ClassId();} \
-        virtual EbmlElement & CreateElement() const {return Create();} \
-        virtual EbmlElement * Clone() const { return new Type(*this); } \
-		static EbmlElement & Create() {return *(new Type);} \
-        static const EbmlCallbacks & ClassInfo() {return ClassInfos;} \
-        static const EbmlId & ClassId() {return ClassInfos.ClassId();} \
-    private: \
-		static const EbmlCallbacks ClassInfos; \
-
-
 #define DEFINE_xxx_CONTEXT(x,global) \
     const EbmlSemanticContext Context_##x = EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, NULL, global, NULL); \
 
@@ -128,6 +113,21 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define DEFINE_EBML_CLASS(x,id,idl,parent,name)        DEFINE_xxx_CLASS(x,id,idl,parent,name,*GetEbmlGlobal_Context)
 #define DEFINE_EBML_CLASS_GLOBAL(x,id,idl,name)        DEFINE_xxx_CLASS_GLOBAL(x,id,idl,name,*GetEbmlGlobal_Context)
 #define DEFINE_EBML_CLASS_ORPHAN(x,id,idl,name)        DEFINE_xxx_CLASS_ORPHAN(x,id,idl,name,*GetEbmlGlobal_Context)
+
+
+#if defined(EBML_STRICT_API)
+#define EBML_CONCRETE_CLASS(Type) \
+    public: \
+        virtual const EbmlSemanticContext &Context() const {return ClassInfos.GetContext();} \
+        virtual const char *DebugName() const {return ClassInfos.GetName();} \
+		virtual operator const EbmlId &() const {return ClassInfos.ClassId();} \
+        virtual EbmlElement & CreateElement() const {return Create();} \
+        virtual EbmlElement * Clone() const { return new Type(*this); } \
+		static EbmlElement & Create() {return *(new Type);} \
+        static const EbmlCallbacks & ClassInfo() {return ClassInfos;} \
+        static const EbmlId & ClassId() {return ClassInfos.ClassId();} \
+    private: \
+		static const EbmlCallbacks ClassInfos; \
 
 
 #define EBML_INFO(ref)  ref::ClassInfo()
