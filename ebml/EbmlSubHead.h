@@ -43,57 +43,50 @@
 
 START_LIBEBML_NAMESPACE
 
-class EBML_DLL_API EVersion : public EbmlUInteger {
+DECLARE_EBML_UINTEGER(EVersion)
 	public:
-		EVersion() :EbmlUInteger(1) {}
 		EVersion(const EVersion & ElementToClone) : EbmlUInteger(ElementToClone) {}
 
         EBML_CONCRETE_CLASS(EVersion)
 };
 
-class EBML_DLL_API EReadVersion : public EbmlUInteger {
+DECLARE_EBML_UINTEGER(EReadVersion)
 	public:
-		EReadVersion() :EbmlUInteger(1) {}
 		EReadVersion(const EReadVersion & ElementToClone) : EbmlUInteger(ElementToClone) {}
 
         EBML_CONCRETE_CLASS(EReadVersion)
 };
 
-class EBML_DLL_API EMaxIdLength : public EbmlUInteger {
+DECLARE_EBML_UINTEGER(EMaxIdLength)
 	public:
-		EMaxIdLength() :EbmlUInteger(4) {}
 		EMaxIdLength(const EMaxIdLength & ElementToClone) : EbmlUInteger(ElementToClone) {}
 
         EBML_CONCRETE_CLASS(EMaxIdLength)
 };
 
-class EBML_DLL_API EMaxSizeLength : public EbmlUInteger {
+DECLARE_EBML_UINTEGER(EMaxSizeLength)
 	public:
-		EMaxSizeLength() :EbmlUInteger(8) {}
 		EMaxSizeLength(const EMaxSizeLength & ElementToClone) : EbmlUInteger(ElementToClone) {}
 
         EBML_CONCRETE_CLASS(EMaxSizeLength)
 };
 
-class EBML_DLL_API EDocType : public EbmlString {
+DECLARE_EBML_STRING(EDocType)
 	public:
-		EDocType() {}
 		EDocType(const EDocType & ElementToClone) : EbmlString(ElementToClone) {}
 
         EBML_CONCRETE_CLASS(EDocType)
 };
 
-class EBML_DLL_API EDocTypeVersion : public EbmlUInteger {
+DECLARE_EBML_UINTEGER(EDocTypeVersion)
 	public:
-		EDocTypeVersion() {}
 		EDocTypeVersion(const EDocTypeVersion & ElementToClone) : EbmlUInteger(ElementToClone) {}
 
         EBML_CONCRETE_CLASS(EDocTypeVersion)
 };
 
-class EBML_DLL_API EDocTypeReadVersion : public EbmlUInteger {
+DECLARE_EBML_UINTEGER(EDocTypeReadVersion)
 	public:
-		EDocTypeReadVersion() {}
 		EDocTypeReadVersion(const EDocTypeReadVersion & ElementToClone) : EbmlUInteger(ElementToClone) {}
 
         EBML_CONCRETE_CLASS(EDocTypeReadVersion)

@@ -41,9 +41,8 @@
 
 START_LIBEBML_NAMESPACE
 
-class EBML_DLL_API EbmlHead : public EbmlMaster {
+DECLARE_EBML_MASTER(EbmlHead)
 	public:
-		EbmlHead();
 		EbmlHead(const EbmlHead & ElementToClone) : EbmlMaster(ElementToClone) {}
 
         EBML_CONCRETE_CLASS(EbmlHead)

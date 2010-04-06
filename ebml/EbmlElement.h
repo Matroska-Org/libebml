@@ -97,6 +97,30 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
     const EbmlId Id_##x    (id, idl); \
     const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, &Context_##parent, global, &EBML_INFO(x)); \
     const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
+    x::x() {}
+
+#define DEFINE_xxx_CLASS_CUS(x,id,idl,parent,name,global) \
+    const EbmlId Id_##x    (id, idl); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, &Context_##parent, global, &EBML_INFO(x)); \
+    const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x);
+
+#define DEFINE_xxx_UINTEGER_DEF(x,id,idl,parent,name,global,defval) \
+    const EbmlId Id_##x    (id, idl); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, &Context_##parent, global, &EBML_INFO(x)); \
+    const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
+    x::x() :EbmlUInteger(defval) {}
+
+#define DEFINE_xxx_STRING_DEF(x,id,idl,parent,name,global,defval) \
+    const EbmlId Id_##x    (id, idl); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, &Context_##parent, global, &EBML_INFO(x)); \
+    const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
+    x::x() :EbmlString(defval) {}
+
+#define DEFINE_xxx_FLOAT_DEF(x,id,idl,parent,name,global,defval) \
+    const EbmlId Id_##x    (id, idl); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, &Context_##parent, global, &EBML_INFO(x)); \
+    const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
+    x::x() :EbmlFloat(defval) {}
 
 #define DEFINE_xxx_CLASS_GLOBAL(x,id,idl,name,global) \
     const EbmlId Id_##x    (id, idl); \
@@ -107,13 +131,27 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
     const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, NULL, global, &EBML_INFO(x)); \
     const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
 
-#define DEFINE_EBML_CONTEXT(x)                         DEFINE_xxx_CONTEXT(x,*GetEbmlGlobal_Context)
-#define DEFINE_EBML_MASTER(x,id,idl,parent,name)       DEFINE_xxx_MASTER(x,id,idl,parent,name,*GetEbmlGlobal_Context)
-#define DEFINE_EBML_MASTER_ORPHAN(x,id,idl,name)       DEFINE_xxx_MASTER_ORPHAN(x,id,idl,name,*GetEbmlGlobal_Context)
-#define DEFINE_EBML_CLASS(x,id,idl,parent,name)        DEFINE_xxx_CLASS(x,id,idl,parent,name,*GetEbmlGlobal_Context)
-#define DEFINE_EBML_CLASS_GLOBAL(x,id,idl,name)        DEFINE_xxx_CLASS_GLOBAL(x,id,idl,name,*GetEbmlGlobal_Context)
-#define DEFINE_EBML_CLASS_ORPHAN(x,id,idl,name)        DEFINE_xxx_CLASS_ORPHAN(x,id,idl,name,*GetEbmlGlobal_Context)
+#define DEFINE_EBML_CONTEXT(x)                             DEFINE_xxx_CONTEXT(x,*GetEbmlGlobal_Context)
+#define DEFINE_EBML_MASTER(x,id,idl,parent,name)           DEFINE_xxx_MASTER(x,id,idl,parent,name,*GetEbmlGlobal_Context)
+#define DEFINE_EBML_MASTER_ORPHAN(x,id,idl,name)           DEFINE_xxx_MASTER_ORPHAN(x,id,idl,name,*GetEbmlGlobal_Context)
+#define DEFINE_EBML_CLASS(x,id,idl,parent,name)            DEFINE_xxx_CLASS(x,id,idl,parent,name,*GetEbmlGlobal_Context)
+#define DEFINE_EBML_CLASS_GLOBAL(x,id,idl,name)            DEFINE_xxx_CLASS_GLOBAL(x,id,idl,name,*GetEbmlGlobal_Context)
+#define DEFINE_EBML_CLASS_ORPHAN(x,id,idl,name)            DEFINE_xxx_CLASS_ORPHAN(x,id,idl,name,*GetEbmlGlobal_Context)
+#define DEFINE_EBML_UINTEGER_DEF(x,id,idl,parent,name,val) DEFINE_xxx_UINTEGER_DEF(x,id,idl,parent,name,*GetEbmlGlobal_Context,val)
+#define DEFINE_EBML_STRING_DEF(x,id,idl,parent,name,val)   DEFINE_xxx_STRING_DEF(x,id,idl,parent,name,*GetEbmlGlobal_Context,val)
 
+#define DECLARE_EBML_MASTER(x)  class EBML_DLL_API x : public EbmlMaster { \
+  public: \
+    x();
+#define DECLARE_EBML_UINTEGER(x)  class EBML_DLL_API x : public EbmlUInteger { \
+  public: \
+    x();
+#define DECLARE_EBML_STRING(x)    class EBML_DLL_API x : public EbmlString { \
+  public: \
+    x();
+#define DECLARE_EBML_BINARY(x)    class EBML_DLL_API x : public EbmlBinary { \
+  public: \
+    x();
 
 #if defined(EBML_STRICT_API)
 #define EBML_CONCRETE_CLASS(Type) \

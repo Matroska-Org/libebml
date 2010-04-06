@@ -41,9 +41,8 @@
 
 START_LIBEBML_NAMESPACE
 
-class EBML_DLL_API EbmlVoid : public EbmlBinary {
+DECLARE_EBML_BINARY(EbmlVoid)
 	public:
-		EbmlVoid();
 		EbmlVoid(const EbmlVoid & ElementToClone) :EbmlBinary(ElementToClone){}
 		bool ValidateSize() const {return true;} // any void element is accepted
 

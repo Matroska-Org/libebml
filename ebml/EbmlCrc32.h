@@ -54,9 +54,8 @@ const uint32 CRC32_NEGL = 0xffffffffL;
 # define CRC32_SHIFTED(c) (c >> 8)
 #endif
 
-class EBML_DLL_API EbmlCrc32 : public EbmlBinary {
+DECLARE_EBML_BINARY(EbmlCrc32)
 	public:
-		EbmlCrc32();
 		EbmlCrc32(const EbmlCrc32 & ElementToClone);
 		bool ValidateSize() const {return (GetSize() == 4);}
 		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
