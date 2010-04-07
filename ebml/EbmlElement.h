@@ -176,6 +176,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 
 #define EBML_INFO(ref)  ref::ClassInfo()
 #define EBML_ID(ref)    ref::ClassId()
+#define EBML_CLASS_CONTEXT(ref) ref::ClassInfo().GetContext()
 #define EBML_CONTEXT(e) (e)->Context()
 #define EBML_NAME(e)    (e)->DebugName()
 
@@ -205,6 +206,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 
 #define EBML_INFO(ref)  ref::ClassInfos
 #define EBML_ID(ref)    ref::ClassInfos.GlobalId
+#define EBML_CLASS_CONTEXT(ref) ref::ClassInfos.Context
 #define EBML_CONTEXT(e) (e)->Generic().Context
 #define EBML_NAME(e)    (e)->Generic().DebugName
 
