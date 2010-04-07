@@ -62,6 +62,8 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
 		EbmlBinary(const EbmlBinary & ElementToClone);
 		virtual ~EbmlBinary(void);
 	
+		virtual bool ValidateSize() const {return true;} // we don't mind about what's inside
+
 		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
 		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
 		filepos_t UpdateSize(bool bKeepIntact = false, bool bForceRender = false);

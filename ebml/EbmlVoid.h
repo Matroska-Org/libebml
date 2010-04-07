@@ -44,7 +44,6 @@ START_LIBEBML_NAMESPACE
 DECLARE_EBML_BINARY(EbmlVoid)
 	public:
 		EbmlVoid(const EbmlVoid & ElementToClone) :EbmlBinary(ElementToClone){}
-		bool ValidateSize() const {return true;} // any void element is accepted
 
 		/*!
 			\brief Set the size of the data (not the complete size of the element)

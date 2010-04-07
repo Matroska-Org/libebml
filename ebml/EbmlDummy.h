@@ -46,7 +46,6 @@ class EBML_DLL_API EbmlDummy : public EbmlBinary {
 		EbmlDummy(const EbmlId & aId) :EbmlBinary(), DummyId(aId) {}
 		EbmlDummy(const EbmlDummy & ElementToClone):EbmlBinary(ElementToClone), DummyId(ElementToClone.DummyId) {}
 
-		bool ValidateSize() const {return true;}
 		bool IsDummy() const {return true;}
 		bool IsDefaultValue() const {return true;}
 
