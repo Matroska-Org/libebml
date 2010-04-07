@@ -57,7 +57,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 	public:
 		EbmlMaster(const EbmlSemanticContext & aContext, bool bSizeIsKnown = true);
 		EbmlMaster(const EbmlMaster & ElementToClone);
-		bool ValidateSize() const {return true;}
+		virtual bool ValidateSize() const {return true;}
 		/*!
 			\warning be carefull to clear the memory allocated in the ElementList elsewhere
 		*/

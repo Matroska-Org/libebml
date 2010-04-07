@@ -62,7 +62,7 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
 		*/
 		virtual void SetDefaultSize(uint64 nDefaultSize = DEFAULT_UINT_SIZE) {SetSize_(nDefaultSize);}
 
-		bool ValidateSize() const {return (GetSize() <= 8);}
+		virtual bool ValidateSize() const {return (GetSize() <= 8);}
 		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
 		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
 		filepos_t UpdateSize(bool bKeepIntact = false, bool bForceRender = false);

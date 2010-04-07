@@ -57,7 +57,7 @@ const uint32 CRC32_NEGL = 0xffffffffL;
 DECLARE_EBML_BINARY(EbmlCrc32)
 	public:
 		EbmlCrc32(const EbmlCrc32 & ElementToClone);
-		bool ValidateSize() const {return (GetSize() == 4);}
+		virtual bool ValidateSize() const {return (GetSize() == 4);}
 		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
 		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
 //		filepos_t UpdateSize(bool bKeepIntact = false);

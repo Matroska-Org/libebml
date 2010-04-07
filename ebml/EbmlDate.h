@@ -60,7 +60,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 		*/
 		int32 GetEpochDate() const {return int32(myDate/1000000000 + UnixEpochDelay);}
 
-		bool ValidateSize() const {return ((GetSize() == 8) || (GetSize() == 0));}
+		virtual bool ValidateSize() const {return ((GetSize() == 8) || (GetSize() == 0));}
 
 		/*!
 			\note no Default date handled

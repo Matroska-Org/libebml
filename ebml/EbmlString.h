@@ -55,7 +55,7 @@ class EBML_DLL_API EbmlString : public EbmlElement {
 	
 		virtual ~EbmlString() {}
 	
-		bool ValidateSize() const {return true;} // any size is possible
+		virtual bool ValidateSize() const {return true;} // any size is possible
 		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
 		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
 		filepos_t UpdateSize(bool bKeepIntact = false, bool bForceRender = false);
