@@ -87,6 +87,12 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
     const EbmlId Id_##x    (id, idl); \
     const EbmlSemanticContext Context_##x = EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
     const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
+    x::x() :EbmlMaster(Context_##x) {}
+
+#define DEFINE_xxx_MASTER_CONS(x,id,idl,parent,name,global) \
+    const EbmlId Id_##x    (id, idl); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
+    const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x);
 
 #define DEFINE_xxx_MASTER_ORPHAN(x,id,idl,name,global) \
     const EbmlId Id_##x    (id, idl); \
