@@ -146,6 +146,10 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define DEFINE_EBML_UINTEGER_DEF(x,id,idl,parent,name,val) DEFINE_xxx_UINTEGER_DEF(x,id,idl,parent,name,*GetEbmlGlobal_Context,val)
 #define DEFINE_EBML_STRING_DEF(x,id,idl,parent,name,val)   DEFINE_xxx_STRING_DEF(x,id,idl,parent,name,*GetEbmlGlobal_Context,val)
 
+#define DEFINE_START_SEMANTIC(x)      static const EbmlSemantic ContextList_##x[] = {
+#define DEFINE_SEMANTIC_ITEM(m,u,c)  EbmlSemantic(m, u, EBML_INFO(c)),
+#define DEFINE_END_SEMANTIC(x)        };
+
 #define DECLARE_EBML_MASTER(x)  class EBML_DLL_API x : public EbmlMaster { \
   public: \
     x();
