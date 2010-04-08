@@ -184,13 +184,13 @@ bool EbmlMaster::ProcessMandatory()
 		return true;
 	}
 
-	assert(Context.MyTable != NULL);
+	assert(Context.GetSize() != NULL);
 
 	unsigned int EltIdx;
 	for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
-		if (Context.MyTable[EltIdx].IsMandatory() && Context.MyTable[EltIdx].IsUnique()) {
-//			assert(Context.MyTable[EltIdx].Create() != NULL);
-            PushElement(Context.MyTable[EltIdx].Create());
+		if (EBML_CTX_IDX(Context,EltIdx).IsMandatory() && EBML_CTX_IDX(Context,EltIdx).IsUnique()) {
+//			assert(EBML_CTX_IDX(Context,EltIdx).Create() != NULL);
+            PushElement(EBML_CTX_IDX(Context,EltIdx).Create());
 		}
 	}
 	return true;
@@ -198,15 +198,15 @@ bool EbmlMaster::ProcessMandatory()
 
 bool EbmlMaster::CheckMandatory() const
 {
-	assert(Context.MyTable != NULL);
+	assert(Context.GetSize() != NULL);
 
 	unsigned int EltIdx;
 	for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
-		if (Context.MyTable[EltIdx].IsMandatory()) {
-			if (FindElt(EBML_SEM_INFO(Context.MyTable[EltIdx])) == NULL) {
+		if (EBML_CTX_IDX(Context,EltIdx).IsMandatory()) {
+			if (FindElt(EBML_SEM_INFO(EBML_CTX_IDX(Context,EltIdx))) == NULL) {
 #if defined(_DEBUG) || defined(DEBUG)
 				// you are missing this Mandatory element
-// 				const char * MissingName = EBML_INFO_NAME(EBML_SEM_INFO(Context.MyTable[EltIdx]));
+// 				const char * MissingName = EBML_INFO_NAME(EBML_SEM_INFO(EBML_CTX_IDX(Context,EltIdx)));
 #endif // DEBUG
 				return false;
 			}
@@ -218,7 +218,7 @@ bool EbmlMaster::CheckMandatory() const
 
 std::vector<std::string> EbmlMaster::FindAllMissingElements()
 {	
-	assert(Context.MyTable != NULL);
+	assert(Context.GetSize() != NULL);
 
 	std::vector<std::string> missingElements;
 
@@ -244,11 +244,11 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements()
 	}
 	unsigned int EltIdx;
 	for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
-		if (Context.MyTable[EltIdx].IsMandatory()) {
-			if (FindElt(EBML_SEM_INFO(Context.MyTable[EltIdx])) == NULL) {
+		if (EBML_CTX_IDX(Context,EltIdx).IsMandatory()) {
+			if (FindElt(EBML_SEM_INFO(EBML_CTX_IDX(Context,EltIdx))) == NULL) {
 				std::string missingElement;
 				missingElement = "Missing element \"";
-                missingElement.append(EBML_INFO_NAME(EBML_SEM_INFO(Context.MyTable[EltIdx])));
+                missingElement.append(EBML_INFO_NAME(EBML_SEM_INFO(EBML_CTX_IDX(Context,EltIdx))));
 				missingElement.append("\" in EbmlMaster \"");
                 missingElement.append(EBML_INFO_NAME(*EBML_CTX_MASTER(Context)));
 				missingElement.append("\"");

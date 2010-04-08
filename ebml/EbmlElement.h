@@ -201,6 +201,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define EBML_CTX_SIZE(c)    (c).GetSize()
 #define EBML_CTX_MASTER(c)  (c).GetMaster()
 #define EBML_CTX_PARENT(c)  (c).Parent()
+#define EBML_CTX_IDX(c,i)   (c).GetSemantic(i)
 #else
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
@@ -231,6 +232,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define EBML_CTX_SIZE(c)    (c).Size
 #define EBML_CTX_MASTER(c)  (c).MasterElt
 #define EBML_CTX_PARENT(c)  (c).UpTable
+#define EBML_CTX_IDX(c,i)   (c).MyTable[(i)]
 #endif
 
 // functions for generic handling of data (should be static to all classes)
@@ -302,13 +304,14 @@ class EBML_DLL_API EbmlSemanticContext {
         inline size_t GetSize() const { return Size; }
         inline const EbmlCallbacks* GetMaster() const { return MasterElt; }
         inline const EbmlSemanticContext* Parent() const { return UpTable; }
+        const EbmlSemantic & GetSemantic(size_t i) const;
 
-        const EbmlSemantic *MyTable; ///< First element in the table
 		const _GetSemanticContext GetGlobalContext; ///< global elements supported at this level
 
 #if defined(EBML_STRICT_API)
     private:
 #endif
+        const EbmlSemantic *MyTable; ///< First element in the table
 		size_t Size;          ///< number of elements in the table
 		const EbmlSemanticContext *UpTable; ///< Parent element
 		/// \todo replace with the global context directly

@@ -212,6 +212,14 @@ EbmlCallbacks::EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalI
   assert((Create!=NULL) || !strcmp(aDebugName, "DummyElement"));
 }
 
+const EbmlSemantic & EbmlSemanticContext::GetSemantic(size_t i) const
+{
+    assert(i<Size);
+    if (i<Size)
+        return MyTable[i];
+    else
+        return *(EbmlSemantic*)NULL;
+}
 
 
 EbmlElement::EbmlElement(uint64 aDefaultSize, bool bValueSet)
@@ -484,9 +492,9 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
 				unsigned int EltIndex;
 				// data known in this Master's context
 				for (EltIndex = 0; EltIndex < EBML_CTX_SIZE(Context); EltIndex++) {
-					if (EbmlId(*Result) == EBML_SEM_ID(Context.MyTable[EltIndex])) {
+					if (EbmlId(*Result) == EBML_SEM_ID(EBML_CTX_IDX(Context,EltIndex))) {
 						// skip the data with its own context
-						Result = Result->SkipData(DataStream, EBML_SEM_CONTEXT(Context.MyTable[EltIndex]), NULL);
+						Result = Result->SkipData(DataStream, EBML_SEM_CONTEXT(EBML_CTX_IDX(Context,EltIndex)), NULL);
 						break; // let's go to the next ID
 					}
 				}
@@ -519,8 +527,8 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 
 	// elements at the current level
 	for (ContextIndex = 0; ContextIndex < EBML_CTX_SIZE(Context); ContextIndex++) {
-		if (aID == EBML_SEM_ID(Context.MyTable[ContextIndex])) {
-            return &Context.MyTable[ContextIndex].Create();
+		if (aID == EBML_SEM_ID(EBML_CTX_IDX(Context,ContextIndex))) {
+            return &EBML_CTX_IDX(Context,ContextIndex).Create();
 		}
 	}
 
