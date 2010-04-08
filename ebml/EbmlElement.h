@@ -292,7 +292,7 @@ class EBML_DLL_API EbmlSemanticContext {
 			const EbmlSemanticContext *aUpTable,
 			const _GetSemanticContext aGetGlobalContext,
 			const EbmlCallbacks *aMasterElt)
-			: MyTable(aMyTable), GetGlobalContext(aGetGlobalContext), Size(aSize),
+			: GetGlobalContext(aGetGlobalContext), MyTable(aMyTable), Size(aSize),
 			  UpTable(aUpTable), MasterElt(aMasterElt) {}
 
 		bool operator!=(const EbmlSemanticContext & aElt) const {
