@@ -184,7 +184,7 @@ bool EbmlMaster::ProcessMandatory()
 		return true;
 	}
 
-	assert(Context.GetSize() != NULL);
+	assert(Context.GetSize() != 0);
 
 	unsigned int EltIdx;
 	for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
@@ -198,7 +198,7 @@ bool EbmlMaster::ProcessMandatory()
 
 bool EbmlMaster::CheckMandatory() const
 {
-	assert(Context.GetSize() != NULL);
+	assert(Context.GetSize() != 0);
 
 	unsigned int EltIdx;
 	for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
@@ -218,7 +218,7 @@ bool EbmlMaster::CheckMandatory() const
 
 std::vector<std::string> EbmlMaster::FindAllMissingElements()
 {	
-	assert(Context.GetSize() != NULL);
+	assert(Context.GetSize() != 0);
 
 	std::vector<std::string> missingElements;
 
