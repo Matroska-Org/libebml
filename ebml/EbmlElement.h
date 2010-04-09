@@ -145,6 +145,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define DEFINE_EBML_CLASS_ORPHAN(x,id,idl,name)            DEFINE_xxx_CLASS_ORPHAN(x,id,idl,name,*GetEbmlGlobal_Context)
 #define DEFINE_EBML_UINTEGER_DEF(x,id,idl,parent,name,val) DEFINE_xxx_UINTEGER_DEF(x,id,idl,parent,name,*GetEbmlGlobal_Context,val)
 #define DEFINE_EBML_STRING_DEF(x,id,idl,parent,name,val)   DEFINE_xxx_STRING_DEF(x,id,idl,parent,name,*GetEbmlGlobal_Context,val)
+#define DEFINE_EBML_BINARY_CONS(x,id,idl,parent,name)      DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,*GetEbmlGlobal_Context)
 
 #define DEFINE_SEMANTIC_CONTEXT(x)
 #define DEFINE_START_SEMANTIC(x)     static const EbmlSemantic ContextList_##x[] = {
@@ -236,6 +237,14 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define EBML_CTX_IDX(c,i)      (c).MyTable[(i)]
 #define EBML_CTX_IDX_INFO(c,i) (c).MyTable[(i)].GetCallbacks
 #endif
+
+#define EBML_DEF_CONS
+#define EBML_DEF_SEP
+#define EBML_DEF_PARAM
+#define EBML_DEF_BINARY_INIT
+#define EBML_DEF_BINARY_CTX(x)
+#define EBML_DEF_SINTEGER(x)
+#define EBML_DEF_BINARY(x)
 
 // functions for generic handling of data (should be static to all classes)
 /*!
