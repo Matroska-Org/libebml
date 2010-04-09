@@ -203,10 +203,10 @@ bool EbmlMaster::CheckMandatory() const
 	unsigned int EltIdx;
 	for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
 		if (EBML_CTX_IDX(Context,EltIdx).IsMandatory()) {
-			if (FindElt(EBML_SEM_INFO(EBML_CTX_IDX(Context,EltIdx))) == NULL) {
+			if (FindElt(EBML_CTX_IDX_INFO(Context,EltIdx)) == NULL) {
 #if defined(_DEBUG) || defined(DEBUG)
 				// you are missing this Mandatory element
-// 				const char * MissingName = EBML_INFO_NAME(EBML_SEM_INFO(EBML_CTX_IDX(Context,EltIdx)));
+// 				const char * MissingName = EBML_INFO_NAME(EBML_CTX_IDX_INFO(Context,EltIdx));
 #endif // DEBUG
 				return false;
 			}
@@ -245,10 +245,10 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements()
 	unsigned int EltIdx;
 	for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
 		if (EBML_CTX_IDX(Context,EltIdx).IsMandatory()) {
-			if (FindElt(EBML_SEM_INFO(EBML_CTX_IDX(Context,EltIdx))) == NULL) {
+			if (FindElt(EBML_CTX_IDX_INFO(Context,EltIdx)) == NULL) {
 				std::string missingElement;
 				missingElement = "Missing element \"";
-                missingElement.append(EBML_INFO_NAME(EBML_SEM_INFO(EBML_CTX_IDX(Context,EltIdx))));
+                missingElement.append(EBML_INFO_NAME(EBML_CTX_IDX_INFO(Context,EltIdx)));
 				missingElement.append("\" in EbmlMaster \"");
                 missingElement.append(EBML_INFO_NAME(*EBML_CTX_MASTER(Context)));
 				missingElement.append("\"");

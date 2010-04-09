@@ -193,7 +193,6 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define EBML_INFO_CONTEXT(cb) (cb).GetContext()
 
 #define EBML_SEM_UNIQUE(s)  (s).IsUnique()
-#define EBML_SEM_INFO(s)    (const EbmlCallbacks &)(s)
 #define EBML_SEM_ID(s)      ((const EbmlCallbacks &)(s)).ClassId()
 #define EBML_SEM_CONTEXT(s) ((const EbmlCallbacks &)(s)).GetContext()
 #define EBML_SEM_CREATE(s)  (s).Create()
@@ -227,7 +226,6 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define EBML_INFO_CONTEXT(cb) (cb).Context
 
 #define EBML_SEM_UNIQUE(s)  (s).Unique
-#define EBML_SEM_INFO(s)    (s).GetCallbacks
 #define EBML_SEM_ID(s)      (s).GetCallbacks.GlobalId
 #define EBML_SEM_CONTEXT(s) (s).GetCallbacks.Context
 #define EBML_SEM_CREATE(s)  (s).Create()
