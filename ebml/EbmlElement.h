@@ -201,7 +201,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define EBML_CTX_MASTER(c)     (c).GetMaster()
 #define EBML_CTX_PARENT(c)     (c).Parent()
 #define EBML_CTX_IDX(c,i)      (c).GetSemantic(i)
-#define EBML_CTX_IDX_INFO(c,i) (const EbmlCallbacks &)(c).GetSemantic(i)
+#define EBML_CTX_IDX_INFO(c,i) (const EbmlCallbacks &)((c).GetSemantic(i))
 #else
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
@@ -271,7 +271,7 @@ class EBML_DLL_API EbmlSemantic {
         inline bool IsMandatory() const { return Mandatory; }
         inline bool IsUnique() const { return Unique; }
         inline EbmlElement & Create() const { return EBML_INFO_CREATE(GetCallbacks); }
-        inline operator const EbmlCallbacks &() { return GetCallbacks; }
+        inline operator const EbmlCallbacks &() const { return GetCallbacks; }
 
 #if defined(EBML_STRICT_API)
     private:
