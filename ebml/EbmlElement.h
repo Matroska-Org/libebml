@@ -198,10 +198,11 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define EBML_SEM_CONTEXT(s) ((const EbmlCallbacks &)(s)).GetContext()
 #define EBML_SEM_CREATE(s)  (s).Create()
 
-#define EBML_CTX_SIZE(c)    (c).GetSize()
-#define EBML_CTX_MASTER(c)  (c).GetMaster()
-#define EBML_CTX_PARENT(c)  (c).Parent()
-#define EBML_CTX_IDX(c,i)   (c).GetSemantic(i)
+#define EBML_CTX_SIZE(c)       (c).GetSize()
+#define EBML_CTX_MASTER(c)     (c).GetMaster()
+#define EBML_CTX_PARENT(c)     (c).Parent()
+#define EBML_CTX_IDX(c,i)      (c).GetSemantic(i)
+#define EBML_CTX_IDX_INFO(c,i) (const EbmlCallbacks &)(c).GetSemantic(i)
 #else
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
@@ -212,11 +213,13 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 		static EbmlElement & Create() {return *(new Type);} \
 		static const EbmlCallbacks ClassInfos; \
 
-#define EBML_INFO(ref)  ref::ClassInfos
-#define EBML_ID(ref)    ref::ClassInfos.GlobalId
-#define EBML_CLASS_CONTEXT(ref) ref::ClassInfos.Context
-#define EBML_CONTEXT(e) (e)->Generic().Context
-#define EBML_NAME(e)    (e)->Generic().DebugName
+#define EBML_INFO(ref)             ref::ClassInfos
+#define EBML_ID(ref)               ref::ClassInfos.GlobalId
+#define EBML_CLASS_SEMCONTEXT(ref) Context_##ref
+#define EBML_CLASS_CONTEXT(ref)    ref::ClassInfos.Context
+#define EBML_CLASS_CALLBACK(ref)   ref::ClassInfo
+#define EBML_CONTEXT(e)            (e)->Generic().Context
+#define EBML_NAME(e)               (e)->Generic().DebugName
 
 #define EBML_INFO_ID(cb)      (cb).GlobalId
 #define EBML_INFO_NAME(cb)    (cb).DebugName
@@ -229,10 +232,11 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define EBML_SEM_CONTEXT(s) (s).GetCallbacks.Context
 #define EBML_SEM_CREATE(s)  (s).Create()
 
-#define EBML_CTX_SIZE(c)    (c).Size
-#define EBML_CTX_MASTER(c)  (c).MasterElt
-#define EBML_CTX_PARENT(c)  (c).UpTable
-#define EBML_CTX_IDX(c,i)   (c).MyTable[(i)]
+#define EBML_CTX_SIZE(c)       (c).Size
+#define EBML_CTX_MASTER(c)     (c).MasterElt
+#define EBML_CTX_PARENT(c)     (c).UpTable
+#define EBML_CTX_IDX(c,i)      (c).MyTable[(i)]
+#define EBML_CTX_IDX_INFO(c,i) (c).MyTable[(i)].GetCallbacks
 #endif
 
 // functions for generic handling of data (should be static to all classes)
