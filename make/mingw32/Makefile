@@ -31,7 +31,7 @@ CXXFLAGS = -DEBML_DLL -DEBML_DLL_EXPORT
 else
 LIBS = libebml.a
 endif
-INCS = -I../..
+INCS = -I$(shell pwd)/../..
 CXXFLAGS += $(DEBUGFLAGS) $(INCS)
 
 .PHONY: all all-before all-after clean clean-custom
