@@ -27,17 +27,17 @@ SRC  = $(wildcard ../../src/*.cpp)
 OBJ  = $(patsubst %.cpp,%.o,$(SRC))
 ifeq (yes,$(SHARED))
 LIBS = libebml.dll
-CXXFLAGS = -DEBML_DLL -DEBML_DLL_EXPORT
+DLLFLAGS = -DEBML_DLL -DEBML_DLL_EXPORT
 else
 LIBS = libebml.a
 endif
 INCS = -I$(shell pwd)/../..
-CXXFLAGS += $(DEBUGFLAGS) $(INCS)
+COMPILEFLAGS = $(DEBUGFLAGS) $(INCS) $(DLLFLAGS) $(CXXFLAGS)
 
 .PHONY: all all-before all-after clean clean-custom
 
 .cpp.o:
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	$(CXX) $(COMPILEFLAGS) -c -o $@ $<
 
 all: lib
 
