@@ -238,6 +238,10 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define EBML_CTX_IDX_INFO(c,i) (c).MyTable[(i)].GetCallbacks
 #endif
 
+#if !defined(INVALID_FILEPOS_T)
+#define INVALID_FILEPOS_T 0
+#endif
+
 #define EBML_DEF_CONS
 #define EBML_DEF_SEP
 #define EBML_DEF_PARAM

@@ -65,11 +65,11 @@ uint64 EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output
 	EltToReplaceWith.UpdateSize(bKeepIntact);
 	if (HeadSize() + GetSize() < EltToReplaceWith.GetSize() + EltToReplaceWith.HeadSize()) {
 		// the element can't be written here !
-		return 0;
+		return INVALID_FILEPOS_T;
 	}
 	if (HeadSize() + GetSize() - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() == 1) {
 		// there is not enough space to put a filling element
-		return 0;
+		return INVALID_FILEPOS_T;
 	}
 
 	uint64 CurrentPosition = output.getFilePointer();
