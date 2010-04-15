@@ -42,11 +42,11 @@ START_LIBEBML_NAMESPACE
 
 
 #if defined(EBML_STRICT_API)
-#define EBML_ID_VALUE(id)  id.GetValue()
-#define EBML_ID_LENGTH(id)  id.GetLength()
+#define EBML_ID_VALUE(id)  (id).GetValue()
+#define EBML_ID_LENGTH(id) (id).GetLength()
 #else
-#define EBML_ID_VALUE(id)  id.Value
-#define EBML_ID_LENGTH(id)  id.Length
+#define EBML_ID_VALUE(id)  (id).Value
+#define EBML_ID_LENGTH(id) (id).Length
 #endif
 
 /*!

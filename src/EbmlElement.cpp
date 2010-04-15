@@ -605,7 +605,7 @@ filepos_t EbmlElement::Render(IOCallback & output, bool bWithDefault, bool bKeep
 */
 filepos_t EbmlElement::RenderHead(IOCallback & output, bool bForceRender, bool bWithDefault, bool bKeepPosition)
 {
-	if (EBML_ID_LENGTH(EbmlId(*this)) <= 0 || EBML_ID_LENGTH(EbmlId(*this)) > 4)
+	if (EBML_ID_LENGTH((const EbmlId&)*this) <= 0 || EBML_ID_LENGTH((const EbmlId&)*this) > 4)
 		return 0;
 
 	UpdateSize(bWithDefault, bForceRender);
@@ -618,7 +618,7 @@ filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
 	binary FinalHead[4+8]; // Class D + 64 bits coded size
 	unsigned int FinalHeadSize;
 
-	FinalHeadSize = EBML_ID_LENGTH(EbmlId(*this));
+	FinalHeadSize = EBML_ID_LENGTH((const EbmlId&)*this);
 	EbmlId(*this).Fill(FinalHead);
 
 	int CodedSize = CodedSizeLength(Size, SizeLength, bSizeIsFinite);
@@ -628,7 +628,7 @@ filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
 	output.writeFully(FinalHead, FinalHeadSize);
 	if (!bKeepPosition) {
 		ElementPosition = output.getFilePointer() - FinalHeadSize;
-		SizePosition = ElementPosition + EBML_ID_LENGTH(EbmlId(*this));
+		SizePosition = ElementPosition + EBML_ID_LENGTH((const EbmlId&)*this);
 	}
 
 	return FinalHeadSize;
@@ -638,7 +638,7 @@ uint64 EbmlElement::ElementSize(bool bWithDefault) const
 {
 	if (!bWithDefault && IsDefaultValue())
 		return 0; // won't be saved
-	return Size + EBML_ID_LENGTH(EbmlId(*this)) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+	return Size + EBML_ID_LENGTH((const EbmlId&)*this) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
 }
 
 bool EbmlElement::IsSmallerThan(const EbmlElement *Cmp) const
