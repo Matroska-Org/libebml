@@ -63,9 +63,9 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 		*/
 		virtual ~EbmlMaster();
 	
-		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
+		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
 		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully);
-		filepos_t UpdateSize(bool bKeepIntact = false, bool bForceRender = false);
+		filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false);
 		
 		/*!
 			\brief Set wether the size is finite (size is known in advance when writing, or infinite size is not known on writing)
@@ -150,7 +150,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 			\brief facility for Master elements to write only the head and force the size later
 			\warning
 		*/
-		filepos_t WriteHead(IOCallback & output, int SizeLength, bool bKeepIntact = false);
+		filepos_t WriteHead(IOCallback & output, int SizeLength, bool bWithDefault = false);
 
 		void EnableChecksum(bool bIsEnabled = true) { bChecksumUsed = bIsEnabled; }
 		bool HasChecksum() const {return bChecksumUsed;}

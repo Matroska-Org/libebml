@@ -384,11 +384,11 @@ class EBML_DLL_API EbmlElement {
 			return ElementPosition;
 		}
 
-		uint64 ElementSize(bool bKeepIntact = false) const; /// return the size of the header+data, before writing
+		uint64 ElementSize(bool bWithDefault = false) const; /// return the size of the header+data, before writing
 
-		filepos_t Render(IOCallback & output, bool bKeepIntact = false, bool bKeepPosition = false, bool bForceRender = false);
+		filepos_t Render(IOCallback & output, bool bWithDefault = false, bool bKeepPosition = false, bool bForceRender = false);
 
-		virtual filepos_t UpdateSize(bool bKeepIntact = false, bool bForceRender = false) = 0; /// update the Size of the Data stored
+		virtual filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) = 0; /// update the Size of the Data stored
 		virtual filepos_t GetSize() const {return Size;} /// return the size of the data stored in the element, on reading
 
 		virtual filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) = 0;
@@ -421,7 +421,7 @@ class EBML_DLL_API EbmlElement {
 		/*!
 			\brief void the content of the element (replace by EbmlVoid)
 		*/
-		uint32 VoidMe(IOCallback & output, bool bKeepIntact = false);
+		uint32 VoidMe(IOCallback & output, bool bWithDefault = false);
 
 		bool DefaultISset() const {return DefaultIsSet;}
 		virtual bool IsDefaultValue() const = 0;
@@ -445,13 +445,13 @@ class EBML_DLL_API EbmlElement {
 		*/
 		static EbmlElement *CreateElementUsingContext(const EbmlId & aID, const EbmlSemanticContext & Context, int & LowLevel, bool IsGlobalContext, bool bAllowDummy = false, unsigned int MaxLowerLevel = 1);
 
-		filepos_t RenderHead(IOCallback & output, bool bForceRender, bool bKeepIntact = false, bool bKeepPosition = false);
+		filepos_t RenderHead(IOCallback & output, bool bForceRender, bool bWithDefault = false, bool bKeepPosition = false);
 		filepos_t MakeRenderHead(IOCallback & output, bool bKeepPosition);
 
 		/*!
 			\brief prepare the data before writing them (in case it's not already done by default)
 		*/
-		virtual filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false) = 0;
+		virtual filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) = 0;
 
 		/*!
 			\brief special constructor for cloning

@@ -187,7 +187,7 @@ bool EbmlCrc32::CheckElementCRC32(EbmlElement &ElementToCRC)
 	return CheckCRC(m_crc_final, memoryBuffer.GetDataBuffer(), memoryBuffer.GetDataBufferSize());
 };
 
-filepos_t EbmlCrc32::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
+filepos_t EbmlCrc32::RenderData(IOCallback & output, bool bForceRender, bool bWithDefault)
 {
 	filepos_t Result = DIGESTSIZE;
 

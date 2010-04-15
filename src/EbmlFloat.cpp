@@ -78,7 +78,7 @@ const double EbmlFloat::DefaultVal() const
 	\todo handle exception on errors
 	\todo handle 10 bits precision
 */
-filepos_t EbmlFloat::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
+filepos_t EbmlFloat::RenderData(IOCallback & output, bool bForceRender, bool bWithDefault)
 {
 	assert(GetSize() == 4 || GetSize() == 8);
 
@@ -99,9 +99,9 @@ filepos_t EbmlFloat::RenderData(IOCallback & output, bool bForceRender, bool bKe
 	return GetSize();
 }
 
-uint64 EbmlFloat::UpdateSize(bool bKeepIntact, bool bForceRender)
+uint64 EbmlFloat::UpdateSize(bool bWithDefault, bool bForceRender)
 {
-	if (!bKeepIntact && IsDefaultValue())
+	if (!bWithDefault && IsDefaultValue())
 		return 0;
 	return GetSize();
 }

@@ -61,7 +61,7 @@ EbmlBinary::~EbmlBinary(void) {
 		free(Data);
 }
 
-filepos_t EbmlBinary::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
+filepos_t EbmlBinary::RenderData(IOCallback & output, bool bForceRender, bool bWithDefault)
 {
 	output.writeFully(Data,GetSize());
 
@@ -71,7 +71,7 @@ filepos_t EbmlBinary::RenderData(IOCallback & output, bool bForceRender, bool bK
 /*!
 	\note no Default binary value handled
 */
-uint64 EbmlBinary::UpdateSize(bool bKeepIntact, bool bForceRender)
+uint64 EbmlBinary::UpdateSize(bool bWithDefault, bool bForceRender)
 {
 	return GetSize();
 }

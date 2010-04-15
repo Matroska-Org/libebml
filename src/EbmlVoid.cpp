@@ -45,7 +45,7 @@ EbmlVoid::EbmlVoid()
 	SetValueIsSet();
 }
 
-filepos_t EbmlVoid::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
+filepos_t EbmlVoid::RenderData(IOCallback & output, bool bForceRender, bool bWithDefault)
 {
 	// write dummy data by 4KB chunks
 	static binary DummyBuf[4*1024];
@@ -60,9 +60,9 @@ filepos_t EbmlVoid::RenderData(IOCallback & output, bool bForceRender, bool bKee
 	return GetSize();
 }
 
-uint64 EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output, bool ComeBackAfterward, bool bKeepIntact)
+uint64 EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output, bool ComeBackAfterward, bool bWithDefault)
 {
-	EltToReplaceWith.UpdateSize(bKeepIntact);
+	EltToReplaceWith.UpdateSize(bWithDefault);
 	if (HeadSize() + GetSize() < EltToReplaceWith.GetSize() + EltToReplaceWith.HeadSize()) {
 		// the element can't be written here !
 		return INVALID_FILEPOS_T;
@@ -75,7 +75,7 @@ uint64 EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output
 	uint64 CurrentPosition = output.getFilePointer();
 
 	output.setFilePointer(GetElementPosition());
-	EltToReplaceWith.Render(output, bKeepIntact);
+	EltToReplaceWith.Render(output, bWithDefault);
 
 	if (HeadSize() + GetSize() - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() > 1) {
 	  // fill the rest with another void element
@@ -87,7 +87,7 @@ uint64 EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output
 	  if (HeadBefore != HeadAfter) {
 		  aTmp.SetSizeLength(CodedSizeLength(aTmp.GetSize(), aTmp.GetSizeLength(), aTmp.IsFiniteSize()) - (HeadAfter - HeadBefore));
 	  }
-	  aTmp.RenderHead(output, false, bKeepIntact); // the rest of the data is not rewritten
+	  aTmp.RenderHead(output, false, bWithDefault); // the rest of the data is not rewritten
 	}
 
 	if (ComeBackAfterward) {
@@ -97,9 +97,9 @@ uint64 EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output
 	return GetSize() + HeadSize();
 }
 
-uint64 EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & output, bool ComeBackAfterward, bool bKeepIntact)
+uint64 EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & output, bool ComeBackAfterward, bool bWithDefault)
 {
-//	EltToVoid.UpdateSize(bKeepIntact);
+//	EltToVoid.UpdateSize(bWithDefault);
 	if (EltToVoid.GetElementPosition() == 0) {
 		// this element has never been written
 		return 0;
@@ -125,7 +125,7 @@ uint64 EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & output, b
 	}
 
 	if (GetSize() != 0) {
-		RenderHead(output, false, bKeepIntact); // the rest of the data is not rewritten
+		RenderHead(output, false, bWithDefault); // the rest of the data is not rewritten
 	}
 
 	if (ComeBackAfterward) {

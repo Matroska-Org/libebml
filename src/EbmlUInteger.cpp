@@ -74,7 +74,7 @@ const uint64 EbmlUInteger::DefaultVal() const
 /*!
 	\todo handle exception on errors
 */
-filepos_t EbmlUInteger::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
+filepos_t EbmlUInteger::RenderData(IOCallback & output, bool bForceRender, bool bWithDefault)
 {
 	binary FinalData[8]; // we don't handle more than 64 bits integers
 	
@@ -92,9 +92,9 @@ filepos_t EbmlUInteger::RenderData(IOCallback & output, bool bForceRender, bool 
 	return GetSize();
 }
 
-uint64 EbmlUInteger::UpdateSize(bool bKeepIntact, bool bForceRender)
+uint64 EbmlUInteger::UpdateSize(bool bWithDefault, bool bForceRender)
 {
-	if (!bKeepIntact && IsDefaultValue())
+	if (!bWithDefault && IsDefaultValue())
 		return 0;
 
 	if (Value <= 0xFF) {

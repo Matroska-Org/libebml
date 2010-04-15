@@ -61,9 +61,9 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
 			return (GetSize() == 4 || GetSize() == 8);
 		}
 	
-		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
+		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
 		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
-		filepos_t UpdateSize(bool bKeepIntact = false, bool bForceRender = false);
+		filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false);
 
 		void SetPrecision(const EbmlFloat::Precision prec = FLOAT_32) 
 		{

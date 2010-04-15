@@ -242,7 +242,7 @@ const UTFstring & EbmlUnicodeString::DefaultVal() const
 \note limited to UCS-2
 \todo handle exception on errors
 */
-filepos_t EbmlUnicodeString::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
+filepos_t EbmlUnicodeString::RenderData(IOCallback & output, bool bForceRender, bool bWithDefault)
 {
 	uint32 Result = Value.GetUTF8().length();
 
@@ -275,9 +275,9 @@ EbmlUnicodeString & EbmlUnicodeString::operator=(const UTFstring & NewString)
 /*!
 \note limited to UCS-2
 */
-uint64 EbmlUnicodeString::UpdateSize(bool bKeepIntact, bool bForceRender)
+uint64 EbmlUnicodeString::UpdateSize(bool bWithDefault, bool bForceRender)
 {
-	if (!bKeepIntact && IsDefaultValue())
+	if (!bWithDefault && IsDefaultValue())
 		return 0;
 
 	SetSize_(Value.GetUTF8().length());

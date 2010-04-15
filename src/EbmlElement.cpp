@@ -573,19 +573,19 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 /*!
 	\todo verify that the size written is the same as the data written
 */
-filepos_t EbmlElement::Render(IOCallback & output, bool bKeepIntact, bool bKeepPosition, bool bForceRender)
+filepos_t EbmlElement::Render(IOCallback & output, bool bWithDefault, bool bKeepPosition, bool bForceRender)
 {
-	assert(bValueIsSet || (bKeepIntact && DefaultISset())); // an element is been rendered without a value set !!!
+	assert(bValueIsSet || (bWithDefault && DefaultISset())); // an element is been rendered without a value set !!!
 		                 // it may be a mandatory element without a default value
 	try {
-		if (!bKeepIntact && IsDefaultValue()) {
+		if (!bWithDefault && IsDefaultValue()) {
 			return 0;
 		}
 #if defined(_DEBUG) || defined(DEBUG)
-		uint64 SupposedSize = UpdateSize(bKeepIntact, bForceRender);
+		uint64 SupposedSize = UpdateSize(bWithDefault, bForceRender);
 #endif // _DEBUG
-		filepos_t result = RenderHead(output, bForceRender, bKeepIntact, bKeepPosition);
-		uint64 WrittenSize = RenderData(output, bForceRender, bKeepIntact);
+		filepos_t result = RenderHead(output, bForceRender, bWithDefault, bKeepPosition);
+		uint64 WrittenSize = RenderData(output, bForceRender, bWithDefault);
 #if defined(_DEBUG) || defined(DEBUG)
 	if (SupposedSize != (0-1)) assert(WrittenSize == SupposedSize);
 #endif // DEBUG
@@ -603,12 +603,12 @@ filepos_t EbmlElement::Render(IOCallback & output, bool bKeepIntact, bool bKeepP
 	\todo handle exceptions on errors
 	\todo handle CodeSize bigger than 5 bytes
 */
-filepos_t EbmlElement::RenderHead(IOCallback & output, bool bForceRender, bool bKeepIntact, bool bKeepPosition)
+filepos_t EbmlElement::RenderHead(IOCallback & output, bool bForceRender, bool bWithDefault, bool bKeepPosition)
 {
 	if (EBML_ID_LENGTH(EbmlId(*this)) <= 0 || EBML_ID_LENGTH(EbmlId(*this)) > 4)
 		return 0;
 
-	UpdateSize(bKeepIntact, bForceRender);
+	UpdateSize(bWithDefault, bForceRender);
 
 	return MakeRenderHead(output, bKeepPosition);
 }
@@ -634,9 +634,9 @@ filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
 	return FinalHeadSize;
 }
 
-uint64 EbmlElement::ElementSize(bool bKeepIntact) const
+uint64 EbmlElement::ElementSize(bool bWithDefault) const
 {
-	if (!bKeepIntact && IsDefaultValue())
+	if (!bWithDefault && IsDefaultValue())
 		return 0; // won't be saved
 	return Size + EBML_ID_LENGTH(EbmlId(*this)) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
 }
@@ -692,14 +692,14 @@ filepos_t EbmlElement::OverwriteHead(IOCallback & output, bool bKeepPosition)
 	return Result;
 }
 
-uint32 EbmlElement::VoidMe(IOCallback & output, bool bKeepIntact)
+uint32 EbmlElement::VoidMe(IOCallback & output, bool bWithDefault)
 {
 	if (ElementPosition == 0) {
 		return 0; // the element has not been written
 	}
 
 	EbmlVoid Dummy;
-	return Dummy.Overwrite(*this, output, bKeepIntact);
+	return Dummy.Overwrite(*this, output, bWithDefault);
 }
 
 END_LIBEBML_NAMESPACE

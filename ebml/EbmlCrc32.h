@@ -58,9 +58,9 @@ DECLARE_EBML_BINARY(EbmlCrc32)
 	public:
 		EbmlCrc32(const EbmlCrc32 & ElementToClone);
 		virtual bool ValidateSize() const {return (GetSize() == 4);}
-		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
+		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
 		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
-//		filepos_t UpdateSize(bool bKeepIntact = false);
+//		filepos_t UpdateSize(bool bWithDefault = false);
 		
 		bool IsDefaultValue() const {
 			return false;

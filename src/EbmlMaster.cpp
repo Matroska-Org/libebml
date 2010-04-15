@@ -87,7 +87,7 @@ EbmlMaster::~EbmlMaster()
 	\todo handle exception on errors
 	\todo write all the Mandatory elements in the Context, otherwise assert
 */
-filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact)
+filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, bool bWithDefault)
 {
 	filepos_t Result = 0;
 	size_t Index;
@@ -98,16 +98,16 @@ filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, bool bK
 
 	if (!bChecksumUsed) { // old school
 		for (Index = 0; Index < ElementList.size(); Index++) {
-			if (!bKeepIntact && (ElementList[Index])->IsDefaultValue())
+			if (!bWithDefault && (ElementList[Index])->IsDefaultValue())
 				continue;
-			Result += (ElementList[Index])->Render(output, bKeepIntact, false ,bForceRender);
+			Result += (ElementList[Index])->Render(output, bWithDefault, false ,bForceRender);
 		}
 	} else { // new school
 		MemIOCallback TmpBuf(GetSize() - 6);
 		for (Index = 0; Index < ElementList.size(); Index++) {
-			if (!bKeepIntact && (ElementList[Index])->IsDefaultValue())
+			if (!bWithDefault && (ElementList[Index])->IsDefaultValue())
 				continue;
-			(ElementList[Index])->Render(TmpBuf, bKeepIntact, false ,bForceRender);
+			(ElementList[Index])->Render(TmpBuf, bWithDefault, false ,bForceRender);
 		}
 		Checksum.FillCRC32(TmpBuf.GetDataBuffer(), TmpBuf.GetDataBufferSize());
 		Result += Checksum.Render(output, true, false ,bForceRender);
@@ -127,7 +127,7 @@ bool EbmlMaster::PushElement(EbmlElement & element)
 	return true;
 }
 
-uint64 EbmlMaster::UpdateSize(bool bKeepIntact, bool bForceRender)
+uint64 EbmlMaster::UpdateSize(bool bWithDefault, bool bForceRender)
 {
 	SetSize_(0);
 
@@ -141,10 +141,10 @@ uint64 EbmlMaster::UpdateSize(bool bKeepIntact, bool bForceRender)
 	size_t Index;
 	
 	for (Index = 0; Index < ElementList.size(); Index++) {
-		if (!bKeepIntact && (ElementList[Index])->IsDefaultValue())
+		if (!bWithDefault && (ElementList[Index])->IsDefaultValue())
 			continue;
-		(ElementList[Index])->UpdateSize(bKeepIntact, bForceRender);
-		uint64 SizeToAdd = (ElementList[Index])->ElementSize(bKeepIntact);
+		(ElementList[Index])->UpdateSize(bWithDefault, bForceRender);
+		uint64 SizeToAdd = (ElementList[Index])->ElementSize(bWithDefault);
 #if defined(_DEBUG) || defined(DEBUG)
 		if (SizeToAdd == (0-1))
 			return (0-1);
@@ -158,10 +158,10 @@ uint64 EbmlMaster::UpdateSize(bool bKeepIntact, bool bForceRender)
 	return GetSize();
 }
 
-filepos_t EbmlMaster::WriteHead(IOCallback & output, int nSizeLength, bool bKeepIntact)
+filepos_t EbmlMaster::WriteHead(IOCallback & output, int nSizeLength, bool bWithDefault)
 {
 	SetSizeLength(nSizeLength);
-	return RenderHead(output, false, bKeepIntact);
+	return RenderHead(output, false, bWithDefault);
 }
 
 /*!

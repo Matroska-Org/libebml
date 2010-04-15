@@ -65,7 +65,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 		/*!
 			\note no Default date handled
 		*/
-		filepos_t UpdateSize(bool bKeepIntact = false, bool bForceRender = false) {
+		filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) {
 			if(!ValueIsSet())
 				SetSize_(0);
 			else
@@ -86,7 +86,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 #else
     protected:
 #endif
-		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bKeepIntact = false);
+		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
 
 		int64 myDate; ///< internal format of the date
 
