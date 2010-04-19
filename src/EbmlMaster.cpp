@@ -455,14 +455,16 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
 			}
 		}
 	processCrc:
-		for (Index=0; Index<ElementList.size(); Index++) {
-			if ((EbmlId)(*ElementList[Index]) == EBML_ID(EbmlCrc32)) {
+        EBML_MASTER_ITERATOR Itr;
+        for (Itr = ElementList.begin(); Itr != ElementList.end();) {
+			if ((EbmlId)(*(*Itr)) == EBML_ID(EbmlCrc32)) {
 				bChecksumUsed = true;
 				// remove the element
-				Checksum = *(static_cast<EbmlCrc32*>(ElementList[Index]));
-				delete ElementList[Index];
-				Remove(Index--);
+				Checksum = *(static_cast<EbmlCrc32*>(*Itr));
+				delete *Itr;
+				Remove(Itr);
 			}
+            else ++Itr;
 		}
 		SetValueIsSet();
 	}
@@ -473,7 +475,7 @@ void EbmlMaster::Remove(size_t Index)
 	if (Index < ElementList.size()) {
 		std::vector<EbmlElement *>::iterator Itr = ElementList.begin();
 		while (Index-- > 0) {
-			Itr++;
+			++Itr;
 		}
 
 		ElementList.erase(Itr);
@@ -483,6 +485,11 @@ void EbmlMaster::Remove(size_t Index)
 void EbmlMaster::Remove(const std::vector<EbmlElement *>::const_iterator & Itr)
 {
 	ElementList.erase(Itr);
+}
+
+void EbmlMaster::Remove(const std::vector<EbmlElement *>::const_reverse_iterator & Itr)
+{
+	ElementList.erase(Itr.base());
 }
 
 bool EbmlMaster::VerifyChecksum() const

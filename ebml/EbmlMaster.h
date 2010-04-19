@@ -44,6 +44,7 @@
 #include "EbmlCrc32.h"
 
 #define EBML_MASTER_ITERATOR  std::vector<EbmlElement *>::const_iterator
+#define EBML_MASTER_RITERATOR std::vector<EbmlElement *>::const_reverse_iterator
 
 START_LIBEBML_NAMESPACE
 
@@ -121,6 +122,8 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 
         inline EBML_MASTER_ITERATOR begin() const {return ElementList.begin();}
         inline EBML_MASTER_ITERATOR end() const {return ElementList.end();}
+        inline EBML_MASTER_RITERATOR rbegin() const {return ElementList.rbegin();}
+        inline EBML_MASTER_RITERATOR rend() const {return ElementList.rend();}
 
 		EbmlElement * operator[](unsigned int position) {return ElementList[position];}
 		const EbmlElement * operator[](unsigned int position) const {return ElementList[position];}
@@ -141,6 +144,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 		*/
 		void Remove(size_t Index);
 		void Remove(const EBML_MASTER_ITERATOR & Itr);
+		void Remove(const EBML_MASTER_RITERATOR & Itr);
 
 		/*!
 			\brief remove all elements, even the mandatory ones
