@@ -194,7 +194,6 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define EBML_INFO_CONTEXT(cb) (cb).GetContext()
 
 #define EBML_SEM_UNIQUE(s)  (s).IsUnique()
-#define EBML_SEM_ID(s)      ((const EbmlCallbacks &)(s)).ClassId()
 #define EBML_SEM_CONTEXT(s) ((const EbmlCallbacks &)(s)).GetContext()
 #define EBML_SEM_CREATE(s)  (s).Create()
 
@@ -203,6 +202,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define EBML_CTX_PARENT(c)     (c).Parent()
 #define EBML_CTX_IDX(c,i)      (c).GetSemantic(i)
 #define EBML_CTX_IDX_INFO(c,i) (const EbmlCallbacks &)((c).GetSemantic(i))
+#define EBML_CTX_IDX_ID(c,i)   ((const EbmlCallbacks &)((c).GetSemantic(i))).ClassId()
 #else
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
@@ -227,7 +227,6 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define EBML_INFO_CONTEXT(cb) (cb).Context
 
 #define EBML_SEM_UNIQUE(s)  (s).Unique
-#define EBML_SEM_ID(s)      (s).GetCallbacks.GlobalId
 #define EBML_SEM_CONTEXT(s) (s).GetCallbacks.Context
 #define EBML_SEM_CREATE(s)  (s).Create()
 
@@ -236,6 +235,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define EBML_CTX_PARENT(c)     (c).UpTable
 #define EBML_CTX_IDX(c,i)      (c).MyTable[(i)]
 #define EBML_CTX_IDX_INFO(c,i) (c).MyTable[(i)].GetCallbacks
+#define EBML_CTX_IDX_ID(c,i)   (c).MyTable[(i)].GetCallbacks.GlobalId
 #endif
 
 #if !defined(INVALID_FILEPOS_T)
