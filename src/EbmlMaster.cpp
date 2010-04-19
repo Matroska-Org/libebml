@@ -480,6 +480,11 @@ void EbmlMaster::Remove(size_t Index)
 	}
 }
 
+void EbmlMaster::Remove(const std::vector<EbmlElement *>::const_iterator & Itr)
+{
+	ElementList.erase(Itr);
+}
+
 bool EbmlMaster::VerifyChecksum() const
 {
 	if (!bChecksumUsed)

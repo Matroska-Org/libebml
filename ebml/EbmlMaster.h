@@ -119,10 +119,8 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 
 		size_t ListSize() const {return ElementList.size();}
 
-        inline std::vector<EbmlElement *>::const_iterator begin() {return ElementList.begin();}
-        inline std::vector<EbmlElement *>::const_iterator end() {return ElementList.end();}
-        inline std::vector<EbmlElement *>::const_iterator begin() const {return ElementList.begin();}
-        inline std::vector<EbmlElement *>::const_iterator end() const {return ElementList.end();}
+        inline EBML_MASTER_ITERATOR begin() const {return ElementList.begin();}
+        inline EBML_MASTER_ITERATOR end() const {return ElementList.end();}
 
 		EbmlElement * operator[](unsigned int position) {return ElementList[position];}
 		const EbmlElement * operator[](unsigned int position) const {return ElementList[position];}
@@ -142,6 +140,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 			\brief Remove an element from the list of the master
 		*/
 		void Remove(size_t Index);
+		void Remove(const EBML_MASTER_ITERATOR & Itr);
 
 		/*!
 			\brief remove all elements, even the mandatory ones
