@@ -482,12 +482,12 @@ void EbmlMaster::Remove(size_t Index)
 	}
 }
 
-void EbmlMaster::Remove(const std::vector<EbmlElement *>::const_iterator & Itr)
+void EbmlMaster::Remove(EBML_MASTER_ITERATOR & Itr)
 {
 	ElementList.erase(Itr);
 }
 
-void EbmlMaster::Remove(const std::vector<EbmlElement *>::const_reverse_iterator & Itr)
+void EbmlMaster::Remove(EBML_MASTER_RITERATOR & Itr)
 {
 	ElementList.erase(Itr.base());
 }

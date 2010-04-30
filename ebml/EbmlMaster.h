@@ -43,8 +43,10 @@
 #include "EbmlElement.h"
 #include "EbmlCrc32.h"
 
-#define EBML_MASTER_ITERATOR  std::vector<EbmlElement *>::const_iterator
-#define EBML_MASTER_RITERATOR std::vector<EbmlElement *>::const_reverse_iterator
+#define EBML_MASTER_ITERATOR  std::vector<EbmlElement *>::iterator
+#define EBML_MASTER_CONST_ITERATOR  std::vector<EbmlElement *>::const_iterator
+#define EBML_MASTER_RITERATOR std::vector<EbmlElement *>::reverse_iterator
+#define EBML_MASTER_CONST_RITERATOR std::vector<EbmlElement *>::const_reverse_iterator
 
 START_LIBEBML_NAMESPACE
 
@@ -120,10 +122,14 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 
 		size_t ListSize() const {return ElementList.size();}
 
-        inline EBML_MASTER_ITERATOR begin() const {return ElementList.begin();}
-        inline EBML_MASTER_ITERATOR end() const {return ElementList.end();}
-        inline EBML_MASTER_RITERATOR rbegin() const {return ElementList.rbegin();}
-        inline EBML_MASTER_RITERATOR rend() const {return ElementList.rend();}
+        inline EBML_MASTER_ITERATOR begin() {return ElementList.begin();}
+        inline EBML_MASTER_ITERATOR end() {return ElementList.end();}
+        inline EBML_MASTER_RITERATOR rbegin() {return ElementList.rbegin();}
+        inline EBML_MASTER_RITERATOR rend() {return ElementList.rend();}
+        inline EBML_MASTER_CONST_ITERATOR begin() const {return ElementList.begin();}
+        inline EBML_MASTER_CONST_ITERATOR end() const {return ElementList.end();}
+        inline EBML_MASTER_CONST_RITERATOR rbegin() const {return ElementList.rbegin();}
+        inline EBML_MASTER_CONST_RITERATOR rend() const {return ElementList.rend();}
 
 		EbmlElement * operator[](unsigned int position) {return ElementList[position];}
 		const EbmlElement * operator[](unsigned int position) const {return ElementList[position];}
@@ -143,8 +149,8 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 			\brief Remove an element from the list of the master
 		*/
 		void Remove(size_t Index);
-		void Remove(const EBML_MASTER_ITERATOR & Itr);
-		void Remove(const EBML_MASTER_RITERATOR & Itr);
+		void Remove(EBML_MASTER_ITERATOR & Itr);
+		void Remove(EBML_MASTER_RITERATOR & Itr);
 
 		/*!
 			\brief remove all elements, even the mandatory ones
