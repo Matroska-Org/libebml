@@ -10,7 +10,7 @@
 
 # neededforbuild  gcc-c++ libstdc++-devel
 
-BuildRequires: bzip2 cpp libebml make patch tar zlib zlib-devel binutils gcc gcc-c++ libstdc++-devel perl rpm
+BuildRequires: bzip2 cpp make tar zlib zlib-devel binutils gcc gcc-c++ libstdc++-devel perl rpm
 
 Name:         libebml
 URL:          http://sourceforge.net/projects/ebml
@@ -20,7 +20,6 @@ Summary:      libary to parse EBML files.
 License:      LGPL
 Group:        Development/Libraries/Other
 Source:       %{name}-%{version}.tar.bz2
-Patch:        suse-libebml-makefile.diff
 Summary:      libary to parse EBML files.
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 Prefix:       /usr
@@ -39,16 +38,15 @@ Authors:
 %prep
 rm -rf $RPM_BUILD_ROOT
 %setup
-%patch -p1
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS"
 cd make/linux
-make PREFIX=$RPM_BUILD_ROOT/usr LIBDIR=%{_libdir} staticlib
+make prefix=$RPM_BUILD_ROOT/usr libdir=$RPM_BUILD_ROOT/%{_libdir} staticlib
 
 %install
 cd make/linux
-make install_staticlib install_headers PREFIX=$RPM_BUILD_ROOT/usr LIBDIR=$RPM_BUILD_ROOT/%{_libdir}
+make prefix=$RPM_BUILD_ROOT/usr libdir=$RPM_BUILD_ROOT/%{_libdir} install_staticlib install_headers
 
 %clean
 rm -rf $RPM_BUILD_ROOT
