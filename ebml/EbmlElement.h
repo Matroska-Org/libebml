@@ -135,6 +135,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define DEFINE_xxx_CLASS_ORPHAN(x,id,idl,name,global) \
     const EbmlId Id_##x    (id, idl); \
     const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, NULL, global, NULL); \
+    const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
 
 #define DEFINE_EBML_CONTEXT(x)                             DEFINE_xxx_CONTEXT(x,*GetEbmlGlobal_Context)
 #define DEFINE_EBML_MASTER(x,id,idl,parent,name)           DEFINE_xxx_MASTER(x,id,idl,parent,name,*GetEbmlGlobal_Context)
@@ -187,6 +188,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
         virtual EbmlElement * Clone() const { return new Type(*this); } \
 		static EbmlElement & Create() {return *(new Type);} \
         static const EbmlId & ClassId(); \
+		static const EbmlCallbacks ClassInfos; \
 
 
 #define EBML_INFO(ref)             ref::ClassInfo()
@@ -221,6 +223,16 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
         virtual EbmlElement * Clone() const { return new Type(*this); } \
 		static EbmlElement & Create() {return *(new Type);} \
 		static const EbmlCallbacks ClassInfos; \
+
+#define EBML_CONCRETE_DUMMY_CLASS(Type) \
+    public: \
+		virtual const EbmlCallbacks & Generic() const {return ClassInfos;} \
+		virtual operator const EbmlId &(); \
+        virtual EbmlElement & CreateElement() const {return Create();} \
+        virtual EbmlElement * Clone() const { return new Type(*this); } \
+		static EbmlElement & Create() {return *(new Type);} \
+		static const EbmlCallbacks ClassInfos; \
+
 
 #define EBML_INFO(ref)             ref::ClassInfos
 #define EBML_ID(ref)               ref::ClassInfos.GlobalId
