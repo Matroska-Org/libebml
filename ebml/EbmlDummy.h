@@ -42,12 +42,16 @@ START_LIBEBML_NAMESPACE
 
 class EBML_DLL_API EbmlDummy : public EbmlBinary {
 	public:
-		EbmlDummy() :DummyId(DummyRawId)  {}
+		EbmlDummy() :DummyId(DummyRawId) {}
 		EbmlDummy(const EbmlId & aId) :EbmlBinary(), DummyId(aId) {}
 		EbmlDummy(const EbmlDummy & ElementToClone):EbmlBinary(ElementToClone), DummyId(ElementToClone.DummyId) {}
 
 		bool IsDummy() const {return true;}
 		bool IsDefaultValue() const {return true;}
+
+        virtual operator const EbmlId &() const {
+            return DummyId;
+        }
 
 #if defined(EBML_STRICT_API)
     private:
@@ -57,7 +61,7 @@ class EBML_DLL_API EbmlDummy : public EbmlBinary {
 		const EbmlId DummyId;
 		static const EbmlId DummyRawId;
 
-        EBML_CONCRETE_CLASS(EbmlDummy)
+        EBML_CONCRETE_DUMMY_CLASS(EbmlDummy)
 };
 
 END_LIBEBML_NAMESPACE

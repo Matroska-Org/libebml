@@ -42,9 +42,9 @@
 
 START_LIBEBML_NAMESPACE
 
-#define LIBEBML_VERSION 0x000800
+#define LIBEBML_VERSION 0x000801
 
-static const std::string EbmlCodeVersion = "0.8.0";
+static const std::string EbmlCodeVersion = "0.8.1";
 static const std::string EbmlCodeDate    = __TIMESTAMP__;
 
 /*!

@@ -1,6 +1,7 @@
 2010-05-22 robux4
 New 0.8.1 version:
     - fix the infinite/unknown size reading in EbmlElement::FindNextElement()
+    - fix the EBMLDummy ID reading and displaying
 
 2010-04-30 robux4/mosu
 New 0.8.0 version:
