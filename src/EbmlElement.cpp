@@ -436,7 +436,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
 					//  0 : child
 					//  1 : same level
 					//  + : further parent
-					if (Result->ValidateSize() && (UpperLevel > 0 || MaxDataSize == 0 || MaxDataSize >= (PossibleID_Length + PossibleSizeLength + SizeFound))) {
+					if (Result->ValidateSize() && (SizeFound == SizeUnknown || UpperLevel > 0 || MaxDataSize == 0 || MaxDataSize >= (PossibleID_Length + PossibleSizeLength + SizeFound))) {
 						if (SizeFound == SizeUnknown) {
 							Result->SetSizeInfinite();
 						}
