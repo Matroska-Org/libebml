@@ -28,7 +28,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlElement.cpp 1232 2005-10-15 15:56:52Z robux4 $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 */
 

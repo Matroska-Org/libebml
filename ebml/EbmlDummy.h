@@ -30,7 +30,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlDummy.h 639 2004-07-09 20:59:14Z mosu $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #ifndef LIBEBML_DUMMY_H

@@ -30,7 +30,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlVersion.h 1326 2009-08-23 00:47:52Z robux4 $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #ifndef LIBEBML_VERSION_H
