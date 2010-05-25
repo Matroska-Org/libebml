@@ -30,7 +30,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlMaster.cpp 1178 2005-05-19 15:47:11Z robux4 $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 */
 
@@ -412,11 +412,13 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
 		uint64 MaxSizeToRead = GetSize();
 
 		// read blocks and discard the ones we don't care about
-		if (MaxSizeToRead > 0) {
+		if (MaxSizeToRead > 0 || !IsFiniteSize())
+		{
 			inDataStream.I_O().setFilePointer(GetSizePosition() + GetSizeLength(), seek_beginning);
 			ElementLevelA = inDataStream.FindNextElement(sContext, UpperEltFound, MaxSizeToRead, AllowDummyElt);
-			while (ElementLevelA != NULL && MaxSizeToRead > 0 && UpperEltFound <= 0) {
-				MaxSizeToRead = GetEndPosition() - ElementLevelA->GetEndPosition(); // even if it's the default value
+			while (ElementLevelA != NULL && UpperEltFound <= 0 && (MaxSizeToRead > 0 || !IsFiniteSize())) {
+				if (IsFiniteSize())
+					MaxSizeToRead = GetEndPosition() - ElementLevelA->GetEndPosition(); // even if it's the default value
 				if (!AllowDummyElt && ElementLevelA->IsDummy()) {
 					ElementLevelA->SkipData(inDataStream, sContext);
 					delete ElementLevelA; // forget this unknown element
