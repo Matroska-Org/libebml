@@ -62,7 +62,7 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
 		EbmlBinary(const EbmlBinary & ElementToClone);
 		virtual ~EbmlBinary(void);
 	
-		virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() < INT_MAX;} // we don't mind about what's inside
+		virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() < 0x7FFFFFFF;} // we don't mind about what's inside
 
 		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
 		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
