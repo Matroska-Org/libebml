@@ -30,7 +30,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlUInteger.h 1079 2005-03-03 13:18:14Z robux4 $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 	\author Julien Coloos    <suiryc @ users.sf.net>
 	\author Moritz Bunkus    <moritz @ bunkus.org>
@@ -62,7 +62,7 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
 		*/
 		virtual void SetDefaultSize(uint64 nDefaultSize = DEFAULT_UINT_SIZE) {EbmlElement::SetDefaultSize(nDefaultSize); SetSize_(nDefaultSize);}
 
-		virtual bool ValidateSize() const {return (GetSize() <= 8);}
+		virtual bool ValidateSize() const {return IsFiniteSize() && (GetSize() <= 8);}
 		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
 		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
 		filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false);

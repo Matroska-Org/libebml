@@ -456,6 +456,7 @@ class EBML_DLL_API EbmlElement {
 		bool ValueIsSet() const {return bValueIsSet;}
 
 		inline uint64 GetEndPosition() const {
+			assert(bSizeIsFinite); // we don't know where the end is
 			return SizePosition + CodedSizeLength(Size, SizeLength, bSizeIsFinite) + Size;
 		}
 

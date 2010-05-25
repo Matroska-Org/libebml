@@ -28,7 +28,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlDate.h 1079 2005-03-03 13:18:14Z robux4 $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #ifndef LIBEBML_DATE_H
@@ -60,7 +60,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 		*/
 		int32 GetEpochDate() const {return int32(myDate/1000000000 + UnixEpochDelay);}
 
-		virtual bool ValidateSize() const {return ((GetSize() == 8) || (GetSize() == 0));}
+		virtual bool ValidateSize() const {return IsFiniteSize() && ((GetSize() == 8) || (GetSize() == 0));}
 
 		/*!
 			\note no Default date handled

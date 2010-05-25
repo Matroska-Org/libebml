@@ -30,7 +30,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlBinary.h 1298 2008-02-21 22:14:18Z mosu $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 	\author Julien Coloos	<suiryc @ users.sf.net>
 */
@@ -62,7 +62,7 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
 		EbmlBinary(const EbmlBinary & ElementToClone);
 		virtual ~EbmlBinary(void);
 	
-		virtual bool ValidateSize() const {return true;} // we don't mind about what's inside
+		virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() < INT_MAX;} // we don't mind about what's inside
 
 		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
 		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);

@@ -30,7 +30,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlCrc32.h 1326 2009-08-23 00:47:52Z robux4 $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 	\author Jory Stone       <jcsston @ toughguy.net>
 */
@@ -57,7 +57,7 @@ const uint32 CRC32_NEGL = 0xffffffffL;
 DECLARE_EBML_BINARY(EbmlCrc32)
 	public:
 		EbmlCrc32(const EbmlCrc32 & ElementToClone);
-		virtual bool ValidateSize() const {return (GetSize() == 4);}
+		virtual bool ValidateSize() const {return IsFiniteSize() && (GetSize() == 4);}
 		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
 		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
 //		filepos_t UpdateSize(bool bWithDefault = false);

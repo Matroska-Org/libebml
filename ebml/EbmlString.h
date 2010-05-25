@@ -30,7 +30,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlString.h 1079 2005-03-03 13:18:14Z robux4 $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #ifndef LIBEBML_STRING_H
@@ -55,7 +55,7 @@ class EBML_DLL_API EbmlString : public EbmlElement {
 	
 		virtual ~EbmlString() {}
 	
-		virtual bool ValidateSize() const {return true;} // any size is possible
+		virtual bool ValidateSize() const {return IsFiniteSize();} // any size is possible
 		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
 		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
 		filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false);
