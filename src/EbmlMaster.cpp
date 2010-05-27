@@ -409,14 +409,19 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
 			}
 		}
 		ElementList.clear();
-		uint64 MaxSizeToRead = GetSize();
+		uint64 MaxSizeToRead;
+
+		if (IsFiniteSize())
+			MaxSizeToRead = GetSize();
+		else
+			MaxSizeToRead = 0x7FFFFFFF;
 
 		// read blocks and discard the ones we don't care about
-		if (MaxSizeToRead > 0 || !IsFiniteSize())
+		if (MaxSizeToRead > 0)
 		{
 			inDataStream.I_O().setFilePointer(GetSizePosition() + GetSizeLength(), seek_beginning);
 			ElementLevelA = inDataStream.FindNextElement(sContext, UpperEltFound, MaxSizeToRead, AllowDummyElt);
-			while (ElementLevelA != NULL && UpperEltFound <= 0 && (MaxSizeToRead > 0 || !IsFiniteSize())) {
+			while (ElementLevelA != NULL && UpperEltFound <= 0 && MaxSizeToRead > 0) {
 				if (IsFiniteSize())
 					MaxSizeToRead = GetEndPosition() - ElementLevelA->GetEndPosition(); // even if it's the default value
 				if (!AllowDummyElt && ElementLevelA->IsDummy()) {
@@ -446,9 +451,8 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
 						goto processCrc;
 				}
 
-				if (MaxSizeToRead <= 0) {
+				if (MaxSizeToRead <= 0)
 					goto processCrc;// this level is finished
-				}
 				
 				ElementLevelA = inDataStream.FindNextElement(sContext, UpperEltFound, MaxSizeToRead, AllowDummyElt);
 			}
