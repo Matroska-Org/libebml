@@ -30,7 +30,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlStream.h 639 2004-07-09 20:59:14Z mosu $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #ifndef LIBEBML_STREAM_H
@@ -56,9 +56,9 @@ class EBML_DLL_API EbmlStream {
 			\param MaxDataSize The maximum possible of the data in the element (for sanity checks)
 			\note the user will have to delete that element later
 		*/
-		EbmlElement * FindNextID(const EbmlCallbacks & ClassInfos, const uint64 MaxDataSize);
+		EbmlElement * FindNextID(const EbmlCallbacks & ClassInfos, uint64 MaxDataSize);
 
-		EbmlElement * FindNextElement(const EbmlSemanticContext & Context, int & UpperLevel, const uint64 MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel = 1);
+		EbmlElement * FindNextElement(const EbmlSemanticContext & Context, int & UpperLevel, uint64 MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel = 1);
 
 		inline IOCallback & I_O() {return Stream;}
         operator IOCallback &() {return Stream;}

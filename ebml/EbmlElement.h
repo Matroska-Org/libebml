@@ -371,12 +371,12 @@ class EBML_DLL_API EbmlElement {
 		int GetSizeLength() const {return SizeLength;}
 
 		static EbmlElement * FindNextElement(IOCallback & DataStream, const EbmlSemanticContext & Context, int & UpperLevel, uint64 MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel = 1);
-		static EbmlElement * FindNextID(IOCallback & DataStream, const EbmlCallbacks & ClassInfos, const uint64 MaxDataSize);
+		static EbmlElement * FindNextID(IOCallback & DataStream, const EbmlCallbacks & ClassInfos, uint64 MaxDataSize);
 
 		/*!
 			\brief find the next element with the same ID
 		*/
-		EbmlElement * FindNext(IOCallback & DataStream, const uint64 MaxDataSize);
+		EbmlElement * FindNext(IOCallback & DataStream, uint64 MaxDataSize);
 
 		EbmlElement * SkipData(EbmlStream & DataStream, const EbmlSemanticContext & Context, EbmlElement * TestReadElt = NULL, bool AllowDummyElt = false);
 

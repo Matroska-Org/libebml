@@ -30,7 +30,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlStream.cpp 639 2004-07-09 20:59:14Z mosu $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #include "ebml/EbmlStream.h"
@@ -44,12 +44,12 @@ EbmlStream::EbmlStream(IOCallback & DataStream)
 EbmlStream::~EbmlStream()
 {}
 
-EbmlElement * EbmlStream::FindNextID(const EbmlCallbacks & ClassInfos, const uint64 MaxDataSize)
+EbmlElement * EbmlStream::FindNextID(const EbmlCallbacks & ClassInfos, uint64 MaxDataSize)
 {
 	return EbmlElement::FindNextID(Stream, ClassInfos, MaxDataSize);
 }
 
-EbmlElement * EbmlStream::FindNextElement(const EbmlSemanticContext & Context, int & UpperLevel, const uint64 MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel)
+EbmlElement * EbmlStream::FindNextElement(const EbmlSemanticContext & Context, int & UpperLevel, uint64 MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel)
 {
 	return EbmlElement::FindNextElement(Stream, Context, UpperLevel, MaxDataSize, AllowDummyElt, MaxLowerLevel);
 }

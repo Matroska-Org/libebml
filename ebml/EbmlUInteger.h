@@ -76,7 +76,7 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
 
 		void SetDefaultValue(uint64);
     
-		const uint64 DefaultVal() const;
+		uint64 DefaultVal() const;
 
 		bool IsDefaultValue() const {
 			return (DefaultISset() && Value == DefaultValue);

@@ -30,7 +30,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlUInteger.cpp 1079 2005-03-03 13:18:14Z robux4 $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 	\author Moritz Bunkus <moritz @ bunkus.org>
 */
@@ -64,7 +64,7 @@ void EbmlUInteger::SetDefaultValue(uint64 aValue)
     SetDefaultIsSet();
 }
 
-const uint64 EbmlUInteger::DefaultVal() const
+uint64 EbmlUInteger::DefaultVal() const
 {
     assert(DefaultISset());
     return DefaultValue;

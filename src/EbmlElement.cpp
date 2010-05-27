@@ -257,7 +257,7 @@ EbmlElement::~EbmlElement()
 	\todo this method is deprecated and should be called FindThisID
 	\todo replace the new RawElement with the appropriate class (when known)
 */
-EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbacks & ClassInfos, const uint64 MaxDataSize)
+EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbacks & ClassInfos, uint64 MaxDataSize)
 {
 	binary PossibleId[4];
 	int PossibleID_Length = 0;
