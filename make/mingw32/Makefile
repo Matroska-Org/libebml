@@ -50,7 +50,7 @@ distclean dist-clean: clean
 	rm -f .depend
 
 libebml.a: $(OBJ)
-	$(AR) r $@ $(OBJ)
+	$(AR) rcvu $@ $(OBJ)
 	$(RANLIB) $@
 
 libebml.dll: $(OBJ)
