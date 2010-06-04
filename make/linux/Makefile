@@ -49,7 +49,7 @@ LIBS=
 # Names
 LIBRARY=libebml.a
 LIBRARY_SO=libebml.so
-LIBRARY_SO_VER=libebml.so.0
+LIBRARY_SO_VER=libebml.so.2
 
 # source-files
 sources:=$(wildcard ${SRC_DIR}*$(EXTENSION))
