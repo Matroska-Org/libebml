@@ -1,7 +1,7 @@
 # SPEC file for libebml on (at least) Fedora Core 1, 2, 3
 
 Name: 		libebml
-Version: 0.7.5
+Version: 1.0.0
 Release: 1
 License: 	LGPL
 Summary:	Extensible Binary Meta Language

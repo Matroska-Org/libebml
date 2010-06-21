@@ -14,7 +14,7 @@ BuildRequires: bzip2 cpp make tar zlib zlib-devel binutils gcc gcc-c++ libstdc++
 
 Name:         libebml
 URL:          http://sourceforge.net/projects/ebml
-Version: 0.7.8
+Version: 1.0.0
 Release: 1
 Summary:      libary to parse EBML files.
 License:      LGPL
