@@ -71,10 +71,10 @@ class EBML_DLL_API EbmlSInteger : public EbmlElement {
 
 		virtual bool IsSmallerThan(const EbmlElement *Cmp) const;
 
-		operator int8() {return  int8(Value);}
-		operator int16() {return int16(Value);}
-		operator int32() {return int32(Value);}
-		operator int64() {return Value;}
+		operator int8();
+		operator int16();
+		operator int32();
+		operator int64();
 
 		void SetDefaultValue(int64 aValue) {assert(!DefaultISset()); DefaultValue = aValue; SetDefaultIsSet();}
 

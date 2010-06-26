@@ -69,10 +69,10 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
 		
 		virtual bool IsSmallerThan(const EbmlElement *Cmp) const;
 		
-		operator uint8()  const {return uint8(Value); }
-		operator uint16() const {return uint16(Value);}
-		operator uint32() const {return uint32(Value);}
-		operator uint64() const {return Value;}
+		operator uint8()  const;
+		operator uint16() const;
+		operator uint32() const;
+		operator uint64() const;
 
 		void SetDefaultValue(uint64);
     

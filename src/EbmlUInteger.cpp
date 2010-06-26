@@ -70,6 +70,11 @@ uint64 EbmlUInteger::DefaultVal() const
     return DefaultValue;
 }
 
+EbmlUInteger::operator uint8()  const {return uint8(Value); }
+EbmlUInteger::operator uint16() const {return uint16(Value);}
+EbmlUInteger::operator uint32() const {return uint32(Value);}
+EbmlUInteger::operator uint64() const {return Value;}
+
 
 /*!
 	\todo handle exception on errors

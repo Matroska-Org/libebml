@@ -61,7 +61,7 @@ class EBML_DLL_API EbmlString : public EbmlElement {
 		filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false);
 	
 		EbmlString & operator=(const std::string &);
-		operator const std::string &() const {return Value;}
+		operator const std::string &() const;
 	
 		void SetDefaultValue(std::string &);
     

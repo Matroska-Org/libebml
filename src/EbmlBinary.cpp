@@ -30,7 +30,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlBinary.cpp 1112 2005-03-28 09:55:50Z mosu $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 	\author Julien Coloos	<suiryc @ users.sf.net>
 */
@@ -60,6 +60,9 @@ EbmlBinary::~EbmlBinary(void) {
 	if(Data)
 		free(Data);
 }
+
+EbmlBinary::operator const binary &() const {return *Data;}
+
 
 filepos_t EbmlBinary::RenderData(IOCallback & output, bool bForceRender, bool bWithDefault)
 {

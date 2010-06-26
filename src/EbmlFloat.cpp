@@ -30,7 +30,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlFloat.cpp 1243 2006-03-30 19:33:22Z mosu $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 */
 
@@ -72,6 +72,9 @@ const double EbmlFloat::DefaultVal() const
     assert(DefaultISset());
     return DefaultValue;
 }
+
+EbmlFloat::operator const float() const {return float(Value);}
+EbmlFloat::operator const double() const {return double(Value);}
 
 
 /*!

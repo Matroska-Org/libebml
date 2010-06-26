@@ -28,7 +28,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlSInteger.cpp 1079 2005-03-03 13:18:14Z robux4 $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 	\author Moritz Bunkus <moritz @ bunkus.org>
 */
@@ -54,6 +54,11 @@ EbmlSInteger::EbmlSInteger(const EbmlSInteger & ElementToClone)
  ,DefaultValue(ElementToClone.DefaultValue)
 {
 }
+
+EbmlSInteger::operator int8() {return  int8(Value);}
+EbmlSInteger::operator int16() {return int16(Value);}
+EbmlSInteger::operator int32() {return int32(Value);}
+EbmlSInteger::operator int64() {return Value;}
 
 /*!
 	\todo handle exception on errors

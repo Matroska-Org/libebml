@@ -30,7 +30,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlString.cpp 1079 2005-03-03 13:18:14Z robux4 $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #include <cassert>
@@ -108,6 +108,8 @@ filepos_t EbmlString::RenderData(IOCallback & output, bool bForceRender, bool bW
 	
 	return Result;
 }
+
+EbmlString::operator const std::string &() const {return Value;}
 
 EbmlString & EbmlString::operator=(const std::string & NewString)
 {

@@ -30,7 +30,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlFloat.h 1079 2005-03-03 13:18:14Z robux4 $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #ifndef LIBEBML_FLOAT_H
@@ -79,8 +79,8 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
 
 		virtual bool IsSmallerThan(const EbmlElement *Cmp) const;
 		
-		operator const float() const {return float(Value);}
-		operator const double() const {return double(Value);}
+		operator const float() const;
+		operator const double() const;
 
 		void SetDefaultValue(double);
     

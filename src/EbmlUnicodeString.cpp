@@ -30,7 +30,7 @@
 
 /*!
 	\file
-	\version \$Id: EbmlUnicodeString.cpp 1079 2005-03-03 13:18:14Z robux4 $
+	\version \$Id$
 	\author Steve Lhomme     <robux4 @ users.sf.net>
 	\author Jory Stone       <jcsston @ toughguy.net>
 */
@@ -76,6 +76,9 @@ UTFstring & UTFstring::operator=(const UTFstring & _aBuf)
 	*this = _aBuf.c_str();
 	return *this;
 }
+
+UTFstring::operator const wchar_t*() const {return _Data;}
+
 
 UTFstring & UTFstring::operator=(const wchar_t * _aBuf)
 {
@@ -264,6 +267,8 @@ filepos_t EbmlUnicodeString::RenderData(IOCallback & output, bool bForceRender, 
 
 	return Result;
 }
+
+EbmlUnicodeString::operator const UTFstring &() const {return Value;}
 
 EbmlUnicodeString & EbmlUnicodeString::operator=(const UTFstring & NewString)
 {

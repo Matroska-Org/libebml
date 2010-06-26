@@ -71,7 +71,7 @@ public:
 	/// Return length of string
 	size_t length() const {return _Length;}
 
-	operator const wchar_t*() const {return _Data;}
+	operator const wchar_t*() const;
 	const wchar_t* c_str() const {return _Data;}
 
 	const std::string & GetUTF8() const {return UTF8string;}
@@ -110,7 +110,7 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
 		filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false);
 	
 		EbmlUnicodeString & operator=(const UTFstring &); ///< platform dependant code
-		operator const UTFstring &() const {return Value;}
+		operator const UTFstring &() const;
 	
 		void SetDefaultValue(UTFstring &);
     
