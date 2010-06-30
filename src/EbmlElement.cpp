@@ -692,7 +692,7 @@ filepos_t EbmlElement::OverwriteHead(IOCallback & output, bool bKeepPosition)
 	return Result;
 }
 
-uint32 EbmlElement::VoidMe(IOCallback & output, bool bWithDefault)
+uint64 EbmlElement::VoidMe(IOCallback & output, bool bWithDefault)
 {
 	if (ElementPosition == 0) {
 		return 0; // the element has not been written

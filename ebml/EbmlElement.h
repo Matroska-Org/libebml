@@ -442,7 +442,7 @@ class EBML_DLL_API EbmlElement {
 		/*!
 			\brief void the content of the element (replace by EbmlVoid)
 		*/
-		uint32 VoidMe(IOCallback & output, bool bWithDefault = false);
+		uint64 VoidMe(IOCallback & output, bool bWithDefault = false);
 
 		bool DefaultISset() const {return DefaultIsSet;}
 		virtual bool IsDefaultValue() const = 0;
