@@ -1,4 +1,4 @@
-2010-06-xx robux4
+2010-07-xx robux4
 New 1.1.0 version:
     - EbmlElement::VoidMe() now returns a uint64
     - move some operator code in the .cpp files (MSVC has issues in DLLs)
