@@ -38,6 +38,16 @@
 #include "ebml/EbmlContexts.h"
 #include "ebml/MemIOCallback.h"
 
+#ifdef WORDS_BIGENDIAN
+# define CRC32_INDEX(c) (c >> 24)
+# define CRC32_SHIFTED(c) (c << 8)
+#else
+# define CRC32_INDEX(c) (c & 0xff)
+# define CRC32_SHIFTED(c) (c >> 8)
+#endif
+
+const uint32 CRC32_NEGL = 0xffffffffL;
+
 START_LIBEBML_NAMESPACE
 
 DEFINE_EBML_CLASS_GLOBAL(EbmlCrc32, 0xBF, 1, "EBMLCrc32\0ratamadabapa");
@@ -155,7 +165,7 @@ const uint32 EbmlCrc32::m_tab[] = {
 EbmlCrc32::EbmlCrc32()
 {
 	ResetCRC();
-	SetDefaultSize(DIGESTSIZE);
+	SetDefaultSize(4);
 	m_crc_final = 0;
 	SetSize_(4);
 	//This EbmlElement has been set
@@ -167,6 +177,16 @@ EbmlCrc32::EbmlCrc32(const EbmlCrc32 & ElementToClone)
 {
 	m_crc       = ElementToClone.m_crc;
 	m_crc_final = ElementToClone.m_crc_final;
+}
+
+void EbmlCrc32::ResetCRC()
+{
+    m_crc = CRC32_NEGL;
+}
+
+void EbmlCrc32::UpdateByte(binary b)
+{
+    m_crc = m_tab[CRC32_INDEX(m_crc) ^ b] ^ CRC32_SHIFTED(m_crc);
 }
 
 void EbmlCrc32::AddElementCRC32(EbmlElement &ElementToCRC)
@@ -189,7 +209,7 @@ bool EbmlCrc32::CheckElementCRC32(EbmlElement &ElementToCRC)
 
 filepos_t EbmlCrc32::RenderData(IOCallback & output, bool bForceRender, bool bWithDefault)
 {
-	filepos_t Result = DIGESTSIZE;
+	filepos_t Result = 4;
 
 	if (Result != 0) {
 	    output.writeFully(&m_crc_final, Result);

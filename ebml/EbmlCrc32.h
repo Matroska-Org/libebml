@@ -44,16 +44,6 @@
 
 START_LIBEBML_NAMESPACE
 
-const uint32 CRC32_NEGL = 0xffffffffL;
-
-#ifdef WORDS_BIGENDIAN
-# define CRC32_INDEX(c) (c >> 24)
-# define CRC32_SHIFTED(c) (c << 8)
-#else
-# define CRC32_INDEX(c) (c & 0xff)
-# define CRC32_SHIFTED(c) (c >> 8)
-#endif
-
 DECLARE_EBML_BINARY(EbmlCrc32)
 	public:
 		EbmlCrc32(const EbmlCrc32 & ElementToClone);
@@ -68,11 +58,6 @@ DECLARE_EBML_BINARY(EbmlCrc32)
 
 		void AddElementCRC32(EbmlElement &ElementToCRC);
 		bool CheckElementCRC32(EbmlElement &ElementToCRC);
-		
-		/*!
-			CRC Checksum Calculation
-		*/
-		enum {DIGESTSIZE = 4};
 		
 		/*!
 			Use this to quickly check a CRC32 with some data
@@ -105,8 +90,8 @@ DECLARE_EBML_BINARY(EbmlCrc32)
 #else
     protected:
 #endif
-		void ResetCRC() {m_crc = CRC32_NEGL;}
-		void UpdateByte(binary b) {m_crc = m_tab[CRC32_INDEX(m_crc) ^ b] ^ CRC32_SHIFTED(m_crc);}
+		void ResetCRC();
+		void UpdateByte(binary b);
 
 		static const uint32 m_tab[256];
 		uint32 m_crc;
