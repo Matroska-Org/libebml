@@ -1,6 +1,7 @@
 2010-08-xx robux4
 New 1.1.1 version:
     - no need to put the internal code of EbmlCrc32 in the public header
+    - more safety on the Binary buffer handling in case we run out of memory
 
 2010-07-xx robux4
 New 1.1.0 version:

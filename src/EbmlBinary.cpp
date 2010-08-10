@@ -37,6 +37,7 @@
 #include <cassert>
 
 #include "ebml/EbmlBinary.h"
+#include "ebml/StdIOCallback.h"
 
 START_LIBEBML_NAMESPACE
 
@@ -84,14 +85,15 @@ filepos_t EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
 	if (Data != NULL)
 		free(Data);
 	
-	if (ReadFully == SCOPE_NO_DATA)
+    if (ReadFully == SCOPE_NO_DATA || !GetSize())
 	{
 		Data = NULL;
 		return GetSize();
 	}
 
 	Data = (binary *)malloc(GetSize() * sizeof(binary));
-	assert(Data != NULL);
+    if (Data == NULL)
+        throw CRTError::CRTError("Error allocating data");
 	SetValueIsSet();
 	return input.read(Data, GetSize());
 }
