@@ -461,17 +461,22 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
 			}
 		}
 	processCrc:
-        EBML_MASTER_ITERATOR Itr;
+        EBML_MASTER_ITERATOR Itr, CrcItr;
         for (Itr = ElementList.begin(); Itr != ElementList.end();) {
 			if ((EbmlId)(*(*Itr)) == EBML_ID(EbmlCrc32)) {
 				bChecksumUsed = true;
 				// remove the element
 				Checksum = *(static_cast<EbmlCrc32*>(*Itr));
-				delete *Itr;
-				Remove(Itr);
+                CrcItr = Itr;
+                break;
 			}
-            else ++Itr;
+            ++Itr;
 		}
+        if (bChecksumUsed)
+        {
+		    delete *CrcItr;
+		    Remove(CrcItr);
+        }
 		SetValueIsSet();
 	}
 }
