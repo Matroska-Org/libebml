@@ -31,7 +31,7 @@ DLLFLAGS = -DEBML_DLL -DEBML_DLL_EXPORT
 else
 LIBS = libebml.a
 endif
-INCS = -I$(shell pwd)/../..
+INCS = -I"$(shell pwd)/../.."
 COMPILEFLAGS = $(DEBUGFLAGS) $(INCS) $(DLLFLAGS) $(CXXFLAGS)
 
 .PHONY: all all-before all-after clean clean-custom
