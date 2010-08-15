@@ -49,7 +49,7 @@ START_LIBEBML_NAMESPACE
 
 class ADbg globalDebug;
 
-#if !defined(NDEBUG)
+#if defined(DEBUG)
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -232,6 +232,6 @@ bool ADbg::unsetDebugFile() {
 	return result;
 }
 
-#endif // !defined(NDEBUG)
+#endif // defined(DEBUG)
 
 END_LIBEBML_NAMESPACE
