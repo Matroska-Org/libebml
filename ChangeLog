@@ -3,6 +3,7 @@ New 1.1.1 version:
     - no need to put the internal code of EbmlCrc32 in the public header
     - more safety on the Binary buffer handling in case we run out of memory
     - fix CRC32 detection in master elements
+    - fix compilation under gcc 4.5
 
 2010-07-xx robux4
 New 1.1.0 version:
