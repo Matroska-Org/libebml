@@ -1,4 +1,4 @@
-2011-01-xx robux4/mosu
+2011-01-30 robux4/mosu
 New 1.2.0 version:
     - no need to put the internal code of EbmlCrc32 in the public header
     - more safety on the Binary buffer handling in case we run out of memory
