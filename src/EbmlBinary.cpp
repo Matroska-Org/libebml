@@ -35,6 +35,7 @@
 	\author Julien Coloos	<suiryc @ users.sf.net>
 */
 #include <cassert>
+#include <string>
 
 #include "ebml/EbmlBinary.h"
 #include "ebml/StdIOCallback.h"
