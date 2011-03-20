@@ -587,7 +587,7 @@ filepos_t EbmlElement::Render(IOCallback & output, bool bWithDefault, bool bKeep
 		filepos_t result = RenderHead(output, bForceRender, bWithDefault, bKeepPosition);
 		uint64 WrittenSize = RenderData(output, bForceRender, bWithDefault);
 #if defined(_DEBUG) || defined(DEBUG)
-	if (static_cast<int64_t>(SupposedSize) != (0-1)) assert(WrittenSize == SupposedSize);
+	if (static_cast<int64>(SupposedSize) != (0-1)) assert(WrittenSize == SupposedSize);
 #endif // DEBUG
 		result += WrittenSize;
 		return result;
