@@ -116,6 +116,12 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
     const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
     x::x() :EbmlUInteger(defval) {}
 
+#define DEFINE_xxx_SINTEGER_DEF(x,id,idl,parent,name,global,defval) \
+    const EbmlId Id_##x    (id, idl); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, &Context_##parent, global, &EBML_INFO(x)); \
+    const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
+    x::x() :EbmlSInteger(defval) {}
+
 #define DEFINE_xxx_STRING_DEF(x,id,idl,parent,name,global,defval) \
     const EbmlId Id_##x    (id, idl); \
     const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, &Context_##parent, global, &EBML_INFO(x)); \
