@@ -486,6 +486,7 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
 				Result = DataStream.FindNextElement(Context, bUpperElement, 0xFFFFFFFFL, AllowDummyElt);
 			} else {
 				Result = TestReadElt;
+                TestReadElt = NULL;
 			}
 
 			if (Result != NULL) {
