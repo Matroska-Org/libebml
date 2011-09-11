@@ -44,8 +44,8 @@ START_LIBEBML_NAMESPACE
 
 #define LIBEBML_VERSION 0x010202
 
-static const std::string EbmlCodeVersion = "1.2.2";
-static const std::string EbmlCodeDate    = __TIMESTAMP__;
+extern const std::string EbmlCodeVersion;
+extern const std::string EbmlCodeDate;
 
 /*!
 	\todo Closer relation between an element and the context it comes from (context is an element attribute ?)
