@@ -75,6 +75,11 @@ EbmlUInteger::operator uint16() const {return uint16(Value);}
 EbmlUInteger::operator uint32() const {return uint32(Value);}
 EbmlUInteger::operator uint64() const {return Value;}
 
+uint64 EbmlUInteger::GetValue() const {return Value;}
+
+EbmlUInteger & EbmlUInteger::SetValue(uint64 NewValue) {
+  return *this = NewValue;
+}
 
 /*!
 	\todo handle exception on errors

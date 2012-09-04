@@ -76,6 +76,9 @@ class EBML_DLL_API EbmlSInteger : public EbmlElement {
 		operator int32() const;
 		operator int64() const;
 
+		EbmlSInteger &SetValue(int64 NewValue);
+		int64 GetValue() const;
+
 		void SetDefaultValue(int64 aValue) {assert(!DefaultISset()); DefaultValue = aValue; SetDefaultIsSet();}
 
 		int64 DefaultVal() const {assert(DefaultISset()); return DefaultValue;}

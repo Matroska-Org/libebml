@@ -74,6 +74,9 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
 		operator uint32() const;
 		operator uint64() const;
 
+		EbmlUInteger &SetValue(uint64 NewValue);
+		uint64 GetValue() const;
+
 		void SetDefaultValue(uint64);
     
 		uint64 DefaultVal() const;

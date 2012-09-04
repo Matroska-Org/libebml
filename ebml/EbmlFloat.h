@@ -82,6 +82,9 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
 		operator float() const;
 		operator double() const;
 
+		EbmlFloat &SetValue(double NewValue);
+		double GetValue() const;
+
 		void SetDefaultValue(double);
     
 		double DefaultVal() const;

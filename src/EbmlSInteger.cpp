@@ -60,6 +60,12 @@ EbmlSInteger::operator int16() const {return int16(Value);}
 EbmlSInteger::operator int32() const {return int32(Value);}
 EbmlSInteger::operator int64() const {return Value;}
 
+int64 EbmlSInteger::GetValue() const {return Value;}
+
+EbmlSInteger & EbmlSInteger::SetValue(int64 NewValue) {
+  return *this = NewValue;
+}
+
 /*!
 	\todo handle exception on errors
 */

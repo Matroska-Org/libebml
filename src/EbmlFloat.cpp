@@ -76,6 +76,11 @@ double EbmlFloat::DefaultVal() const
 EbmlFloat::operator float() const {return float(Value);}
 EbmlFloat::operator double() const {return double(Value);}
 
+double EbmlFloat::GetValue() const {return Value;}
+
+EbmlFloat & EbmlFloat::SetValue(double NewValue) {
+  return *this = NewValue;
+}
 
 /*!
 	\todo handle exception on errors
