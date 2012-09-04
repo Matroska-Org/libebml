@@ -55,10 +55,10 @@ EbmlSInteger::EbmlSInteger(const EbmlSInteger & ElementToClone)
 {
 }
 
-EbmlSInteger::operator int8() {return  int8(Value);}
-EbmlSInteger::operator int16() {return int16(Value);}
-EbmlSInteger::operator int32() {return int32(Value);}
-EbmlSInteger::operator int64() {return Value;}
+EbmlSInteger::operator int8() const {return  int8(Value);}
+EbmlSInteger::operator int16() const {return int16(Value);}
+EbmlSInteger::operator int32() const {return int32(Value);}
+EbmlSInteger::operator int64() const {return Value;}
 
 /*!
 	\todo handle exception on errors
