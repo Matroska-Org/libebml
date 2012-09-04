@@ -122,6 +122,14 @@ EbmlString & EbmlString::operator=(const std::string & NewString)
 	return *this;
 }
 
+EbmlString &EbmlString::SetValue(std::string const &NewValue) {
+  return *this = NewValue;
+}
+
+std::string EbmlString::GetValue() const {
+  return Value;
+}
+
 uint64 EbmlString::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 {
 	if (!bWithDefault && IsDefaultValue())

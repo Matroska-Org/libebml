@@ -288,6 +288,24 @@ EbmlUnicodeString & EbmlUnicodeString::operator=(const UTFstring & NewString)
 	return *this;
 }
 
+EbmlUnicodeString &EbmlUnicodeString::SetValue(UTFstring const &NewValue) {
+  return *this = NewValue;
+}
+
+EbmlUnicodeString &EbmlUnicodeString::SetValueUTF8(std::string const &NewValue) {
+  UTFstring NewValueUTFstring;
+  NewValueUTFstring.SetUTF8(NewValue);
+  return *this = NewValueUTFstring;
+}
+
+UTFstring EbmlUnicodeString::GetValue() const {
+  return Value;
+}
+
+std::string EbmlUnicodeString::GetValueUTF8() const {
+  return Value.GetUTF8();
+}
+
 /*!
 \note limited to UCS-2
 */

@@ -112,6 +112,11 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
 		EbmlUnicodeString & operator=(const UTFstring &); ///< platform dependant code
 		operator const UTFstring &() const;
 	
+    EbmlUnicodeString &SetValue(UTFstring const &NewValue);
+    EbmlUnicodeString &SetValueUTF8(std::string const &NewValue);
+    UTFstring GetValue() const;
+    std::string GetValueUTF8() const;
+
 		void SetDefaultValue(UTFstring &);
     
 		const UTFstring & DefaultVal() const;

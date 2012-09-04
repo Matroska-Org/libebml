@@ -63,6 +63,9 @@ class EBML_DLL_API EbmlString : public EbmlElement {
 		EbmlString & operator=(const std::string &);
 		operator const std::string &() const;
 	
+    EbmlString &SetValue(std::string const &NewValue);
+    std::string GetValue() const;
+
 		void SetDefaultValue(std::string &);
     
 		const std::string & DefaultVal() const;

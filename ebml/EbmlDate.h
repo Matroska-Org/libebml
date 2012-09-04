@@ -52,13 +52,15 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 			\brief set the date with a UNIX/C/EPOCH form
 			\param NewDate UNIX/C date in UTC (no timezone)
 		*/
-		void SetEpochDate(int32 NewDate) {myDate = int64(NewDate - UnixEpochDelay) * 1000000000; SetValueIsSet();}
+		void SetEpochDate(int64 NewDate) {myDate = NewDate - UnixEpochDelay * 1000000000; SetValueIsSet();}
+    EbmlDate &SetValue(int64 NewValue) {SetEpochDate(NewValue); return *this;}
 
 		/*!
 			\brief get the date with a UNIX/C/EPOCH form
 			\note the date is in UTC (no timezone)
 		*/
-		int32 GetEpochDate() const {return int32(myDate/1000000000 + UnixEpochDelay);}
+		int64 GetEpochDate() const {return int64(myDate/1000000000 + UnixEpochDelay);}
+    int64 GetValue() const {return GetEpochDate();}
 
 		virtual bool ValidateSize() const {return IsFiniteSize() && ((GetSize() == 8) || (GetSize() == 0));}
 
