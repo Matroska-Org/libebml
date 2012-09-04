@@ -121,6 +121,8 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 		void Sort();
 
 		size_t ListSize() const {return ElementList.size();}
+    std::vector<EbmlElement *> const &GetElementList() const {return ElementList;}
+    std::vector<EbmlElement *> &GetElementList() {return ElementList;}
 
         inline EBML_MASTER_ITERATOR begin() {return ElementList.begin();}
         inline EBML_MASTER_ITERATOR end() {return ElementList.end();}
