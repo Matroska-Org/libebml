@@ -57,6 +57,7 @@ public:
 	UTFstring();
 	UTFstring(const wchar_t *); // should be NULL terminated
 	UTFstring(const UTFstring &);
+	UTFstring(std::wstring const &);
 	
 	virtual ~UTFstring();
 	bool operator==(const UTFstring&) const;

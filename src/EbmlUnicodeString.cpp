@@ -59,6 +59,13 @@ UTFstring::UTFstring(const wchar_t * _aBuf)
 	*this = _aBuf;
 }
 
+UTFstring::UTFstring(std::wstring const &_aBuf)
+	:_Length(0)
+	,_Data(NULL)
+{
+	*this = _aBuf.c_str();
+}
+
 UTFstring::~UTFstring()
 {
 	delete [] _Data;
