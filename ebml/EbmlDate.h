@@ -52,7 +52,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 			\brief set the date with a UNIX/C/EPOCH form
 			\param NewDate UNIX/C date in UTC (no timezone)
 		*/
-		void SetEpochDate(int64 NewDate) {myDate = NewDate - UnixEpochDelay * 1000000000; SetValueIsSet();}
+		void SetEpochDate(int64 NewDate) {myDate = (NewDate - UnixEpochDelay) * 1000000000; SetValueIsSet();}
     EbmlDate &SetValue(int64 NewValue) {SetEpochDate(NewValue); return *this;}
 
 		/*!
