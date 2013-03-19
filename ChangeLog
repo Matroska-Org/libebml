@@ -1,6 +1,14 @@
-2011-10-xx robux4
-New 1.2.3 version:
-    - compilation warning fixes for mingw
+2013-04-?? mosu
+New 1.3.0 version:
+    * Note that this version is not binary compatible to its predecessors.
+    - Compilation warning fixes
+    - GetValue() and SetValue() functions for EbmlFloat/EbmlSInteger/EbmlUInteger
+    - GetValue(), SetValue(), GetValueUTF8(), SetValueUTF8() functions for EbmlString/EbmlUnicodeString
+    - Date values use 64bit integers
+    - Integer conversion operators were made 'const'
+    - GetElementList() function for EbmlMaster providing a reference to the underlying std::vector<> for better interaction with the C++ standard library
+    - New constructor for UTFstring taking a single std::wstring
+    - Increased library .so name to .4 due to binary incompatible changes.
 
 2011-09-23 robux4/mosu
 New 1.2.2 version:
@@ -1595,4 +1603,3 @@ New 0.8.0 version:
 	  trunk/libebml/src/platform/win32/WinIOCallback.cpp,
 	  trunk/libebml/src/platform/win32/WinIOCallback.h: Initial CVS
 	  version after the crash
-
