@@ -2,7 +2,7 @@ libebml (1.3.0-1) precise; urgency=low
 
   * New version.
 
- -- Moritz Bunkus <moritz@bunkus.org>  Sat, 22 Sep 2012 22:25:11 +0000
+ -- Moritz Bunkus <moritz@bunkus.org>  Tue, 19 Mar 2013 18:30:00 +0000
 
 libebml (1.2.2-1) natty; urgency=low
 
@@ -189,4 +189,3 @@ libebml (0.2.0.20030421-1) unstable; urgency=low
   * Initial Release.
 
  -- Moritz Bunkus <moritz@bunkus.org>  Mon, 21 Apr 2003 12:49:33 +0200
-
