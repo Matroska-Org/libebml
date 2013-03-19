@@ -9,6 +9,7 @@ New 1.3.0 version:
     - GetElementList() function for EbmlMaster providing a reference to the underlying std::vector<> for better interaction with the C++ standard library
     - New constructor for UTFstring taking a single std::wstring
     - Increased library .so name to .4 due to binary incompatible changes.
+    - Removed the Debian build files from our package.
 
 2011-09-23 robux4/mosu
 New 1.2.2 version:
