@@ -61,7 +61,7 @@ headers:=$(patsubst %$(EXTENSION),%.h,$(sources))
 objects:=$(patsubst %$(EXTENSION),%.o,$(sources))
 objects_so:=$(patsubst %$(EXTENSION),%.lo,$(sources))
 
-WARNINGFLAGS=-Wall -Wextra -Wno-unknown-pragmas -ansi -fno-gnu-keywords -Wshadow
+WARNINGFLAGS=-Wall -Wextra -Wno-unknown-pragmas -Wshadow
 COMPILEFLAGS=$(WARNINGFLAGS) $(CXXFLAGS) $(CPPFLAGS) $(DEBUGFLAGS) $(INCLUDE)
 DEPENDFLAGS  = $(CXXFLAGS) $(INCLUDE)
 
