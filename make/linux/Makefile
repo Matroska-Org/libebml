@@ -37,12 +37,22 @@ ifeq (yes,$(DEBUG))
 DEBUGFLAGS=-g -DDEBUG
 endif
 
+ifeq (Darwin,$(shell uname -s))
+link=static
+else
+link=both
+endif
+
+targets_both = staticlib sharedlib
+targets_shared = sharedlib
+targets_static = staticlib
+
 CWD=$(shell pwd)
 
 SRC_DIR=$(CWD)/../../src/
 INCLUDE_DIR=$(CWD)/../../ebml
 
-# Librarires
+# Libraries
 INCLUDE=-I$(CWD)/../..
 LIBS=
 
@@ -61,15 +71,11 @@ headers:=$(patsubst %$(EXTENSION),%.h,$(sources))
 objects:=$(patsubst %$(EXTENSION),%.o,$(sources))
 objects_so:=$(patsubst %$(EXTENSION),%.lo,$(sources))
 
-WARNINGFLAGS=-Wall -Wextra -Wno-unknown-pragmas -ansi -fno-gnu-keywords -Wshadow
+WARNINGFLAGS=-Wall -Wextra -Wno-unknown-pragmas -Wshadow
 COMPILEFLAGS=$(WARNINGFLAGS) $(CXXFLAGS) $(CPPFLAGS) $(DEBUGFLAGS) $(INCLUDE)
 DEPENDFLAGS  = $(CXXFLAGS) $(INCLUDE)
 
-ifeq (Darwin,$(shell uname -s))
-all: staticlib
-else
-all: staticlib sharedlib
-endif
+all: $(targets_$(link))
 
 staticlib: $(LIBRARY)
 
@@ -115,30 +121,26 @@ depend:
 		$(CXX) $(DEPENDFLAGS) -MM -MT $$o $$i >> .depend ; \
 	done
 
-ifeq (Darwin,$(shell uname -s))
-install: install_staticlib install_headers
-else
-install: install_staticlib install_sharedlib install_headers
-endif
+install: $(targets_$(link):%=install_%) install_headers
 
 install_headers:
-	$(INSTALL) $(INSTALL_DIR_OPTS) -d $(includedir)
+	$(INSTALL) $(INSTALL_DIR_OPTS) -d $(DESTDIR)$(includedir)
 	for i in $(INCLUDE_DIR)/*.h; do \
-		$(INSTALL) $(INSTALL_OPTS) $$i $(includedir) ; \
+		$(INSTALL) $(INSTALL_OPTS) $$i $(DESTDIR)$(includedir) ; \
 	done
-	$(INSTALL) $(INSTALL_DIR_OPTS) -d $(includedir)/c
+	$(INSTALL) $(INSTALL_DIR_OPTS) -d $(DESTDIR)$(includedir)/c
 	for i in $(INCLUDE_DIR)/c/*.h; do \
-		$(INSTALL) $(INSTALL_OPTS) $$i $(includedir)/c ; \
+		$(INSTALL) $(INSTALL_OPTS) $$i $(DESTDIR)$(includedir)/c ; \
 	done
 
 install_staticlib: $(LIBRARY)
-	$(INSTALL) $(INSTALL_DIR_OPTS) -d $(libdir)
-	$(INSTALL) $(INSTALL_OPTS_LIB) $(LIBRARY) $(libdir)
+	$(INSTALL) $(INSTALL_DIR_OPTS) -d $(DESTDIR)$(libdir)
+	$(INSTALL) $(INSTALL_OPTS_LIB) $(LIBRARY) $(DESTDIR)$(libdir)
 
 install_sharedlib: $(LIBRARY_SO)
-	$(INSTALL) $(INSTALL_DIR_OPTS) -d $(libdir)
-	$(INSTALL) $(INSTALL_OPTS_LIB) $(LIBRARY_SO_VER) $(libdir)
-	ln -fs $(LIBRARY_SO_VER) $(libdir)/$(LIBRARY_SO)
+	$(INSTALL) $(INSTALL_DIR_OPTS) -d $(DESTDIR)$(libdir)
+	$(INSTALL) $(INSTALL_OPTS_LIB) $(LIBRARY_SO_VER) $(DESTDIR)$(libdir)
+	ln -fs $(LIBRARY_SO_VER) $(DESTDIR)$(libdir)/$(LIBRARY_SO)
 
 
 ifneq ($(wildcard .depend),)
