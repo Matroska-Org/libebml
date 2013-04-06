@@ -52,7 +52,7 @@ CWD=$(shell pwd)
 SRC_DIR=$(CWD)/../../src/
 INCLUDE_DIR=$(CWD)/../../ebml
 
-# Librarires
+# Libraries
 INCLUDE=-I$(CWD)/../..
 LIBS=
 
