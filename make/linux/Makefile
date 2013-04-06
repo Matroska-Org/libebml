@@ -37,6 +37,16 @@ ifeq (yes,$(DEBUG))
 DEBUGFLAGS=-g -DDEBUG
 endif
 
+ifeq (Darwin,$(shell uname -s))
+link=static
+else
+link=both
+endif
+
+targets_both = staticlib sharedlib
+targets_shared = sharedlib
+targets_static = staticlib
+
 CWD=$(shell pwd)
 
 SRC_DIR=$(CWD)/../../src/
@@ -65,11 +75,7 @@ WARNINGFLAGS=-Wall -Wextra -Wno-unknown-pragmas -Wshadow
 COMPILEFLAGS=$(WARNINGFLAGS) $(CXXFLAGS) $(CPPFLAGS) $(DEBUGFLAGS) $(INCLUDE)
 DEPENDFLAGS  = $(CXXFLAGS) $(INCLUDE)
 
-ifeq (Darwin,$(shell uname -s))
-all: staticlib
-else
-all: staticlib sharedlib
-endif
+all: $(targets_$(link))
 
 staticlib: $(LIBRARY)
 
@@ -115,11 +121,7 @@ depend:
 		$(CXX) $(DEPENDFLAGS) -MM -MT $$o $$i >> .depend ; \
 	done
 
-ifeq (Darwin,$(shell uname -s))
-install: install_staticlib install_headers
-else
-install: install_staticlib install_sharedlib install_headers
-endif
+install: $(targets_$(link):%=install_%) install_headers
 
 install_headers:
 	$(INSTALL) $(INSTALL_DIR_OPTS) -d $(includedir)
