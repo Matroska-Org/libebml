@@ -273,7 +273,7 @@ filepos_t EbmlUnicodeString::RenderData(IOCallback & output, bool /* bForceRende
 
 	if (Result < GetDefaultSize()) {
 		// pad the rest with 0
-		binary *Pad = new binary[GetDefaultSize() - Result];
+		binary *Pad = new (std::nothrow) binary[GetDefaultSize() - Result];
 		if (Pad != NULL) {
 			memset(Pad, 0x00, GetDefaultSize() - Result);
 			output.writeFully(Pad, GetDefaultSize() - Result);
@@ -339,7 +339,7 @@ filepos_t EbmlUnicodeString::ReadData(IOCallback & input, ScopeMode ReadFully)
 			Value = UTFstring::value_type(0);
 			SetValueIsSet();
 		} else {
-			char *Buffer = new char[GetSize()+1];
+			char *Buffer = new (std::nothrow) char[GetSize()+1];
 			if (Buffer == NULL) {
 				// impossible to read, skip it
 				input.setFilePointer(GetSize(), seek_current);

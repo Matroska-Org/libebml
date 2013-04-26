@@ -317,7 +317,9 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
 		Result = &EBML_INFO_CREATE(ClassInfos);
 	} else {
 		/// \todo find the element in the context
-		Result = new EbmlDummy(PossibleID);
+		Result = new (std::nothrow) EbmlDummy(PossibleID);
+        if(Result == NULL)
+            return NULL;
 	}
 
 	Result->SetSizeLength(PossibleSizeLength);
@@ -565,7 +567,7 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 
 	if (!IsGlobalContext && bAllowDummy) {
 		LowLevel = 0;
-		Result = new EbmlDummy(aID);
+		Result = new (std::nothrow) EbmlDummy(aID);
 	}
 
 	return Result;
