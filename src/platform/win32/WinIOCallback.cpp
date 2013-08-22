@@ -153,10 +153,11 @@ bool WinIOCallback::open(const wchar_t* Path, const open_mode aMode, DWORD dwFla
 		mFile = CreateFileW(Path, AccessMode, ShareMode, NULL, Disposition, dwFlags, NULL);
 	} else {
 		int errCode;
-		unsigned int bufferSize = wcslen(Path) + sizeof(wchar_t) * 2;
+        int pathSize = wcslen(Path);
+		unsigned int bufferSize = pathSize + sizeof(wchar_t) * 2;
 		std::string PathA;
 		PathA.resize(bufferSize);
-		errCode = WideCharToMultiByte(CP_ACP, 0, Path, wcslen(Path), (char *)PathA.c_str(), bufferSize, NULL, NULL);
+		errCode = WideCharToMultiByte(CP_ACP, 0, Path, pathSize, (char *)PathA.c_str(), bufferSize, NULL, NULL);
 		if (errCode == 0)
 			errCode = GetLastError();
 #ifdef _DEBUG		
@@ -168,7 +169,7 @@ bool WinIOCallback::open(const wchar_t* Path, const open_mode aMode, DWORD dwFla
 			// Increase the buffer size
 			bufferSize += MAX_PATH;
 			PathA.resize(bufferSize);
-			errCode = WideCharToMultiByte(CP_ACP, WC_SEPCHARS, Path, wcslen(Path), (char *)PathA.c_str(), bufferSize, NULL, NULL);
+			errCode = WideCharToMultiByte(CP_ACP, WC_SEPCHARS, Path, pathSize, (char *)PathA.c_str(), bufferSize, NULL, NULL);
 			if (errCode == 0)
 				errCode = GetLastError();
 		}
@@ -251,7 +252,7 @@ void WinIOCallback::setFilePointer(int64 Offset, seek_mode Mode)
 	}
 	else
 	{
-		mCurrentPosition |= uint64(High<<32);
+		mCurrentPosition |= uint64(High)<<32;
 	}
 }
 
