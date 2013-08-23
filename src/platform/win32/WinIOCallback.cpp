@@ -153,7 +153,7 @@ bool WinIOCallback::open(const wchar_t* Path, const open_mode aMode, DWORD dwFla
 		mFile = CreateFileW(Path, AccessMode, ShareMode, NULL, Disposition, dwFlags, NULL);
 	} else {
 		int errCode;
-        int pathSize = wcslen(Path);
+		int pathSize = wcslen(Path);
 		unsigned int bufferSize = pathSize + sizeof(wchar_t) * 2;
 		std::string PathA;
 		PathA.resize(bufferSize);
