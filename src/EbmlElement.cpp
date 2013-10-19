@@ -142,6 +142,7 @@ uint64 ReadCodedSizeValue(const binary * InBuffer, uint32 & BufferSize, uint64 &
 	uint64 Result = 0x7F;
 	unsigned int SizeIdx, PossibleSizeLength = 0;
 	binary PossibleSize[8];
+	memset(PossibleSize, 0, 8);
 
 	SizeUnknown = 0x7F; // the last bit is discarded when computing the size
 	for (SizeIdx = 0; SizeIdx < BufferSize && SizeIdx < 8; SizeIdx++) {
