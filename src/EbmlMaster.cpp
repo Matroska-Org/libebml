@@ -65,7 +65,7 @@ EbmlMaster::EbmlMaster(const EbmlMaster & ElementToClone)
 	while (Itr != ElementToClone.ElementList.end())
 	{
 		*myItr = (*Itr)->Clone();
-		Itr++; myItr++;
+		++Itr; ++myItr;
 	}
 
 }
@@ -524,7 +524,7 @@ bool EbmlMaster::InsertElement(EbmlElement & element, size_t position)
 	std::vector<EbmlElement *>::iterator Itr = ElementList.begin();
 	while (Itr != ElementList.end() && position--)
 	{
-		Itr++;
+		++Itr;
 	}
 	if ((Itr == ElementList.end()) && position)
 		return false;
@@ -538,7 +538,7 @@ bool EbmlMaster::InsertElement(EbmlElement & element, const EbmlElement & before
 	std::vector<EbmlElement *>::iterator Itr = ElementList.begin();
 	while (Itr != ElementList.end() && *Itr != &before)
 	{
-		Itr++;
+		++Itr;
 	}
 	if (Itr == ElementList.end())
 		return false;
