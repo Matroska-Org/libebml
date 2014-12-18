@@ -42,7 +42,7 @@
 
 START_LIBEBML_NAMESPACE
 
-#define LIBEBML_VERSION 0x010300
+#define LIBEBML_VERSION 0x010301
 
 extern const std::string EbmlCodeVersion;
 extern const std::string EbmlCodeDate;
