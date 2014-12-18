@@ -29,9 +29,9 @@
 **********************************************************************/
 
 /*!
-	\file
-	\version \$Id$
-	\author Steve Lhomme     <robux4 @ users.sf.net>
+  \file
+  \version \$Id$
+  \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #ifndef LIBEBML_VERSION_H
 #define LIBEBML_VERSION_H
@@ -48,7 +48,7 @@ extern const std::string EbmlCodeVersion;
 extern const std::string EbmlCodeDate;
 
 /*!
-	\todo Closer relation between an element and the context it comes from (context is an element attribute ?)
+  \todo Closer relation between an element and the context it comes from (context is an element attribute ?)
 */
 
 END_LIBEBML_NAMESPACE

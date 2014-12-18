@@ -11,12 +11,12 @@
 ** modify it under the terms of the GNU Lesser General Public
 ** License as published by the Free Software Foundation; either
 ** version 2.1 of the License, or (at your option) any later version.
-** 
+**
 ** This library is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ** Lesser General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU Lesser General Public
 ** License along with this library; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -58,63 +58,63 @@ enum endianess {
 template<class TYPE, endianess ENDIAN> class Endian
 {
     public:
-	    Endian() {}
+      Endian() {}
 
-	    Endian(const TYPE value)
-	    {
-		    memcpy(&platform_value, &value, sizeof(TYPE));
-		    process_endian();
-	    }
+      Endian(const TYPE value)
+      {
+        memcpy(&platform_value, &value, sizeof(TYPE));
+        process_endian();
+      }
 
-	    inline Endian & Eval(const binary *endian_buffer)
-	    {
-	        //endian_value = *(TYPE *)(endian_buffer);
-	        memcpy(&endian_value, endian_buffer, sizeof(TYPE));	// Some (all?) RISC processors do not allow reading objects bigger than 1 byte from non-aligned addresses, and endian_buffer may point to a non-aligned address.
-	        process_platform();
-	        return *this;
-	    }
+      inline Endian & Eval(const binary *endian_buffer)
+      {
+          //endian_value = *(TYPE *)(endian_buffer);
+          memcpy(&endian_value, endian_buffer, sizeof(TYPE));  // Some (all?) RISC processors do not allow reading objects bigger than 1 byte from non-aligned addresses, and endian_buffer may point to a non-aligned address.
+          process_platform();
+          return *this;
+      }
 
-	    inline void Fill(binary *endian_buffer) const
-	    {
-	        //*(TYPE*)endian_buffer = endian_value;
-	        memcpy(endian_buffer, &endian_value, sizeof(TYPE)); // See above.
-	    }
+      inline void Fill(binary *endian_buffer) const
+      {
+          //*(TYPE*)endian_buffer = endian_value;
+          memcpy(endian_buffer, &endian_value, sizeof(TYPE)); // See above.
+      }
 
-	    inline operator const TYPE&() const { return platform_value; }
-    //	inline TYPE endian() const   { return endian_value; }
-	    inline const TYPE &endian() const       { return endian_value; }
-	    inline size_t size() const   { return sizeof(TYPE); }
-	    inline bool operator!=(const binary *buffer) const {return *((TYPE*)buffer) == platform_value;}
+      inline operator const TYPE&() const { return platform_value; }
+    //  inline TYPE endian() const   { return endian_value; }
+      inline const TYPE &endian() const       { return endian_value; }
+      inline size_t size() const   { return sizeof(TYPE); }
+      inline bool operator!=(const binary *buffer) const {return *((TYPE*)buffer) == platform_value;}
 
 #if defined(EBML_STRICT_API)
     private:
 #else
     protected:
 #endif
-	    TYPE platform_value;
-	    TYPE endian_value;
+      TYPE platform_value;
+      TYPE endian_value;
 
-	    inline void process_endian()
-	    {
-	        endian_value = platform_value;
+      inline void process_endian()
+      {
+          endian_value = platform_value;
 #ifdef WORDS_BIGENDIAN
-	        if (ENDIAN == little_endian)
+          if (ENDIAN == little_endian)
 #else  // _ENDIANESS_
-	        if (ENDIAN == big_endian)
+          if (ENDIAN == big_endian)
 #endif // _ENDIANESS_
-    		    std::reverse(reinterpret_cast<uint8*>(&endian_value),reinterpret_cast<uint8*>(&endian_value+1));
-	    }
+            std::reverse(reinterpret_cast<uint8*>(&endian_value),reinterpret_cast<uint8*>(&endian_value+1));
+      }
 
-	    inline void process_platform()
-	    {
-	        platform_value = endian_value;
+      inline void process_platform()
+      {
+          platform_value = endian_value;
 #ifdef WORDS_BIGENDIAN
-	        if (ENDIAN == little_endian)
+          if (ENDIAN == little_endian)
 #else  // _ENDIANESS_
-	        if (ENDIAN == big_endian)
+          if (ENDIAN == big_endian)
 #endif // _ENDIANESS_
-    		    std::reverse(reinterpret_cast<uint8*>(&platform_value),reinterpret_cast<uint8*>(&platform_value+1));
-	    }
+            std::reverse(reinterpret_cast<uint8*>(&platform_value),reinterpret_cast<uint8*>(&platform_value+1));
+      }
 };
 
 END_LIBEBML_NAMESPACE

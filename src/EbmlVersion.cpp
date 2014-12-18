@@ -29,9 +29,9 @@
 **********************************************************************/
 
 /*!
-	\file
-	\version \$Id: EbmlVersion.cpp 639 2004-07-09 20:59:14Z mosu $
-	\author Steve Lhomme     <robux4 @ users.sf.net>
+  \file
+  \version \$Id: EbmlVersion.cpp 639 2004-07-09 20:59:14Z mosu $
+  \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 
 #include "ebml/EbmlVersion.h"

@@ -29,9 +29,9 @@
 **********************************************************************/
 
 /*!
-	\file
-	\version \$Id$
-	\author Steve Lhomme     <robux4 @ users.sf.net>
+  \file
+  \version \$Id$
+  \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 
 #include <cassert>
@@ -43,14 +43,14 @@ START_LIBEBML_NAMESPACE
 EbmlFloat::EbmlFloat(const EbmlFloat::Precision prec)
  :EbmlElement(0, false)
 {
-	SetPrecision(prec);
+  SetPrecision(prec);
 }
 
 EbmlFloat::EbmlFloat(const double aDefaultValue, const EbmlFloat::Precision prec)
  :EbmlElement(0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
 {
-	SetDefaultIsSet();
-	SetPrecision(prec);
+  SetDefaultIsSet();
+  SetPrecision(prec);
 }
 
 EbmlFloat::EbmlFloat(const EbmlFloat & ElementToClone)
@@ -83,76 +83,76 @@ EbmlFloat & EbmlFloat::SetValue(double NewValue) {
 }
 
 /*!
-	\todo handle exception on errors
-	\todo handle 10 bits precision
+  \todo handle exception on errors
+  \todo handle 10 bits precision
 */
 filepos_t EbmlFloat::RenderData(IOCallback & output, bool /* bForceRender */, bool /* bWithDefault */)
 {
-	assert(GetSize() == 4 || GetSize() == 8);
+  assert(GetSize() == 4 || GetSize() == 8);
 
-	if (GetSize() == 4) {
-		float val = Value;
-		int Tmp;
-		memcpy(&Tmp, &val, 4);
-		big_int32 TmpToWrite(Tmp);
-		output.writeFully(&TmpToWrite.endian(), GetSize());
-	} else if (GetSize() == 8) {
-		double val = Value;
-		int64 Tmp;
-		memcpy(&Tmp, &val, 8);
-		big_int64 TmpToWrite(Tmp);
-		output.writeFully(&TmpToWrite.endian(), GetSize());
-	}
+  if (GetSize() == 4) {
+    float val = Value;
+    int Tmp;
+    memcpy(&Tmp, &val, 4);
+    big_int32 TmpToWrite(Tmp);
+    output.writeFully(&TmpToWrite.endian(), GetSize());
+  } else if (GetSize() == 8) {
+    double val = Value;
+    int64 Tmp;
+    memcpy(&Tmp, &val, 8);
+    big_int64 TmpToWrite(Tmp);
+    output.writeFully(&TmpToWrite.endian(), GetSize());
+  }
 
-	return GetSize();
+  return GetSize();
 }
 
 uint64 EbmlFloat::UpdateSize(bool bWithDefault, bool  /* bForceRender */)
 {
-	if (!bWithDefault && IsDefaultValue())
-		return 0;
-	return GetSize();
+  if (!bWithDefault && IsDefaultValue())
+    return 0;
+  return GetSize();
 }
 
 /*!
-	\todo remove the hack for possible endianess pb (test on little & big endian)
+  \todo remove the hack for possible endianess pb (test on little & big endian)
 */
 filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-	if (ReadFully != SCOPE_NO_DATA)
-	{
-		binary Buffer[20];
-		assert(GetSize() <= 20);
-		input.readFully(Buffer, GetSize());
+  if (ReadFully != SCOPE_NO_DATA)
+  {
+    binary Buffer[20];
+    assert(GetSize() <= 20);
+    input.readFully(Buffer, GetSize());
 
-		if (GetSize() == 4) {
-			big_int32 TmpRead;
-			TmpRead.Eval(Buffer);
-			int32 tmpp = int32(TmpRead);
-			float val;
-			memcpy(&val, &tmpp, 4);
-			Value = val;
-			SetValueIsSet();
-		} else if (GetSize() == 8) {
-			big_int64 TmpRead;
-			TmpRead.Eval(Buffer);
-			int64 tmpp = int64(TmpRead);
-			double val;
-			memcpy(&val, &tmpp, 8);
-			Value = val;
-			SetValueIsSet();
-		}
-	}
+    if (GetSize() == 4) {
+      big_int32 TmpRead;
+      TmpRead.Eval(Buffer);
+      int32 tmpp = int32(TmpRead);
+      float val;
+      memcpy(&val, &tmpp, 4);
+      Value = val;
+      SetValueIsSet();
+    } else if (GetSize() == 8) {
+      big_int64 TmpRead;
+      TmpRead.Eval(Buffer);
+      int64 tmpp = int64(TmpRead);
+      double val;
+      memcpy(&val, &tmpp, 8);
+      Value = val;
+      SetValueIsSet();
+    }
+  }
 
-	return GetSize();
+  return GetSize();
 }
 
 bool EbmlFloat::IsSmallerThan(const EbmlElement *Cmp) const
 {
-	if (EbmlId(*this) == EbmlId(*Cmp))
-		return this->Value < static_cast<const EbmlFloat *>(Cmp)->Value;
-	else
-		return false;
+  if (EbmlId(*this) == EbmlId(*Cmp))
+    return this->Value < static_cast<const EbmlFloat *>(Cmp)->Value;
+  else
+    return false;
 }
 
 END_LIBEBML_NAMESPACE

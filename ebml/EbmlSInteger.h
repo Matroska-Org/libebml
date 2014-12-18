@@ -29,11 +29,11 @@
 **********************************************************************/
 
 /*!
-	\file
-	\version \$Id$
-	\author Steve Lhomme     <robux4 @ users.sf.net>
-	\author Julien Coloos    <suiryc @ users.sf.net>
-	\author Moritz Bunkus    <moritz @ bunkus.org>
+  \file
+  \version \$Id$
+  \author Steve Lhomme     <robux4 @ users.sf.net>
+  \author Julien Coloos    <suiryc @ users.sf.net>
+  \author Moritz Bunkus    <moritz @ bunkus.org>
 */
 #ifndef LIBEBML_SINTEGER_H
 #define LIBEBML_SINTEGER_H
@@ -52,48 +52,48 @@ const int DEFAULT_INT_SIZE = 1; ///< optimal size stored
     \brief Handle all operations on a signed integer EBML element
 */
 class EBML_DLL_API EbmlSInteger : public EbmlElement {
-	public:
-		EbmlSInteger();
-		EbmlSInteger(int64 DefaultValue);
-		EbmlSInteger(const EbmlSInteger & ElementToClone);
+  public:
+    EbmlSInteger();
+    EbmlSInteger(int64 DefaultValue);
+    EbmlSInteger(const EbmlSInteger & ElementToClone);
 
-		EbmlSInteger & operator = (int64 NewValue) {Value = NewValue; SetValueIsSet(); return *this;}
+    EbmlSInteger & operator = (int64 NewValue) {Value = NewValue; SetValueIsSet(); return *this;}
 
-		/*!
-			Set the default size of the integer (usually 1,2,4 or 8)
-		*/
+    /*!
+      Set the default size of the integer (usually 1,2,4 or 8)
+    */
         virtual void SetDefaultSize(uint64 nDefaultSize = DEFAULT_INT_SIZE) {EbmlElement::SetDefaultSize(nDefaultSize); SetSize_(nDefaultSize);}
 
-		virtual bool ValidateSize() const {return IsFiniteSize() && (GetSize() <= 8);}
-		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
-		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
-		filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false);
+    virtual bool ValidateSize() const {return IsFiniteSize() && (GetSize() <= 8);}
+    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
+    filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
+    filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false);
 
-		virtual bool IsSmallerThan(const EbmlElement *Cmp) const;
+    virtual bool IsSmallerThan(const EbmlElement *Cmp) const;
 
-		operator int8() const;
-		operator int16() const;
-		operator int32() const;
-		operator int64() const;
+    operator int8() const;
+    operator int16() const;
+    operator int32() const;
+    operator int64() const;
 
-		EbmlSInteger &SetValue(int64 NewValue);
-		int64 GetValue() const;
+    EbmlSInteger &SetValue(int64 NewValue);
+    int64 GetValue() const;
 
-		void SetDefaultValue(int64 aValue) {assert(!DefaultISset()); DefaultValue = aValue; SetDefaultIsSet();}
+    void SetDefaultValue(int64 aValue) {assert(!DefaultISset()); DefaultValue = aValue; SetDefaultIsSet();}
 
-		int64 DefaultVal() const {assert(DefaultISset()); return DefaultValue;}
+    int64 DefaultVal() const {assert(DefaultISset()); return DefaultValue;}
 
-		bool IsDefaultValue() const {
-			return (DefaultISset() && Value == DefaultValue);
-		}
+    bool IsDefaultValue() const {
+      return (DefaultISset() && Value == DefaultValue);
+    }
 
 #if defined(EBML_STRICT_API)
     private:
 #else
     protected:
 #endif
-		int64 Value; /// The actual value of the element
-		int64 DefaultValue;
+    int64 Value; /// The actual value of the element
+    int64 DefaultValue;
 };
 
 END_LIBEBML_NAMESPACE

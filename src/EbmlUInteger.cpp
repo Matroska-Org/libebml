@@ -11,12 +11,12 @@
 ** modify it under the terms of the GNU Lesser General Public
 ** License as published by the Free Software Foundation; either
 ** version 2.1 of the License, or (at your option) any later version.
-** 
+**
 ** This library is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ** Lesser General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU Lesser General Public
 ** License along with this library; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -29,10 +29,10 @@
 **********************************************************************/
 
 /*!
-	\file
-	\version \$Id$
-	\author Steve Lhomme     <robux4 @ users.sf.net>
-	\author Moritz Bunkus <moritz @ bunkus.org>
+  \file
+  \version \$Id$
+  \author Steve Lhomme     <robux4 @ users.sf.net>
+  \author Moritz Bunkus <moritz @ bunkus.org>
 */
 #include <cassert>
 
@@ -47,7 +47,7 @@ EbmlUInteger::EbmlUInteger()
 EbmlUInteger::EbmlUInteger(uint64 aDefaultValue)
  :EbmlElement(DEFAULT_UINT_SIZE, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
 {
-	SetDefaultIsSet();
+  SetDefaultIsSet();
 }
 
 EbmlUInteger::EbmlUInteger(const EbmlUInteger & ElementToClone)
@@ -82,81 +82,81 @@ EbmlUInteger & EbmlUInteger::SetValue(uint64 NewValue) {
 }
 
 /*!
-	\todo handle exception on errors
+  \todo handle exception on errors
 */
 filepos_t EbmlUInteger::RenderData(IOCallback & output, bool /* bForceRender */, bool /* bWithDefault */)
 {
-	binary FinalData[8]; // we don't handle more than 64 bits integers
-	
-	if (GetSizeLength() > 8)
-		return 0; // integer bigger coded on more than 64 bits are not supported
-	
-	uint64 TempValue = Value;
-	for (unsigned int i=0; i<GetSize();i++) {
-		FinalData[GetSize()-i-1] = TempValue & 0xFF;
-		TempValue >>= 8;
-	}
-	
-	output.writeFully(FinalData,GetSize());
+  binary FinalData[8]; // we don't handle more than 64 bits integers
 
-	return GetSize();
+  if (GetSizeLength() > 8)
+    return 0; // integer bigger coded on more than 64 bits are not supported
+
+  uint64 TempValue = Value;
+  for (unsigned int i=0; i<GetSize();i++) {
+    FinalData[GetSize()-i-1] = TempValue & 0xFF;
+    TempValue >>= 8;
+  }
+
+  output.writeFully(FinalData,GetSize());
+
+  return GetSize();
 }
 
 uint64 EbmlUInteger::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 {
-	if (!bWithDefault && IsDefaultValue())
-		return 0;
+  if (!bWithDefault && IsDefaultValue())
+    return 0;
 
-	if (Value <= 0xFF) {
-		SetSize_(1);
-	} else if (Value <= 0xFFFF) {
-		SetSize_(2);
-	} else if (Value <= 0xFFFFFF) {
-		SetSize_(3);
-	} else if (Value <= 0xFFFFFFFF) {
-		SetSize_(4);
-	} else if (Value <= EBML_PRETTYLONGINT(0xFFFFFFFFFF)) {
-		SetSize_(5);
-	} else if (Value <= EBML_PRETTYLONGINT(0xFFFFFFFFFFFF)) {
-		SetSize_(6);
-	} else if (Value <= EBML_PRETTYLONGINT(0xFFFFFFFFFFFFFF)) {
-		SetSize_(7);
-	} else {
-		SetSize_(8);
-	}
+  if (Value <= 0xFF) {
+    SetSize_(1);
+  } else if (Value <= 0xFFFF) {
+    SetSize_(2);
+  } else if (Value <= 0xFFFFFF) {
+    SetSize_(3);
+  } else if (Value <= 0xFFFFFFFF) {
+    SetSize_(4);
+  } else if (Value <= EBML_PRETTYLONGINT(0xFFFFFFFFFF)) {
+    SetSize_(5);
+  } else if (Value <= EBML_PRETTYLONGINT(0xFFFFFFFFFFFF)) {
+    SetSize_(6);
+  } else if (Value <= EBML_PRETTYLONGINT(0xFFFFFFFFFFFFFF)) {
+    SetSize_(7);
+  } else {
+    SetSize_(8);
+  }
 
-	if (GetDefaultSize() > GetSize()) {
-		SetSize_(GetDefaultSize());
-	}
+  if (GetDefaultSize() > GetSize()) {
+    SetSize_(GetDefaultSize());
+  }
 
-	return GetSize();
+  return GetSize();
 }
 
 filepos_t EbmlUInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-	if (ReadFully != SCOPE_NO_DATA)
-	{
-		binary Buffer[8];
-		input.readFully(Buffer, GetSize());
-		Value = 0;
-		
-		for (unsigned int i=0; i<GetSize(); i++)
-		{
-			Value <<= 8;
-			Value |= Buffer[i];
-		}
-		SetValueIsSet();
-	}
+  if (ReadFully != SCOPE_NO_DATA)
+  {
+    binary Buffer[8];
+    input.readFully(Buffer, GetSize());
+    Value = 0;
 
-	return GetSize();
+    for (unsigned int i=0; i<GetSize(); i++)
+    {
+      Value <<= 8;
+      Value |= Buffer[i];
+    }
+    SetValueIsSet();
+  }
+
+  return GetSize();
 }
 
 bool EbmlUInteger::IsSmallerThan(const EbmlElement *Cmp) const
 {
-	if (EbmlId(*this) == EbmlId(*Cmp))
-		return this->Value < static_cast<const EbmlUInteger *>(Cmp)->Value;
-	else
-		return false;
+  if (EbmlId(*this) == EbmlId(*Cmp))
+    return this->Value < static_cast<const EbmlUInteger *>(Cmp)->Value;
+  else
+    return false;
 }
 
 END_LIBEBML_NAMESPACE

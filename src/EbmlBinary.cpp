@@ -11,12 +11,12 @@
 ** modify it under the terms of the GNU Lesser General Public
 ** License as published by the Free Software Foundation; either
 ** version 2.1 of the License, or (at your option) any later version.
-** 
+**
 ** This library is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ** Lesser General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU Lesser General Public
 ** License along with this library; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -29,10 +29,10 @@
 **********************************************************************/
 
 /*!
-	\file
-	\version \$Id$
-	\author Steve Lhomme     <robux4 @ users.sf.net>
-	\author Julien Coloos	<suiryc @ users.sf.net>
+  \file
+  \version \$Id$
+  \author Steve Lhomme     <robux4 @ users.sf.net>
+  \author Julien Coloos  <suiryc @ users.sf.net>
 */
 #include <cassert>
 #include <string>
@@ -49,18 +49,18 @@ EbmlBinary::EbmlBinary()
 EbmlBinary::EbmlBinary(const EbmlBinary & ElementToClone)
  :EbmlElement(ElementToClone)
 {
-	if (ElementToClone.Data == NULL)
-		Data = NULL;
-	else {
-		Data = (binary *)malloc(GetSize() * sizeof(binary));
-		assert(Data != NULL);
-		memcpy(Data, ElementToClone.Data, GetSize());
-	}
+  if (ElementToClone.Data == NULL)
+    Data = NULL;
+  else {
+    Data = (binary *)malloc(GetSize() * sizeof(binary));
+    assert(Data != NULL);
+    memcpy(Data, ElementToClone.Data, GetSize());
+  }
 }
 
 EbmlBinary::~EbmlBinary(void) {
-	if(Data)
-		free(Data);
+  if(Data)
+    free(Data);
 }
 
 EbmlBinary::operator const binary &() const {return *Data;}
@@ -68,40 +68,40 @@ EbmlBinary::operator const binary &() const {return *Data;}
 
 filepos_t EbmlBinary::RenderData(IOCallback & output, bool /* bForceRender */, bool /* bWithDefault */)
 {
-	output.writeFully(Data,GetSize());
+  output.writeFully(Data,GetSize());
 
-	return GetSize();
+  return GetSize();
 }
-	
+
 /*!
-	\note no Default binary value handled
+  \note no Default binary value handled
 */
 uint64 EbmlBinary::UpdateSize(bool /* bWithDefault */, bool /* bForceRender */)
 {
-	return GetSize();
+  return GetSize();
 }
 
 filepos_t EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-	if (Data != NULL)
-		free(Data);
-	
-    if (ReadFully == SCOPE_NO_DATA || !GetSize())
-	{
-		Data = NULL;
-		return GetSize();
-	}
+  if (Data != NULL)
+    free(Data);
 
-	Data = (binary *)malloc(GetSize());
+    if (ReadFully == SCOPE_NO_DATA || !GetSize())
+  {
+    Data = NULL;
+    return GetSize();
+  }
+
+  Data = (binary *)malloc(GetSize());
     if (Data == NULL)
-		throw CRTError(std::string("Error allocating data"));
-	SetValueIsSet();
-	return input.read(Data, GetSize());
+    throw CRTError(std::string("Error allocating data"));
+  SetValueIsSet();
+  return input.read(Data, GetSize());
 }
 
 bool EbmlBinary::operator==(const EbmlBinary & ElementToCompare) const
 {
-	return ((GetSize() == ElementToCompare.GetSize()) && !memcmp(Data, ElementToCompare.Data, GetSize()));
+  return ((GetSize() == ElementToCompare.GetSize()) && !memcmp(Data, ElementToCompare.Data, GetSize()));
 }
 
 END_LIBEBML_NAMESPACE

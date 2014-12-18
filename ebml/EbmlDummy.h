@@ -11,12 +11,12 @@
 ** modify it under the terms of the GNU Lesser General Public
 ** License as published by the Free Software Foundation; either
 ** version 2.1 of the License, or (at your option) any later version.
-** 
+**
 ** This library is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ** Lesser General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU Lesser General Public
 ** License along with this library; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -29,9 +29,9 @@
 **********************************************************************/
 
 /*!
-	\file
-	\version \$Id$
-	\author Steve Lhomme     <robux4 @ users.sf.net>
+  \file
+  \version \$Id$
+  \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #ifndef LIBEBML_DUMMY_H
 #define LIBEBML_DUMMY_H
@@ -41,13 +41,13 @@
 START_LIBEBML_NAMESPACE
 
 class EBML_DLL_API EbmlDummy : public EbmlBinary {
-	public:
-		EbmlDummy() :DummyId(DummyRawId) {}
-		EbmlDummy(const EbmlId & aId) :EbmlBinary(), DummyId(aId) {}
-		EbmlDummy(const EbmlDummy & ElementToClone):EbmlBinary(ElementToClone), DummyId(ElementToClone.DummyId) {}
+  public:
+    EbmlDummy() :DummyId(DummyRawId) {}
+    EbmlDummy(const EbmlId & aId) :EbmlBinary(), DummyId(aId) {}
+    EbmlDummy(const EbmlDummy & ElementToClone):EbmlBinary(ElementToClone), DummyId(ElementToClone.DummyId) {}
 
-		bool IsDummy() const {return true;}
-		bool IsDefaultValue() const {return true;}
+    bool IsDummy() const {return true;}
+    bool IsDefaultValue() const {return true;}
 
         virtual operator const EbmlId &() const {
             return DummyId;
@@ -58,8 +58,8 @@ class EBML_DLL_API EbmlDummy : public EbmlBinary {
 #else
     protected:
 #endif
-		const EbmlId DummyId;
-		static const EbmlId DummyRawId;
+    const EbmlId DummyId;
+    static const EbmlId DummyRawId;
 
         EBML_CONCRETE_DUMMY_CLASS(EbmlDummy)
 };

@@ -11,12 +11,12 @@
 ** modify it under the terms of the GNU Lesser General Public
 ** License as published by the Free Software Foundation; either
 ** version 2.1 of the License, or (at your option) any later version.
-** 
+**
 ** This library is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ** Lesser General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU Lesser General Public
 ** License along with this library; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -29,10 +29,10 @@
 **********************************************************************/
 
 /*!
-	\file
-	\version \$Id$
-	\author Steve Lhomme     <robux4 @ users.sf.net>
-	\author Julien Coloos	<suiryc @ users.sf.net>
+  \file
+  \version \$Id$
+  \author Steve Lhomme     <robux4 @ users.sf.net>
+  \author Julien Coloos  <suiryc @ users.sf.net>
 */
 #ifndef LIBEBML_BINARY_H
 #define LIBEBML_BINARY_H
@@ -54,51 +54,51 @@ START_LIBEBML_NAMESPACE
     \class EbmlBinary
     \brief Handle all operations on an EBML element that contains "unknown" binary data
 
-	\todo handle fix sized elements (like UID of CodecID)
+  \todo handle fix sized elements (like UID of CodecID)
 */
 class EBML_DLL_API EbmlBinary : public EbmlElement {
-	public:
-		EbmlBinary();
-		EbmlBinary(const EbmlBinary & ElementToClone);
-		virtual ~EbmlBinary(void);
-	
-		virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() < 0x7FFFFFFF;} // we don't mind about what's inside
+  public:
+    EbmlBinary();
+    EbmlBinary(const EbmlBinary & ElementToClone);
+    virtual ~EbmlBinary(void);
 
-		filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
-		filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
-		filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false);
-	
-		void SetBuffer(const binary *Buffer, const uint32 BufferSize) {
-			Data = (binary *) Buffer;
-			SetSize_(BufferSize);
-			SetValueIsSet();
-		}
+    virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() < 0x7FFFFFFF;} // we don't mind about what's inside
 
-		binary *GetBuffer() const {return Data;}
-		
-		void CopyBuffer(const binary *Buffer, const uint32 BufferSize) {
-			if (Data != NULL)
-				free(Data);
-			Data = (binary *)malloc(BufferSize * sizeof(binary));
-			memcpy(Data, Buffer, BufferSize);
-			SetSize_(BufferSize);
-			SetValueIsSet();
-		}
-		
-		operator const binary &() const;
-	
-		bool IsDefaultValue() const {
-			return false;
-		}
+    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
+    filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
+    filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false);
 
-		bool operator==(const EbmlBinary & ElementToCompare) const;
+    void SetBuffer(const binary *Buffer, const uint32 BufferSize) {
+      Data = (binary *) Buffer;
+      SetSize_(BufferSize);
+      SetValueIsSet();
+    }
+
+    binary *GetBuffer() const {return Data;}
+
+    void CopyBuffer(const binary *Buffer, const uint32 BufferSize) {
+      if (Data != NULL)
+        free(Data);
+      Data = (binary *)malloc(BufferSize * sizeof(binary));
+      memcpy(Data, Buffer, BufferSize);
+      SetSize_(BufferSize);
+      SetValueIsSet();
+    }
+
+    operator const binary &() const;
+
+    bool IsDefaultValue() const {
+      return false;
+    }
+
+    bool operator==(const EbmlBinary & ElementToCompare) const;
 
 #if defined(EBML_STRICT_API)
-	private:
+  private:
 #else
-	protected:
+  protected:
 #endif
-		binary *Data; // the binary data inside the element
+    binary *Data; // the binary data inside the element
 };
 
 END_LIBEBML_NAMESPACE

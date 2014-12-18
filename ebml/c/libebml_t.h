@@ -50,7 +50,7 @@ extern "C" {
 
 // Changed char is unsigned now (signedness was causing trouble in endil)
 #if defined(_WIN32)
-# if !defined(__GNUC__)		// Microsoft Visual C++
+# if !defined(__GNUC__)    // Microsoft Visual C++
     typedef signed __int64 int64;
     typedef signed __int32 int32;
     typedef signed __int16 int16;
@@ -74,7 +74,7 @@ extern "C" {
 # endif // __GNUC__
 #elif defined(__BEOS__)
 #include <SupportDefs.h>
-#elif defined(DJGPP)				/* SL : DJGPP doesn't support POSIX types ???? */
+#elif defined(DJGPP)        /* SL : DJGPP doesn't support POSIX types ???? */
     typedef signed long long int64;
     typedef signed long int32;
     typedef signed short int16;

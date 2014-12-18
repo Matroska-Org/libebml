@@ -13,7 +13,7 @@ LIB ebml
   FAVOR_MAX_SPEED .
   REDUCE_SIZE .
   FASTER_FLOAT .
-  
+
   SOURCE src/Debug.cpp
   SOURCE src/EbmlBinary.cpp
   SOURCE src/EbmlContexts.cpp
