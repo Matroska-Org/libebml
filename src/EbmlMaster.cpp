@@ -425,8 +425,13 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
 				if (IsFiniteSize() && ElementLevelA->IsFiniteSize())
 					MaxSizeToRead = GetEndPosition() - ElementLevelA->GetEndPosition(); // even if it's the default value
 				if (!AllowDummyElt && ElementLevelA->IsDummy()) {
-					ElementLevelA->SkipData(inDataStream, sContext);
-					delete ElementLevelA; // forget this unknown element
+					if (ElementLevelA->IsFiniteSize()) {
+						ElementLevelA->SkipData(inDataStream, sContext);
+						delete ElementLevelA; // forget this unknown element
+					} else {
+						delete ElementLevelA; // forget this unknown element
+						break;
+					}
 				} else {
 					// more logical to do it afterward
 					ElementList.push_back(ElementLevelA);
@@ -434,7 +439,10 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
 					ElementLevelA->Read(inDataStream, EBML_CONTEXT(ElementLevelA), UpperEltFound, FoundElt, AllowDummyElt, ReadFully);
 
 					// just in case
-					ElementLevelA->SkipData(inDataStream, EBML_CONTEXT(ElementLevelA));
+					if (ElementLevelA->IsFiniteSize())
+						ElementLevelA->SkipData(inDataStream, EBML_CONTEXT(ElementLevelA));
+					else
+						break;
 				}
 
 				if (UpperEltFound > 0) {
