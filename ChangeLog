@@ -1,3 +1,9 @@
+2014-12-18  Moritz Bunkus  <moritz@bunkus.org>
+
+        * EbmlMaster: Fixed read() trying to calculate the end position of
+        elements with an unknown size. This avoids endless loops and
+        assertions in certain cases. See https://trac.bunkus.org/ticket/1089
+
 2013-03-19 mosu
 New 1.3.0 version:
     * Note that this version is not binary compatible to its predecessors.
