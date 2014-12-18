@@ -422,7 +422,7 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
 			inDataStream.I_O().setFilePointer(GetSizePosition() + GetSizeLength(), seek_beginning);
 			ElementLevelA = inDataStream.FindNextElement(sContext, UpperEltFound, MaxSizeToRead, AllowDummyElt);
 			while (ElementLevelA != NULL && UpperEltFound <= 0 && MaxSizeToRead > 0) {
-				if (IsFiniteSize())
+				if (IsFiniteSize() && ElementLevelA->IsFiniteSize())
 					MaxSizeToRead = GetEndPosition() - ElementLevelA->GetEndPosition(); // even if it's the default value
 				if (!AllowDummyElt && ElementLevelA->IsDummy()) {
 					ElementLevelA->SkipData(inDataStream, sContext);
