@@ -1,3 +1,8 @@
+2014-12-19  Moritz Bunkus  <moritz@bunkus.org>
+
+        * EbmlMemoryStream: add a new class for safe memory access that
+        throws exception on failures.
+
 2014-12-18  Moritz Bunkus  <moritz@bunkus.org>
 
         * EbmlMaster: Fixed read() trying to calculate the end position of
