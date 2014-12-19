@@ -56,11 +56,11 @@ class ADbg globalDebug;
 //////////////////////////////////////////////////////////////////////
 
 ADbg::ADbg(int level)
-:my_level(level)
-,my_time_included(false)
-,my_use_file(false)
-,my_debug_output(true)
-,hFile(NULL)
+  :my_level(level)
+  ,my_time_included(false)
+  ,my_use_file(false)
+  ,my_debug_output(true)
+  ,hFile(NULL)
 {
   prefix[0] = '\0';
   OutPut(-1,"ADbg Creation at debug level = %d (0x%08X)",my_level,this);
@@ -85,25 +85,25 @@ inline int ADbg::_OutPut(const char * format,va_list params) const
     GetSystemTime(&time);
     if (prefix[0] == '\0')
       wsprintfA(myformat,"%04d/%02d/%02d %02d:%02d:%02d.%03d UTC : %s\r\n",
-              time.wYear,
-              time.wMonth,
-              time.wDay,
-              time.wHour,
-              time.wMinute,
-              time.wSecond,
-              time.wMilliseconds,
-              format);
+                time.wYear,
+                time.wMonth,
+                time.wDay,
+                time.wHour,
+                time.wMinute,
+                time.wSecond,
+                time.wMilliseconds,
+                format);
     else
       wsprintfA(myformat,"%04d/%02d/%02d %02d:%02d:%02d.%03d UTC : %s - %s\r\n",
-              time.wYear,
-              time.wMonth,
-              time.wDay,
-              time.wHour,
-              time.wMinute,
-              time.wSecond,
-              time.wMilliseconds,
-              prefix,
-              format);
+                time.wYear,
+                time.wMonth,
+                time.wDay,
+                time.wHour,
+                time.wMinute,
+                time.wSecond,
+                time.wMilliseconds,
+                prefix,
+                format);
   } else {
     if (prefix[0] == '\0')
       wsprintfA( myformat, "%s\r\n", format);
@@ -131,14 +131,14 @@ inline int ADbg::_OutPut(const char * format,va_list params) const
     now = gmtime(&nowSecs);
     if (prefix[0] == '\0')
       sprintf(myformat,"%04d/%02d/%02d %02d:%02d:%02ld.%03ld UTC : %s\r\n",
-          now->tm_year, now->tm_mon, now->tm_mday,
-          now->tm_hour, now->tm_min, tv.tv_sec,
-          (long)tv.tv_usec / 1000, format);
+              now->tm_year, now->tm_mon, now->tm_mday,
+              now->tm_hour, now->tm_min, tv.tv_sec,
+              (long)tv.tv_usec / 1000, format);
     else
       sprintf(myformat,"%04d/%02d/%02d %02d:%02d:%02ld.%03ld UTC : %s - %s\r\n",
-          now->tm_year, now->tm_mon, now->tm_mday,
-          now->tm_hour, now->tm_min, tv.tv_sec,
-          (long)tv.tv_usec / 1000, prefix, format);
+              now->tm_year, now->tm_mon, now->tm_mday,
+              now->tm_hour, now->tm_min, tv.tv_sec,
+              (long)tv.tv_usec / 1000, prefix, format);
 
   } else {
     if (prefix[0] == '\0')
@@ -188,46 +188,49 @@ bool ADbg::setDebugFile(const char * NewFilename) {
   bool result;
   result = unsetDebugFile();
 
-  if (result) {
-    result = false;
+  if (!result)
+    return false;
+
+  result = false;
 
 #ifdef WIN32
-    hFile = CreateFileA(NewFilename, GENERIC_WRITE, FILE_SHARE_WRITE|FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );
+  hFile = CreateFileA(NewFilename, GENERIC_WRITE, FILE_SHARE_WRITE|FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );
 
-    if (hFile != INVALID_HANDLE_VALUE) {
-      SetFilePointer( hFile, 0, 0, FILE_END );
+  if (hFile != INVALID_HANDLE_VALUE) {
+    SetFilePointer( hFile, 0, 0, FILE_END );
 
-      result = true;
-#else
-    hFile = fopen(NewFilename, "w+");
-    if (hFile != NULL) {
-      fseek(hFile, 0, SEEK_END);
-#endif
-      OutPut(-1,"Debug hFile Opening succeeded");
-
-    }
-    else
-      OutPut(-1,"Debug hFile %s Opening failed",NewFilename);
+    result = true;
   }
+#else
+  hFile = fopen(NewFilename, "w+");
+  if (hFile != NULL) {
+    fseek(hFile, 0, SEEK_END);
+    result = true;
+  }
+#endif
+  if (result)
+    OutPut(-1,"Debug hFile Opening succeeded");
+
+  else
+    OutPut(-1,"Debug hFile %s Opening failed",NewFilename);
 
   return result;
 }
 
 bool ADbg::unsetDebugFile() {
   bool result = (hFile == NULL);
+  if (result)
+    return true;
 
 #ifdef WIN32
-  if (hFile != NULL) {
-    result = (CloseHandle(hFile) != 0);
+  result = (CloseHandle(hFile) != 0);
 #else
-  if (hFile != NULL) {
-    result = (fclose(hFile) == 0);
+  result = (fclose(hFile) == 0);
 #endif
 
-    if (result) {
-      OutPut(-1,"Debug hFile Closing succeeded");
-      hFile = NULL;
-    }
+  if (result) {
+    OutPut(-1,"Debug hFile Closing succeeded");
+    hFile = NULL;
   }
   return result;
 }

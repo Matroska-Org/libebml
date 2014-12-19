@@ -44,7 +44,7 @@ const EbmlId EbmlDummy::DummyRawId = Id_EbmlDummy;
 
 EbmlDummy::operator const EbmlId &()
 {
-    return DummyId;
+  return DummyId;
 }
 
 END_LIBEBML_NAMESPACE

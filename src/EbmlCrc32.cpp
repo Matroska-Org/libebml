@@ -169,11 +169,11 @@ EbmlCrc32::EbmlCrc32()
   m_crc_final = 0;
   SetSize_(4);
   //This EbmlElement has been set
-//  SetValueIsSet();
+  //  SetValueIsSet();
 }
 
 EbmlCrc32::EbmlCrc32(const EbmlCrc32 & ElementToClone)
-:EbmlBinary(ElementToClone)
+  :EbmlBinary(ElementToClone)
 {
   m_crc       = ElementToClone.m_crc;
   m_crc_final = ElementToClone.m_crc_final;
@@ -181,12 +181,12 @@ EbmlCrc32::EbmlCrc32(const EbmlCrc32 & ElementToClone)
 
 void EbmlCrc32::ResetCRC()
 {
-    m_crc = CRC32_NEGL;
+  m_crc = CRC32_NEGL;
 }
 
 void EbmlCrc32::UpdateByte(binary b)
 {
-    m_crc = m_tab[CRC32_INDEX(m_crc) ^ b] ^ CRC32_SHIFTED(m_crc);
+  m_crc = m_tab[CRC32_INDEX(m_crc) ^ b] ^ CRC32_SHIFTED(m_crc);
 }
 
 void EbmlCrc32::AddElementCRC32(EbmlElement &ElementToCRC)
@@ -196,7 +196,7 @@ void EbmlCrc32::AddElementCRC32(EbmlElement &ElementToCRC)
   ElementToCRC.Render(memoryBuffer, true, true);
 
   Update(memoryBuffer.GetDataBuffer(), memoryBuffer.GetDataBufferSize());
-//  Finalize();
+  //  Finalize();
 };
 
 bool EbmlCrc32::CheckElementCRC32(EbmlElement &ElementToCRC)
@@ -212,7 +212,7 @@ filepos_t EbmlCrc32::RenderData(IOCallback & output, bool /* bForceRender */, bo
   filepos_t Result = 4;
 
   if (Result != 0) {
-      output.writeFully(&m_crc_final, Result);
+    output.writeFully(&m_crc_final, Result);
   }
 
   if (Result < GetDefaultSize()) {
@@ -232,8 +232,7 @@ filepos_t EbmlCrc32::RenderData(IOCallback & output, bool /* bForceRender */, bo
 
 filepos_t EbmlCrc32::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-  if (ReadFully != SCOPE_NO_DATA)
-  {
+  if (ReadFully != SCOPE_NO_DATA) {
     binary *Buffer = new (std::nothrow) binary[GetSize()];
     if (Buffer == NULL) {
       // impossible to read, skip it
@@ -257,8 +256,7 @@ bool EbmlCrc32::CheckCRC(uint32 inputCRC, const binary *input, uint32 length)
   for(; !IsAligned<uint32>(input) && length > 0; length--)
     crc = m_tab[CRC32_INDEX(crc) ^ *input++] ^ CRC32_SHIFTED(crc);
 
-  while (length >= 4)
-  {
+  while (length >= 4) {
     crc ^= *(const uint32 *)input;
     crc = m_tab[CRC32_INDEX(crc)] ^ CRC32_SHIFTED(crc);
     crc = m_tab[CRC32_INDEX(crc)] ^ CRC32_SHIFTED(crc);
@@ -321,8 +319,7 @@ void EbmlCrc32::Update(const binary *input, uint32 length)
   for(; !IsAligned<uint32>(input) && length > 0; length--)
     crc = m_tab[CRC32_INDEX(crc) ^ *input++] ^ CRC32_SHIFTED(crc);
 
-  while (length >= 4)
-  {
+  while (length >= 4) {
     crc ^= *(const uint32 *)input;
     crc = m_tab[CRC32_INDEX(crc)] ^ CRC32_SHIFTED(crc);
     crc = m_tab[CRC32_INDEX(crc)] ^ CRC32_SHIFTED(crc);

@@ -65,27 +65,25 @@ StdIOCallback::StdIOCallback(const char*Path, const open_mode aMode)
   assert(Path!=0);
 
   const char *Mode;
-  switch (aMode)
-  {
-  case MODE_READ:
-    Mode = "rb";
-    break;
-  case MODE_SAFE:
-    Mode = "rb+";
-    break;
-  case MODE_WRITE:
-    Mode = "wb";
-    break;
-  case MODE_CREATE:
-    Mode = "wb+";
-    break;
-  default:
-    throw 0;
+  switch (aMode) {
+    case MODE_READ:
+      Mode = "rb";
+      break;
+    case MODE_SAFE:
+      Mode = "rb+";
+      break;
+    case MODE_WRITE:
+      Mode = "wb";
+      break;
+    case MODE_CREATE:
+      Mode = "wb+";
+      break;
+    default:
+      throw 0;
   }
 
   File=fopen(Path,Mode);
-  if(File==0)
-  {
+  if(File==0) {
 #if !defined(__GNUC__) || (__GNUC__ > 2)
     stringstream Msg;
     Msg<<"Can't open stdio file \""<<Path<<"\" in mode \""<<Mode<<"\"";
@@ -117,30 +115,26 @@ void StdIOCallback::setFilePointer(int64 Offset,seek_mode Mode)
   assert(File!=0);
 
   // There is a numeric cast in the boost library, which would be quite nice for this checking
-/*
-  SL : replaced because unknown class in cygwin
-  assert(Offset <= numeric_limits<long>::max());
-  assert(Offset >= numeric_limits<long>::min());
-*/
+  /*
+    SL : replaced because unknown class in cygwin
+    assert(Offset <= numeric_limits<long>::max());
+    assert(Offset >= numeric_limits<long>::min());
+  */
 
   assert(Offset <= LONG_MAX);
   assert(Offset >= LONG_MIN);
 
   assert(Mode==SEEK_CUR||Mode==SEEK_END||Mode==SEEK_SET);
 
-  if(fseek(File,Offset,Mode)!=0)
-  {
+  if(fseek(File,Offset,Mode)!=0) {
 #if !defined(__GNUC__) || (__GNUC__ > 2)
     ostringstream Msg;
     Msg<<"Failed to seek file "<<File<<" to offset "<<(unsigned long)Offset<<" in mode "<<Mode;
     throw CRTError(Msg.str());
 #endif // GCC2
     mCurrentPosition = ftell(File);
-  }
-  else
-  {
-    switch ( Mode )
-    {
+  } else {
+    switch ( Mode ) {
       case SEEK_CUR:
         mCurrentPosition += Offset;
         break;
@@ -168,8 +162,7 @@ uint64 StdIOCallback::getFilePointer()
 
 #if 0
   long Result=ftell(File);
-  if(Result<0)
-  {
+  if(Result<0) {
 #if !defined(__GNUC__) || (__GNUC__ > 2)
     stringstream Msg;
     Msg<<"Can't tell the current file pointer position for "<<File;
@@ -186,8 +179,7 @@ void StdIOCallback::close()
   if(File==0)
     return;
 
-  if(fclose(File)!=0)
-  {
+  if(fclose(File)!=0) {
 #if !defined(__GNUC__) || (__GNUC__ > 2)
     stringstream Msg;
     Msg<<"Can't close file "<<File;

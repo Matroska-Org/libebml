@@ -69,35 +69,33 @@ bool WinIOCallback::open(const char* Path, const open_mode aMode, DWORD dwFlags)
 
   DWORD AccessMode, ShareMode, Disposition;
 
-  switch (aMode)
-  {
-  case MODE_READ:
-    AccessMode = GENERIC_READ;
-    ShareMode = FILE_SHARE_READ|FILE_SHARE_WRITE;
-    Disposition = OPEN_EXISTING;
-    break;
-  case MODE_WRITE:
-    AccessMode = GENERIC_WRITE;
-    ShareMode = 0;
-    Disposition = OPEN_ALWAYS;
-    break;
-  case MODE_SAFE:
-    AccessMode = GENERIC_WRITE|GENERIC_READ;
-    ShareMode = FILE_SHARE_READ|FILE_SHARE_WRITE;
-    Disposition = OPEN_ALWAYS;
-    break;
-  case MODE_CREATE:
-    AccessMode = GENERIC_WRITE;
-    ShareMode = 0;
-    Disposition = CREATE_ALWAYS;
-    break;
-  default:
-    assert(false);
+  switch (aMode) {
+    case MODE_READ:
+      AccessMode = GENERIC_READ;
+      ShareMode = FILE_SHARE_READ|FILE_SHARE_WRITE;
+      Disposition = OPEN_EXISTING;
+      break;
+    case MODE_WRITE:
+      AccessMode = GENERIC_WRITE;
+      ShareMode = 0;
+      Disposition = OPEN_ALWAYS;
+      break;
+    case MODE_SAFE:
+      AccessMode = GENERIC_WRITE|GENERIC_READ;
+      ShareMode = FILE_SHARE_READ|FILE_SHARE_WRITE;
+      Disposition = OPEN_ALWAYS;
+      break;
+    case MODE_CREATE:
+      AccessMode = GENERIC_WRITE;
+      ShareMode = 0;
+      Disposition = CREATE_ALWAYS;
+      break;
+    default:
+      assert(false);
   }
 
   mFile = CreateFileA(Path, AccessMode, ShareMode, NULL, Disposition, dwFlags, NULL);
-  if ((mFile == INVALID_HANDLE_VALUE) || ((long)mFile == 0xffffffff))
-  {
+  if ((mFile == INVALID_HANDLE_VALUE) || ((long)mFile == 0xffffffff)) {
     //File was not opened
     char err_msg[256];
     DWORD error_code = GetLastError();
@@ -123,30 +121,29 @@ bool WinIOCallback::open(const wchar_t* Path, const open_mode aMode, DWORD dwFla
 
   DWORD AccessMode, ShareMode, Disposition;
 
-  switch (aMode)
-  {
-  case MODE_READ:
-    AccessMode = GENERIC_READ;
-    ShareMode = FILE_SHARE_READ|FILE_SHARE_WRITE;
-    Disposition = OPEN_EXISTING;
-    break;
-  case MODE_WRITE:
-    AccessMode = GENERIC_WRITE;
-    ShareMode = 0;
-    Disposition = OPEN_ALWAYS;
-    break;
-  case MODE_SAFE:
-    AccessMode = GENERIC_WRITE|GENERIC_READ;
-    ShareMode = FILE_SHARE_READ|FILE_SHARE_WRITE;
-    Disposition = OPEN_ALWAYS;
-    break;
-  case MODE_CREATE:
-    AccessMode = GENERIC_WRITE;
-    ShareMode = 0;
-    Disposition = CREATE_ALWAYS;
-    break;
-  default:
-    assert(false);
+  switch (aMode) {
+    case MODE_READ:
+      AccessMode = GENERIC_READ;
+      ShareMode = FILE_SHARE_READ|FILE_SHARE_WRITE;
+      Disposition = OPEN_EXISTING;
+      break;
+    case MODE_WRITE:
+      AccessMode = GENERIC_WRITE;
+      ShareMode = 0;
+      Disposition = OPEN_ALWAYS;
+      break;
+    case MODE_SAFE:
+      AccessMode = GENERIC_WRITE|GENERIC_READ;
+      ShareMode = FILE_SHARE_READ|FILE_SHARE_WRITE;
+      Disposition = OPEN_ALWAYS;
+      break;
+    case MODE_CREATE:
+      AccessMode = GENERIC_WRITE;
+      ShareMode = 0;
+      Disposition = CREATE_ALWAYS;
+      break;
+    default:
+      assert(false);
   }
 
   if ((LONG)GetVersion() >= 0) {
@@ -180,8 +177,7 @@ bool WinIOCallback::open(const wchar_t* Path, const open_mode aMode, DWORD dwFla
       return mOk = false;
     }
   }
-  if ((mFile == INVALID_HANDLE_VALUE) || ((long)mFile == 0xffffffff))
-  {
+  if ((mFile == INVALID_HANDLE_VALUE) || ((long)mFile == 0xffffffff)) {
     //File was not opened
     char err_msg[256];
     DWORD error_code = GetLastError();
@@ -226,32 +222,28 @@ uint64 WinIOCallback::getFilePointer()
 void WinIOCallback::setFilePointer(int64 Offset, seek_mode Mode)
 {
   DWORD Method;
-  switch(Mode)
-  {
-  case seek_beginning:
-    Method=FILE_BEGIN;
-    break;
-  case seek_current:
-    Method=FILE_CURRENT;
-    break;
-  case seek_end:
-    Method=FILE_END;
-    break;
-  default:
-    assert(false);
-    break;
+  switch(Mode) {
+    case seek_beginning:
+      Method=FILE_BEGIN;
+      break;
+    case seek_current:
+      Method=FILE_CURRENT;
+      break;
+    case seek_end:
+      Method=FILE_END;
+      break;
+    default:
+      assert(false);
+      break;
   }
 
   LONG High = LONG(Offset>>32);
   mCurrentPosition = SetFilePointer(mFile, LONG(Offset & 0xffffffff), &High, Method);
-  if ( mCurrentPosition == INVALID_SET_FILE_POINTER )
-  {
+  if ( mCurrentPosition == INVALID_SET_FILE_POINTER ) {
     High = 0;
     DWORD Low = SetFilePointer(mFile, 0, &High, FILE_CURRENT);
     mCurrentPosition = ((uint64(High)<<32) | Low);
-  }
-  else
-  {
+  } else {
     mCurrentPosition |= uint64(High)<<32;
   }
 }

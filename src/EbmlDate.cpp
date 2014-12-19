@@ -47,20 +47,18 @@ EbmlDate::EbmlDate(const EbmlDate & ElementToClone)
 
 filepos_t EbmlDate::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-  if (ReadFully != SCOPE_NO_DATA)
-  {
-    if (GetSize() != 0) {
-      assert(GetSize() == 8);
-      binary Buffer[8];
-      input.readFully(Buffer, GetSize());
+  if ((ReadFully == SCOPE_NO_DATA) || (GetSize() == 0))
+    return GetSize();
 
-      big_int64 b64;
-      b64.Eval(Buffer);
+  assert(GetSize() == 8);
+  binary Buffer[8];
+  input.readFully(Buffer, GetSize());
 
-      myDate = b64;
-      SetValueIsSet();
-    }
-  }
+  big_int64 b64;
+  b64.Eval(Buffer);
+
+  myDate = b64;
+  SetValueIsSet();
 
   return GetSize();
 }

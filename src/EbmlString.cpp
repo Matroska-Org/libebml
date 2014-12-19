@@ -40,7 +40,7 @@
 START_LIBEBML_NAMESPACE
 
 EbmlString::EbmlString()
- :EbmlElement(0, false)
+  :EbmlElement(0, false)
 {
   SetDefaultSize(0);
 /* done automatically
@@ -50,7 +50,7 @@ EbmlString::EbmlString()
 }
 
 EbmlString::EbmlString(const std::string & aDefaultValue)
- :EbmlElement(0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
+  :EbmlElement(0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
 {
   SetDefaultSize(0);
   SetDefaultIsSet();
@@ -64,23 +64,23 @@ EbmlString::EbmlString(const std::string & aDefaultValue)
   \todo Cloning should be on the same exact type !
 */
 EbmlString::EbmlString(const EbmlString & ElementToClone)
- :EbmlElement(ElementToClone)
- ,Value(ElementToClone.Value)
- ,DefaultValue(ElementToClone.DefaultValue)
+  :EbmlElement(ElementToClone)
+  ,Value(ElementToClone.Value)
+  ,DefaultValue(ElementToClone.DefaultValue)
 {
 }
 
 void EbmlString::SetDefaultValue(std::string & aValue)
 {
-    assert(!DefaultISset());
-    DefaultValue = aValue;
-    SetDefaultIsSet();
+  assert(!DefaultISset());
+  DefaultValue = aValue;
+  SetDefaultIsSet();
 }
 
 const std::string & EbmlString::DefaultVal() const
 {
-    assert(DefaultISset());
-    return DefaultValue;
+  assert(DefaultISset());
+  return DefaultValue;
 }
 
 
@@ -96,8 +96,7 @@ filepos_t EbmlString::RenderData(IOCallback & output, bool /* bForceRender */, b
   if (Result < GetDefaultSize()) {
     // pad the rest with 0
     binary *Pad = new (std::nothrow) binary[GetDefaultSize() - Result];
-    if (Pad == NULL)
-    {
+    if (Pad == NULL) {
       return Result;
     }
     memset(Pad, 0x00, GetDefaultSize() - Result);
@@ -145,8 +144,7 @@ uint64 EbmlString::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 
 filepos_t EbmlString::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-  if (ReadFully != SCOPE_NO_DATA)
-  {
+  if (ReadFully != SCOPE_NO_DATA) {
     if (GetSize() == 0) {
       Value = "";
       SetValueIsSet();

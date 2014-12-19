@@ -39,19 +39,19 @@
 START_LIBEBML_NAMESPACE
 
 EbmlSInteger::EbmlSInteger()
- :EbmlElement(DEFAULT_INT_SIZE, false)
+  :EbmlElement(DEFAULT_INT_SIZE, false)
 {}
 
 EbmlSInteger::EbmlSInteger(int64 aDefaultValue)
- :EbmlElement(DEFAULT_INT_SIZE, true), Value(aDefaultValue)
+  :EbmlElement(DEFAULT_INT_SIZE, true), Value(aDefaultValue)
 {
   SetDefaultIsSet();
 }
 
 EbmlSInteger::EbmlSInteger(const EbmlSInteger & ElementToClone)
- :EbmlElement(ElementToClone)
- ,Value(ElementToClone.Value)
- ,DefaultValue(ElementToClone.DefaultValue)
+  :EbmlElement(ElementToClone)
+  ,Value(ElementToClone.Value)
+  ,DefaultValue(ElementToClone.DefaultValue)
 {
 }
 
@@ -102,13 +102,13 @@ uint64 EbmlSInteger::UpdateSize(bool bWithDefault, bool /* bForceRender */)
   } else if (Value <= EBML_PRETTYLONGINT(0x7FFFFFFF) && Value >= (EBML_PRETTYLONGINT(-0x80000000))) {
     SetSize_(4);
   } else if (Value <= EBML_PRETTYLONGINT(0x7FFFFFFFFF) &&
-       Value >= EBML_PRETTYLONGINT(-0x8000000000)) {
+             Value >= EBML_PRETTYLONGINT(-0x8000000000)) {
     SetSize_(5);
   } else if (Value <= EBML_PRETTYLONGINT(0x7FFFFFFFFFFF) &&
-       Value >= EBML_PRETTYLONGINT(-0x800000000000)) {
+             Value >= EBML_PRETTYLONGINT(-0x800000000000)) {
     SetSize_(6);
   } else if (Value <= EBML_PRETTYLONGINT(0x7FFFFFFFFFFFFF) &&
-       Value >= EBML_PRETTYLONGINT(-0x80000000000000)) {
+             Value >= EBML_PRETTYLONGINT(-0x80000000000000)) {
     SetSize_(7);
   } else {
     SetSize_(8);
@@ -123,8 +123,7 @@ uint64 EbmlSInteger::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 
 filepos_t EbmlSInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-  if (ReadFully != SCOPE_NO_DATA)
-  {
+  if (ReadFully != SCOPE_NO_DATA) {
     binary Buffer[8];
     input.readFully(Buffer, GetSize());
 
@@ -133,8 +132,7 @@ filepos_t EbmlSInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
     else
       Value = 0; // this is a positive value
 
-    for (unsigned int i=0; i<GetSize(); i++)
-    {
+    for (unsigned int i=0; i<GetSize(); i++) {
       Value <<= 8;
       Value |= Buffer[i];
     }

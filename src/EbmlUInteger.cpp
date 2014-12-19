@@ -41,33 +41,33 @@
 START_LIBEBML_NAMESPACE
 
 EbmlUInteger::EbmlUInteger()
- :EbmlElement(DEFAULT_UINT_SIZE, false)
+  :EbmlElement(DEFAULT_UINT_SIZE, false)
 {}
 
 EbmlUInteger::EbmlUInteger(uint64 aDefaultValue)
- :EbmlElement(DEFAULT_UINT_SIZE, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
+  :EbmlElement(DEFAULT_UINT_SIZE, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
 {
   SetDefaultIsSet();
 }
 
 EbmlUInteger::EbmlUInteger(const EbmlUInteger & ElementToClone)
- :EbmlElement(ElementToClone)
- ,Value(ElementToClone.Value)
- ,DefaultValue(ElementToClone.DefaultValue)
+  :EbmlElement(ElementToClone)
+  ,Value(ElementToClone.Value)
+  ,DefaultValue(ElementToClone.DefaultValue)
 {
 }
 
 void EbmlUInteger::SetDefaultValue(uint64 aValue)
 {
-    assert(!DefaultISset());
-    DefaultValue = aValue;
-    SetDefaultIsSet();
+  assert(!DefaultISset());
+  DefaultValue = aValue;
+  SetDefaultIsSet();
 }
 
 uint64 EbmlUInteger::DefaultVal() const
 {
-    assert(DefaultISset());
-    return DefaultValue;
+  assert(DefaultISset());
+  return DefaultValue;
 }
 
 EbmlUInteger::operator uint8()  const {return uint8(Value); }
@@ -134,14 +134,12 @@ uint64 EbmlUInteger::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 
 filepos_t EbmlUInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-  if (ReadFully != SCOPE_NO_DATA)
-  {
+  if (ReadFully != SCOPE_NO_DATA) {
     binary Buffer[8];
     input.readFully(Buffer, GetSize());
     Value = 0;
 
-    for (unsigned int i=0; i<GetSize(); i++)
-    {
+    for (unsigned int i=0; i<GetSize(); i++) {
       Value <<= 8;
       Value |= Buffer[i];
     }

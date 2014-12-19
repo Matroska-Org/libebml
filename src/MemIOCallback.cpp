@@ -46,7 +46,7 @@ MemIOCallback::MemIOCallback(uint64 DefaultSize)
     mOk = false;
     std::stringstream Msg;
     Msg << "Failed to alloc memory block of size ";
-// not working with VC6    Msg << DefaultSize;
+    // not working with VC6    Msg << DefaultSize;
     mLastErrorStr = Msg.str();
     return;
   }
@@ -68,11 +68,10 @@ uint32 MemIOCallback::read(void *Buffer, size_t Size)
   if (Buffer == NULL || Size < 1)
     return 0;
   //If the size is larger than than the amount left in the buffer
-  if (Size + dataBufferPos > dataBufferTotalSize)
-  {
+  if (Size + dataBufferPos > dataBufferTotalSize) {
     //We will only return the remaining data
     memcpy(Buffer, dataBuffer + dataBufferPos, dataBufferTotalSize - dataBufferPos);
-        uint64 oldDataPos = dataBufferPos;
+    uint64 oldDataPos = dataBufferPos;
     dataBufferPos = dataBufferTotalSize;
     return dataBufferTotalSize - oldDataPos;
   }
@@ -96,8 +95,7 @@ void MemIOCallback::setFilePointer(int64 Offset, seek_mode Mode)
 
 size_t MemIOCallback::write(const void *Buffer, size_t Size)
 {
-  if (dataBufferMemorySize < dataBufferPos + Size)
-  {
+  if (dataBufferMemorySize < dataBufferPos + Size) {
     //We need more memory!
     dataBuffer = (binary *)realloc((void *)dataBuffer, dataBufferPos + Size);
   }
@@ -111,8 +109,7 @@ size_t MemIOCallback::write(const void *Buffer, size_t Size)
 
 uint32 MemIOCallback::write(IOCallback & IOToRead, size_t Size)
 {
-  if (dataBufferMemorySize < dataBufferPos + Size)
-  {
+  if (dataBufferMemorySize < dataBufferPos + Size) {
     //We need more memory!
     dataBuffer = (binary *)realloc((void *)dataBuffer, dataBufferPos + Size);
   }

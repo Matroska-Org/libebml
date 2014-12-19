@@ -43,11 +43,11 @@
 START_LIBEBML_NAMESPACE
 
 EbmlBinary::EbmlBinary()
- :EbmlElement(0, false), Data(NULL)
+  :EbmlElement(0, false), Data(NULL)
 {}
 
 EbmlBinary::EbmlBinary(const EbmlBinary & ElementToClone)
- :EbmlElement(ElementToClone)
+  :EbmlElement(ElementToClone)
 {
   if (ElementToClone.Data == NULL)
     Data = NULL;
@@ -86,14 +86,13 @@ filepos_t EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
   if (Data != NULL)
     free(Data);
 
-    if (ReadFully == SCOPE_NO_DATA || !GetSize())
-  {
+  if (ReadFully == SCOPE_NO_DATA || !GetSize()) {
     Data = NULL;
     return GetSize();
   }
 
   Data = (binary *)malloc(GetSize());
-    if (Data == NULL)
+  if (Data == NULL)
     throw CRTError(std::string("Error allocating data"));
   SetValueIsSet();
   return input.read(Data, GetSize());

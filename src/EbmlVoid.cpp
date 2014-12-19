@@ -51,8 +51,7 @@ filepos_t EbmlVoid::RenderData(IOCallback & output, bool /* bForceRender */, boo
   static binary DummyBuf[4*1024];
 
   uint64 SizeToWrite = GetSize();
-  while (SizeToWrite > 4*1024)
-  {
+  while (SizeToWrite > 4*1024) {
     output.writeFully(DummyBuf, 4*1024);
     SizeToWrite -= 4*1024;
   }
@@ -99,7 +98,7 @@ uint64 EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output
 
 uint64 EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & output, bool ComeBackAfterward, bool bWithDefault)
 {
-//  EltToVoid.UpdateSize(bWithDefault);
+  //  EltToVoid.UpdateSize(bWithDefault);
   if (EltToVoid.GetElementPosition() == 0) {
     // this element has never been written
     return 0;

@@ -52,7 +52,7 @@ DEFINE_END_SEMANTIC(EbmlHead)
 DEFINE_EBML_MASTER_ORPHAN(EbmlHead, 0x1A45DFA3, 4, "EBMLHead\0ratamapaga");
 
 EbmlHead::EbmlHead()
- :EbmlMaster(EbmlHead_Context)
+  :EbmlMaster(EbmlHead_Context)
 {}
 
 END_LIBEBML_NAMESPACE

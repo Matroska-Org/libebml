@@ -181,22 +181,20 @@ int64 ReadCodedSizeSignedValue(const binary * InBuffer, uint32 & BufferSize, uin
 {
   int64 Result = ReadCodedSizeValue(InBuffer, BufferSize, SizeUnknown);
 
-  if (BufferSize != 0)
-  {
-    switch (BufferSize)
-    {
-    case 1:
-      Result -= 63;
-      break;
-    case 2:
-      Result -= 8191;
-      break;
-    case 3:
-      Result -= 1048575L;
-      break;
-    case 4:
-      Result -= 134217727L;
-      break;
+  if (BufferSize != 0) {
+    switch (BufferSize) {
+      case 1:
+        Result -= 63;
+        break;
+      case 2:
+        Result -= 8191;
+        break;
+      case 3:
+        Result -= 1048575L;
+        break;
+      case 4:
+        Result -= 134217727L;
+        break;
     }
   }
 
@@ -215,43 +213,43 @@ EbmlCallbacks::EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalI
 
 const EbmlSemantic & EbmlSemanticContext::GetSemantic(size_t i) const
 {
-    assert(i<Size);
-    if (i<Size)
-        return MyTable[i];
-    else
-        return *(EbmlSemantic*)NULL;
+  assert(i<Size);
+  if (i<Size)
+    return MyTable[i];
+  else
+    return *(EbmlSemantic*)NULL;
 }
 
 
 EbmlElement::EbmlElement(uint64 aDefaultSize, bool bValueSet)
- :DefaultSize(aDefaultSize)
- ,SizeLength(0) ///< write optimal size by default
- ,bSizeIsFinite(true)
- ,ElementPosition(0)
- ,SizePosition(0)
- ,bValueIsSet(bValueSet)
- ,DefaultIsSet(false)
- ,bLocked(false)
+  :DefaultSize(aDefaultSize)
+  ,SizeLength(0) ///< write optimal size by default
+  ,bSizeIsFinite(true)
+  ,ElementPosition(0)
+  ,SizePosition(0)
+  ,bValueIsSet(bValueSet)
+  ,DefaultIsSet(false)
+  ,bLocked(false)
 {
   Size = DefaultSize;
 }
 
 EbmlElement::EbmlElement(const EbmlElement & ElementToClone)
- :Size(ElementToClone.Size)
- ,DefaultSize(ElementToClone.DefaultSize)
- ,SizeLength(ElementToClone.SizeLength)
- ,bSizeIsFinite(ElementToClone.bSizeIsFinite)
- ,ElementPosition(ElementToClone.ElementPosition)
- ,SizePosition(ElementToClone.SizePosition)
- ,bValueIsSet(ElementToClone.bValueIsSet)
- ,DefaultIsSet(ElementToClone.DefaultIsSet)
- ,bLocked(ElementToClone.bLocked)
+  :Size(ElementToClone.Size)
+  ,DefaultSize(ElementToClone.DefaultSize)
+  ,SizeLength(ElementToClone.SizeLength)
+  ,bSizeIsFinite(ElementToClone.bSizeIsFinite)
+  ,ElementPosition(ElementToClone.ElementPosition)
+  ,SizePosition(ElementToClone.SizePosition)
+  ,bValueIsSet(ElementToClone.bValueIsSet)
+  ,DefaultIsSet(ElementToClone.DefaultIsSet)
+  ,bLocked(ElementToClone.bLocked)
 {
 }
 
 EbmlElement::~EbmlElement()
 {
-    assert(!bLocked);
+  assert(!bLocked);
 }
 
 /*!
@@ -319,8 +317,8 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
   } else {
     /// \todo find the element in the context
     Result = new (std::nothrow) EbmlDummy(PossibleID);
-        if(Result == NULL)
-            return NULL;
+    if(Result == NULL)
+      return NULL;
   }
 
   Result->SetSizeLength(PossibleSizeLength);
@@ -328,8 +326,8 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
   Result->Size = SizeFound;
 
   if (!Result->ValidateSize() || (SizeFound != SizeUnknown && MaxDataSize < Result->Size)) {
-      delete Result;
-      return NULL;
+    delete Result;
+    return NULL;
   }
 
   // check if the size is not all 1s
@@ -356,7 +354,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
   \param LowLevel Will be returned with the level of the element found compared to the context given
 */
 EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSemanticContext & Context, int & UpperLevel,
-      uint64 MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel)
+                                           uint64 MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel)
 {
   int PossibleID_Length = 0;
   binary PossibleIdNSize[16];
@@ -408,8 +406,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
     // read the data size
     uint32 _SizeLength;
     PossibleSizeLength = ReadIndex;
-    while (1)
-    {
+    while (1) {
       _SizeLength = PossibleSizeLength;
       SizeFound = ReadCodedSizeValue(&PossibleIdNSize[PossibleID_Length], _SizeLength, SizeUnknown);
       if (_SizeLength != 0) {
@@ -474,7 +471,7 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
     assert(TestReadElt == NULL);
     assert(ElementPosition < SizePosition);
     DataStream.I_O().setFilePointer(SizePosition + CodedSizeLength(Size, SizeLength, bSizeIsFinite) + Size, seek_beginning);
-//    DataStream.I_O().setFilePointer(Size, seek_current);
+    //    DataStream.I_O().setFilePointer(Size, seek_current);
   } else {
     /////////////////////////////////////////////////
     // read elements until an upper element is found
@@ -483,13 +480,13 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
     while (!bEndFound && Result == NULL) {
       // read an element
       /// \todo 0xFF... and true should be configurable
-//      EbmlElement * NewElt;
+      //      EbmlElement * NewElt;
       if (TestReadElt == NULL) {
         int bUpperElement = 0; // trick to call FindNextID correctly
         Result = DataStream.FindNextElement(Context, bUpperElement, 0xFFFFFFFFL, AllowDummyElt);
       } else {
         Result = TestReadElt;
-                TestReadElt = NULL;
+        TestReadElt = NULL;
       }
 
       if (Result != NULL) {
@@ -524,7 +521,7 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
 }
 
 EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const EbmlSemanticContext & Context,
-                          int & LowLevel, bool IsGlobalContext, bool bAllowDummy, unsigned int MaxLowerLevel)
+                                                    int & LowLevel, bool IsGlobalContext, bool bAllowDummy, unsigned int MaxLowerLevel)
 {
   unsigned int ContextIndex;
   EbmlElement *Result = NULL;
@@ -532,7 +529,7 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
   // elements at the current level
   for (ContextIndex = 0; ContextIndex < EBML_CTX_SIZE(Context); ContextIndex++) {
     if (aID == EBML_CTX_IDX_ID(Context,ContextIndex)) {
-            return &EBML_SEM_CREATE(EBML_CTX_IDX(Context,ContextIndex));
+      return &EBML_SEM_CREATE(EBML_CTX_IDX(Context,ContextIndex));
     }
   }
 
@@ -580,7 +577,7 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 filepos_t EbmlElement::Render(IOCallback & output, bool bWithDefault, bool bKeepPosition, bool bForceRender)
 {
   assert(bValueIsSet || (bWithDefault && DefaultISset())); // an element is been rendered without a value set !!!
-                     // it may be a mandatory element without a default value
+  // it may be a mandatory element without a default value
   try {
     if (!bWithDefault && IsDefaultValue()) {
       return 0;
@@ -591,12 +588,13 @@ filepos_t EbmlElement::Render(IOCallback & output, bool bWithDefault, bool bKeep
     filepos_t result = RenderHead(output, bForceRender, bWithDefault, bKeepPosition);
     uint64 WrittenSize = RenderData(output, bForceRender, bWithDefault);
 #if defined(LIBEBML_DEBUG)
-  if (static_cast<int64>(SupposedSize) != (0-1)) assert(WrittenSize == SupposedSize);
+    if (static_cast<int64>(SupposedSize) != (0-1))
+      assert(WrittenSize == SupposedSize);
 #endif // LIBEBML_DEBUG
     result += WrittenSize;
     return result;
   } catch (std::exception & ex) {
-//     const char * What = ex.what();
+    //     const char * What = ex.what();
     assert(false); // we should never be here !
     return 0;
   }

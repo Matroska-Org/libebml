@@ -53,8 +53,7 @@ void IOCallback::writeFully(const void*Buffer,size_t Size)
   if (Buffer == NULL)
     throw;
 
-  if(write(Buffer,Size) != Size)
-  {
+  if(write(Buffer,Size) != Size) {
 #if !defined(__GNUC__) || (__GNUC__ > 2)
     stringstream Msg;
     Msg<<"EOF in writeFully("<<Buffer<<","<<Size<<")";
@@ -70,8 +69,7 @@ void IOCallback::readFully(void*Buffer,size_t Size)
   if(Buffer == NULL)
     throw;
 
-  if(read(Buffer,Size) != Size)
-  {
+  if(read(Buffer,Size) != Size) {
 #if !defined(__GNUC__) || (__GNUC__ > 2)
     stringstream Msg;
     Msg<<"EOF in readFully("<<Buffer<<","<<Size<<")";

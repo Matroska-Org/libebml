@@ -184,8 +184,7 @@ void UTFstring::UpdateFromUCS2()
 {
   // find the size of the final UTF-8 string
   size_t i,Size=0;
-  for (i=0; i<_Length; i++)
-  {
+  for (i=0; i<_Length; i++) {
     if (_Data[i] < 0x80) {
       Size++;
     } else if (_Data[i] < 0x800) {
@@ -195,8 +194,7 @@ void UTFstring::UpdateFromUCS2()
     }
   }
   std::string::value_type *tmpStr = new std::string::value_type[Size+1];
-  for (i=0, Size=0; i<_Length; i++)
-  {
+  for (i=0, Size=0; i<_Length; i++) {
     if (_Data[i] < 0x80) {
       tmpStr[Size++] = _Data[i];
     } else if (_Data[i] < 0x800) {
@@ -226,36 +224,36 @@ bool UTFstring::wcscmp_internal(const wchar_t *str1, const wchar_t *str2)
 // ===================== EbmlUnicodeString class ===================
 
 EbmlUnicodeString::EbmlUnicodeString()
-:EbmlElement(0, false)
+  :EbmlElement(0, false)
 {
   SetDefaultSize(0);
 }
 
 EbmlUnicodeString::EbmlUnicodeString(const UTFstring & aDefaultValue)
-:EbmlElement(0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
+  :EbmlElement(0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
 {
   SetDefaultSize(0);
   SetDefaultIsSet();
 }
 
 EbmlUnicodeString::EbmlUnicodeString(const EbmlUnicodeString & ElementToClone)
- :EbmlElement(ElementToClone)
- ,Value(ElementToClone.Value)
- ,DefaultValue(ElementToClone.DefaultValue)
+  :EbmlElement(ElementToClone)
+  ,Value(ElementToClone.Value)
+  ,DefaultValue(ElementToClone.DefaultValue)
 {
 }
 
 void EbmlUnicodeString::SetDefaultValue(UTFstring & aValue)
 {
-    assert(!DefaultISset());
-    DefaultValue = aValue;
-    SetDefaultIsSet();
+  assert(!DefaultISset());
+  DefaultValue = aValue;
+  SetDefaultIsSet();
 }
 
 const UTFstring & EbmlUnicodeString::DefaultVal() const
 {
-    assert(DefaultISset());
-    return DefaultValue;
+  assert(DefaultISset());
+  return DefaultValue;
 }
 
 
@@ -333,8 +331,7 @@ uint64 EbmlUnicodeString::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 */
 filepos_t EbmlUnicodeString::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-  if (ReadFully != SCOPE_NO_DATA)
-  {
+  if (ReadFully != SCOPE_NO_DATA) {
     if (GetSize() == 0) {
       Value = UTFstring::value_type(0);
       SetValueIsSet();

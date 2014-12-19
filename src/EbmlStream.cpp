@@ -38,7 +38,7 @@
 START_LIBEBML_NAMESPACE
 
 EbmlStream::EbmlStream(IOCallback & DataStream)
- :Stream(DataStream)
+  :Stream(DataStream)
 {}
 
 EbmlStream::~EbmlStream()

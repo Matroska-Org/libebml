@@ -41,36 +41,36 @@
 START_LIBEBML_NAMESPACE
 
 EbmlFloat::EbmlFloat(const EbmlFloat::Precision prec)
- :EbmlElement(0, false)
+  :EbmlElement(0, false)
 {
   SetPrecision(prec);
 }
 
 EbmlFloat::EbmlFloat(const double aDefaultValue, const EbmlFloat::Precision prec)
- :EbmlElement(0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
+  :EbmlElement(0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
 {
   SetDefaultIsSet();
   SetPrecision(prec);
 }
 
 EbmlFloat::EbmlFloat(const EbmlFloat & ElementToClone)
- :EbmlElement(ElementToClone)
- ,Value(ElementToClone.Value)
- ,DefaultValue(ElementToClone.DefaultValue)
+  :EbmlElement(ElementToClone)
+  ,Value(ElementToClone.Value)
+  ,DefaultValue(ElementToClone.DefaultValue)
 {
 }
 
 void EbmlFloat::SetDefaultValue(double aValue)
 {
-    assert(!DefaultISset());
-    DefaultValue = aValue;
-    SetDefaultIsSet();
+  assert(!DefaultISset());
+  DefaultValue = aValue;
+  SetDefaultIsSet();
 }
 
 double EbmlFloat::DefaultVal() const
 {
-    assert(DefaultISset());
-    return DefaultValue;
+  assert(DefaultISset());
+  return DefaultValue;
 }
 
 EbmlFloat::operator float() const {return float(Value);}
@@ -119,8 +119,7 @@ uint64 EbmlFloat::UpdateSize(bool bWithDefault, bool  /* bForceRender */)
 */
 filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-  if (ReadFully != SCOPE_NO_DATA)
-  {
+  if (ReadFully != SCOPE_NO_DATA) {
     binary Buffer[20];
     assert(GetSize() <= 20);
     input.readFully(Buffer, GetSize());
