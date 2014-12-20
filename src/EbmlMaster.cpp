@@ -433,16 +433,28 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
             break;
           }
         } else {
-          // more logical to do it afterward
-          ElementList.push_back(ElementLevelA);
-
           ElementLevelA->Read(inDataStream, EBML_CONTEXT(ElementLevelA), UpperEltFound, FoundElt, AllowDummyElt, ReadFully);
 
+          // Discard elements that couldn't be read properly if
+          // SCOPE_ALL_DATA has been requested. This can happen
+          // e.g. if block data is defective.
+          bool DeleteElement = true;
+
+          if (ElementLevelA->ValueIsSet() || (ReadFully != SCOPE_ALL_DATA)) {
+            ElementList.push_back(ElementLevelA);
+            DeleteElement = false;
+          }
+
           // just in case
-          if (ElementLevelA->IsFiniteSize())
+          if (ElementLevelA->IsFiniteSize()) {
             ElementLevelA->SkipData(inDataStream, EBML_CONTEXT(ElementLevelA));
-          else
+            if (DeleteElement)
+              delete ElementLevelA;
+          } else {
+            if (DeleteElement)
+              delete ElementLevelA;
             break;
+          }
         }
 
         if (UpperEltFound > 0) {

@@ -1,3 +1,9 @@
+2014-12-20  Moritz Bunkus  <moritz@bunkus.org>
+
+        * EbmlMaster::Read(): when reading with SCOPE_ALL_DATA only those
+        elements that could successfully be read will be kept
+        (e.g. defective block groups will be dropped).
+
 2014-12-19  Moritz Bunkus  <moritz@bunkus.org>
 
         * EbmlMemoryStream: add a new class for safe memory access that
