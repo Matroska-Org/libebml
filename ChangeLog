@@ -2,7 +2,7 @@
 
         * build system: switched the build system from hand-crafted
         Makefiles to an autoconf/automake-based system. A pkg-config file
-        will be installed as well; its name is »libebml«. Patch by Jan
+        will be installed as well; its name is Â»libebmlÂ«. Patch by Jan
         Engelhardt <jengelh@inai.de>.
 
 2014-12-20  Moritz Bunkus  <moritz@bunkus.org>
@@ -630,7 +630,7 @@ New 0.8.0 version:
 2004-10-14 07:48  mosu
 
 	* trunk/libebml/src/EbmlUnicodeString.cpp: wchar.h doesn't exist on
-	  OpenBSD. Patch by Diego Pettenò <dgp85 (a) users ! sourceforge !
+	  OpenBSD. Patch by Diego PettenÃ² <dgp85 (a) users ! sourceforge !
 	  net>.
 
 2004-09-26 10:03  mosu
