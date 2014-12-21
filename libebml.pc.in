@@ -3,8 +3,8 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name:		libebml
-Description:	Library for parsing EBML data structures
-Version:	@PACKAGE_VERSION@
-Libs:		-L${libdir} -lebml
-Cflags:		-I${includedir}
+Name:        libebml
+Description: Library for parsing EBML data structures
+Version:     @PACKAGE_VERSION@
+Libs:        -L${libdir} -lebml
+Cflags:      -I${includedir}
