@@ -578,26 +578,20 @@ filepos_t EbmlElement::Render(IOCallback & output, bool bWithDefault, bool bKeep
 {
   assert(bValueIsSet || (bWithDefault && DefaultISset())); // an element is been rendered without a value set !!!
   // it may be a mandatory element without a default value
-  try {
-    if (!bWithDefault && IsDefaultValue()) {
-      return 0;
-    }
-#if defined(LIBEBML_DEBUG)
-    uint64 SupposedSize = UpdateSize(bWithDefault, bForceRender);
-#endif // LIBEBML_DEBUG
-    filepos_t result = RenderHead(output, bForceRender, bWithDefault, bKeepPosition);
-    uint64 WrittenSize = RenderData(output, bForceRender, bWithDefault);
-#if defined(LIBEBML_DEBUG)
-    if (static_cast<int64>(SupposedSize) != (0-1))
-      assert(WrittenSize == SupposedSize);
-#endif // LIBEBML_DEBUG
-    result += WrittenSize;
-    return result;
-  } catch (std::exception & ex) {
-    //     const char * What = ex.what();
-    assert(false); // we should never be here !
+  if (!bWithDefault && IsDefaultValue()) {
     return 0;
   }
+#if defined(LIBEBML_DEBUG)
+  uint64 SupposedSize = UpdateSize(bWithDefault, bForceRender);
+#endif // LIBEBML_DEBUG
+  filepos_t result = RenderHead(output, bForceRender, bWithDefault, bKeepPosition);
+  uint64 WrittenSize = RenderData(output, bForceRender, bWithDefault);
+#if defined(LIBEBML_DEBUG)
+  if (static_cast<int64>(SupposedSize) != (0-1))
+    assert(WrittenSize == SupposedSize);
+#endif // LIBEBML_DEBUG
+  result += WrittenSize;
+  return result;
 }
 
 /*!
