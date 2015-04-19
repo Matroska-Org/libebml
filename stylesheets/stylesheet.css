@@ -479,8 +479,8 @@ header h2 {
 
 .inner {
   position: relative;
-  width: 940px;
   margin: 0 auto;
+  padding-left: 50px;
 }
 
 #content-wrapper {
@@ -490,7 +490,7 @@ header h2 {
 
 #main-content {
   float: left;
-  width: 690px;
+  width: 900px;
 }
 
 #main-content img {
@@ -777,6 +777,16 @@ footer a:hover {
 .clearfix {display: inline-block;}
 * html .clearfix {height: 1%;}
 .clearfix {display: block;}
+
+table.techdef .toptitle th {
+  font-weight: bold;
+  background-color: #ddd;
+}
+
+table.techdef .subclass {
+  font-weight: bold;
+  background-color: #eee;
+}
 
 /* #Media Queries
 ================================================== */
