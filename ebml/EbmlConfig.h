@@ -78,14 +78,22 @@
 #   define EBML_DLL_API __declspec(dllimport)
 #  endif // EBML_DLL_EXPORT
 # else // EBML_DLL
-#  define EBML_DLL_API
+#  if defined(__GNUC__) && __GNUC__ >= 4
+#   define EBML_DLL_API __attribute__((visibility("default")))
+#  else
+#   define EBML_DLL_API
+#  endif /* __GNUC__ */
 # endif // EBML_DLL
 
 # ifdef _MSC_VER
 #  pragma warning(disable:4786)  // length of internal identifiers
 # endif // _MSC_VER
 #else
-# define EBML_DLL_API
+# if defined(__GNUC__) && __GNUC__ >= 4
+#  define EBML_DLL_API __attribute__((visibility("default")))
+# else
+#  define EBML_DLL_API
+# endif /* __GNUC__ */
 #endif // WIN32 || _WIN32
 
 
