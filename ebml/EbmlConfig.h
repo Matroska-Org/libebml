@@ -36,6 +36,10 @@
 #ifndef LIBEBML_CONFIG_H
 #define LIBEBML_CONFIG_H
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #if defined(__linux__)
 #include <endian.h>
 #if __BYTE_ORDER == __LITTLE_ENDIAN
@@ -98,6 +102,13 @@
 // case the debug logging code is compiled in.
 #if (defined(DEBUG)||defined(_DEBUG)) && !defined(LIBEBML_DEBUG)
 #define LIBEBML_DEBUG
+#endif
+
+#ifdef HAVE_WINAPIFAMILY_H
+# include <winapifamily.h>
+# if !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#  undef LIBEBML_DEBUG
+# endif
 #endif
 
 // For compilers that don't define __TIMESTAMP__ (e.g. gcc 2.95, gcc 3.2)

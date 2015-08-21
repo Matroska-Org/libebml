@@ -10,4 +10,5 @@ AC_ARG_ENABLE([debug],
 	[enable_debug="$withval"], [enable_debug=no])
 AM_CONDITIONAL([ENABLE_DEBUG], [test "$enable_debug" = yes])
 AC_CONFIG_FILES([Makefile libebml.pc])
+AC_CHECK_HEADERS([winapifamily.h])
 AC_OUTPUT
