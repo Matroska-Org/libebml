@@ -417,7 +417,10 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
         bFound = false;
         break;
       }
-      ReadSize += DataStream.read(&PossibleIdNSize[SizeIdx++], 1);
+      if( DataStream.read( &PossibleIdNSize[SizeIdx++], 1 ) == 0 ) {
+        return NULL; // no more data ?
+      }
+      ReadSize++;
       PossibleSizeLength++;
     }
 
