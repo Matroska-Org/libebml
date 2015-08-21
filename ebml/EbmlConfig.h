@@ -100,6 +100,13 @@
 #define LIBEBML_DEBUG
 #endif
 
+#if defined(_WIN32)||defined(WIN32)
+#include <winapifamily.h>
+# if !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#  undef LIBEBML_DEBUG
+# endif
+#endif
+
 // For compilers that don't define __TIMESTAMP__ (e.g. gcc 2.95, gcc 3.2)
 #ifndef __TIMESTAMP__
 #define __TIMESTAMP__ __DATE__ " " __TIME__
