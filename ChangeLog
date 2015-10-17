@@ -1,3 +1,26 @@
+2015-10-17  Moritz Bunkus  <moritz@bunkus.org>
+
+        * Released v1.3.2.
+
+2015-08-21  Steve Lhomme <robUx4@gmail.com>
+
+        * EbmlElement::FindNextElement(): Handle EOF when reading the
+        element size properly.
+
+2015-06-15  Steve Lhomme <robUx4@gmail.com
+
+        * Disable debug code for builds for the Windows App Store.
+
+2015-06-12  Cristian Morales Vega <reddwarf@opensuse.org>
+
+        * Update the license information: use latest official text for the
+        LGPL.
+
+2015-02-23  Steve Lhomme  <robux4@gmail.com>
+
+        * EbmlString::ValidateSize(): only allow the same maximum size as
+        EbmlBinary.
+
 2015-01-04  Moritz Bunkus  <moritz@bunkus.org>
 
         * Released v1.3.1.
