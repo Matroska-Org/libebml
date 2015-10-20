@@ -454,6 +454,14 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
         } else {
           if (DeleteElement)
             delete ElementLevelA;
+
+          if (UpperEltFound) {
+            --UpperEltFound;
+            if (UpperEltFound > 0 || MaxSizeToRead <= 0)
+              goto processCrc;
+            ElementLevelA = FoundElt;
+          }
+
           break;
         }
       }
