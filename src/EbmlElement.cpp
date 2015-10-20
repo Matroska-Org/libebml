@@ -150,6 +150,11 @@ uint64 ReadCodedSizeValue(const binary * InBuffer, uint32 & BufferSize, uint64 &
       // ID found
       PossibleSizeLength = SizeIdx + 1;
       SizeBitMask >>= SizeIdx;
+
+      // Guard against invalid memory accesses with incomplete IDs.
+      if (PossibleSizeLength > BufferSize)
+        break;
+
       for (SizeIdx = 0; SizeIdx < PossibleSizeLength; SizeIdx++) {
         PossibleSize[SizeIdx] = InBuffer[SizeIdx];
       }

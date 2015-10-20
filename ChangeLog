@@ -1,5 +1,11 @@
 2015-10-20  Moritz Bunkus  <moritz@bunkus.org>
 
+        * EbmlElement::ReadCodedSizeValue(): Fixed an invalid memory
+        access. When reading a EBML variable length integer value a read
+        access beyond the end of the available buffer was possible if
+        fewer bytes were available than indicated by the first byte
+        resulting in a heap information leak.
+
         * EbmlUnicodeString::UpdateFromUTF8(): Fixed an invalid memory
         access. When reading from a UTF-8 string in which the length
         indicated by a UTF-8 character's first byte exceeds the string's
