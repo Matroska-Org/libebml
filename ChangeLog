@@ -1,3 +1,12 @@
+2015-10-20  Moritz Bunkus  <moritz@bunkus.org>
+
+        * EbmlUnicodeString::UpdateFromUTF8(): Fixed an invalid memory
+        access. When reading from a UTF-8 string in which the length
+        indicated by a UTF-8 character's first byte exceeds the string's
+        actual number of bytes the parser would access beyond the end of
+        the string resulting in a heap information leak. Fixes the issue
+        reported as Cisco TALOS-CAN-0036.
+
 2015-10-17  Moritz Bunkus  <moritz@bunkus.org>
 
         * Released v1.3.2.
