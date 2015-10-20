@@ -38,7 +38,7 @@
 
 START_LIBEBML_NAMESPACE
 
-const std::string EbmlCodeVersion = "1.3.2";
+const std::string EbmlCodeVersion = "1.3.3";
 const std::string EbmlCodeDate    = __TIMESTAMP__;
 
 END_LIBEBML_NAMESPACE

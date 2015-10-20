@@ -1,5 +1,7 @@
 2015-10-20  Moritz Bunkus  <moritz@bunkus.org>
 
+        * Released v1.3.3.
+
         * EbmlMaster::Read(): When the parser encountered a deeply nested
         element with an infinite size then a following element of an upper
         level was not propagated correctly. Instead the element with the
