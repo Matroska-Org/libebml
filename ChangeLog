@@ -1,3 +1,13 @@
+2015-11-18  Moritz Bunkus  <moritz@bunkus.org>
+
+        * libebml_t.h: use C99-style integer typedefs instead of BSD-style
+        ones. Patch by Ed Schouten <ed@nuxi.nl>.
+
+2015-10-24  Moritz Bunkus  <moritz@bunkus.org>
+
+        * EbmlBinary.h: add #include <cstdlib> for compilation with clang
+        and libc++. Patch by Thomas Klausner <wiz@NetBSD.org>.
+
 2015-10-20  Moritz Bunkus  <moritz@bunkus.org>
 
         * Released v1.3.3.
