@@ -108,10 +108,10 @@ extern "C" {
     typedef int16_t int16;
     typedef int8_t int8;
     typedef int8_t character;
-    typedef u_int64_t uint64;
-    typedef u_int32_t uint32;
-    typedef u_int16_t uint16;
-    typedef u_int8_t uint8;
+    typedef uint64_t uint64;
+    typedef uint32_t uint32;
+    typedef uint16_t uint16;
+    typedef uint8_t uint8;
 #endif /* anything else */
 
 typedef uint8  binary;
