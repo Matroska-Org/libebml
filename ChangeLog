@@ -1,3 +1,9 @@
+2015-11-21  Moritz Bunkus  <moritz@bunkus.org>
+
+        * EbmlVersion.cpp: in order to enable deterministic builds the
+        EbmlCodeDate variable has been set to "Unknown" instead of the
+        date and time of compilation. Patch by Ed Schouten <ed@nuxi.nl>.
+
 2015-11-18  Moritz Bunkus  <moritz@bunkus.org>
 
         * libebml_t.h: use C99-style integer typedefs instead of BSD-style

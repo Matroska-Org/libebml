@@ -111,11 +111,6 @@
 # endif
 #endif
 
-// For compilers that don't define __TIMESTAMP__ (e.g. gcc 2.95, gcc 3.2)
-#ifndef __TIMESTAMP__
-#define __TIMESTAMP__ __DATE__ " " __TIME__
-#endif
-
 #ifdef __GNUC__
 #define EBML_PRETTYLONGINT(c) (c ## ll)
 #else // __GNUC__
