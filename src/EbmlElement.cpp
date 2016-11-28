@@ -33,7 +33,9 @@
 */
 
 #include <cassert>
+#include <cstdlib>
 #include <cstring>
+#include <iostream>
 
 #include "ebml/EbmlElement.h"
 #include "ebml/EbmlMaster.h"
@@ -221,8 +223,9 @@ const EbmlSemantic & EbmlSemanticContext::GetSemantic(size_t i) const
   assert(i<Size);
   if (i<Size)
     return MyTable[i];
-  else
-    return *(EbmlSemantic*)NULL;
+
+  std::cerr << "EbmlSemanticContext::GetSemantic: programming error: index i outside of table size (" << i << " >= " << Size << ")" << std::endl;
+  std::abort();
 }
 
 
