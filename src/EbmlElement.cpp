@@ -270,12 +270,12 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
   int PossibleID_Length = 0;
   binary PossibleSize[8]; // we don't support size stored in more than 64 bits
   uint32 PossibleSizeLength = 0;
-  uint64 SizeUnknown;
-  uint64 SizeFound;
+  uint64 SizeUnknown = 0;
+  uint64 SizeFound = 0;
   bool bElementFound = false;
 
   binary BitMask;
-  uint64 aElementPosition, aSizePosition;
+  uint64 aElementPosition = 0, aSizePosition = 0;
   while (!bElementFound) {
     // read ID
     aElementPosition = DataStream.getFilePointer();
