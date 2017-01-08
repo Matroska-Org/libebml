@@ -131,8 +131,9 @@ void StdIOCallback::setFilePointer(int64 Offset,seek_mode Mode)
     ostringstream Msg;
     Msg<<"Failed to seek file "<<File<<" to offset "<<(unsigned long)Offset<<" in mode "<<Mode;
     throw CRTError(Msg.str());
-#endif // GCC2
+#else // GCC2
     mCurrentPosition = ftell(File);
+#endif
   } else {
     switch ( Mode ) {
       case SEEK_CUR:

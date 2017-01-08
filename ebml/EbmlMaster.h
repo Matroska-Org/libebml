@@ -161,7 +161,6 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 
     /*!
       \brief facility for Master elements to write only the head and force the size later
-      \warning
     */
     filepos_t WriteHead(IOCallback & output, int SizeLength, bool bWithDefault = false);
 
