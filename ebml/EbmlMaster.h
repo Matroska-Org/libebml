@@ -219,6 +219,12 @@ Type & GetNextChild(EbmlMaster & Master, const Type & PastElt)
 }
 
 template <typename Type>
+Type * FindNextChild(EbmlMaster & Master, const Type & PastElt)
+{
+  return static_cast<Type *>(Master.FindNextElt(PastElt, false));
+}
+
+template <typename Type>
 Type & AddNewChild(EbmlMaster & Master)
 {
   return *(static_cast<Type *>(Master.AddNewElt(EBML_INFO(Type))));
