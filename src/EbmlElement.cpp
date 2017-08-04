@@ -408,6 +408,10 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
 
     } while (!bFound && MaxDataSize > ReadSize);
 
+    if (!bFound)
+        // we reached the maximum we could read without a proper ID
+        return NULL;
+
     SizeIdx = ReadIndex;
     ReadIndex -= PossibleID_Length;
 
