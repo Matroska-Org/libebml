@@ -1,3 +1,7 @@
+2017-08-06  Moritz Bunkus  <moritz@bunkus.org>
+
+        * Added a template function `FindNextChild`. Patch by C.W. Betts.
+
 2016-11-28  Moritz Bunkus  <moritz@bunkus.org>
 
         * Fixed an instance of undefined behavior in
