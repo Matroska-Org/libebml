@@ -2,6 +2,11 @@
 
         * Added a template function `FindNextChild`. Patch by C.W. Betts.
 
+2017-08-04  Steve Lhomme <slhomme@matroska.org>
+
+        * Fix reading and EBML element even though the ID was not found within
+        the allowed reading limit.
+
 2016-11-28  Moritz Bunkus  <moritz@bunkus.org>
 
         * Fixed an instance of undefined behavior in
