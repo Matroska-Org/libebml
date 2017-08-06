@@ -36,6 +36,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <sstream>
 
 #include "ebml/EbmlElement.h"
 #include "ebml/EbmlMaster.h"
@@ -224,8 +225,9 @@ const EbmlSemantic & EbmlSemanticContext::GetSemantic(size_t i) const
   if (i<Size)
     return MyTable[i];
 
-  std::cerr << "EbmlSemanticContext::GetSemantic: programming error: index i outside of table size (" << i << " >= " << Size << ")" << std::endl;
-  std::abort();
+  std::stringstream ss;
+  ss << "EbmlSemanticContext::GetSemantic: programming error: index i outside of table size (" << i << " >= " << Size << ")";
+  throw std::logic_error(ss.str());
 }
 
 
