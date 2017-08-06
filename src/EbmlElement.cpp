@@ -36,6 +36,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <stdexcept>
 #include <sstream>
 
 #include "ebml/EbmlElement.h"
