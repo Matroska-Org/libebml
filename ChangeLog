@@ -1,3 +1,12 @@
+2017-08-09  Moritz Bunkus  <moritz@bunkus.org>
+
+        * The function EbmlMaster::CheckMandatory() will now only return
+        false if a mandatory element is missing for which there's no
+        default value in the specifications. This means that callers such
+        as EbmlMaster::UpdateSize() and by extension EbmlMaster::Render()
+        will not insist on all mandatory elements being present anymore,
+        but only those for which there's no default value.
+
 2017-08-06  Moritz Bunkus  <moritz@bunkus.org>
 
         * Added a template function `FindNextChild`. Patch by C.W. Betts.

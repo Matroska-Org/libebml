@@ -204,11 +204,16 @@ bool EbmlMaster::CheckMandatory() const
   for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
     if (EBML_CTX_IDX(Context,EltIdx).IsMandatory()) {
       if (FindElt(EBML_CTX_IDX_INFO(Context,EltIdx)) == NULL) {
+        EbmlElement *testElement = &EBML_CTX_IDX(Context,EltIdx).Create();
+        bool hasDefaultValue     = testElement->DefaultISset();
+        delete testElement;
+
 #if defined(LIBEBML_DEBUG)
         // you are missing this Mandatory element
 //         const char * MissingName = EBML_INFO_NAME(EBML_CTX_IDX_INFO(Context,EltIdx));
 #endif // LIBEBML_DEBUG
-        return false;
+        if (!hasDefaultValue)
+          return false;
       }
     }
   }
