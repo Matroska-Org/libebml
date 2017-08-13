@@ -66,6 +66,8 @@ nobase_include_HEADERS = \
 	ebml/SafeReadIOCallback.h \
 	ebml/StdIOCallback.h
 
+	EXTRA_DIST = CMakeLists.txt EbmlConfig.cmake
+
 pkgconfigdir = ${libdir}/pkgconfig
 pkgconfig_DATA = libebml.pc
 
