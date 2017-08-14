@@ -36,7 +36,7 @@
 */
 #include <stdio.h>
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN32)
 #include <windows.h> // For OutputDebugString
 #else
 #include <time.h>
@@ -79,7 +79,7 @@ inline int ADbg::_OutPut(const char * format,va_list params) const
   char tst[1000];
   char myformat[256];
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN32)
   if (my_time_included) {
     SYSTEMTIME time;
     GetSystemTime(&time);
@@ -193,7 +193,7 @@ bool ADbg::setDebugFile(const char * NewFilename) {
 
   result = false;
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN32)
   hFile = CreateFileA(NewFilename, GENERIC_WRITE, FILE_SHARE_WRITE|FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );
 
   if (hFile != INVALID_HANDLE_VALUE) {
@@ -222,7 +222,7 @@ bool ADbg::unsetDebugFile() {
   if (result)
     return true;
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN32)
   result = (CloseHandle(hFile) != 0);
 #else
   result = (fclose(hFile) == 0);
