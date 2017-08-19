@@ -1,3 +1,7 @@
+2017-08-19  Moritz Bunkus  <moritz@bunkus.org>
+
+        * Released v1.3.5.
+
 2017-08-09  Moritz Bunkus  <moritz@bunkus.org>
 
         * The function EbmlMaster::CheckMandatory() will now only return
