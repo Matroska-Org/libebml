@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1.2)
 
 project(ebml VERSION 1.3.5)
 
-option (BUILD_SHARED_LIBS "Builds shared library" ON)
+option(BUILD_SHARED_LIBS "Builds shared library" ON)
 option(DISABLE_PKGCONFIG "Disable PkgConfig module generation" OFF)
 option(DISABLE_CMAKE_CONFIG "Disable CMake package config module generation" OFF)
 
@@ -75,11 +75,11 @@ set(libebml_C_PUBLIC_HEADERS ebml/c/libebml_t.h)
 
 add_library(ebml ${libebml_SOURCES} ${libebml_PUBLIC_HEADERS} ${libebml_C_PUBLIC_HEADERS})
 if(WIN32)
-    include(CheckIncludeFile)
-    check_include_file(winapifamily.h HAVE_WINAPIFAMILY_H)
-    if(HAVE_WINAPIFAMILY_H)
-      target_compile_definitions(ebml PUBLIC HAVE_WINAPIFAMILY_H)
-    endif()
+  include(CheckIncludeFile)
+  check_include_file(winapifamily.h HAVE_WINAPIFAMILY_H)
+  if(HAVE_WINAPIFAMILY_H)
+    target_compile_definitions(ebml PUBLIC HAVE_WINAPIFAMILY_H)
+  endif()
 endif()
 set_target_properties(ebml PROPERTIES
   VERSION 4.0.0
