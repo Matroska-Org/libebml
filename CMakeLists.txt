@@ -6,6 +6,10 @@ option (BUILD_SHARED_LIBS "Builds shared library" ON)
 option(DISABLE_PKGCONFIG "Disable PkgConfig module generation" OFF)
 option(DISABLE_CMAKE_CONFIG "Disable CMake package config module generation" OFF)
 
+if(NOT DEFINED CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
+endif()
+
 include(GNUInstallDirs)
 
 set(libebml_SOURCES
