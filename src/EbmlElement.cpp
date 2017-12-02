@@ -404,12 +404,14 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
         memmove(&PossibleIdNSize[0],&PossibleIdNSize[1], --ReadIndex);
       }
 
+      if (MaxDataSize <= ReadSize)
+        break;
       if (DataStream.read(&PossibleIdNSize[ReadIndex++], 1) == 0) {
         return NULL; // no more data ?
       }
       ReadSize++;
 
-    } while (!bFound && MaxDataSize > ReadSize);
+    } while (!bFound);
 
     if (!bFound)
       // we reached the maximum we could read without a proper ID
@@ -429,6 +431,10 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
         break;
       }
       if (PossibleSizeLength >= 8) {
+        bFound = false;
+        break;
+      }
+      if (MaxDataSize <= ReadSize) {
         bFound = false;
         break;
       }
