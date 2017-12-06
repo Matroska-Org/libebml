@@ -461,15 +461,13 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
           //  1 : same level
           //  + : further parent
           if (Result->ValidateSize() && (SizeFound == SizeUnknown || UpperLevel > 0 || MaxDataSize == 0 || MaxDataSize >= (PossibleID_Length + PossibleSizeLength + SizeFound))) {
-            if (SizeFound == SizeUnknown) {
-              Result->SetSizeInfinite();
+            if (SizeFound != SizeUnknown || Result->SetSizeInfinite()) {
+              Result->SizePosition = DataStream.getFilePointer() - SizeIdx + EBML_ID_LENGTH(PossibleID);
+              Result->ElementPosition = Result->SizePosition - EBML_ID_LENGTH(PossibleID);
+              // place the file at the beggining of the data
+              DataStream.setFilePointer(Result->SizePosition + _SizeLength);
+              return Result;
             }
-
-            Result->SizePosition = DataStream.getFilePointer() - SizeIdx + EBML_ID_LENGTH(PossibleID);
-            Result->ElementPosition = Result->SizePosition - EBML_ID_LENGTH(PossibleID);
-            // place the file at the beggining of the data
-            DataStream.setFilePointer(Result->SizePosition + _SizeLength);
-            return Result;
           }
         }
         delete Result;
