@@ -372,11 +372,12 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
   int PossibleSizeLength;
   uint64 SizeUnknown;
   int ReadIndex = 0; // trick for the algo, start index at 0
-  uint32 ReadSize = 0;
+  uint32 ReadSize = 0, IdStart = 0;
   uint64 SizeFound;
   int SizeIdx;
   bool bFound;
   int UpperLevel_original = UpperLevel;
+  uint64 ParseStart = DataStream.getFilePointer();
 
   do {
     // read a potential ID
@@ -402,6 +403,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
         // ID not found
         // shift left the read octets
         memmove(&PossibleIdNSize[0],&PossibleIdNSize[1], --ReadIndex);
+        IdStart++;
       }
 
       if (MaxDataSize <= ReadSize)
@@ -460,10 +462,11 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
           //  0 : child
           //  1 : same level
           //  + : further parent
-          if (Result->ValidateSize() && (SizeFound == SizeUnknown || UpperLevel > 0 || MaxDataSize == 0 || MaxDataSize >= (PossibleID_Length + PossibleSizeLength + SizeFound))) {
+          if (Result->ValidateSize() && (SizeFound == SizeUnknown || UpperLevel > 0 || MaxDataSize == 0 ||
+                                         MaxDataSize >= (IdStart + PossibleID_Length + _SizeLength + SizeFound))) {
             if (SizeFound != SizeUnknown || Result->SetSizeInfinite()) {
-              Result->SizePosition = DataStream.getFilePointer() - SizeIdx + EBML_ID_LENGTH(PossibleID);
-              Result->ElementPosition = Result->SizePosition - EBML_ID_LENGTH(PossibleID);
+              Result->ElementPosition = ParseStart + IdStart;
+              Result->SizePosition = Result->ElementPosition + PossibleID_Length;
               // place the file at the beggining of the data
               DataStream.setFilePointer(Result->SizePosition + _SizeLength);
               return Result;
@@ -477,6 +480,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
     // recover all the data in the buffer minus one byte
     ReadIndex = SizeIdx - 1;
     memmove(&PossibleIdNSize[0], &PossibleIdNSize[1], ReadIndex);
+    IdStart++;
     UpperLevel = UpperLevel_original;
   } while ( MaxDataSize >= ReadSize );
 
