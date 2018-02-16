@@ -87,8 +87,14 @@ if(MSVC)
   target_compile_definitions(ebml PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()
 if(BUILD_SHARED_LIBS)
-  target_compile_definitions(ebml PUBLIC EBML_DLL)
-  set_target_properties(ebml PROPERTIES DEFINE_SYMBOL "EBML_DLL_EXPORT")
+  set_target_properties(ebml
+	PROPERTIES
+		DEFINE_SYMBOL "EBML_DLL_EXPORT"
+		C_VISIBILITY_PRESET hidden
+		VISIBILITY_INLINES_HIDDEN 1)
+  target_compile_definitions(ebml
+	PUBLIC EBML_DLL
+	PRIVATE EBML_DLL_EXPORT)
 endif()
 
 install(TARGETS ebml
