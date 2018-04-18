@@ -439,7 +439,12 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
           break;
         }
       } else {
-        ElementLevelA->Read(inDataStream, EBML_CONTEXT(ElementLevelA), UpperEltFound, FoundElt, AllowDummyElt, ReadFully);
+        try {
+          ElementLevelA->Read(inDataStream, EBML_CONTEXT(ElementLevelA), UpperEltFound, FoundElt, AllowDummyElt, ReadFully);
+        } catch (...) {
+          delete ElementLevelA;
+          throw;
+        }
 
         // Discard elements that couldn't be read properly if
         // SCOPE_ALL_DATA has been requested. This can happen
