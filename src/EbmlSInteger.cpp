@@ -33,8 +33,25 @@
   \author Moritz Bunkus <moritz @ bunkus.org>
 */
 #include <cassert>
+#include <climits>
 
 #include "ebml/EbmlSInteger.h"
+
+// Converting unsigned int types to signed ints assuming the
+// underlying bits in memory should represent the 2's complement of a
+// signed integer. See https://stackoverflow.com/a/13208789/507077
+
+namespace {
+
+int64_t
+ToSigned(uint64_t u) {
+  if (u <= std::numeric_limits<int64_t>::max())
+    return static_cast<int64_t>(u);
+
+  return static_cast<int64_t>(u - std::numeric_limits<int64_t>::min()) + std::numeric_limits<int64_t>::min();
+}
+
+}
 
 START_LIBEBML_NAMESPACE
 
@@ -127,15 +144,15 @@ filepos_t EbmlSInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
     binary Buffer[8];
     input.readFully(Buffer, GetSize());
 
-    if (Buffer[0] & 0x80)
-      Value = -1; // this is a negative value
-    else
-      Value = 0; // this is a positive value
+    uint64_t TempValue = Buffer[0] & 0x80 ? std::numeric_limits<uint64_t>::max() : 0;
 
     for (unsigned int i=0; i<GetSize(); i++) {
-      Value <<= 8;
-      Value |= Buffer[i];
+      TempValue <<= 8;
+      TempValue |= Buffer[i];
     }
+
+    Value = ToSigned(TempValue);
+
     SetValueIsSet();
   }
 
