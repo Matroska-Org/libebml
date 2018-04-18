@@ -1,3 +1,26 @@
+2018-04-18  Moritz Bunkus  <moritz@bunkus.org>
+
+        * Fixed undefined behavior when reading signed integers with
+        negative values from files (though compilers implemented this the
+        way we wanted them to already).
+
+        * Fixed a small memory leak when reading an element runs into an
+        I/O exception (e.g. due to having reached the end of the file).
+
+2018-02-15  Steve Lhomme <slhomme@matroska.org>
+
+        * Fixed the EbmlMaster::GetDataStart() function returning wrong
+        values for elements with an infinite/unknown size.
+
+2017-11-27  Steve Lhomme <slhomme@matroska.org>
+
+        * Fixed several potential situations where reading child element
+        data could exceed the parent element's size.
+
+2017-11-18  Steve Lhomme <slhomme@matroska.org>
+
+        * Added a code of conduct to the project.
+
 2017-08-19  Moritz Bunkus  <moritz@bunkus.org>
 
         * Released v1.3.5.
