@@ -12,6 +12,11 @@
         * Fixed the EbmlMaster::GetDataStart() function returning wrong
         values for elements with an infinite/unknown size.
 
+2018-01-23  Steve Lhomme <slhomme@matroska.org>
+
+        * Fixed finding the next element ID when garbage data is
+        encountered during the scan for the ID.
+
 2017-11-27  Steve Lhomme <slhomme@matroska.org>
 
         * Fixed several potential situations where reading child element
