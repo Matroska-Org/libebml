@@ -95,7 +95,7 @@ bool WinIOCallback::open(const char* Path, const open_mode aMode, DWORD dwFlags)
   }
 
   mFile = CreateFileA(Path, AccessMode, ShareMode, NULL, Disposition, dwFlags, NULL);
-  if ((mFile == INVALID_HANDLE_VALUE) || ((long)mFile == 0xffffffff)) {
+  if ((mFile == INVALID_HANDLE_VALUE) || (mFile == (HANDLE)0xffffffff)) {
     //File was not opened
     char err_msg[256];
     DWORD error_code = GetLastError();
@@ -177,7 +177,7 @@ bool WinIOCallback::open(const wchar_t* Path, const open_mode aMode, DWORD dwFla
       return mOk = false;
     }
   }
-  if ((mFile == INVALID_HANDLE_VALUE) || ((long)mFile == 0xffffffff)) {
+  if ((mFile == INVALID_HANDLE_VALUE) || (mFile == (HANDLE)0xffffffff)) {
     //File was not opened
     char err_msg[256];
     DWORD error_code = GetLastError();
