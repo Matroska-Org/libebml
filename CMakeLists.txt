@@ -60,12 +60,6 @@ set(libebml_PUBLIC_HEADERS
   ebml/MemReadIOCallback.h
   ebml/SafeReadIOCallback.h
   ebml/StdIOCallback.h)
-if(WIN32)
-  list(APPEND libebml_SOURCES
-    src/platform/win32/WinIOCallback.cpp)
-  list(APPEND libebml_PUBLIC_HEADERS
-    src/platform/win32/WinIOCallback.h)
-endif()
 
 set(libebml_C_PUBLIC_HEADERS ebml/c/libebml_t.h)
 
