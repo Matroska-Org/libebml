@@ -104,13 +104,6 @@
 #define LIBEBML_DEBUG
 #endif
 
-#ifdef HAVE_WINAPIFAMILY_H
-# include <winapifamily.h>
-# if !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
-#  undef LIBEBML_DEBUG
-# endif
-#endif
-
 #ifdef __GNUC__
 #define EBML_PRETTYLONGINT(c) (c ## ll)
 #else // __GNUC__
