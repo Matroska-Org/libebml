@@ -33,7 +33,7 @@
   \author Moritz Bunkus <moritz @ bunkus.org>
 */
 #include <cassert>
-#include <climits>
+#include <limits>
 
 #include "ebml/EbmlSInteger.h"
 
