@@ -64,6 +64,13 @@ set(libebml_PUBLIC_HEADERS
 set(libebml_C_PUBLIC_HEADERS ebml/c/libebml_t.h)
 
 add_library(ebml ${libebml_SOURCES} ${libebml_PUBLIC_HEADERS} ${libebml_C_PUBLIC_HEADERS})
+if(WIN32)
+  include(CheckIncludeFile)
+  check_include_file(winapifamily.h HAVE_WINAPIFAMILY_H)
+  if(HAVE_WINAPIFAMILY_H)
+    target_compile_definitions(ebml PUBLIC HAVE_WINAPIFAMILY_H)
+  endif()
+endif()
 set_target_properties(ebml PROPERTIES
   VERSION 4.0.0
   SOVERSION 4)
