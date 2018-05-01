@@ -74,21 +74,28 @@ endif()
 set_target_properties(ebml PROPERTIES
   VERSION 4.0.0
   SOVERSION 4)
-target_include_directories(ebml PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+target_include_directories(ebml
+  PRIVATE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 if(MSVC)
   target_compile_definitions(ebml PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()
+
+include(GenerateExportHeader)
+generate_export_header(ebml EXPORT_MACRO_NAME EBML_DLL_API)
+target_sources(ebml
+  PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}/ebml_export.h
+)
+
 if(BUILD_SHARED_LIBS)
   set_target_properties(ebml
     PROPERTIES
-    DEFINE_SYMBOL "EBML_DLL_EXPORT"
     C_VISIBILITY_PRESET hidden
     VISIBILITY_INLINES_HIDDEN 1)
-  target_compile_definitions(ebml
-    PUBLIC EBML_DLL
-    PRIVATE EBML_DLL_EXPORT)
 endif()
 
 install(TARGETS ebml
@@ -99,6 +106,7 @@ install(TARGETS ebml
 
 install(FILES ${libebml_PUBLIC_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ebml)
 install(FILES ${libebml_C_PUBLIC_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ebml/c)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ebml_export.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ebml)
 
 if(NOT DISABLE_PKGCONFIG)
   set(prefix ${CMAKE_INSTALL_PREFIX})
