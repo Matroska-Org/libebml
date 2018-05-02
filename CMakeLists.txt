@@ -94,7 +94,7 @@ target_sources(ebml
 if(BUILD_SHARED_LIBS)
   set_target_properties(ebml
     PROPERTIES
-    C_VISIBILITY_PRESET hidden
+    CXX_VISIBILITY_PRESET hidden
     VISIBILITY_INLINES_HIDDEN 1)
 endif()
 
