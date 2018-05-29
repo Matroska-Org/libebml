@@ -43,12 +43,12 @@
 
 namespace {
 
-int64_t
-ToSigned(uint64_t u) {
-  if (u <= std::numeric_limits<int64_t>::max())
-    return static_cast<int64_t>(u);
+int64
+ToSigned(uint64 u) {
+  if (u <= std::numeric_limits<int64>::max())
+    return static_cast<int64>(u);
 
-  return static_cast<int64_t>(u - std::numeric_limits<int64_t>::min()) + std::numeric_limits<int64_t>::min();
+  return static_cast<int64>(u - std::numeric_limits<int64>::min()) + std::numeric_limits<int64>::min();
 }
 
 }
@@ -144,7 +144,7 @@ filepos_t EbmlSInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
     binary Buffer[8];
     input.readFully(Buffer, GetSize());
 
-    uint64_t TempValue = Buffer[0] & 0x80 ? std::numeric_limits<uint64_t>::max() : 0;
+    uint64 TempValue = Buffer[0] & 0x80 ? std::numeric_limits<uint64>::max() : 0;
 
     for (unsigned int i=0; i<GetSize(); i++) {
       TempValue <<= 8;
