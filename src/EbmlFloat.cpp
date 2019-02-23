@@ -130,7 +130,7 @@ filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
       int32 tmpp = int32(TmpRead);
       float val;
       memcpy(&val, &tmpp, 4);
-      Value = val;
+      Value = static_cast<double>(val);
       SetValueIsSet();
     } else if (GetSize() == 8) {
       big_int64 TmpRead;
