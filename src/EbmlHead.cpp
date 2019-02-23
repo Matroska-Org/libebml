@@ -49,7 +49,7 @@ DEFINE_SEMANTIC_ITEM(true, true, EDocTypeVersion) ///< DocTypeVersion
 DEFINE_SEMANTIC_ITEM(true, true, EDocTypeReadVersion) ///< DocTypeReadVersion
 DEFINE_END_SEMANTIC(EbmlHead)
 
-DEFINE_EBML_MASTER_ORPHAN(EbmlHead, 0x1A45DFA3, 4, "EBMLHead\0ratamapaga");
+DEFINE_EBML_MASTER_ORPHAN(EbmlHead, 0x1A45DFA3, 4, "EBMLHead\0ratamapaga")
 
 EbmlHead::EbmlHead()
   :EbmlMaster(EbmlHead_Context)

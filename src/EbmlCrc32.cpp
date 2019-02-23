@@ -50,7 +50,7 @@ const uint32 CRC32_NEGL = 0xffffffffL;
 
 START_LIBEBML_NAMESPACE
 
-DEFINE_EBML_CLASS_GLOBAL(EbmlCrc32, 0xBF, 1, "EBMLCrc32\0ratamadabapa");
+DEFINE_EBML_CLASS_GLOBAL(EbmlCrc32, 0xBF, 1, "EBMLCrc32\0ratamadabapa")
 
 const uint32 EbmlCrc32::m_tab[] = {
 #ifdef WORDS_BIGENDIAN
@@ -197,7 +197,7 @@ void EbmlCrc32::AddElementCRC32(EbmlElement &ElementToCRC)
 
   Update(memoryBuffer.GetDataBuffer(), memoryBuffer.GetDataBufferSize());
   //  Finalize();
-};
+}
 
 bool EbmlCrc32::CheckElementCRC32(EbmlElement &ElementToCRC)
 {
@@ -205,7 +205,7 @@ bool EbmlCrc32::CheckElementCRC32(EbmlElement &ElementToCRC)
   ElementToCRC.Render(memoryBuffer);
 
   return CheckCRC(m_crc_final, memoryBuffer.GetDataBuffer(), memoryBuffer.GetDataBufferSize());
-};
+}
 
 filepos_t EbmlCrc32::RenderData(IOCallback & output, bool /* bForceRender */, bool /* bWithDefault */)
 {
@@ -276,7 +276,7 @@ bool EbmlCrc32::CheckCRC(uint32 inputCRC, const binary *input, uint32 length)
     return true;
 
   return false;
-};
+}
 
 void EbmlCrc32::FillCRC32(const binary *s, uint32 n)
 {
