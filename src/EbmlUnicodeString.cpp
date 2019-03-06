@@ -144,7 +144,11 @@ void UTFstring::UpdateFromUTF8()
     ++Current;
 
   std::wstring Temp;
-  ::utf8::utf8to16(UTF8string.begin(), Current, std::back_inserter(Temp));
+  try {
+    ::utf8::utf8to16(UTF8string.begin(), Current, std::back_inserter(Temp));
+  } catch (::utf8::invalid_code_point &) {
+  } catch (::utf8::invalid_utf8 &) {
+  }
 
   delete [] _Data;
   _Length = Temp.length();
@@ -165,7 +169,11 @@ void UTFstring::UpdateFromUCS2()
   while ((Current < _Length) && _Data[Current])
     ++Current;
 
-  ::utf8::utf16to8(_Data, _Data + Current, std::back_inserter(UTF8string));
+  try {
+    ::utf8::utf16to8(_Data, _Data + Current, std::back_inserter(UTF8string));
+  } catch (::utf8::invalid_code_point &) {
+  } catch (::utf8::invalid_utf16 &) {
+  }
 }
 
 bool UTFstring::wcscmp_internal(const wchar_t *str1, const wchar_t *str2)
