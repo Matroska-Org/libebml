@@ -31,6 +31,17 @@ following additional `cmake` options are supported:
 * `-DBUILD_SHARED_LIBS=YES` — build the shared library instead of the
   static one (default: no)
 
-## Code of conduct
+# Code of conduct
 
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+
+# Included third-party components and their licenses
+
+## utf8-cpp
+
+UTF-8 with C++ in a Portable Way
+
+  * Copyright: 2006 Nemanja Trifunovic
+  * License: custom (see `src/lib/utf8-cpp/source/utf8.h`)
+  * URL: http://utfcpp.sourceforge.net/
+  * Corresponding files: `src/lib/utf8-cpp/*`

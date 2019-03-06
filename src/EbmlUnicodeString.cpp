@@ -37,30 +37,13 @@
 
 #include <cassert>
 
-#if __GNUC__ == 2 && ! defined ( __OpenBSD__ )
-#include <wchar.h>
-#endif
-
 #include "ebml/EbmlUnicodeString.h"
+
+#include "lib/utf8-cpp/source/utf8/checked.h"
 
 START_LIBEBML_NAMESPACE
 
 // ===================== UTFstring class ===================
-
-static unsigned int UTFCharLength(uint8 lead)
-{
-  if (lead < 0x80)
-    return 1;
-  else if ((lead >> 5) == 0x6)
-    return 2;
-  else if ((lead >> 4) == 0xe)
-    return 3;
-  else if ((lead >> 3) == 0x1e)
-    return 4;
-  else
-    // Invalid size?
-    return 0;
-}
 
 UTFstring::UTFstring()
   :_Length(0)
@@ -155,76 +138,34 @@ void UTFstring::SetUTF8(const std::string & _aStr)
 */
 void UTFstring::UpdateFromUTF8()
 {
+  // Only convert up to the first \0 character if present.
+  std::string::iterator End = UTF8string.end(), Current = UTF8string.begin();
+  while ((Current != End) && *Current)
+    ++Current;
+
+  std::wstring Temp;
+  ::utf8::utf8to16(UTF8string.begin(), Current, std::back_inserter(Temp));
+
   delete [] _Data;
-  // find the size of the final UCS-2 string
-  size_t i;
-  const size_t SrcLength = UTF8string.length();
-  for (_Length=0, i=0; i<SrcLength; _Length++) {
-    const unsigned int CharLength = UTFCharLength(static_cast<uint8>(UTF8string[i]));
-    if ((CharLength >= 1) && (CharLength <= 4))
-      i += CharLength;
-    else
-      // Invalid size?
-      break;
-  }
-  _Data = new wchar_t[_Length+1];
-  size_t j;
-  for (j=0, i=0; i<SrcLength; j++) {
-    const uint8 lead              = static_cast<uint8>(UTF8string[i]);
-    const unsigned int CharLength = UTFCharLength(lead);
-    if ((CharLength < 1) || (CharLength > 4))
-      // Invalid char?
-      break;
+  _Length = Temp.length();
+  _Data   = new wchar_t[_Length + 1];
 
-    if ((i + CharLength) > SrcLength)
-      // Guard against invalid memory access beyond the end of the
-      // source buffer.
-      break;
-
-    if (CharLength == 1)
-      _Data[j] = lead;
-    else if (CharLength == 2)
-      _Data[j] = ((lead & 0x1F) << 6) + (UTF8string[i+1] & 0x3F);
-    else if (CharLength == 3)
-      _Data[j] = ((lead & 0x0F) << 12) + ((UTF8string[i+1] & 0x3F) << 6) + (UTF8string[i+2] & 0x3F);
-    else if (CharLength == 4)
-      _Data[j] = ((lead & 0x07) << 18) + ((UTF8string[i+1] & 0x3F) << 12) + ((UTF8string[i+2] & 0x3F) << 6) + (UTF8string[i+3] & 0x3F);
-
-    i += CharLength;
-  }
-  _Data[j] = 0;
+  std::memcpy(_Data, Temp.c_str(), sizeof(wchar_t) * (_Length + 1));
 }
 
 void UTFstring::UpdateFromUCS2()
 {
-  // find the size of the final UTF-8 string
-  size_t i,Size=0;
-  for (i=0; i<_Length; i++) {
-    if (_Data[i] < 0x80) {
-      Size++;
-    } else if (_Data[i] < 0x800) {
-      Size += 2;
-    } else {
-      Size += 3;
-    }
-  }
-  std::string::value_type *tmpStr = new std::string::value_type[Size+1];
-  for (i=0, Size=0; i<_Length; i++) {
-    if (_Data[i] < 0x80) {
-      tmpStr[Size++] = _Data[i];
-    } else if (_Data[i] < 0x800) {
-      tmpStr[Size++] = 0xC0 | (_Data[i] >> 6);
-      tmpStr[Size++] = 0x80 | (_Data[i] & 0x3F);
-    } else {
-      tmpStr[Size++] = 0xE0 | (_Data[i] >> 12);
-      tmpStr[Size++] = 0x80 | ((_Data[i] >> 6) & 0x3F);
-      tmpStr[Size++] = 0x80 | (_Data[i] & 0x3F);
-    }
-  }
-  tmpStr[Size] = 0;
-  UTF8string = tmpStr; // implicit conversion
-  delete [] tmpStr;
+  UTF8string.clear();
 
+  if (!_Data)
+    return;
+
+  // Only convert up to the first \0 character if present.
+  size_t Current = 0;
+  while ((Current < _Length) && _Data[Current])
+    ++Current;
+
+  ::utf8::utf16to8(_Data, _Data + Current, std::back_inserter(UTF8string));
 }
 
 bool UTFstring::wcscmp_internal(const wchar_t *str1, const wchar_t *str2)
