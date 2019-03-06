@@ -2,6 +2,14 @@
 
         * Fixed the handling of Unicode codepoints > U+FFFF.
 
+2018-04-23  Steve Lhomme <slhomme@matroska.org>
+
+        * Fixed building on Windows with cmake.
+
+2018-04-21  Steve Lhomme <slhomme@matroska.org>
+
+        * Fixed building with gcc >= 7.
+
 2018-04-20  Moritz Bunkus  <moritz@bunkus.org>
 
         * Released v1.3.6.
