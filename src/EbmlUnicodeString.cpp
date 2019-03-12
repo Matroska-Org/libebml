@@ -145,7 +145,14 @@ void UTFstring::UpdateFromUTF8()
 
   std::wstring Temp;
   try {
-    ::utf8::utf8to16(UTF8string.begin(), Current, std::back_inserter(Temp));
+    // Even though the function names hint at UCS2, the internal
+    // representation must actually be compatible with the C++
+    // library's implementation. Implementations with sizeof(wchar_t)
+    // == 4 are using UCS4.
+    if (sizeof(wchar_t) == 2)
+      ::utf8::utf8to16(UTF8string.begin(), Current, std::back_inserter(Temp));
+    else
+      ::utf8::utf8to32(UTF8string.begin(), Current, std::back_inserter(Temp));
   } catch (::utf8::invalid_code_point &) {
   } catch (::utf8::invalid_utf8 &) {
   }
@@ -170,7 +177,14 @@ void UTFstring::UpdateFromUCS2()
     ++Current;
 
   try {
-    ::utf8::utf16to8(_Data, _Data + Current, std::back_inserter(UTF8string));
+    // Even though the function is called UCS2, the internal
+    // representation must actually be compatible with the C++
+    // library's implementation. Implementations with sizeof(wchar_t)
+    // == 4 are using UCS4.
+    if (sizeof(wchar_t) == 2)
+      ::utf8::utf16to8(_Data, _Data + Current, std::back_inserter(UTF8string));
+    else
+      ::utf8::utf32to8(_Data, _Data + Current, std::back_inserter(UTF8string));
   } catch (::utf8::invalid_code_point &) {
   } catch (::utf8::invalid_utf16 &) {
   }
