@@ -102,10 +102,12 @@ if(BUILD_SHARED_LIBS)
     PROPERTIES
     CXX_VISIBILITY_PRESET hidden
     VISIBILITY_INLINES_HIDDEN 1)
+else()
+  target_compile_definitions(ebml PUBLIC EBML_STATIC_DEFINE)
 endif()
 
 install(TARGETS ebml
-  EXPORT EbmlTargets
+  EXPORT EBMLTargets
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
@@ -125,16 +127,14 @@ if(NOT DISABLE_PKGCONFIG)
 endif()
 
 if(NOT DISABLE_CMAKE_CONFIG)
-  if(WIN32)
-    set(CMAKE_INSTALL_PACKAGEDIR cmake)
-  else()
-    set(CMAKE_INSTALL_PACKAGEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
-  endif()
+  set(CMAKE_INSTALL_PACKAGEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/EBML)
   include(CMakePackageConfigHelpers)
-  write_basic_package_version_file(EbmlConfigVersion.cmake COMPATIBILITY SameMajorVersion)
-  install(EXPORT EbmlTargets DESTINATION ${CMAKE_INSTALL_PACKAGEDIR})
+  configure_package_config_file(EBMLConfig.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/EBMLConfig.cmake
+    INSTALL_DESTINATION ${CMAKE_INSTALL_PACKAGEDIR})
+  write_basic_package_version_file(EBMLConfigVersion.cmake COMPATIBILITY SameMajorVersion)
+  install(EXPORT EBMLTargets NAMESPACE EBML:: DESTINATION ${CMAKE_INSTALL_PACKAGEDIR})
   install(FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/EbmlConfig.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/EbmlConfigVersion.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/EBMLConfig.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/EBMLConfigVersion.cmake
       DESTINATION ${CMAKE_INSTALL_PACKAGEDIR})
 endif()
