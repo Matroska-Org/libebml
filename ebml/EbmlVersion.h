@@ -44,8 +44,8 @@ START_LIBEBML_NAMESPACE
 
 #define LIBEBML_VERSION 0x010307
 
-extern const std::string EbmlCodeVersion;
-extern const std::string EbmlCodeDate;
+extern const EBML_DLL_API std::string EbmlCodeVersion;
+extern const EBML_DLL_API std::string EbmlCodeDate;
 
 /*!
   \todo Closer relation between an element and the context it comes from (context is an element attribute ?)

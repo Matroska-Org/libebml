@@ -45,7 +45,7 @@ class EBML_DLL_API EbmlBinary;
 
 class EBML_DLL_API SafeReadIOCallback {
 public:
-  class EndOfStreamX {
+  class EBML_DLL_API EndOfStreamX {
   public:
     size_t mMissingBytes;
     EndOfStreamX(std::size_t MissingBytes);

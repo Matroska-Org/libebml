@@ -40,6 +40,8 @@
 #include "config.h"
 #endif
 
+#include "ebml_export.h"
+
 #if defined(__linux__)
 #include <endian.h>
 #if __BYTE_ORDER == __LITTLE_ENDIAN
@@ -75,15 +77,6 @@
 // we use the Win32 file API. here we set the appropriate macros.
 #if defined(_WIN32)||defined(WIN32)
 
-# if defined(EBML_DLL)
-#  if defined(EBML_DLL_EXPORT)
-#   define EBML_DLL_API __declspec(dllexport)
-#  else // EBML_DLL_EXPORT
-#   define EBML_DLL_API __declspec(dllimport)
-#  endif // EBML_DLL_EXPORT
-# else // EBML_DLL
-#  define EBML_DLL_API
-# endif // EBML_DLL
 
 # ifdef _MSC_VER
 #  pragma warning(disable:4786)  // length of internal identifiers
