@@ -253,9 +253,9 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements()
       if (FindElt(EBML_CTX_IDX_INFO(Context,EltIdx)) == NULL) {
         std::string missingElement;
         missingElement = "Missing element \"";
-                missingElement.append(EBML_INFO_NAME(EBML_CTX_IDX_INFO(Context,EltIdx)));
+        missingElement.append(EBML_INFO_NAME(EBML_CTX_IDX_INFO(Context,EltIdx)));
         missingElement.append("\" in EbmlMaster \"");
-                missingElement.append(EBML_INFO_NAME(*EBML_CTX_MASTER(Context)));
+        missingElement.append(EBML_INFO_NAME(*EBML_CTX_MASTER(Context)));
         missingElement.append("\"");
         missingElements.push_back(missingElement);
       }
