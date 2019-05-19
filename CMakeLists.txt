@@ -89,6 +89,7 @@ target_include_directories(ebml
 if(MSVC)
   target_compile_definitions(ebml PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()
+set_target_properties(ebml PROPERTIES CXX_VISIBILITY_PRESET hidden)
 
 include(GenerateExportHeader)
 generate_export_header(ebml EXPORT_MACRO_NAME EBML_DLL_API)
