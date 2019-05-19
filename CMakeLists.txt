@@ -4,6 +4,7 @@ project(ebml VERSION 1.3.7)
 
 option(DISABLE_PKGCONFIG "Disable PkgConfig module generation" OFF)
 option(DISABLE_CMAKE_CONFIG "Disable CMake package config module generation" OFF)
+option(ENABLE_WIN32_IO "Build the Windows I/O helper class" OFF)
 
 include(GNUInstallDirs)
 
@@ -31,6 +32,10 @@ set(libebml_SOURCES
   src/MemReadIOCallback.cpp
   src/SafeReadIOCallback.cpp
   src/StdIOCallback.cpp)
+
+if(WIN32 AND ENABLE_WIN32_IO)
+   list(APPEND libebml_SOURCES
+     src/platform/win32/WinIOCallback.cpp)
 
 set(libebml_PUBLIC_HEADERS
   ebml/Debug.h
