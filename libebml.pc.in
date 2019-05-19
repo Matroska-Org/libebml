@@ -7,4 +7,4 @@ Name:        libebml
 Description: Library for parsing EBML data structures
 Version:     @PACKAGE_VERSION@
 Libs:        -L${libdir} -lebml
-Cflags:      -I${includedir}
+Cflags:      -I${includedir} @WINAPIFAMILY_PC@
