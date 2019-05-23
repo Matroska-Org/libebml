@@ -444,6 +444,7 @@ class EBML_DLL_API EbmlElement {
     bool ForceSize(uint64 NewSize);
 
     filepos_t OverwriteHead(IOCallback & output, bool bKeepPosition = false);
+    filepos_t OverwriteData(IOCallback & output, bool bKeepPosition = false);
 
     /*!
       \brief void the content of the element (replace by EbmlVoid)
