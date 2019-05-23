@@ -452,6 +452,7 @@ class EBML_DLL_API EbmlElement {
     uint64 VoidMe(IOCallback & output, bool bWithDefault = false);
 
     bool DefaultISset() const {return DefaultIsSet;}
+    void ForceNoDefault() {SetDefaultIsSet(false);}
     virtual bool IsDefaultValue() const = 0;
     bool IsFiniteSize() const {return bSizeIsFinite;}
 
