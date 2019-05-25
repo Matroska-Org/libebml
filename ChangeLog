@@ -1,3 +1,12 @@
+2019-05-25  Moritz Bunkus  <moritz@bunkus.org>
+
+        * Released v1.3.8.
+
+2019-05-19  evpobr  <evpobr@gmail.com>
+
+        * Build system: various fixes to the cmake rules regarding
+        visibility, naming and building DLLs on Windows.
+
 2019-03-12  Moritz Bunkus  <moritz@bunkus.org>
 
         * Released v1.3.7.
