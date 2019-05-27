@@ -73,19 +73,6 @@
 #endif // NO_NAMESPACE
 
 
-// There are special implementations for certain platforms. For example on Windows
-// we use the Win32 file API. here we set the appropriate macros.
-#if defined(_WIN32)||defined(WIN32)
-
-
-# ifdef _MSC_VER
-#  pragma warning(disable:4786)  // length of internal identifiers
-# endif // _MSC_VER
-#else
-# define EBML_DLL_API
-#endif // WIN32 || _WIN32
-
-
 #ifndef countof
 #define countof(x) (sizeof(x)/sizeof(x[0]))
 #endif
