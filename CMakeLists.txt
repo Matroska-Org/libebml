@@ -97,12 +97,7 @@ target_sources(ebml
     ${CMAKE_CURRENT_BINARY_DIR}/ebml_export.h
 )
 
-if(BUILD_SHARED_LIBS)
-  set_target_properties(ebml
-    PROPERTIES
-    CXX_VISIBILITY_PRESET hidden
-    VISIBILITY_INLINES_HIDDEN 1)
-else()
+if(NOT BUILD_SHARED_LIBS)
   target_compile_definitions(ebml PUBLIC EBML_STATIC_DEFINE)
 endif()
 
