@@ -721,7 +721,7 @@ uint64 EbmlElement::VoidMe(IOCallback & output, bool bWithDefault)
   }
 
   EbmlVoid Dummy;
-  return Dummy.Overwrite(*this, output, bWithDefault);
+  return Dummy.Overwrite(*this, output, true, bWithDefault);
 }
 
 END_LIBEBML_NAMESPACE
