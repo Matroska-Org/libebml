@@ -36,6 +36,7 @@
 
 #include <algorithm>
 
+#include "ebml/EbmlExceptions.h"
 #include "ebml/EbmlMaster.h"
 #include "ebml/EbmlStream.h"
 #include "ebml/EbmlContexts.h"
@@ -71,7 +72,8 @@ EbmlMaster::EbmlMaster(const EbmlMaster & ElementToClone)
 
 EbmlMaster::~EbmlMaster()
 {
-  assert(!IsLocked()); // you're trying to delete a locked element !!!
+  if(IsLocked())
+    throw EbmlError("You're trying to delete a locked element!");
 
   size_t Index;
 
@@ -91,8 +93,8 @@ filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, bool bW
   filepos_t Result = 0;
   size_t Index;
 
-  if (!bForceRender) {
-    assert(CheckMandatory());
+  if (!bForceRender && !CheckMandatory()) {
+    throw EbmlError("No forced render and not mandatory!");
   }
 
   if (!bChecksumUsed) { // old school
@@ -133,9 +135,9 @@ uint64 EbmlMaster::UpdateSize(bool bWithDefault, bool bForceRender)
   if (!IsFiniteSize())
     return (0-1);
 
-  if (!bForceRender) {
-    assert(CheckMandatory());
-    }
+  if (!bForceRender && !CheckMandatory()) {
+    throw EbmlError("No forced render and not mandatory!");
+  }
 
   size_t Index;
 
@@ -183,12 +185,12 @@ bool EbmlMaster::ProcessMandatory()
     return true;
   }
 
-  assert(Context.GetSize() != 0);
+  if(Context.GetSize() == 0)
+      throw EbmlError("Cannot continue when context size is 0");
 
   unsigned int EltIdx;
   for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
     if (EBML_CTX_IDX(Context,EltIdx).IsMandatory() && EBML_CTX_IDX(Context,EltIdx).IsUnique()) {
-//      assert(EBML_CTX_IDX(Context,EltIdx).Create != NULL);
             PushElement(EBML_SEM_CREATE(EBML_CTX_IDX(Context,EltIdx)));
     }
   }
@@ -197,7 +199,8 @@ bool EbmlMaster::ProcessMandatory()
 
 bool EbmlMaster::CheckMandatory() const
 {
-  assert(Context.GetSize() != 0);
+  if(Context.GetSize() == 0)
+      throw EbmlError("Cannot continue when context size is 0");
 
   unsigned int EltIdx;
   for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
@@ -222,7 +225,8 @@ bool EbmlMaster::CheckMandatory() const
 
 std::vector<std::string> EbmlMaster::FindAllMissingElements()
 {
-  assert(Context.GetSize() != 0);
+  if(Context.GetSize() == 0)
+      throw EbmlError("Cannot continue when context size is 0");
 
   std::vector<std::string> missingElements;
 

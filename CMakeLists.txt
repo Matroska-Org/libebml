@@ -48,6 +48,7 @@ set(libebml_PUBLIC_HEADERS
   ebml/EbmlDummy.h
   ebml/EbmlElement.h
   ebml/EbmlEndian.h
+  ebml/EbmlExceptions.h
   ebml/EbmlFloat.h
   ebml/EbmlHead.h
   ebml/EbmlId.h

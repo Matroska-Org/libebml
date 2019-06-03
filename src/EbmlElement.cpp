@@ -39,6 +39,7 @@
 #include <sstream>
 
 #include "ebml/EbmlElement.h"
+#include "ebml/EbmlExceptions.h"
 #include "ebml/EbmlMaster.h"
 #include "ebml/EbmlStream.h"
 #include "ebml/EbmlVoid.h"
@@ -216,12 +217,14 @@ EbmlCallbacks::EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalI
   ,DebugName(aDebugName)
   ,Context(aContext)
 {
-  assert((Create!=NULL) || !strcmp(aDebugName, "DummyElement"));
+  if(!(Create != nullptr || !strcmp(aDebugName, "DummyElement")))
+    throw EbmlError("Invalid state");
 }
 
 const EbmlSemantic & EbmlSemanticContext::GetSemantic(size_t i) const
 {
-  assert(i<Size);
+  if(i>=Size)
+    throw EbmlError("Invalid index");
   if (i<Size)
     return MyTable[i];
 
@@ -259,7 +262,8 @@ EbmlElement::EbmlElement(const EbmlElement & ElementToClone)
 
 EbmlElement::~EbmlElement()
 {
-  assert(!bLocked);
+  if(bLocked)
+    throw EbmlError("Destructor called while element is locked");
 }
 
 /*!
@@ -381,7 +385,8 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
   do {
     // read a potential ID
     do {
-      assert(ReadIndex < 16);
+      if(ReadIndex >= 16)
+        throw EbmlError("Invalid state");
       // build the ID with the current Read Buffer
       bFound = false;
       binary IdBitMask = 1 << 7;
@@ -493,8 +498,8 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
 {
   EbmlElement * Result = NULL;
   if (bSizeIsFinite) {
-    assert(TestReadElt == NULL);
-    assert(ElementPosition < SizePosition);
+    if(TestReadElt != nullptr || ElementPosition >= SizePosition)
+        throw EbmlError("Invalid state");
     DataStream.I_O().setFilePointer(SizePosition + CodedSizeLength(Size, SizeLength, bSizeIsFinite) + Size, seek_beginning);
     //    DataStream.I_O().setFilePointer(Size, seek_current);
   } else {
@@ -529,7 +534,8 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
           if (EBML_CTX_PARENT(Context) != NULL) {
             Result = SkipData(DataStream, *EBML_CTX_PARENT(Context), Result);
           } else {
-            assert(Context.GetGlobalContext != NULL);
+            if(Context.GetGlobalContext == NULL)
+              throw EbmlError("No global context supplied");
             if (Context != Context.GetGlobalContext()) {
               Result = SkipData(DataStream, Context.GetGlobalContext(), Result);
             } else {
@@ -559,7 +565,8 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
   }
 
   // global elements
-  assert(Context.GetGlobalContext != NULL); // global should always exist, at least the EBML ones
+  if(Context.GetGlobalContext == nullptr)
+    throw EbmlError("global should always exist, at least the EBML ones");
   const EbmlSemanticContext & tstContext = Context.GetGlobalContext();
   if (tstContext != Context) {
     LowLevel--;
@@ -601,7 +608,8 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 */
 filepos_t EbmlElement::Render(IOCallback & output, bool bWithDefault, bool bKeepPosition, bool bForceRender)
 {
-  assert(bValueIsSet || (bWithDefault && DefaultISset())); // an element is been rendered without a value set !!!
+  if(!(bValueIsSet || (bWithDefault && DefaultISset())))
+      throw EbmlError("an element is being rendered without a value set!");
   // it may be a mandatory element without a default value
   if (!bWithDefault && IsDefaultValue()) {
     return 0;
@@ -613,7 +621,8 @@ filepos_t EbmlElement::Render(IOCallback & output, bool bWithDefault, bool bKeep
   uint64 WrittenSize = RenderData(output, bForceRender, bWithDefault);
 #if defined(LIBEBML_DEBUG)
   if (static_cast<int64>(SupposedSize) != (0-1))
-    assert(WrittenSize == SupposedSize);
+    if(WrittenSize != SupposedSize)
+        throw EbmlError("Written size is not as expected!");
 #endif // LIBEBML_DEBUG
   result += WrittenSize;
   return result;
