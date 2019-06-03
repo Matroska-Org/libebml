@@ -32,7 +32,6 @@
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 
-#include <cassert>
 #include <cstdlib>
 #include <cstring>
 #include <iostream>

@@ -35,10 +35,8 @@
 
 #include "EbmlTypes.h"
 
-#include <cassert>
 #include <exception>
 #include <cstdio>
-// #include <iostream>
 
 
 START_LIBEBML_NAMESPACE

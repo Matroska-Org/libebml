@@ -33,7 +33,6 @@
   \author Moritz Bunkus <moritz @ bunkus.org>
 */
 
-#include <cassert>
 #include <climits>
 #if !defined(__GNUC__) || (__GNUC__ > 2)
 #include <sstream>

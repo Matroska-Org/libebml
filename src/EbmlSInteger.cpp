@@ -32,7 +32,6 @@
   \author Steve Lhomme     <robux4 @ users.sf.net>
   \author Moritz Bunkus <moritz @ bunkus.org>
 */
-#include <cassert>
 #include <limits>
 
 #include "ebml/EbmlSInteger.h"

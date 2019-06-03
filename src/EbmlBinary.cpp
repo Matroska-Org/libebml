@@ -34,7 +34,6 @@
   \author Steve Lhomme     <robux4 @ users.sf.net>
   \author Julien Coloos  <suiryc @ users.sf.net>
 */
-#include <cassert>
 #include <string>
 
 #include "ebml/EbmlBinary.h"

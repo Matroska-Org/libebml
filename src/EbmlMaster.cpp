@@ -34,7 +34,6 @@
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 
-#include <cassert>
 #include <algorithm>
 
 #include "ebml/EbmlMaster.h"
