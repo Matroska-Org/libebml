@@ -45,7 +45,7 @@ namespace {
 
 int64
 ToSigned(uint64 u) {
-  if (u <= std::numeric_limits<int64>::max())
+  if (u <= static_cast<uint64>(std::numeric_limits<int64>::max()))
     return static_cast<int64>(u);
 
   return static_cast<int64>(u - std::numeric_limits<int64>::min()) + std::numeric_limits<int64>::min();
