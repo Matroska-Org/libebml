@@ -1,3 +1,8 @@
+2019-12-07  Moritz Bunkus  <moritz@bunkus.org>
+
+        * When reading binary elements with a size of 0, the element was
+        skipped by libebml instead of returned to the calling function.
+
 2019-05-27  Moritz Bunkus  <moritz@bunkus.org>
 
         * Released v1.3.9.
