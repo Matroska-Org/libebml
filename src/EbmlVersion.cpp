@@ -38,7 +38,7 @@
 
 START_LIBEBML_NAMESPACE
 
-const std::string EbmlCodeVersion = "1.3.9";
+const std::string EbmlCodeVersion = "1.3.10";
 
 // Up to version 1.3.3 this library exported a build date string. As
 // this made the build non-reproducible, replace it by a placeholder to
