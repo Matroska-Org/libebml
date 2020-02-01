@@ -116,7 +116,7 @@ uint64 EbmlSInteger::UpdateSize(bool bWithDefault, bool /* bForceRender */)
     SetSize_(2);
   } else if (Value <= 0x7FFFFF && Value >= (-0x800000)) {
     SetSize_(3);
-  } else if (Value <= EBML_PRETTYLONGINT(0x7FFFFFFF) && Value >= (EBML_PRETTYLONGINT(-0x80000000))) {
+  } else if (Value <= EBML_PRETTYLONGINT(0x7FFFFFFF) && Value >= (EBML_PRETTYLONGINT(-(int64)0x80000000))) {
     SetSize_(4);
   } else if (Value <= EBML_PRETTYLONGINT(0x7FFFFFFFFF) &&
              Value >= EBML_PRETTYLONGINT(-0x8000000000)) {
