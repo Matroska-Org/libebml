@@ -6,6 +6,9 @@ option(DISABLE_PKGCONFIG "Disable PkgConfig module generation" OFF)
 option(DISABLE_CMAKE_CONFIG "Disable CMake package config module generation" OFF)
 option(ENABLE_WIN32_IO "Build the Windows I/O helper class" OFF)
 
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
+
 include(GNUInstallDirs)
 
 set(libebml_SOURCES
