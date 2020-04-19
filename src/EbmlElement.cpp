@@ -289,7 +289,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
       if (ReadSize == uint32(PossibleID_Length)) {
         return NULL; // no more data ?
       }
-      if (++PossibleID_Length > 4) {
+      if (++PossibleID_Length >= 4) {
         return NULL; // we don't support element IDs over class D
       }
       if (PossibleId[0] & BitMask) {
