@@ -47,6 +47,7 @@ START_LIBEBML_NAMESPACE
 DECLARE_EBML_BINARY(EbmlCrc32)
   public:
     EbmlCrc32(const EbmlCrc32 & ElementToClone);
+    EbmlCrc32 &operator =(const EbmlCrc32 &) = default;
     virtual bool ValidateSize() const {return IsFiniteSize() && (GetSize() == 4);}
     filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
