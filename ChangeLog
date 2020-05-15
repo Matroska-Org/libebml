@@ -1,5 +1,9 @@
 2020-05-15  Moritz Bunkus  <mo@bunkus.online>
 
+        * EbmlElement::FindNextElement: fixed a buffer overflow on the
+        stack by one byte when the first byte read had its upper four bits
+        unset.
+
         * EbmlCrc32: added a explicit assignment operator with default
         implementation as an explicit copy constructor exists (implicit
         assignment operators are deprecated in such cases).

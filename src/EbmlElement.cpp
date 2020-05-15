@@ -284,14 +284,13 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
     aElementPosition = DataStream.getFilePointer();
     uint32 ReadSize = 0;
     BitMask = 1 << 7;
-    while (1) {
-      ReadSize += DataStream.read(&PossibleId[PossibleID_Length], 1);
-      if (ReadSize == uint32(PossibleID_Length)) {
-        return NULL; // no more data ?
-      }
-      if (++PossibleID_Length > 4) {
-        return NULL; // we don't support element IDs over class D
-      }
+    while (PossibleID_Length < 4) {
+      if (!DataStream.read(&PossibleId[PossibleID_Length], 1))
+        return NULL;            // no more data
+
+      ++ReadSize;
+      ++PossibleID_Length;
+
       if (PossibleId[0] & BitMask) {
         // this is the last octet of the ID
         // check wether that's the one we're looking for
@@ -305,6 +304,9 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
       }
       BitMask >>= 1;
     }
+
+    if (!bElementFound)
+      return NULL;
 
     // read the data size
     aSizePosition = DataStream.getFilePointer();
