@@ -1,3 +1,9 @@
+2020-05-15  Moritz Bunkus  <mo@bunkus.online>
+
+        * EbmlCrc32: added a explicit assignment operator with default
+        implementation as an explicit copy constructor exists (implicit
+        assignment operators are deprecated in such cases).
+
 2019-12-07  Moritz Bunkus  <moritz@bunkus.org>
 
         * When reading binary elements with a size of 0, the element was
