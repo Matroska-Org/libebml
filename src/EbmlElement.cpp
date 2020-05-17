@@ -674,8 +674,8 @@ bool EbmlElement::CompareElements(const EbmlElement *A, const EbmlElement *B)
 {
   if (EbmlId(*A) == EbmlId(*B))
     return A->IsSmallerThan(B);
-  else
-    return false;
+
+  return false;
 }
 
 void EbmlElement::Read(EbmlStream & inDataStream, const EbmlSemanticContext & /* Context */, int & /* UpperEltFound */, EbmlElement * & /* FoundElt */, bool /* AllowDummyElt */, ScopeMode ReadFully)
