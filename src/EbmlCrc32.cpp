@@ -272,10 +272,7 @@ bool EbmlCrc32::CheckCRC(uint32 inputCRC, const binary *input, uint32 length)
   //Now we finalize the CRC32
   crc ^= CRC32_NEGL;
 
-  if (crc == inputCRC)
-    return true;
-
-  return false;
+  return crc == inputCRC;
 }
 
 void EbmlCrc32::FillCRC32(const binary *input, uint32 length)
