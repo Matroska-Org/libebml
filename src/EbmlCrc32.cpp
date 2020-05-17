@@ -278,10 +278,10 @@ bool EbmlCrc32::CheckCRC(uint32 inputCRC, const binary *input, uint32 length)
   return false;
 }
 
-void EbmlCrc32::FillCRC32(const binary *s, uint32 n)
+void EbmlCrc32::FillCRC32(const binary *input, uint32 length)
 {
   ResetCRC();
-  Update(s, n);
+  Update(input, length);
   Finalize();
 
   /*uint32 crc = CRC32_NEGL;

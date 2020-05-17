@@ -156,11 +156,11 @@ SafeReadIOCallback::Skip(size_t Count) {
 }
 
 void
-SafeReadIOCallback::Seek(size_t Offset) {
-  mIO->setFilePointer(Offset);
+SafeReadIOCallback::Seek(size_t Position) {
+  mIO->setFilePointer(Position);
   uint64 ActualPosition = mIO->getFilePointer();
-  if (ActualPosition != Offset)
-    throw EndOfStreamX(ActualPosition - Offset);
+  if (ActualPosition != Position)
+    throw EndOfStreamX(ActualPosition - Position);
 }
 
 void

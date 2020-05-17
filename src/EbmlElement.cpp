@@ -51,10 +51,10 @@ START_LIBEBML_NAMESPACE
 /*!
   \todo handle more than CodedSize of 5
 */
-int CodedSizeLength(uint64 Length, unsigned int SizeLength, bool bSizeFinite)
+int CodedSizeLength(uint64 Length, unsigned int SizeLength, bool bSizeIsFinite)
 {
   unsigned int CodedSize;
-  if (bSizeFinite) {
+  if (bSizeIsFinite) {
     // prepare the head of the size (000...01xxxxxx)
     // optimal size
     if (Length < 127) // 2^7 - 1
