@@ -34,12 +34,12 @@
   \author Steve Lhomme     <robux4 @ users.sf.net>
   \author Moritz Bunkus <moritz @ bunkus.org>
 */
-#include <stdio.h>
+#include <cstdio>
 
 #if defined(WIN32) || defined(_WIN32)
 #include <windows.h> // For OutputDebugString
 #else
-#include <time.h>
+#include <ctime>
 #include <sys/time.h>
 #endif // WIN32
 
