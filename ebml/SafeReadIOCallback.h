@@ -77,7 +77,7 @@ public:
   void Read(void *Dst, size_t Count);
 
   void Skip(size_t Count);
-  void Seek(size_t Position);
+  void Seek(size_t Offset);
 
 private:
   SafeReadIOCallback(SafeReadIOCallback const &) { }
