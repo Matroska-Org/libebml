@@ -163,8 +163,8 @@ bool EbmlSInteger::IsSmallerThan(const EbmlElement *Cmp) const
 {
   if (EbmlId(*this) == EbmlId(*Cmp))
     return this->Value < static_cast<const EbmlSInteger *>(Cmp)->Value;
-  else
-    return false;
+
+  return false;
 }
 
 END_LIBEBML_NAMESPACE

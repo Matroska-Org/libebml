@@ -79,8 +79,8 @@ bool EbmlDate::IsSmallerThan(const EbmlElement *Cmp) const
 {
   if (EbmlId(*this) == EbmlId(*Cmp))
     return this->myDate < static_cast<const EbmlDate *>(Cmp)->myDate;
-  else
-    return false;
+
+  return false;
 }
 
 END_LIBEBML_NAMESPACE
