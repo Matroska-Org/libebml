@@ -427,7 +427,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
     // read the data size
     uint32 _SizeLength;
     PossibleSizeLength = ReadIndex;
-    while (1) {
+    while (true) {
       _SizeLength = PossibleSizeLength;
       SizeFound = ReadCodedSizeValue(&PossibleIdNSize[PossibleID_Length], _SizeLength, SizeUnknown);
       if (_SizeLength != 0) {
