@@ -43,7 +43,7 @@ START_LIBEBML_NAMESPACE
 /*!
   \brief The size of the EBML-coded length
 */
-int EBML_DLL_API CodedSizeLength(uint64 Length, unsigned int SizeLength, bool bSizeIsFinite = true);
+int EBML_DLL_API CodedSizeLength(uint64 Length, unsigned int SizeLength, bool bSizeFinite = true);
 
 /*!
   \brief The coded value of the EBML-coded length

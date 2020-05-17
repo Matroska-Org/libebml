@@ -48,7 +48,7 @@ START_LIBEBML_NAMESPACE
 */
 class EBML_DLL_API EbmlStream {
   public:
-    EbmlStream(IOCallback & output);
+    EbmlStream(IOCallback & DataStream);
     ~EbmlStream();
 
     /*!
