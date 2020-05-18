@@ -79,7 +79,10 @@ if(WIN32)
 endif()
 set_target_properties(ebml PROPERTIES
   VERSION 4.0.0
-  SOVERSION 4)
+  SOVERSION 4
+  CXX_VISIBILITY_PRESET hidden
+  VISIBILITY_INLINES_HIDDEN ON
+)
 target_include_directories(ebml
   PRIVATE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
