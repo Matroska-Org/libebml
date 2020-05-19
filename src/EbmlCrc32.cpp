@@ -217,7 +217,7 @@ filepos_t EbmlCrc32::RenderData(IOCallback & output, bool /* bForceRender */, bo
 
   if (Result < GetDefaultSize()) {
     // pad the rest with 0
-    binary *Pad = new (std::nothrow) binary[GetDefaultSize() - Result];
+    auto Pad = new (std::nothrow) binary[GetDefaultSize() - Result];
     if (Pad != NULL) {
       memset(Pad, 0x00, GetDefaultSize() - Result);
       output.writeFully(Pad, GetDefaultSize() - Result);
@@ -233,7 +233,7 @@ filepos_t EbmlCrc32::RenderData(IOCallback & output, bool /* bForceRender */, bo
 filepos_t EbmlCrc32::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
   if (ReadFully != SCOPE_NO_DATA) {
-    binary *Buffer = new (std::nothrow) binary[GetSize()];
+    auto Buffer = new (std::nothrow) binary[GetSize()];
     if (Buffer == NULL) {
       // impossible to read, skip it
       input.setFilePointer(GetSize(), seek_current);

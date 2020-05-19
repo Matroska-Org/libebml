@@ -127,7 +127,7 @@ filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
     if (GetSize() == 4) {
       big_int32 TmpRead;
       TmpRead.Eval(Buffer);
-      int32 tmpp = int32(TmpRead);
+      auto tmpp = int32(TmpRead);
       float val;
       memcpy(&val, &tmpp, 4);
       Value = static_cast<double>(val);
@@ -135,7 +135,7 @@ filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
     } else if (GetSize() == 8) {
       big_int64 TmpRead;
       TmpRead.Eval(Buffer);
-      int64 tmpp = int64(TmpRead);
+      auto tmpp = int64(TmpRead);
       double val;
       memcpy(&val, &tmpp, 8);
       Value = val;
