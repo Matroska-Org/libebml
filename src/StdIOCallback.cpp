@@ -94,7 +94,7 @@ StdIOCallback::StdIOCallback(const char*Path, const open_mode aMode)
 }
 
 
-StdIOCallback::~StdIOCallback()throw()
+StdIOCallback::~StdIOCallback() noexcept
 {
   close();
 }
