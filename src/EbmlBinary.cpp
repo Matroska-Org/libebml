@@ -58,7 +58,7 @@ EbmlBinary::EbmlBinary(const EbmlBinary & ElementToClone)
   }
 }
 
-EbmlBinary::~EbmlBinary(void) {
+EbmlBinary::~EbmlBinary() {
   if(Data)
     free(Data);
 }
