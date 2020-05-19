@@ -47,19 +47,19 @@ START_LIBEBML_NAMESPACE
 
 UTFstring::UTFstring()
   :_Length(0)
-  ,_Data(NULL)
+  ,_Data(nullptr)
 {}
 
 UTFstring::UTFstring(const wchar_t * _aBuf)
   :_Length(0)
-  ,_Data(NULL)
+  ,_Data(nullptr)
 {
   *this = _aBuf;
 }
 
 UTFstring::UTFstring(std::wstring const &_aBuf)
   :_Length(0)
-  ,_Data(NULL)
+  ,_Data(nullptr)
 {
   *this = _aBuf.c_str();
 }
@@ -71,7 +71,7 @@ UTFstring::~UTFstring()
 
 UTFstring::UTFstring(const UTFstring & _aBuf)
   :_Length(0)
-  ,_Data(NULL)
+  ,_Data(nullptr)
 {
   *this = _aBuf.c_str();
 }
@@ -88,7 +88,7 @@ UTFstring::operator const wchar_t*() const {return _Data;}
 UTFstring & UTFstring::operator=(const wchar_t * _aBuf)
 {
   delete [] _Data;
-  if (_aBuf == NULL) {
+  if (_aBuf == nullptr) {
     _Data = new wchar_t[1];
     _Data[0] = 0;
     UpdateFromUCS2();
@@ -120,9 +120,9 @@ UTFstring & UTFstring::operator=(wchar_t _aChar)
 
 bool UTFstring::operator==(const UTFstring& _aStr) const
 {
-  if ((_Data == NULL) && (_aStr._Data == NULL))
+  if ((_Data == nullptr) && (_aStr._Data == nullptr))
     return true;
-  if ((_Data == NULL) || (_aStr._Data == NULL))
+  if ((_Data == nullptr) || (_aStr._Data == nullptr))
     return false;
   return wcscmp_internal(_Data, _aStr._Data);
 }
@@ -250,7 +250,7 @@ filepos_t EbmlUnicodeString::RenderData(IOCallback & output, bool /* bForceRende
   if (Result < GetDefaultSize()) {
     // pad the rest with 0
     auto Pad = new (std::nothrow) binary[GetDefaultSize() - Result];
-    if (Pad != NULL) {
+    if (Pad != nullptr) {
       memset(Pad, 0x00, GetDefaultSize() - Result);
       output.writeFully(Pad, GetDefaultSize() - Result);
 
@@ -315,7 +315,7 @@ filepos_t EbmlUnicodeString::ReadData(IOCallback & input, ScopeMode ReadFully)
       SetValueIsSet();
     } else {
       auto Buffer = new (std::nothrow) char[GetSize()+1];
-      if (Buffer == NULL) {
+      if (Buffer == nullptr) {
         // impossible to read, skip it
         input.setFilePointer(GetSize(), seek_current);
       } else {

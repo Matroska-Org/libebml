@@ -50,7 +50,7 @@ void IOCallback::writeFully(const void*Buffer,size_t Size)
   if (Size == 0)
     return;
 
-  if (Buffer == NULL)
+  if (Buffer == nullptr)
     throw;
 
   if(write(Buffer,Size) != Size) {
@@ -66,7 +66,7 @@ void IOCallback::writeFully(const void*Buffer,size_t Size)
 
 void IOCallback::readFully(void*Buffer,size_t Size)
 {
-  if(Buffer == NULL)
+  if(Buffer == nullptr)
     throw;
 
   if(read(Buffer,Size) != Size) {

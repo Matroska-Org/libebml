@@ -203,7 +203,7 @@ bool EbmlMaster::CheckMandatory() const
   unsigned int EltIdx;
   for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
     if (EBML_CTX_IDX(Context,EltIdx).IsMandatory()) {
-      if (FindElt(EBML_CTX_IDX_INFO(Context,EltIdx)) == NULL) {
+      if (FindElt(EBML_CTX_IDX_INFO(Context,EltIdx)) == nullptr) {
         EbmlElement *testElement = &EBML_CTX_IDX(Context,EltIdx).Create();
         bool hasDefaultValue     = testElement->DefaultISset();
         delete testElement;
@@ -250,7 +250,7 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements()
   unsigned int EltIdx;
   for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
     if (EBML_CTX_IDX(Context,EltIdx).IsMandatory()) {
-      if (FindElt(EBML_CTX_IDX_INFO(Context,EltIdx)) == NULL) {
+      if (FindElt(EBML_CTX_IDX_INFO(Context,EltIdx)) == nullptr) {
         std::string missingElement;
         missingElement = "Missing element \"";
         missingElement.append(EBML_INFO_NAME(EBML_CTX_IDX_INFO(Context,EltIdx)));
@@ -275,7 +275,7 @@ EbmlElement *EbmlMaster::FindElt(const EbmlCallbacks & Callbacks) const
       return tmp;
   }
 
-  return NULL;
+  return nullptr;
 }
 
 EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks, bool bCreateIfNull)
@@ -290,17 +290,17 @@ EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks, bool bCre
   if (bCreateIfNull) {
     // add the element
     EbmlElement *NewElt = &EBML_INFO_CREATE(Callbacks);
-    if (NewElt == NULL)
-      return NULL;
+    if (NewElt == nullptr)
+      return nullptr;
 
     if (!PushElement(*NewElt)) {
       delete NewElt;
-      NewElt = NULL;
+      NewElt = nullptr;
     }
     return NewElt;
   }
 
-  return NULL;
+  return nullptr;
 }
 
 EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks) const
@@ -312,7 +312,7 @@ EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks) const
       return ElementList[Index];
   }
 
-  return NULL;
+  return nullptr;
 }
 
 /*!
@@ -343,17 +343,17 @@ EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt, bool bCreateIf
   if (bCreateIfNull) {
     // add the element
     EbmlElement *NewElt = &(PastElt.CreateElement());
-    if (NewElt == NULL)
-      return NULL;
+    if (NewElt == nullptr)
+      return nullptr;
 
     if (!PushElement(*NewElt)) {
       delete NewElt;
-      NewElt = NULL;
+      NewElt = nullptr;
     }
     return NewElt;
   }
 
-  return NULL;
+  return nullptr;
 }
 
 EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt) const
@@ -374,19 +374,19 @@ EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt) const
     Index++;
   }
 
-  return NULL;
+  return nullptr;
 }
 
 EbmlElement *EbmlMaster::AddNewElt(const EbmlCallbacks & Callbacks)
 {
   // add the element
   EbmlElement *NewElt = &EBML_INFO_CREATE(Callbacks);
-  if (NewElt == NULL)
-    return NULL;
+  if (NewElt == nullptr)
+    return nullptr;
 
   if (!PushElement(*NewElt)) {
     delete NewElt;
-    NewElt = NULL;
+    NewElt = nullptr;
   }
   return NewElt;
 }
@@ -427,7 +427,7 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
   {
     inDataStream.I_O().setFilePointer(GetSizePosition() + GetSizeLength(), seek_beginning);
     ElementLevelA = inDataStream.FindNextElement(sContext, UpperEltFound, MaxSizeToRead, AllowDummyElt);
-    while (ElementLevelA != NULL && UpperEltFound <= 0 && MaxSizeToRead > 0) {
+    while (ElementLevelA != nullptr && UpperEltFound <= 0 && MaxSizeToRead > 0) {
       if (IsFiniteSize() && ElementLevelA->IsFiniteSize())
         MaxSizeToRead = GetEndPosition() - ElementLevelA->GetEndPosition(); // even if it's the default value
       if (!AllowDummyElt && ElementLevelA->IsDummy()) {
