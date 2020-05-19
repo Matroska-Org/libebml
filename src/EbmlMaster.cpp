@@ -227,8 +227,7 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements()
 
   std::vector<std::string> missingElements;
 
-  for (size_t ChildElementNo = 0; ChildElementNo < ElementList.size(); ChildElementNo++) {
-       EbmlElement *childElement = ElementList[ChildElementNo];
+  for (auto childElement : ElementList) {
     if (!childElement->ValueIsSet()) {
       std::string missingValue;
       missingValue = "The Child Element \"";
@@ -243,8 +242,8 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements()
       auto childMaster = (EbmlMaster *)childElement;
 
       std::vector<std::string> childMissingElements = childMaster->FindAllMissingElements();
-      for (size_t s = 0; s < childMissingElements.size(); s++)
-        missingElements.push_back(childMissingElements[s]);
+      for (auto & childMissingElement : childMissingElements)
+        missingElements.push_back(childMissingElement);
     }
   }
   unsigned int EltIdx;
@@ -553,8 +552,8 @@ bool EbmlMaster::VerifyChecksum() const
   /// \todo remove the Checksum if it's in the list
   /// \todo find another way when not all default values are saved or (unknown from the reader !!!)
   MemIOCallback TmpBuf(GetSize() - 6);
-  for (size_t Index = 0; Index < ElementList.size(); Index++) {
-    (ElementList[Index])->Render(TmpBuf, true, false, true);
+  for (auto Index : ElementList) {
+    Index->Render(TmpBuf, true, false, true);
   }
   aChecksum.FillCRC32(TmpBuf.GetDataBuffer(), TmpBuf.GetDataBufferSize());
   return (aChecksum.GetCrc32() == Checksum.GetCrc32());
