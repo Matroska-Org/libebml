@@ -74,11 +74,9 @@ EbmlMaster::~EbmlMaster()
 {
   assert(!IsLocked()); // you're trying to delete a locked element !!!
 
-  size_t Index;
-
-  for (Index = 0; Index < ElementList.size(); Index++) {
-    if (!(*ElementList[Index]).IsLocked())  {
-      delete ElementList[Index];
+  for (auto Element : ElementList) {
+    if (!Element->IsLocked())  {
+      delete Element;
     }
   }
 }
@@ -90,24 +88,23 @@ EbmlMaster::~EbmlMaster()
 filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, bool bWithDefault)
 {
   filepos_t Result = 0;
-  size_t Index;
 
   if (!bForceRender) {
     assert(CheckMandatory());
   }
 
   if (!bChecksumUsed) { // old school
-    for (Index = 0; Index < ElementList.size(); Index++) {
-      if (!bWithDefault && (ElementList[Index])->IsDefaultValue())
+    for (auto Element : ElementList) {
+      if (!bWithDefault && Element->IsDefaultValue())
         continue;
-      Result += (ElementList[Index])->Render(output, bWithDefault, false ,bForceRender);
+      Result += Element->Render(output, bWithDefault, false ,bForceRender);
     }
   } else { // new school
     MemIOCallback TmpBuf(GetSize() - 6);
-    for (Index = 0; Index < ElementList.size(); Index++) {
-      if (!bWithDefault && (ElementList[Index])->IsDefaultValue())
+    for (auto Element : ElementList) {
+      if (!bWithDefault && Element->IsDefaultValue())
         continue;
-      (ElementList[Index])->Render(TmpBuf, bWithDefault, false ,bForceRender);
+      Element->Render(TmpBuf, bWithDefault, false ,bForceRender);
     }
     Checksum.FillCRC32(TmpBuf.GetDataBuffer(), TmpBuf.GetDataBufferSize());
     Result += Checksum.Render(output, true, false ,bForceRender);
@@ -138,13 +135,11 @@ uint64 EbmlMaster::UpdateSize(bool bWithDefault, bool bForceRender)
     assert(CheckMandatory());
     }
 
-  size_t Index;
-
-  for (Index = 0; Index < ElementList.size(); Index++) {
-    if (!bWithDefault && (ElementList[Index])->IsDefaultValue())
+  for (auto Element : ElementList) {
+    if (!bWithDefault && Element->IsDefaultValue())
       continue;
-    (ElementList[Index])->UpdateSize(bWithDefault, bForceRender);
-    uint64 SizeToAdd = (ElementList[Index])->ElementSize(bWithDefault);
+    Element->UpdateSize(bWithDefault, bForceRender);
+    uint64 SizeToAdd = Element->ElementSize(bWithDefault);
 #if defined(LIBEBML_DEBUG)
     if (static_cast<int64>(SizeToAdd) == (0-1))
       return (0-1);
@@ -265,12 +260,9 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements()
 
 EbmlElement *EbmlMaster::FindElt(const EbmlCallbacks & Callbacks) const
 {
-  size_t Index;
-
-  for (Index = 0; Index < ElementList.size(); Index++) {
-    EbmlElement * tmp = ElementList[Index];
-    if (EbmlId(*tmp) == EBML_INFO_ID(Callbacks))
-      return tmp;
+  for (auto Element : ElementList) {
+    if (EbmlId(*Element) == EBML_INFO_ID(Callbacks))
+      return Element;
   }
 
   return nullptr;
@@ -278,11 +270,9 @@ EbmlElement *EbmlMaster::FindElt(const EbmlCallbacks & Callbacks) const
 
 EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks, bool bCreateIfNull)
 {
-  size_t Index;
-
-  for (Index = 0; Index < ElementList.size(); Index++) {
-    if (ElementList[Index] && EbmlId(*(ElementList[Index])) == EBML_INFO_ID(Callbacks))
-      return ElementList[Index];
+  for (auto Element : ElementList) {
+    if (Element && EbmlId(*Element) == EBML_INFO_ID(Callbacks))
+      return Element;
   }
 
   if (bCreateIfNull) {
@@ -303,11 +293,9 @@ EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks, bool bCre
 
 EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks) const
 {
-  size_t Index;
-
-  for (Index = 0; Index < ElementList.size(); Index++) {
-    if (EbmlId(*(ElementList[Index])) == EBML_INFO_ID(Callbacks))
-      return ElementList[Index];
+  for (auto Element : ElementList) {
+    if (EbmlId(*Element) == EBML_INFO_ID(Callbacks))
+      return Element;
   }
 
   return nullptr;
@@ -406,10 +394,9 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
 
   EbmlElement * ElementLevelA;
   // remove all existing elements, including the mandatory ones...
-  size_t Index;
-  for (Index=0; Index<ElementList.size(); Index++) {
-    if (!(*ElementList[Index]).IsLocked()) {
-      delete ElementList[Index];
+  for (auto Element : ElementList) {
+    if (!Element->IsLocked()) {
+        delete Element;
     }
   }
   ElementList.clear();
@@ -551,8 +538,8 @@ bool EbmlMaster::VerifyChecksum() const
   /// \todo remove the Checksum if it's in the list
   /// \todo find another way when not all default values are saved or (unknown from the reader !!!)
   MemIOCallback TmpBuf(GetSize() - 6);
-  for (auto Index : ElementList) {
-    Index->Render(TmpBuf, true, false, true);
+  for (auto Element : ElementList) {
+    Element->Render(TmpBuf, true, false, true);
   }
   aChecksum.FillCRC32(TmpBuf.GetDataBuffer(), TmpBuf.GetDataBufferSize());
   return (aChecksum.GetCrc32() == Checksum.GetCrc32());
