@@ -60,8 +60,8 @@ EbmlMaster::EbmlMaster(const EbmlMaster & ElementToClone)
  ,Checksum(ElementToClone.Checksum)
 {
   // add a clone of the list
-  std::vector<EbmlElement *>::const_iterator Itr = ElementToClone.ElementList.begin();
-  std::vector<EbmlElement *>::iterator myItr = ElementList.begin();
+  auto Itr = ElementToClone.ElementList.begin();
+  auto myItr = ElementList.begin();
   while (Itr != ElementToClone.ElementList.end())
   {
     *myItr = (*Itr)->Clone();
@@ -240,7 +240,7 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements()
     }
 
     if (childElement->IsMaster()) {
-      EbmlMaster *childMaster = (EbmlMaster *)childElement;
+      auto childMaster = (EbmlMaster *)childElement;
 
       std::vector<std::string> childMissingElements = childMaster->FindAllMissingElements();
       for (size_t s = 0; s < childMissingElements.size(); s++)
@@ -525,7 +525,7 @@ processCrc:
 void EbmlMaster::Remove(size_t Index)
 {
   if (Index < ElementList.size()) {
-    std::vector<EbmlElement *>::iterator Itr = ElementList.begin();
+    auto Itr = ElementList.begin();
     while (Index-- > 0) {
       ++Itr;
     }
@@ -562,7 +562,7 @@ bool EbmlMaster::VerifyChecksum() const
 
 bool EbmlMaster::InsertElement(EbmlElement & element, size_t position)
 {
-  std::vector<EbmlElement *>::iterator Itr = ElementList.begin();
+  auto Itr = ElementList.begin();
   while (Itr != ElementList.end() && position--)
   {
     ++Itr;
@@ -576,7 +576,7 @@ bool EbmlMaster::InsertElement(EbmlElement & element, size_t position)
 
 bool EbmlMaster::InsertElement(EbmlElement & element, const EbmlElement & before)
 {
-  std::vector<EbmlElement *>::iterator Itr = ElementList.begin();
+  auto Itr = ElementList.begin();
   while (Itr != ElementList.end() && *Itr != &before)
   {
     ++Itr;
