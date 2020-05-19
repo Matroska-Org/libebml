@@ -242,8 +242,7 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements()
       auto childMaster = (EbmlMaster *)childElement;
 
       std::vector<std::string> childMissingElements = childMaster->FindAllMissingElements();
-      for (auto & childMissingElement : childMissingElements)
-        missingElements.push_back(childMissingElement);
+      std::copy(childMissingElements.begin(), childMissingElements.end(), std::back_inserter(missingElements));
     }
   }
   unsigned int EltIdx;
