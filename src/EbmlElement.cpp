@@ -245,19 +245,6 @@ EbmlElement::EbmlElement(uint64 aDefaultSize, bool bValueSet)
   Size = DefaultSize;
 }
 
-EbmlElement::EbmlElement(const EbmlElement & ElementToClone)
-  :Size(ElementToClone.Size)
-  ,DefaultSize(ElementToClone.DefaultSize)
-  ,SizeLength(ElementToClone.SizeLength)
-  ,bSizeIsFinite(ElementToClone.bSizeIsFinite)
-  ,ElementPosition(ElementToClone.ElementPosition)
-  ,SizePosition(ElementToClone.SizePosition)
-  ,bValueIsSet(ElementToClone.bValueIsSet)
-  ,DefaultIsSet(ElementToClone.DefaultIsSet)
-  ,bLocked(ElementToClone.bLocked)
-{
-}
-
 EbmlElement::~EbmlElement()
 {
   assert(!bLocked);

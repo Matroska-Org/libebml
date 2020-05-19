@@ -65,13 +65,6 @@ EbmlSInteger::EbmlSInteger(int64 aDefaultValue)
   SetDefaultIsSet();
 }
 
-EbmlSInteger::EbmlSInteger(const EbmlSInteger & ElementToClone)
-  :EbmlElement(ElementToClone)
-  ,Value(ElementToClone.Value)
-  ,DefaultValue(ElementToClone.DefaultValue)
-{
-}
-
 EbmlSInteger::operator int8() const {return  int8(Value);}
 EbmlSInteger::operator int16() const {return int16(Value);}
 EbmlSInteger::operator int32() const {return int32(Value);}

@@ -47,7 +47,7 @@ public:
   MemReadIOCallback(void const *Ptr, size_t Size);
   MemReadIOCallback(EbmlBinary const &Binary);
   MemReadIOCallback(MemReadIOCallback const &Mem);
-  virtual ~MemReadIOCallback();
+  virtual ~MemReadIOCallback() = default;
 
   uint32 read(void *Buffer, size_t Size);
   void setFilePointer(int64 Offset, seek_mode Mode = seek_beginning);

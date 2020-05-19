@@ -101,9 +101,9 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
   public:
     EbmlUnicodeString();
     EbmlUnicodeString(const UTFstring & DefaultValue);
-    EbmlUnicodeString(const EbmlUnicodeString & ElementToClone);
+    EbmlUnicodeString(const EbmlUnicodeString & ElementToClone) = default;
 
-    virtual ~EbmlUnicodeString() {}
+    virtual ~EbmlUnicodeString() = default;
 
     virtual bool ValidateSize() const {return IsFiniteSize();} // any size is possible
     filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);

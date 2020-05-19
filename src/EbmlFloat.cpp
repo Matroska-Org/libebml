@@ -53,13 +53,6 @@ EbmlFloat::EbmlFloat(const double aDefaultValue, const EbmlFloat::Precision prec
   SetPrecision(prec);
 }
 
-EbmlFloat::EbmlFloat(const EbmlFloat & ElementToClone)
-  :EbmlElement(ElementToClone)
-  ,Value(ElementToClone.Value)
-  ,DefaultValue(ElementToClone.DefaultValue)
-{
-}
-
 void EbmlFloat::SetDefaultValue(double aValue)
 {
   assert(!DefaultISset());
