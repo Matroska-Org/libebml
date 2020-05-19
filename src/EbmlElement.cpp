@@ -217,7 +217,7 @@ EbmlCallbacks::EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalI
   ,DebugName(aDebugName)
   ,Context(aContext)
 {
-  assert((Create!=NULL) || !strcmp(aDebugName, "DummyElement"));
+  assert((Create!=nullptr) || !strcmp(aDebugName, "DummyElement"));
 }
 
 const EbmlSemantic & EbmlSemanticContext::GetSemantic(size_t i) const
@@ -286,7 +286,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
     BitMask = 1 << 7;
     while (PossibleID_Length < 4) {
       if (!DataStream.read(&PossibleId[PossibleID_Length], 1))
-        return NULL;            // no more data
+        return nullptr;            // no more data
 
       ++ReadSize;
       ++PossibleID_Length;
@@ -306,7 +306,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
     }
 
     if (!bElementFound)
-      return NULL;
+      return nullptr;
 
     // read the data size
     aSizePosition = DataStream.getFilePointer();
@@ -314,7 +314,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
     do {
       if (PossibleSizeLength >= 8)
         // Size is larger than 8 bytes
-        return NULL;
+        return nullptr;
 
       ReadSize += DataStream.read(&PossibleSize[PossibleSizeLength++], 1);
       _SizeLength = PossibleSizeLength;
@@ -322,7 +322,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
     } while (_SizeLength == 0);
   }
 
-  EbmlElement *Result = NULL;
+  EbmlElement *Result = nullptr;
   EbmlId PossibleID(PossibleId, PossibleID_Length);
   if (PossibleID == EBML_INFO_ID(ClassInfos)) {
     // the element is the one expected
@@ -330,8 +330,8 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
   } else {
     /// \todo find the element in the context
     Result = new (std::nothrow) EbmlDummy(PossibleID);
-    if(Result == NULL)
-      return NULL;
+    if(Result == nullptr)
+      return nullptr;
   }
 
   Result->SetSizeLength(PossibleSizeLength);
@@ -340,7 +340,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
 
   if (!Result->ValidateSize() || (SizeFound != SizeUnknown && MaxDataSize < Result->Size)) {
     delete Result;
-    return NULL;
+    return nullptr;
   }
 
   // check if the size is not all 1s
@@ -350,7 +350,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
     if (!Result->SetSizeInfinite()) {
       /// \todo the element is not allowed to be infinite
       delete Result;
-      return NULL;
+      return nullptr;
     }
   } else Result->SetSizeInfinite(false);
   Result->ElementPosition = aElementPosition;
@@ -411,7 +411,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
       if (MaxDataSize <= ReadSize)
         break;
       if (DataStream.read(&PossibleIdNSize[ReadIndex++], 1) == 0) {
-        return NULL; // no more data ?
+        return nullptr; // no more data ?
       }
       ReadSize++;
 
@@ -419,7 +419,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
 
     if (!bFound)
       // we reached the maximum we could read without a proper ID
-      return NULL;
+      return nullptr;
 
     SizeIdx = ReadIndex;
     ReadIndex -= PossibleID_Length;
@@ -443,7 +443,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
         break;
       }
       if( DataStream.read( &PossibleIdNSize[SizeIdx++], 1 ) == 0 ) {
-        return NULL; // no more data ?
+        return nullptr; // no more data ?
       }
       ReadSize++;
       PossibleSizeLength++;
@@ -454,7 +454,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
       EbmlId PossibleID(PossibleIdNSize, PossibleID_Length);
       EbmlElement * Result = CreateElementUsingContext(PossibleID, Context, UpperLevel, false, AllowDummyElt, MaxLowerLevel);
       ///< \todo continue is misplaced
-      if (Result != NULL) {
+      if (Result != nullptr) {
         if (AllowDummyElt || !Result->IsDummy()) {
           Result->SetSizeLength(_SizeLength);
 
@@ -486,7 +486,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
     UpperLevel = UpperLevel_original;
   } while ( MaxDataSize >= ReadSize );
 
-  return NULL;
+  return nullptr;
 }
 
 /*!
@@ -494,9 +494,9 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
 */
 EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticContext & Context, EbmlElement * TestReadElt, bool AllowDummyElt)
 {
-  EbmlElement * Result = NULL;
+  EbmlElement * Result = nullptr;
   if (bSizeIsFinite) {
-    assert(TestReadElt == NULL);
+    assert(TestReadElt == nullptr);
     assert(ElementPosition < SizePosition);
     DataStream.I_O().setFilePointer(SizePosition + CodedSizeLength(Size, SizeLength, bSizeIsFinite) + Size, seek_beginning);
     //    DataStream.I_O().setFilePointer(Size, seek_current);
@@ -505,34 +505,34 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
     // read elements until an upper element is found
     /////////////////////////////////////////////////
     bool bEndFound = false;
-    while (!bEndFound && Result == NULL) {
+    while (!bEndFound && Result == nullptr) {
       // read an element
       /// \todo 0xFF... and true should be configurable
       //      EbmlElement * NewElt;
-      if (TestReadElt == NULL) {
+      if (TestReadElt == nullptr) {
         int bUpperElement = 0; // trick to call FindNextID correctly
         Result = DataStream.FindNextElement(Context, bUpperElement, 0xFFFFFFFFL, AllowDummyElt);
       } else {
         Result = TestReadElt;
-        TestReadElt = NULL;
+        TestReadElt = nullptr;
       }
 
-      if (Result != NULL) {
+      if (Result != nullptr) {
         unsigned int EltIndex;
         // data known in this Master's context
         for (EltIndex = 0; EltIndex < EBML_CTX_SIZE(Context); EltIndex++) {
           if (EbmlId(*Result) == EBML_CTX_IDX_ID(Context,EltIndex)) {
             // skip the data with its own context
-            Result = Result->SkipData(DataStream, EBML_SEM_CONTEXT(EBML_CTX_IDX(Context,EltIndex)), NULL);
+            Result = Result->SkipData(DataStream, EBML_SEM_CONTEXT(EBML_CTX_IDX(Context,EltIndex)), nullptr);
             break; // let's go to the next ID
           }
         }
 
         if (EltIndex >= EBML_CTX_SIZE(Context)) {
-          if (EBML_CTX_PARENT(Context) != NULL) {
+          if (EBML_CTX_PARENT(Context) != nullptr) {
             Result = SkipData(DataStream, *EBML_CTX_PARENT(Context), Result);
           } else {
-            assert(Context.GetGlobalContext != NULL);
+            assert(Context.GetGlobalContext != nullptr);
             if (Context != Context.GetGlobalContext()) {
               Result = SkipData(DataStream, Context.GetGlobalContext(), Result);
             } else {
@@ -552,7 +552,7 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
                                                     int & LowLevel, bool IsGlobalContext, bool bAllowDummy, unsigned int MaxLowerLevel)
 {
   unsigned int ContextIndex;
-  EbmlElement *Result = NULL;
+  EbmlElement *Result = nullptr;
 
   // elements at the current level
   for (ContextIndex = 0; ContextIndex < EBML_CTX_SIZE(Context); ContextIndex++) {
@@ -562,30 +562,30 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
   }
 
   // global elements
-  assert(Context.GetGlobalContext != NULL); // global should always exist, at least the EBML ones
+  assert(Context.GetGlobalContext != nullptr); // global should always exist, at least the EBML ones
   const EbmlSemanticContext & tstContext = Context.GetGlobalContext();
   if (tstContext != Context) {
     LowLevel--;
     MaxLowerLevel--;
     // recursive is good, but be carefull...
     Result = CreateElementUsingContext(aID, tstContext, LowLevel, true, bAllowDummy, MaxLowerLevel);
-    if (Result != NULL) {
+    if (Result != nullptr) {
       return Result;
     }
     LowLevel++;
     MaxLowerLevel++;
   } else {
-    return NULL;
+    return nullptr;
   }
 
   // parent elements
-  if (EBML_CTX_MASTER(Context) != NULL && aID == EBML_INFO_ID(*EBML_CTX_MASTER(Context))) {
+  if (EBML_CTX_MASTER(Context) != nullptr && aID == EBML_INFO_ID(*EBML_CTX_MASTER(Context))) {
     LowLevel++; // already one level up (same as context)
     return &EBML_INFO_CREATE(*EBML_CTX_MASTER(Context));
   }
 
   // check wether it's not part of an upper context
-  if (EBML_CTX_PARENT(Context) != NULL) {
+  if (EBML_CTX_PARENT(Context) != nullptr) {
     LowLevel++;
     MaxLowerLevel++;
     return CreateElementUsingContext(aID, *EBML_CTX_PARENT(Context), LowLevel, IsGlobalContext, bAllowDummy, MaxLowerLevel);

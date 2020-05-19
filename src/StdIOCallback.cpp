@@ -62,7 +62,7 @@ CRTError::CRTError(const std::string & Description,int nError)
 
 StdIOCallback::StdIOCallback(const char*Path, const open_mode aMode)
 {
-  assert(Path!=0);
+  assert(Path!=nullptr);
 
   const char *Mode;
   switch (aMode) {
@@ -83,7 +83,7 @@ StdIOCallback::StdIOCallback(const char*Path, const open_mode aMode)
   }
 
   File=fopen(Path,Mode);
-  if(File==0) {
+  if(File==nullptr) {
 #if !defined(__GNUC__) || (__GNUC__ > 2)
     stringstream Msg;
     Msg<<"Can't open stdio file \""<<Path<<"\" in mode \""<<Mode<<"\"";
@@ -103,7 +103,7 @@ StdIOCallback::~StdIOCallback()throw()
 
 uint32 StdIOCallback::read(void*Buffer,size_t Size)
 {
-  assert(File!=0);
+  assert(File!=nullptr);
 
   size_t result = fread(Buffer, 1, Size, File);
   mCurrentPosition += result;
@@ -112,7 +112,7 @@ uint32 StdIOCallback::read(void*Buffer,size_t Size)
 
 void StdIOCallback::setFilePointer(int64 Offset,seek_mode Mode)
 {
-  assert(File!=0);
+  assert(File!=nullptr);
 
   // There is a numeric cast in the boost library, which would be quite nice for this checking
   /*
@@ -151,7 +151,7 @@ void StdIOCallback::setFilePointer(int64 Offset,seek_mode Mode)
 
 size_t StdIOCallback::write(const void*Buffer,size_t Size)
 {
-  assert(File!=0);
+  assert(File!=nullptr);
   uint32 Result = fwrite(Buffer,1,Size,File);
   mCurrentPosition += Result;
   return Result;
@@ -159,7 +159,7 @@ size_t StdIOCallback::write(const void*Buffer,size_t Size)
 
 uint64 StdIOCallback::getFilePointer()
 {
-  assert(File!=0);
+  assert(File!=nullptr);
 
 #if 0
   long Result=ftell(File);
@@ -177,7 +177,7 @@ uint64 StdIOCallback::getFilePointer()
 
 void StdIOCallback::close()
 {
-  if(File==0)
+  if(File==nullptr)
     return;
 
   if(fclose(File)!=0) {
@@ -188,7 +188,7 @@ void StdIOCallback::close()
 #endif // GCC2
   }
 
-  File=0;
+  File=nullptr;
 }
 
 END_LIBEBML_NAMESPACE

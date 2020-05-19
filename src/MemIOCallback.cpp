@@ -42,7 +42,7 @@ MemIOCallback::MemIOCallback(uint64 DefaultSize)
 {
   //The default size of the buffer is 128 bytes
   dataBuffer = (binary *)malloc(DefaultSize);
-  if (dataBuffer == NULL) {
+  if (dataBuffer == nullptr) {
     mOk = false;
     std::stringstream Msg;
     Msg << "Failed to alloc memory block of size ";
@@ -59,13 +59,13 @@ MemIOCallback::MemIOCallback(uint64 DefaultSize)
 
 MemIOCallback::~MemIOCallback()
 {
-  if (dataBuffer != NULL)
+  if (dataBuffer != nullptr)
     free(dataBuffer);
 }
 
 uint32 MemIOCallback::read(void *Buffer, size_t Size)
 {
-  if (Buffer == NULL || Size < 1)
+  if (Buffer == nullptr || Size < 1)
     return 0;
   //If the size is larger than than the amount left in the buffer
   if (Size + dataBufferPos > dataBufferTotalSize) {

@@ -96,7 +96,7 @@ filepos_t EbmlString::RenderData(IOCallback & output, bool /* bForceRender */, b
   if (Result < GetDefaultSize()) {
     // pad the rest with 0
     auto Pad = new (std::nothrow) binary[GetDefaultSize() - Result];
-    if (Pad == NULL) {
+    if (Pad == nullptr) {
       return Result;
     }
     memset(Pad, 0x00, GetDefaultSize() - Result);
@@ -150,7 +150,7 @@ filepos_t EbmlString::ReadData(IOCallback & input, ScopeMode ReadFully)
       SetValueIsSet();
     } else {
       auto Buffer = new (std::nothrow) char[GetSize() + 1];
-      if (Buffer == NULL) {
+      if (Buffer == nullptr) {
         // unable to store the data, skip it
         input.setFilePointer(GetSize(), seek_current);
       } else {
