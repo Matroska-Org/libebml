@@ -53,7 +53,7 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
   public:
     EbmlUInteger();
     EbmlUInteger(uint64 DefaultValue);
-    EbmlUInteger(const EbmlUInteger & ElementToClone);
+    EbmlUInteger(const EbmlUInteger & ElementToClone) = default;
 
     EbmlUInteger & operator=(uint64 NewValue) {Value = NewValue; SetValueIsSet(); return *this;}
 

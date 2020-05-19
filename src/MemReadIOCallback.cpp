@@ -54,9 +54,6 @@ MemReadIOCallback::MemReadIOCallback(MemReadIOCallback const &Mem) {
   Init(Mem.mPtr, Mem.mEnd - Mem.mPtr);
 }
 
-MemReadIOCallback::~MemReadIOCallback() {
-}
-
 void
 MemReadIOCallback::Init(void const *Ptr,
                         size_t Size) {

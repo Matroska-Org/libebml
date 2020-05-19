@@ -214,13 +214,6 @@ EbmlUnicodeString::EbmlUnicodeString(const UTFstring & aDefaultValue)
   SetDefaultIsSet();
 }
 
-EbmlUnicodeString::EbmlUnicodeString(const EbmlUnicodeString & ElementToClone)
-  :EbmlElement(ElementToClone)
-  ,Value(ElementToClone.Value)
-  ,DefaultValue(ElementToClone.DefaultValue)
-{
-}
-
 void EbmlUnicodeString::SetDefaultValue(UTFstring & aValue)
 {
   assert(!DefaultISset());

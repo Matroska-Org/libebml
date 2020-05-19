@@ -484,7 +484,7 @@ class EBML_DLL_API EbmlElement {
     /*!
       \brief special constructor for cloning
     */
-    EbmlElement(const EbmlElement & ElementToClone);
+    EbmlElement(const EbmlElement & ElementToClone) = default;
 
         inline uint64 GetDefaultSize() const {return DefaultSize;}
         inline void SetSize_(uint64 aSize) {Size = aSize;}

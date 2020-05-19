@@ -55,7 +55,7 @@ class EBML_DLL_API EbmlSInteger : public EbmlElement {
   public:
     EbmlSInteger();
     EbmlSInteger(int64 DefaultValue);
-    EbmlSInteger(const EbmlSInteger & ElementToClone);
+    EbmlSInteger(const EbmlSInteger & ElementToClone) = default;
 
     EbmlSInteger & operator = (int64 NewValue) {Value = NewValue; SetValueIsSet(); return *this;}
 

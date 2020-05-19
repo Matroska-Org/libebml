@@ -53,7 +53,7 @@ enum seek_mode
 class EBML_DLL_API IOCallback
 {
 public:
-  virtual ~IOCallback(){}
+  virtual ~IOCallback() = default;
 
   // The read callback works like most other read functions. You specify the
   // file, the buffer and the size and the function returns the bytes read.

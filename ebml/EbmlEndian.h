@@ -58,7 +58,7 @@ enum endianess {
 template<class TYPE, endianess ENDIAN> class Endian
 {
     public:
-      Endian() {}
+      Endian() = default;
 
       Endian(const TYPE value)
       {

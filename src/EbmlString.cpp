@@ -63,13 +63,6 @@ EbmlString::EbmlString(const std::string & aDefaultValue)
 /*!
   \todo Cloning should be on the same exact type !
 */
-EbmlString::EbmlString(const EbmlString & ElementToClone)
-  :EbmlElement(ElementToClone)
-  ,Value(ElementToClone.Value)
-  ,DefaultValue(ElementToClone.DefaultValue)
-{
-}
-
 void EbmlString::SetDefaultValue(std::string & aValue)
 {
   assert(!DefaultISset());

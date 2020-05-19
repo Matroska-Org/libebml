@@ -54,7 +54,7 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
 
     EbmlFloat(const Precision prec = FLOAT_32);
     EbmlFloat(const double DefaultValue, const Precision prec = FLOAT_32);
-    EbmlFloat(const EbmlFloat & ElementToClone);
+    EbmlFloat(const EbmlFloat & ElementToClone) = default;
 
     virtual bool ValidateSize() const
     {

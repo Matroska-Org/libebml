@@ -41,9 +41,6 @@ EbmlStream::EbmlStream(IOCallback & DataStream)
   :Stream(DataStream)
 {}
 
-EbmlStream::~EbmlStream()
-{}
-
 EbmlElement * EbmlStream::FindNextID(const EbmlCallbacks & ClassInfos, uint64 MaxDataSize)
 {
   return EbmlElement::FindNextID(Stream, ClassInfos, MaxDataSize);
