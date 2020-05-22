@@ -234,7 +234,7 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements()
     }
 
     if (childElement->IsMaster()) {
-      auto childMaster = (EbmlMaster *)childElement;
+      auto childMaster = reinterpret_cast<EbmlMaster *>(childElement);
 
       std::vector<std::string> childMissingElements = childMaster->FindAllMissingElements();
       std::copy(childMissingElements.begin(), childMissingElements.end(), std::back_inserter(missingElements));
@@ -315,7 +315,7 @@ EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt, bool bCreateIf
   }
 
   while (Index < ElementList.size()) {
-    if ((EbmlId)PastElt == (EbmlId)(*ElementList[Index]))
+    if (EbmlId(PastElt) == EbmlId(*ElementList[Index]))
       break;
     Index++;
   }
@@ -352,7 +352,7 @@ EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt) const
   }
 
   while (Index < ElementList.size()) {
-    if ((EbmlId)PastElt == (EbmlId)(*ElementList[Index]))
+    if (EbmlId(PastElt) == EbmlId(*ElementList[Index]))
       return ElementList[Index];
     Index++;
   }
@@ -485,7 +485,7 @@ processCrc:
 
   EBML_MASTER_ITERATOR Itr, CrcItr;
   for (Itr = ElementList.begin(); Itr != ElementList.end();) {
-    if ((EbmlId)(*(*Itr)) == EBML_ID(EbmlCrc32)) {
+    if (EbmlId(*(*Itr)) == EBML_ID(EbmlCrc32)) {
       bChecksumUsed = true;
       // remove the element
       Checksum = *(static_cast<EbmlCrc32*>(*Itr));

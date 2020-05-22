@@ -41,7 +41,7 @@ START_LIBEBML_NAMESPACE
 MemIOCallback::MemIOCallback(uint64 DefaultSize)
 {
   //The default size of the buffer is 128 bytes
-  dataBuffer = (binary *)malloc(DefaultSize);
+  dataBuffer = static_cast<binary *>(malloc(DefaultSize));
   if (dataBuffer == nullptr) {
     mOk = false;
     std::stringstream Msg;
@@ -97,7 +97,7 @@ size_t MemIOCallback::write(const void *Buffer, size_t Size)
 {
   if (dataBufferMemorySize < dataBufferPos + Size) {
     //We need more memory!
-    dataBuffer = (binary *)realloc((void *)dataBuffer, dataBufferPos + Size);
+    dataBuffer = static_cast<binary *>(realloc((void *)dataBuffer, dataBufferPos + Size));
   }
   memcpy(dataBuffer+dataBufferPos, Buffer, Size);
   dataBufferPos += Size;
@@ -111,7 +111,7 @@ uint32 MemIOCallback::write(IOCallback & IOToRead, size_t Size)
 {
   if (dataBufferMemorySize < dataBufferPos + Size) {
     //We need more memory!
-    dataBuffer = (binary *)realloc((void *)dataBuffer, dataBufferPos + Size);
+    dataBuffer = static_cast<binary *>(realloc((void *)dataBuffer, dataBufferPos + Size));
   }
   IOToRead.readFully(&dataBuffer[dataBufferPos], Size);
   dataBufferTotalSize = Size;
