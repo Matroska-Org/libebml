@@ -52,7 +52,7 @@ EbmlBinary::EbmlBinary(const EbmlBinary & ElementToClone)
   if (ElementToClone.Data == nullptr)
     Data = nullptr;
   else {
-    Data = (binary *)malloc(GetSize() * sizeof(binary));
+    Data = static_cast<binary *>(malloc(GetSize() * sizeof(binary)));
     assert(Data != nullptr);
     memcpy(Data, ElementToClone.Data, GetSize());
   }
@@ -97,7 +97,7 @@ filepos_t EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
     return 0;
   }
 
-  Data = (binary *)malloc(GetSize());
+  Data = static_cast<binary *>(malloc(GetSize()));
   if (Data == nullptr)
     throw CRTError(std::string("Error allocating data"));
   SetValueIsSet();

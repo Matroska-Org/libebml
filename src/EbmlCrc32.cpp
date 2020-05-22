@@ -257,7 +257,7 @@ bool EbmlCrc32::CheckCRC(uint32 inputCRC, const binary *input, uint32 length)
     crc = m_tab[CRC32_INDEX(crc) ^ *input++] ^ CRC32_SHIFTED(crc);
 
   while (length >= 4) {
-    crc ^= *(const uint32 *)input;
+    crc ^= *reinterpret_cast<const uint32 *>(input);
     crc = m_tab[CRC32_INDEX(crc)] ^ CRC32_SHIFTED(crc);
     crc = m_tab[CRC32_INDEX(crc)] ^ CRC32_SHIFTED(crc);
     crc = m_tab[CRC32_INDEX(crc)] ^ CRC32_SHIFTED(crc);
@@ -317,7 +317,7 @@ void EbmlCrc32::Update(const binary *input, uint32 length)
     crc = m_tab[CRC32_INDEX(crc) ^ *input++] ^ CRC32_SHIFTED(crc);
 
   while (length >= 4) {
-    crc ^= *(const uint32 *)input;
+    crc ^= *reinterpret_cast<const uint32 *>(input);
     crc = m_tab[CRC32_INDEX(crc)] ^ CRC32_SHIFTED(crc);
     crc = m_tab[CRC32_INDEX(crc)] ^ CRC32_SHIFTED(crc);
     crc = m_tab[CRC32_INDEX(crc)] ^ CRC32_SHIFTED(crc);
