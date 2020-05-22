@@ -51,7 +51,7 @@ ToSigned(uint64 u) {
   return static_cast<int64>(u - std::numeric_limits<int64>::min()) + std::numeric_limits<int64>::min();
 }
 
-}
+} // namespace
 
 START_LIBEBML_NAMESPACE
 
