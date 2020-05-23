@@ -75,25 +75,25 @@ public:
 
     If an error occurs, an exception should be thrown.
   */
-  virtual uint64 getFilePointer() {return dataBufferPos;};
+  virtual uint64 getFilePointer() {return dataBufferPos;}
 
   /*!
     The close callback flushes the file buffers to disk and closes the file. When using the stdio
     library, this is equivalent to calling fclose. When the close is not successful, an exception
     should be thrown.
   */
-  void close() {};
+  void close() {}
 
-  binary *GetDataBuffer() const {return dataBuffer;};
-  uint64 GetDataBufferSize() const {return dataBufferTotalSize;};
-  void SetDataBufferSize(uint64 newDataBufferSize) {dataBufferTotalSize = newDataBufferSize;};
+  binary *GetDataBuffer() const {return dataBuffer;}
+  uint64 GetDataBufferSize() const {return dataBufferTotalSize;}
+  void SetDataBufferSize(uint64 newDataBufferSize) {dataBufferTotalSize = newDataBufferSize;}
   /*!
     Use this to write some data from another IOCallback
   */
   uint32 write(IOCallback & IOToRead, size_t Size);
 
-  bool IsOk() { return mOk; };
-  const std::string &GetLastErrorStr() { return mLastErrorStr; };
+  bool IsOk() { return mOk; }
+  const std::string &GetLastErrorStr() { return mLastErrorStr; }
 protected:
   bool mOk;
   std::string mLastErrorStr;

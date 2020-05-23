@@ -58,7 +58,7 @@ public:
   CRTError(int Error,const std::string&Description);
   CRTError(const std::string&Description,int Error=errno);
 
-  int getError()const throw(){return Error;}
+  int getError() const noexcept { return Error; }
 };
 
 // This class is currently private to the library, so there's no MATROSKA_EXPORT.
@@ -71,7 +71,7 @@ class EBML_DLL_API StdIOCallback:public IOCallback
     public:
 //  StdIOCallback(const char*Path,const char*Mode);
   StdIOCallback(const char*Path, const open_mode Mode);
-  virtual ~StdIOCallback()throw();
+  virtual ~StdIOCallback() noexcept;
 
   virtual uint32 read(void*Buffer,size_t Size);
 
