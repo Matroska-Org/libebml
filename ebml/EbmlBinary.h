@@ -78,7 +78,7 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
     binary *GetBuffer() const {return Data;}
 
     void CopyBuffer(const binary *Buffer, const uint32 BufferSize) {
-      if (Data != NULL)
+      if (Data != nullptr)
         free(Data);
       Data = (binary *)malloc(BufferSize * sizeof(binary));
       memcpy(Data, Buffer, BufferSize);

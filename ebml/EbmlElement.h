@@ -81,7 +81,7 @@ class EbmlElement;
 extern const EbmlSemanticContext Context_EbmlGlobal;
 
 #define DEFINE_xxx_CONTEXT(x,global) \
-    const EbmlSemanticContext Context_##x = EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, NULL, global, NULL); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, nullptr, global, nullptr); \
 
 #define DEFINE_xxx_MASTER(x,id,idl,parent,name,global) \
     const EbmlId Id_##x    (id, idl); \
@@ -96,41 +96,41 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 
 #define DEFINE_xxx_MASTER_ORPHAN(x,id,idl,name,global) \
     const EbmlId Id_##x    (id, idl); \
-    const EbmlSemanticContext Context_##x = EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, NULL, global, &EBML_INFO(x)); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, nullptr, global, &EBML_INFO(x)); \
     const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
 
 #define DEFINE_xxx_CLASS(x,id,idl,parent,name,global) \
     const EbmlId Id_##x    (id, idl); \
-    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, &Context_##parent, global, &EBML_INFO(x)); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
     const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
     x::x() {}
 
 #define DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
     const EbmlId Id_##x    (id, idl); \
-    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, &Context_##parent, global, &EBML_INFO(x)); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
     const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x);
 
 #define DEFINE_xxx_UINTEGER_DEF(x,id,idl,parent,name,global,defval) \
     const EbmlId Id_##x    (id, idl); \
-    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, &Context_##parent, global, &EBML_INFO(x)); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
     const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
     x::x() :EbmlUInteger(defval) {}
 
 #define DEFINE_xxx_SINTEGER_DEF(x,id,idl,parent,name,global,defval) \
     const EbmlId Id_##x    (id, idl); \
-    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, &Context_##parent, global, &EBML_INFO(x)); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
     const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
     x::x() :EbmlSInteger(defval) {}
 
 #define DEFINE_xxx_STRING_DEF(x,id,idl,parent,name,global,defval) \
     const EbmlId Id_##x    (id, idl); \
-    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, &Context_##parent, global, &EBML_INFO(x)); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
     const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
     x::x() :EbmlString(defval) {}
 
 #define DEFINE_xxx_FLOAT_DEF(x,id,idl,parent,name,global,defval) \
     const EbmlId Id_##x    (id, idl); \
-    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, &Context_##parent, global, &EBML_INFO(x)); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
     const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
     x::x() :EbmlFloat(defval) {}
 
@@ -140,7 +140,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 
 #define DEFINE_xxx_CLASS_ORPHAN(x,id,idl,name,global) \
     const EbmlId Id_##x    (id, idl); \
-    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, NULL, NULL, global, NULL); \
+    const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, nullptr, nullptr, global, nullptr); \
     const EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
 
 #define DEFINE_EBML_CONTEXT(x)                             DEFINE_xxx_CONTEXT(x,*GetEbmlGlobal_Context)
@@ -187,7 +187,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 
 #define EBML_CONCRETE_DUMMY_CLASS(Type) \
     public: \
-        virtual const EbmlSemanticContext &Context() const {return *static_cast<EbmlSemanticContext*>(NULL);} \
+        virtual const EbmlSemanticContext &Context() const {return *static_cast<EbmlSemanticContext*>(nullptr);} \
         virtual const char *DebugName() const {return "DummyElement";} \
     virtual operator const EbmlId &(); \
         virtual EbmlElement & CreateElement() const {return Create();} \
@@ -384,11 +384,11 @@ class EBML_DLL_API EbmlElement {
     */
     EbmlElement * FindNext(IOCallback & DataStream, uint64 MaxDataSize);
 
-    EbmlElement * SkipData(EbmlStream & DataStream, const EbmlSemanticContext & Context, EbmlElement * TestReadElt = NULL, bool AllowDummyElt = false);
+    EbmlElement * SkipData(EbmlStream & DataStream, const EbmlSemanticContext & Context, EbmlElement * TestReadElt = nullptr, bool AllowDummyElt = false);
 
     /*!
       \brief Give a copy of the element, all data inside the element is copied
-      \return NULL if there is not enough memory
+      \return nullptr if there is not enough memory
     */
     virtual EbmlElement * Clone() const = 0;
 
@@ -471,7 +471,7 @@ class EBML_DLL_API EbmlElement {
   protected:
     /*!
       \brief find any element in the stream
-      \return a DummyRawElement if the element is unknown or NULL if the element dummy is not allowed
+      \return a DummyRawElement if the element is unknown or nullptr if the element dummy is not allowed
     */
     static EbmlElement *CreateElementUsingContext(const EbmlId & aID, const EbmlSemanticContext & Context, int & LowLevel, bool IsGlobalContext, bool bAllowDummy = false, unsigned int MaxLowerLevel = 1);
 
