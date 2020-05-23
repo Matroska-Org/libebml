@@ -82,7 +82,7 @@ DECLARE_EBML_BINARY(EbmlCrc32)
     */
     uint32 GetCrc32() const {
       return m_crc_final;
-    };
+    }
 
     void ForceCrc32(uint32 NewValue) { m_crc_final = NewValue; SetValueIsSet();}
 
