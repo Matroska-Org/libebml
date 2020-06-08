@@ -34,8 +34,9 @@
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 
-#include <cassert>
 #include <algorithm>
+#include <cassert>
+#include <numeric>
 
 #include "ebml/EbmlMaster.h"
 #include "ebml/EbmlStream.h"
@@ -94,11 +95,10 @@ filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, bool bW
   }
 
   if (!bChecksumUsed) { // old school
-    for (auto Element : ElementList) {
-      if (!bWithDefault && Element->IsDefaultValue())
-        continue;
-      Result += Element->Render(output, bWithDefault, false ,bForceRender);
-    }
+    Result = std::accumulate(ElementList.begin(), ElementList.end(), 0, [&](filepos_t res, EbmlElement *Element)
+      { if (!bWithDefault && Element->IsDefaultValue())
+          return res += 0;
+        return res += Element->Render(output, bWithDefault, false ,bForceRender); });
   } else { // new school
     MemIOCallback TmpBuf(GetSize() - 6);
     for (auto Element : ElementList) {
@@ -304,15 +304,8 @@ EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks) const
 */
 EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt, bool bCreateIfNull)
 {
-  size_t Index;
-
-  for (Index = 0; Index < ElementList.size(); Index++) {
-    if ((ElementList[Index]) == &PastElt) {
-      // found past element, new one is :
-      Index++;
-      break;
-    }
-  }
+  size_t Index = std::count_if(ElementList.begin(), ElementList.end(), [&](EbmlElement *Element)
+    { return Element == &PastElt; });
 
   while (Index < ElementList.size()) {
     if (EbmlId(PastElt) == EbmlId(*ElementList[Index]))
@@ -341,15 +334,8 @@ EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt, bool bCreateIf
 
 EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt) const
 {
-  size_t Index;
-
-  for (Index = 0; Index < ElementList.size(); Index++) {
-    if ((ElementList[Index]) == &PastElt) {
-      // found past element, new one is :
-      Index++;
-      break;
-    }
-  }
+  size_t Index = std::count_if(ElementList.begin(), ElementList.end(), [&](EbmlElement *Element)
+    { return Element == &PastElt; });
 
   while (Index < ElementList.size()) {
     if (EbmlId(PastElt) == EbmlId(*ElementList[Index]))
