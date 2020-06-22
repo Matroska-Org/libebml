@@ -34,9 +34,9 @@
   \author Steve Lhomme     <robux4 @ users.sf.net>
   \author Julien Coloos  <suiryc @ users.sf.net>
 */
-#include <cassert>
 #include <string>
 
+#include "ebml/EbmlExceptions.h"
 #include "ebml/EbmlBinary.h"
 #include "ebml/StdIOCallback.h"
 
@@ -53,7 +53,8 @@ EbmlBinary::EbmlBinary(const EbmlBinary & ElementToClone)
     Data = NULL;
   else {
     Data = (binary *)malloc(GetSize() * sizeof(binary));
-    assert(Data != NULL);
+    if(Data == nullptr)
+      throw EbmlError("Unable to allocate memory");
     memcpy(Data, ElementToClone.Data, GetSize());
   }
 }

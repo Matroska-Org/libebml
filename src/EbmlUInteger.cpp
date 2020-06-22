@@ -34,8 +34,6 @@
   \author Steve Lhomme     <robux4 @ users.sf.net>
   \author Moritz Bunkus <moritz @ bunkus.org>
 */
-#include <cassert>
-
 #include "ebml/EbmlUInteger.h"
 
 START_LIBEBML_NAMESPACE

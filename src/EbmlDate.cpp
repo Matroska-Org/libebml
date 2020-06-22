@@ -31,8 +31,6 @@
   \version \$Id: EbmlDate.cpp 1079 2005-03-03 13:18:14Z robux4 $
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
-#include <cassert>
-
 #include "ebml/EbmlDate.h"
 
 START_LIBEBML_NAMESPACE

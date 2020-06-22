@@ -35,8 +35,6 @@
   \author Jory Stone       <jcsston @ toughguy.net>
 */
 
-#include <cassert>
-
 #include "ebml/EbmlUnicodeString.h"
 
 #include "lib/utf8-cpp/source/utf8/checked.h"

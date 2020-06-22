@@ -38,8 +38,6 @@
 #ifndef LIBEBML_SINTEGER_H
 #define LIBEBML_SINTEGER_H
 
-#include <cassert>
-
 #include "EbmlTypes.h"
 #include "EbmlElement.h"
 

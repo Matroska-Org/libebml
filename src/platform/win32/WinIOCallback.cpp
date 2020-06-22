@@ -34,8 +34,6 @@
   \author Cyrius           <suiryc @ users.sf.net>
 */
 
-#include <cassert>
-
 #include "WinIOCallback.h"
 
 #include "ebml/Debug.h"
