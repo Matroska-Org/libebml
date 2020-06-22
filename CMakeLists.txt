@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1.2)
 
-project(ebml VERSION 1.3.10)
+project(ebml VERSION 1.4.0)
 
 option(DISABLE_PKGCONFIG "Disable PkgConfig module generation" OFF)
 option(DISABLE_CMAKE_CONFIG "Disable CMake package config module generation" OFF)
@@ -78,8 +78,8 @@ if(WIN32)
   endif()
 endif()
 set_target_properties(ebml PROPERTIES
-  VERSION 4.0.0
-  SOVERSION 4)
+  VERSION 5.0.0
+  SOVERSION 5)
 target_include_directories(ebml
   PRIVATE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
