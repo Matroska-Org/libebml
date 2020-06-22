@@ -85,7 +85,7 @@ public:
   void close() {};
 
   binary *GetDataBuffer() const {return dataBuffer;};
-  uint64 GetDataBufferSize() {return dataBufferTotalSize;};
+  uint64 GetDataBufferSize() const {return dataBufferTotalSize;};
   void SetDataBufferSize(uint64 newDataBufferSize) {dataBufferTotalSize = newDataBufferSize;};
   /*!
     Use this to write some data from another IOCallback
