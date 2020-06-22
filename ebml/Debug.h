@@ -147,7 +147,7 @@ public:
 
 #endif // defined(LIBEBML_DEBUG)
 
-extern class EBML_DLL_API ADbg globalDebug;
+extern ADbg globalDebug;
 
 
 #ifdef LIBEBML_DEBUG
