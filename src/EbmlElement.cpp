@@ -722,13 +722,12 @@ filepos_t EbmlElement::OverwriteData(IOCallback & output, bool bKeepPosition)
     return 0; // the element has not been written
   }
 
-  uint64 HeaderSize = EbmlId(*this).GetLength() + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+  auto HeaderSize = EbmlId(*this).GetLength() + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+  auto DataSize   = GetSize();
 
-  filepos_t DataSize = GetSize();
-
-  uint64 CurrentPosition = output.getFilePointer();
+  auto CurrentPosition = output.getFilePointer();
   output.setFilePointer(GetElementPosition() + HeaderSize);
-  filepos_t Result = RenderData(output, true, bKeepPosition);
+  auto Result = RenderData(output, true, bKeepPosition);
   output.setFilePointer(CurrentPosition);
   assert(Result == DataSize);
   return Result;
