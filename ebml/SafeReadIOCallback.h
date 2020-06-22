@@ -36,12 +36,11 @@
 #ifndef LIBEBML_SAFEREADIOCALLBACK_H
 #define LIBEBML_SAFEREADIOCALLBACK_H
 
+#include "EbmlBinary.h"
 #include "EbmlTypes.h"
+#include "IOCallback.h"
 
 START_LIBEBML_NAMESPACE
-
-class EBML_DLL_API IOCallback;
-class EBML_DLL_API EbmlBinary;
 
 class EBML_DLL_API SafeReadIOCallback {
 public:

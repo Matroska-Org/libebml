@@ -33,11 +33,10 @@
 #ifndef LIBEBML_MEMREADIOCALLBACK_H
 #define LIBEBML_MEMREADIOCALLBACK_H
 
+#include "EbmlBinary.h"
 #include "IOCallback.h"
 
 START_LIBEBML_NAMESPACE
-
-class EBML_DLL_API EbmlBinary;
 
 class EBML_DLL_API MemReadIOCallback : public IOCallback {
 protected:
