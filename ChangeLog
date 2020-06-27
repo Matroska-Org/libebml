@@ -1,3 +1,26 @@
+2020-06-27  Moritz Bunkus  <mo@bunkus.online>
+
+        * Due to breaking ABI the soname version has been bumped to 5.0.0.
+
+        * Default symbol visibility is now "hidden", reducing binary size.
+
+        * Converted some things pointed out by cppcheck & clang-tidy to
+        C++11.
+
+        * Fixed a lot of issues pointed out by clang-tidy.
+
+        * Added a function "ForceNoDefault" in the "EbmlElement" class.
+
+        * Added a function "OverwriteData" in the "EbmlElement" class to
+        complement the existing "OverwriteHead" function.
+
+        * Fixed compilation on Windows wrt. winapifamily.h
+
+        * Fixed compilation on Haiku.
+
+        * A C++11 compliant compiler is now required. Several of its
+        features are now used in the source.
+
 2020-05-15  Moritz Bunkus  <mo@bunkus.online>
 
         * EbmlElement::FindNextElement: fixed a buffer overflow on the
