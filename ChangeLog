@@ -1,5 +1,7 @@
 2020-06-27  Moritz Bunkus  <mo@bunkus.online>
 
+        * Released v1.4.0.
+
         * Due to breaking ABI the soname version has been bumped to 5.0.0.
 
         * Default symbol visibility is now "hidden", reducing binary size.
