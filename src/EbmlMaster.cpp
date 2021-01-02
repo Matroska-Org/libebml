@@ -424,6 +424,10 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
         try {
           ElementLevelA->Read(inDataStream, EBML_CONTEXT(ElementLevelA), UpperEltFound, FoundElt, AllowDummyElt, ReadFully);
         } catch (...) {
+          if (ElementLevelA == FoundElt) {
+            UpperEltFound = 0;
+            FoundElt = nullptr;
+          }
           delete ElementLevelA;
           throw;
         }

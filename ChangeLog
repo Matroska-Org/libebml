@@ -1,3 +1,12 @@
+2021-01-02  Moritz Bunkus  <mo@bunkus.online>
+
+        * Fixed a case EbmlMaster::Read where the element returned via
+        UpperEltFound and FountElt points to a just-deleted element,
+        causing callers to think the memory returned is valid, potentially
+        leading to use-after-free/double-free errors. This can happen if
+        the specific element's Read function throws an exception when
+        encountering certain invalid data constellations.
+
 2020-06-27  Moritz Bunkus  <mo@bunkus.online>
 
         * Released v1.4.0.
