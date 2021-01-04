@@ -1,3 +1,7 @@
+2021-01-04  Moritz Bunkus  <mo@bunkus.online>
+
+        * Release v1.4.1.
+
 2021-01-02  Moritz Bunkus  <mo@bunkus.online>
 
         * Fixed a case EbmlMaster::Read where the element returned via
