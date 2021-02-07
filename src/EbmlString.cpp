@@ -138,7 +138,7 @@ uint64 EbmlString::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 filepos_t EbmlString::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
   if (ReadFully != SCOPE_NO_DATA) {
-    if (GetSize() == 0) {
+    if (GetSize() == 0 || GetSize() + 1 >= SIZE_MAX) {
       Value = "";
       SetValueIsSet();
     } else {

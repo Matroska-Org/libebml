@@ -303,7 +303,7 @@ uint64 EbmlUnicodeString::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 filepos_t EbmlUnicodeString::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
   if (ReadFully != SCOPE_NO_DATA) {
-    if (GetSize() == 0) {
+    if (GetSize() == 0 || GetSize() + 1 >= SIZE_MAX) {
       Value = UTFstring::value_type(0);
       SetValueIsSet();
     } else {
