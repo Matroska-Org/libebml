@@ -51,6 +51,8 @@ filepos_t EbmlDate::ReadData(IOCallback & input, ScopeMode ReadFully)
     return GetSize();
 
   assert(GetSize() == 8);
+  if (GetSize() != 8)
+    return GetSize();
   binary Buffer[8];
   input.readFully(Buffer, GetSize());
 
