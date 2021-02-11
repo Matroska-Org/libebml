@@ -113,8 +113,9 @@ uint64 EbmlFloat::UpdateSize(bool bWithDefault, bool  /* bForceRender */)
 filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
   if (ReadFully != SCOPE_NO_DATA) {
-    binary Buffer[20];
-    assert(GetSize() <= 20);
+    assert(GetSize() == 4 || GetSize() == 8);
+    if (GetSize() == 4 || GetSize() == 8) {
+    binary Buffer[8];
     input.readFully(Buffer, GetSize());
 
     if (GetSize() == 4) {
@@ -133,6 +134,7 @@ filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
       memcpy(&val, &tmpp, 8);
       Value = val;
       SetValueIsSet();
+    }
     }
   }
 
