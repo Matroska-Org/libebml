@@ -127,7 +127,7 @@ uint64 EbmlUInteger::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 
 filepos_t EbmlUInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-  if (ReadFully != SCOPE_NO_DATA) {
+  if (ReadFully != SCOPE_NO_DATA && GetSize() <= 8) {
     binary Buffer[8];
     input.readFully(Buffer, GetSize());
     Value = 0;
