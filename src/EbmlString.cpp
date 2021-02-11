@@ -142,7 +142,7 @@ filepos_t EbmlString::ReadData(IOCallback & input, ScopeMode ReadFully)
       Value = "";
       SetValueIsSet();
     } else {
-      auto Buffer = new (std::nothrow) char[GetSize() + 1];
+      auto Buffer = (GetSize() + 1 < SIZE_MAX) ? new (std::nothrow) char[GetSize() + 1] : nullptr;
       if (Buffer == nullptr) {
         // unable to store the data, skip it
         input.setFilePointer(GetSize(), seek_current);

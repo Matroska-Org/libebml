@@ -233,7 +233,7 @@ filepos_t EbmlCrc32::RenderData(IOCallback & output, bool /* bForceRender */, bo
 filepos_t EbmlCrc32::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
   if (ReadFully != SCOPE_NO_DATA) {
-    auto Buffer = new (std::nothrow) binary[GetSize()];
+    auto Buffer = (GetSize() < SIZE_MAX) ? new (std::nothrow) binary[GetSize()] : nullptr;
     if (Buffer == nullptr) {
       // impossible to read, skip it
       input.setFilePointer(GetSize(), seek_current);
