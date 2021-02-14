@@ -52,9 +52,9 @@ EbmlBinary::EbmlBinary(const EbmlBinary & ElementToClone)
   if (ElementToClone.Data == nullptr)
     Data = nullptr;
   else {
-    Data = static_cast<binary *>(malloc(GetSize() * sizeof(binary)));
-    assert(Data != nullptr);
-    memcpy(Data, ElementToClone.Data, GetSize());
+    Data = static_cast<binary *>(malloc(GetSize()));
+    if(Data != nullptr)
+      memcpy(Data, ElementToClone.Data, GetSize());
   }
 }
 
