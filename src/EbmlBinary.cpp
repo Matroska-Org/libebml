@@ -89,7 +89,6 @@ filepos_t EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
   }
 
   if (ReadFully == SCOPE_NO_DATA) {
-    Data = nullptr;
     return GetSize();
   }
 
