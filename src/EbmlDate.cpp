@@ -55,14 +55,14 @@ filepos_t EbmlDate::ReadData(IOCallback & input, ScopeMode ReadFully)
     // impossible to read, skip it
     input.setFilePointer(GetSize(), seek_current);
   } else {
-  binary Buffer[8];
-  input.readFully(Buffer, GetSize());
+    binary Buffer[8];
+    input.readFully(Buffer, GetSize());
 
-  big_int64 b64;
-  b64.Eval(Buffer);
+    big_int64 b64;
+    b64.Eval(Buffer);
 
-  myDate = b64;
-  SetValueIsSet();
+    myDate = b64;
+    SetValueIsSet();
   }
 
   return GetSize();

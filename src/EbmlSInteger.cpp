@@ -138,19 +138,19 @@ filepos_t EbmlSInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
       // impossible to read, skip it
       input.setFilePointer(GetSize(), seek_current);
     } else {
-    binary Buffer[8];
-    input.readFully(Buffer, GetSize());
+      binary Buffer[8];
+      input.readFully(Buffer, GetSize());
 
-    uint64 TempValue = Buffer[0] & 0x80 ? std::numeric_limits<uint64>::max() : 0;
+      uint64 TempValue = Buffer[0] & 0x80 ? std::numeric_limits<uint64>::max() : 0;
 
-    for (unsigned int i=0; i<GetSize(); i++) {
-      TempValue <<= 8;
-      TempValue |= Buffer[i];
-    }
+      for (unsigned int i=0; i<GetSize(); i++) {
+        TempValue <<= 8;
+        TempValue |= Buffer[i];
+      }
 
-    Value = ToSigned(TempValue);
+      Value = ToSigned(TempValue);
 
-    SetValueIsSet();
+      SetValueIsSet();
     }
   }
 

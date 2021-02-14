@@ -132,15 +132,15 @@ filepos_t EbmlUInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
       // impossible to read, skip it
       input.setFilePointer(GetSize(), seek_current);
     } else {
-    binary Buffer[8];
-    input.readFully(Buffer, GetSize());
-    Value = 0;
+      binary Buffer[8];
+      input.readFully(Buffer, GetSize());
+      Value = 0;
 
-    for (unsigned int i=0; i<GetSize(); i++) {
-      Value <<= 8;
-      Value |= Buffer[i];
-    }
-    SetValueIsSet();
+      for (unsigned int i=0; i<GetSize(); i++) {
+        Value <<= 8;
+        Value |= Buffer[i];
+      }
+      SetValueIsSet();
     }
   }
 
