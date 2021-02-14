@@ -83,8 +83,10 @@ uint64 EbmlBinary::UpdateSize(bool /* bWithDefault */, bool /* bForceRender */)
 
 filepos_t EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-  if (Data != nullptr)
+  if (Data != nullptr) {
     free(Data);
+    Data = nullptr;
+  }
 
   if (ReadFully == SCOPE_NO_DATA) {
     Data = nullptr;
