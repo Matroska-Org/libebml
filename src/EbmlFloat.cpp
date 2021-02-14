@@ -134,7 +134,10 @@ filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
       memcpy(&val, &tmpp, 8);
       Value = val;
       SetValueIsSet();
-    }
+      } else {
+        // impossible to read, skip it
+        input.setFilePointer(GetSize(), seek_current);
+      }
     }
   }
 

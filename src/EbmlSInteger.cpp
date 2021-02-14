@@ -133,7 +133,11 @@ uint64 EbmlSInteger::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 
 filepos_t EbmlSInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-  if (ReadFully != SCOPE_NO_DATA && GetSize() <= 8) {
+  if (ReadFully != SCOPE_NO_DATA) {
+    if (GetSize() > 8) {
+      // impossible to read, skip it
+      input.setFilePointer(GetSize(), seek_current);
+    } else {
     binary Buffer[8];
     input.readFully(Buffer, GetSize());
 
@@ -147,6 +151,7 @@ filepos_t EbmlSInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
     Value = ToSigned(TempValue);
 
     SetValueIsSet();
+    }
   }
 
   return GetSize();
