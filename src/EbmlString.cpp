@@ -137,24 +137,25 @@ uint64 EbmlString::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 
 filepos_t EbmlString::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-  if (ReadFully != SCOPE_NO_DATA) {
-    if (GetSize() == 0) {
-      Value = "";
-      SetValueIsSet();
+  if (ReadFully == SCOPE_NO_DATA)
+    return GetSize();
+
+  if (GetSize() == 0) {
+    Value = "";
+    SetValueIsSet();
+  } else {
+    auto Buffer = (GetSize() + 1 < std::numeric_limits<std::size_t>::max()) ? new (std::nothrow) char[GetSize() + 1] : nullptr;
+    if (Buffer == nullptr) {
+      // unable to store the data, skip it
+      input.setFilePointer(GetSize(), seek_current);
     } else {
-      auto Buffer = (GetSize() + 1 < std::numeric_limits<std::size_t>::max()) ? new (std::nothrow) char[GetSize() + 1] : nullptr;
-      if (Buffer == nullptr) {
-        // unable to store the data, skip it
-        input.setFilePointer(GetSize(), seek_current);
-      } else {
-        input.readFully(Buffer, GetSize());
-        if (Buffer[GetSize()-1] != '\0') {
-          Buffer[GetSize()] = '\0';
-        }
-        Value = Buffer;
-        delete [] Buffer;
-        SetValueIsSet();
+      input.readFully(Buffer, GetSize());
+      if (Buffer[GetSize()-1] != '\0') {
+        Buffer[GetSize()] = '\0';
       }
+      Value = Buffer;
+      delete [] Buffer;
+      SetValueIsSet();
     }
   }
 

@@ -232,15 +232,17 @@ filepos_t EbmlCrc32::RenderData(IOCallback & output, bool /* bForceRender */, bo
 
 filepos_t EbmlCrc32::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-  if (ReadFully != SCOPE_NO_DATA) {
-    if (GetSize() != 4) {
-      // impossible to read, skip it
-      input.setFilePointer(GetSize(), seek_current);
-    } else {
-      input.readFully(&m_crc_final, GetSize());
-      SetValueIsSet();
-    }
+  if (ReadFully == SCOPE_NO_DATA)
+    return GetSize();
+
+  if (GetSize() != 4) {
+    // impossible to read, skip it
+    input.setFilePointer(GetSize(), seek_current);
+    return GetSize();
   }
+
+  input.readFully(&m_crc_final, GetSize());
+  SetValueIsSet();
 
   return GetSize();
 }

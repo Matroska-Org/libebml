@@ -127,22 +127,24 @@ uint64 EbmlUInteger::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 
 filepos_t EbmlUInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-  if (ReadFully != SCOPE_NO_DATA) {
-    if (GetSize() > 8) {
-      // impossible to read, skip it
-      input.setFilePointer(GetSize(), seek_current);
-    } else {
-      binary Buffer[8];
-      input.readFully(Buffer, GetSize());
-      Value = 0;
+  if (ReadFully == SCOPE_NO_DATA)
+    return GetSize();
 
-      for (unsigned int i=0; i<GetSize(); i++) {
-        Value <<= 8;
-        Value |= Buffer[i];
-      }
-      SetValueIsSet();
-    }
+  if (GetSize() > 8) {
+    // impossible to read, skip it
+    input.setFilePointer(GetSize(), seek_current);
+    return GetSize();
   }
+
+  binary Buffer[8];
+  input.readFully(Buffer, GetSize());
+  Value = 0;
+
+  for (unsigned int i=0; i<GetSize(); i++) {
+    Value <<= 8;
+    Value |= Buffer[i];
+  }
+  SetValueIsSet();
 
   return GetSize();
 }
