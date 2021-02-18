@@ -13,7 +13,7 @@ GROUP libebml_coremake_automake
 
 LIB ebml
 {
-  PROJECT_VERSION 1.4.1
+  PROJECT_VERSION 1.4.2
   USE libebml_coremake_automake
 
   INCLUDE .

@@ -1,5 +1,7 @@
 2021-02-18  Moritz Bunkus  <mo@bunkus.online>
 
+        * Release v1.4.2.
+
         * Fixed several heap overflow bugs in the `ReadData` functions of
         various data type classes. This fixes CVE-2021-3405.
 
