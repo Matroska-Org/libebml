@@ -112,28 +112,35 @@ uint64 EbmlFloat::UpdateSize(bool bWithDefault, bool  /* bForceRender */)
 */
 filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-  if (ReadFully != SCOPE_NO_DATA) {
-    binary Buffer[20];
-    assert(GetSize() <= 20);
-    input.readFully(Buffer, GetSize());
+  if (ReadFully == SCOPE_NO_DATA)
+    return GetSize();
 
-    if (GetSize() == 4) {
-      big_int32 TmpRead;
-      TmpRead.Eval(Buffer);
-      auto tmpp = int32(TmpRead);
-      float val;
-      memcpy(&val, &tmpp, 4);
-      Value = static_cast<double>(val);
-      SetValueIsSet();
-    } else if (GetSize() == 8) {
-      big_int64 TmpRead;
-      TmpRead.Eval(Buffer);
-      auto tmpp = int64(TmpRead);
-      double val;
-      memcpy(&val, &tmpp, 8);
-      Value = val;
-      SetValueIsSet();
-    }
+  assert(GetSize() == 4 || GetSize() == 8);
+  if (GetSize() != 4 && GetSize() != 8) {
+    // impossible to read, skip it
+    input.setFilePointer(GetSize(), seek_current);
+    return GetSize();
+  }
+
+  binary Buffer[8];
+  input.readFully(Buffer, GetSize());
+
+  if (GetSize() == 4) {
+    big_int32 TmpRead;
+    TmpRead.Eval(Buffer);
+    auto tmpp = int32(TmpRead);
+    float val;
+    memcpy(&val, &tmpp, 4);
+    Value = static_cast<double>(val);
+    SetValueIsSet();
+  } else {
+    big_int64 TmpRead;
+    TmpRead.Eval(Buffer);
+    auto tmpp = int64(TmpRead);
+    double val;
+    memcpy(&val, &tmpp, 8);
+    Value = val;
+    SetValueIsSet();
   }
 
   return GetSize();

@@ -97,7 +97,7 @@ filepos_t EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
     return 0;
   }
 
-  Data = static_cast<binary *>(malloc(GetSize()));
+  Data = (GetSize() < SIZE_MAX) ? static_cast<binary *>(malloc(GetSize())) : nullptr;
   if (Data == nullptr)
     throw CRTError(std::string("Error allocating data"));
   SetValueIsSet();
