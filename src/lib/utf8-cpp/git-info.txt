@@ -1,1 +1,1 @@
-1537543999978d3a0464560a9a940d6140c6ba59 https://github.com/nemtrif/utfcpp.git
+e39907b381d828918bde57cb5a6c3bca01cf0a0b https://github.com/nemtrif/utfcpp.git
