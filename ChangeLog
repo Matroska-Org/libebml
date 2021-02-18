@@ -1,3 +1,13 @@
+2021-02-18  Daniel Engberg  <daniel.engberg.lists@pyret.net>
+
+        * Updated the bundled utf8cpp to v3.1.2.
+
+2021-02-18  Steve Lhomme  <slhomme@matroska.org>
+
+        * Fixed several problems in EbmlBinary: potential segfault by
+        writing to a nullptr, potential memory leak under certain error
+        conditions.
+
 2021-02-18  Moritz Bunkus  <mo@bunkus.online>
 
         * Release v1.4.2.
