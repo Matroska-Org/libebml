@@ -52,9 +52,9 @@ EbmlBinary::EbmlBinary(const EbmlBinary & ElementToClone)
   if (ElementToClone.Data == nullptr)
     Data = nullptr;
   else {
-    Data = static_cast<binary *>(malloc(GetSize() * sizeof(binary)));
-    assert(Data != nullptr);
-    memcpy(Data, ElementToClone.Data, GetSize());
+    Data = static_cast<binary *>(malloc(GetSize()));
+    if(Data != nullptr)
+      memcpy(Data, ElementToClone.Data, GetSize());
   }
 }
 
@@ -83,17 +83,17 @@ uint64 EbmlBinary::UpdateSize(bool /* bWithDefault */, bool /* bForceRender */)
 
 filepos_t EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
-  if (Data != nullptr)
+  if (Data != nullptr) {
     free(Data);
+    Data = nullptr;
+  }
 
   if (ReadFully == SCOPE_NO_DATA) {
-    Data = nullptr;
     return GetSize();
   }
 
   if (!GetSize()) {
     SetValueIsSet();
-    Data = nullptr;
     return 0;
   }
 
