@@ -39,14 +39,14 @@
 #include "ebml/MemIOCallback.h"
 
 #ifdef WORDS_BIGENDIAN
-# define CRC32_INDEX(c) (c >> 24)
-# define CRC32_SHIFTED(c) (c << 8)
+static constexpr uint32_t CRC32_INDEX(uint32_t c) { return c >> 24; }
+static constexpr uint32_t CRC32_SHIFTED(uint32_t c) { return c << 8; }
 #else
-# define CRC32_INDEX(c) (c & 0xff)
-# define CRC32_SHIFTED(c) (c >> 8)
+static constexpr uint32_t CRC32_INDEX(uint32_t c) { return c & 0xFF; }
+static constexpr uint32_t CRC32_SHIFTED(uint32_t c) { return c >> 8; }
 #endif
 
-const uint32 CRC32_NEGL = 0xffffffffL;
+static constexpr uint32 CRC32_NEGL = 0xffffffffL;
 
 START_LIBEBML_NAMESPACE
 
