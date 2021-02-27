@@ -710,7 +710,9 @@ filepos_t EbmlElement::OverwriteData(IOCallback & output, bool bKeepPosition)
   }
 
   auto HeaderSize = EbmlId(*this).GetLength() + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+#if !defined(NDEBUG)
   auto DataSize   = GetSize();
+#endif
 
   auto CurrentPosition = output.getFilePointer();
   output.setFilePointer(GetElementPosition() + HeaderSize);
