@@ -84,7 +84,7 @@ int CodedSizeLength(uint64 Length, unsigned int SizeLength, bool bSizeIsFinite)
     CodedSize = SizeLength;
   }
 
-  return CodedSize;
+  return static_cast<int>(CodedSize);
 }
 
 /*!
@@ -110,7 +110,7 @@ int CodedSizeLengthSigned(int64 Length, unsigned int SizeLength)
     CodedSize = SizeLength;
   }
 
-  return CodedSize;
+  return static_cast<int>(CodedSize);
 }
 
 int CodedValueLength(uint64 Length, int CodedSize, binary * OutBuffer)

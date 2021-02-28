@@ -84,7 +84,7 @@ filepos_t EbmlFloat::RenderData(IOCallback & output, bool /* bForceRender */, bo
   assert(GetSize() == 4 || GetSize() == 8);
 
   if (GetSize() == 4) {
-    float val = Value;
+    auto val = static_cast<float>(Value);
     int Tmp;
     memcpy(&Tmp, &val, 4);
     big_int32 TmpToWrite(Tmp);
