@@ -37,6 +37,7 @@
 #ifndef LIBEBML_CRC32_H
 #define LIBEBML_CRC32_H
 
+#include <array>
 #include <cassert>
 
 #include "EbmlTypes.h"
@@ -94,7 +95,7 @@ DECLARE_EBML_BINARY(EbmlCrc32)
     void ResetCRC();
     void UpdateByte(binary b);
 
-    static const uint32 m_tab[256];
+    static const std::array<uint32, 256> m_tab;
     uint32 m_crc;
     uint32 m_crc_final;
 

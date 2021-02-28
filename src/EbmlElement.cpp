@@ -32,6 +32,7 @@
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 
+#include <array>
 #include <cassert>
 #include <cstdlib>
 #include <cstring>
@@ -145,8 +146,7 @@ uint64 ReadCodedSizeValue(const binary * InBuffer, uint32 & BufferSize, uint64 &
   binary SizeBitMask = 1 << 7;
   uint64 Result = 0x7F;
   unsigned int SizeIdx, PossibleSizeLength = 0;
-  binary PossibleSize[8];
-  memset(PossibleSize, 0, 8);
+  std::array<binary, 8> PossibleSize = {};
 
   SizeUnknown = 0x7F; // the last bit is discarded when computing the size
   for (SizeIdx = 0; SizeIdx < BufferSize && SizeIdx < 8; SizeIdx++) {
@@ -252,7 +252,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
 {
   binary PossibleId[4];
   int PossibleID_Length = 0;
-  binary PossibleSize[8]; // we don't support size stored in more than 64 bits
+  std::array<binary, 8> PossibleSize; // we don't support size stored in more than 64 bits
   uint32 PossibleSizeLength = 0;
   uint64 SizeUnknown = 0;
   uint64 SizeFound = 0;
