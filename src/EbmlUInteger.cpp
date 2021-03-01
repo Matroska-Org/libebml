@@ -34,6 +34,7 @@
   \author Steve Lhomme     <robux4 @ users.sf.net>
   \author Moritz Bunkus <moritz @ bunkus.org>
 */
+#include <array>
 #include <cassert>
 
 #include "ebml/EbmlUInteger.h"
@@ -79,18 +80,18 @@ EbmlUInteger & EbmlUInteger::SetValue(uint64 NewValue) {
 */
 filepos_t EbmlUInteger::RenderData(IOCallback & output, bool /* bForceRender */, bool /* bWithDefault */)
 {
-  binary FinalData[8]; // we don't handle more than 64 bits integers
+  std::array<binary, 8> FinalData; // we don't handle more than 64 bits integers
 
   if (GetSizeLength() > 8)
     return 0; // integer bigger coded on more than 64 bits are not supported
 
   uint64 TempValue = Value;
   for (unsigned int i=0; i<GetSize();i++) {
-    FinalData[GetSize()-i-1] = TempValue & 0xFF;
+    FinalData.at(GetSize()-i-1) = TempValue & 0xFF;
     TempValue >>= 8;
   }
 
-  output.writeFully(FinalData,GetSize());
+  output.writeFully(FinalData.data(),GetSize());
 
   return GetSize();
 }
@@ -136,13 +137,13 @@ filepos_t EbmlUInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
     return GetSize();
   }
 
-  binary Buffer[8];
-  input.readFully(Buffer, GetSize());
+  std::array<binary, 8> Buffer;
+  input.readFully(Buffer.data(), GetSize());
   Value = 0;
 
   for (unsigned int i=0; i<GetSize(); i++) {
     Value <<= 8;
-    Value |= Buffer[i];
+    Value |= Buffer.at(i);
   }
   SetValueIsSet();
 
