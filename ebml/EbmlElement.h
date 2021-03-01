@@ -308,7 +308,7 @@ class EBML_DLL_API EbmlCallbacks {
 */
 class EBML_DLL_API EbmlSemantic {
   public:
-    EbmlSemantic(bool aMandatory, bool aUnique, const EbmlCallbacks & aGetCallbacks)
+    constexpr EbmlSemantic(bool aMandatory, bool aUnique, const EbmlCallbacks & aGetCallbacks)
       :Mandatory(aMandatory), Unique(aUnique), GetCallbacks(aGetCallbacks) {}
 
         inline bool IsMandatory() const { return Mandatory; }
