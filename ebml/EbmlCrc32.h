@@ -59,7 +59,7 @@ DECLARE_EBML_BINARY(EbmlCrc32)
     }
 
     void AddElementCRC32(EbmlElement &ElementToCRC);
-    bool CheckElementCRC32(EbmlElement &ElementToCRC);
+    bool CheckElementCRC32(EbmlElement &ElementToCRC) const;
 
     /*!
       Use this to quickly check a CRC32 with some data

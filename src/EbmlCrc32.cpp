@@ -199,7 +199,7 @@ void EbmlCrc32::AddElementCRC32(EbmlElement &ElementToCRC)
   //  Finalize();
 }
 
-bool EbmlCrc32::CheckElementCRC32(EbmlElement &ElementToCRC)
+bool EbmlCrc32::CheckElementCRC32(EbmlElement &ElementToCRC) const
 {
   MemIOCallback memoryBuffer;
   ElementToCRC.Render(memoryBuffer);
