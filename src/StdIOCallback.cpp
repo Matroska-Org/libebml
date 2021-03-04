@@ -77,7 +77,7 @@ StdIOCallback::StdIOCallback(const char*Path, const open_mode aMode)
       Mode = "wb+";
       break;
     default:
-      throw 0;
+      throw std::invalid_argument("Invalid file mode supplied.");
   }
 
   File=fopen(Path,Mode);
