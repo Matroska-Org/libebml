@@ -35,9 +35,7 @@
 
 #include <cassert>
 #include <climits>
-#if !defined(__GNUC__) || (__GNUC__ > 2)
 #include <sstream>
-#endif // GCC2
 
 #include "ebml/StdIOCallback.h"
 #include "ebml/Debug.h"
@@ -84,11 +82,9 @@ StdIOCallback::StdIOCallback(const char*Path, const open_mode aMode)
 
   File=fopen(Path,Mode);
   if(File==nullptr) {
-#if !defined(__GNUC__) || (__GNUC__ > 2)
     stringstream Msg;
     Msg<<"Can't open stdio file \""<<Path<<"\" in mode \""<<Mode<<"\"";
     throw CRTError(Msg.str());
-#endif // GCC2
   }
   mCurrentPosition = 0;
 }
@@ -127,13 +123,9 @@ void StdIOCallback::setFilePointer(int64 Offset,seek_mode Mode)
   assert(Mode==SEEK_CUR||Mode==SEEK_END||Mode==SEEK_SET);
 
   if(fseek(File,Offset,Mode)!=0) {
-#if !defined(__GNUC__) || (__GNUC__ > 2)
     ostringstream Msg;
     Msg<<"Failed to seek file "<<File<<" to offset "<<static_cast<unsigned long>(Offset)<<" in mode "<<Mode;
     throw CRTError(Msg.str());
-#else // GCC2
-    mCurrentPosition = ftell(File);
-#endif
   } else {
     switch ( Mode ) {
       case SEEK_CUR:
@@ -164,11 +156,9 @@ uint64 StdIOCallback::getFilePointer()
 #if 0
   long Result=ftell(File);
   if(Result<0) {
-#if !defined(__GNUC__) || (__GNUC__ > 2)
     stringstream Msg;
     Msg<<"Can't tell the current file pointer position for "<<File;
     throw CRTError(Msg.str());
-#endif // GCC2
   }
 #endif
 
@@ -181,11 +171,9 @@ void StdIOCallback::close()
     return;
 
   if(fclose(File)!=0) {
-#if !defined(__GNUC__) || (__GNUC__ > 2)
     stringstream Msg;
     Msg<<"Can't close file "<<File;
     throw CRTError(Msg.str());
-#endif // GCC2
   }
 
   File=nullptr;
