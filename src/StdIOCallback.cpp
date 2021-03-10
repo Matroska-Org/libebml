@@ -101,16 +101,16 @@ StdIOCallback::~StdIOCallback() noexcept
 
 
 
-uint32 StdIOCallback::read(void*Buffer,size_t Size)
+std::uint32_t StdIOCallback::read(void*Buffer,std::size_t Size)
 {
   assert(File!=nullptr);
 
-  size_t result = fread(Buffer, 1, Size, File);
+  std::size_t result = fread(Buffer, 1, Size, File);
   mCurrentPosition += result;
   return result;
 }
 
-void StdIOCallback::setFilePointer(int64 Offset,seek_mode Mode)
+void StdIOCallback::setFilePointer(std::int64_t Offset,seek_mode Mode)
 {
   assert(File!=nullptr);
 
@@ -149,15 +149,15 @@ void StdIOCallback::setFilePointer(int64 Offset,seek_mode Mode)
   }
 }
 
-size_t StdIOCallback::write(const void*Buffer,size_t Size)
+std::size_t StdIOCallback::write(const void*Buffer,std::size_t Size)
 {
   assert(File!=nullptr);
-  uint32 Result = fwrite(Buffer,1,Size,File);
+  std::uint32_t Result = fwrite(Buffer,1,Size,File);
   mCurrentPosition += Result;
   return Result;
 }
 
-uint64 StdIOCallback::getFilePointer()
+std::uint64_t StdIOCallback::getFilePointer()
 {
   assert(File!=nullptr);
 

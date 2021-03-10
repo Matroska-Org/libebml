@@ -43,36 +43,36 @@ START_LIBEBML_NAMESPACE
 /*!
   \brief The size of the EBML-coded length
 */
-int EBML_DLL_API CodedSizeLength(uint64 Length, unsigned int SizeLength, bool bSizeIsFinite = true);
+int EBML_DLL_API CodedSizeLength(std::uint64_t Length, unsigned int SizeLength, bool bSizeIsFinite = true);
 
 /*!
   \brief The coded value of the EBML-coded length
   \note The size of OutBuffer must be 8 octets at least
 */
-int EBML_DLL_API CodedValueLength(uint64 Length, int CodedSize, binary * OutBuffer);
+int EBML_DLL_API CodedValueLength(std::uint64_t Length, int CodedSize, binary * OutBuffer);
 
 /*!
   \brief Read an EBML-coded value from a buffer
   \return the value read
 */
-uint64 EBML_DLL_API ReadCodedSizeValue(const binary * InBuffer, uint32 & BufferSize, uint64 & SizeUnknown);
+std::uint64_t EBML_DLL_API ReadCodedSizeValue(const binary * InBuffer, std::uint32_t & BufferSize, std::uint64_t & SizeUnknown);
 
 /*!
   \brief The size of the EBML-coded signed length
 */
-int EBML_DLL_API CodedSizeLengthSigned(int64 Length, unsigned int SizeLength);
+int EBML_DLL_API CodedSizeLengthSigned(std::int64_t Length, unsigned int SizeLength);
 
 /*!
   \brief The coded value of the EBML-coded signed length
   \note the size of OutBuffer must be 8 octets at least
 */
-int EBML_DLL_API CodedValueLengthSigned(int64 Length, int CodedSize, binary * OutBuffer);
+int EBML_DLL_API CodedValueLengthSigned(std::int64_t Length, int CodedSize, binary * OutBuffer);
 
 /*!
   \brief Read a signed EBML-coded value from a buffer
   \return the value read
 */
-int64 EBML_DLL_API ReadCodedSizeSignedValue(const binary * InBuffer, uint32 & BufferSize, uint64 & SizeUnknown);
+int64_t EBML_DLL_API ReadCodedSizeSignedValue(const binary * InBuffer, std::uint32_t & BufferSize, std::uint64_t & SizeUnknown);
 
 class EbmlStream;
 class EbmlSemanticContext;
@@ -332,7 +332,7 @@ typedef const class EbmlSemanticContext & (*_GetSemanticContext)();
 */
 class EBML_DLL_API EbmlSemanticContext {
   public:
-    EbmlSemanticContext(size_t aSize,
+    EbmlSemanticContext(std::size_t aSize,
       const EbmlSemantic *aMyTable,
       const EbmlSemanticContext *aUpTable,
       const _GetSemanticContext aGetGlobalContext,
@@ -346,10 +346,10 @@ class EBML_DLL_API EbmlSemanticContext {
         (MasterElt != aElt.MasterElt));
     }
 
-        inline size_t GetSize() const { return Size; }
+        inline std::size_t GetSize() const { return Size; }
         inline const EbmlCallbacks* GetMaster() const { return MasterElt; }
         inline const EbmlSemanticContext* Parent() const { return UpTable; }
-        const EbmlSemantic & GetSemantic(size_t i) const;
+        const EbmlSemantic & GetSemantic(std::size_t i) const;
 
     const _GetSemanticContext GetGlobalContext; ///< global elements supported at this level
 
@@ -357,7 +357,7 @@ class EBML_DLL_API EbmlSemanticContext {
     private:
 #endif
         const EbmlSemantic *MyTable; ///< First element in the table
-    size_t Size;          ///< number of elements in the table
+    std::size_t Size;          ///< number of elements in the table
     const EbmlSemanticContext *UpTable; ///< Parent element
     /// \todo replace with the global context directly
     const EbmlCallbacks *MasterElt;
@@ -369,20 +369,20 @@ class EBML_DLL_API EbmlSemanticContext {
 */
 class EBML_DLL_API EbmlElement {
   public:
-    EbmlElement(uint64 aDefaultSize, bool bValueSet = false);
+    EbmlElement(std::uint64_t aDefaultSize, bool bValueSet = false);
     virtual ~EbmlElement();
 
     /// Set the minimum length that will be used to write the element size (-1 = optimal)
     void SetSizeLength(int NewSizeLength) {SizeLength = NewSizeLength;}
     int GetSizeLength() const {return SizeLength;}
 
-    static EbmlElement * FindNextElement(IOCallback & DataStream, const EbmlSemanticContext & Context, int & UpperLevel, uint64 MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel = 1);
-    static EbmlElement * FindNextID(IOCallback & DataStream, const EbmlCallbacks & ClassInfos, uint64 MaxDataSize);
+    static EbmlElement * FindNextElement(IOCallback & DataStream, const EbmlSemanticContext & Context, int & UpperLevel, std::uint64_t MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel = 1);
+    static EbmlElement * FindNextID(IOCallback & DataStream, const EbmlCallbacks & ClassInfos, std::uint64_t MaxDataSize);
 
     /*!
       \brief find the next element with the same ID
     */
-    EbmlElement * FindNext(IOCallback & DataStream, uint64 MaxDataSize);
+    EbmlElement * FindNext(IOCallback & DataStream, std::uint64_t MaxDataSize);
 
     EbmlElement * SkipData(EbmlStream & DataStream, const EbmlSemanticContext & Context, EbmlElement * TestReadElt = nullptr, bool AllowDummyElt = false);
 
@@ -407,11 +407,11 @@ class EBML_DLL_API EbmlElement {
 
     virtual bool ValidateSize() const = 0;
 
-    uint64 GetElementPosition() const {
+    std::uint64_t GetElementPosition() const {
       return ElementPosition;
     }
 
-    uint64 ElementSize(bool bWithDefault = false) const; /// return the size of the header+data, before writing
+    std::uint64_t ElementSize(bool bWithDefault = false) const; /// return the size of the header+data, before writing
 
     filepos_t Render(IOCallback & output, bool bWithDefault = false, bool bKeepPosition = false, bool bForceRender = false);
 
@@ -433,7 +433,7 @@ class EBML_DLL_API EbmlElement {
     virtual bool IsDummy() const {return false;}
     virtual bool IsMaster() const {return false;}
 
-    uint8 HeadSize() const {
+    std::uint8_t HeadSize() const {
       return EBML_ID_LENGTH((const EbmlId&)*this) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
     } /// return the size of the head, on reading/writing
 
@@ -441,7 +441,7 @@ class EBML_DLL_API EbmlElement {
       \brief Force the size of an element
       \warning only possible if the size is "undefined"
     */
-    bool ForceSize(uint64 NewSize);
+    bool ForceSize(std::uint64_t NewSize);
 
     filepos_t OverwriteHead(IOCallback & output, bool bKeepPosition = false);
     filepos_t OverwriteData(IOCallback & output, bool bKeepPosition = false);
@@ -449,7 +449,7 @@ class EBML_DLL_API EbmlElement {
     /*!
       \brief void the content of the element (replace by EbmlVoid)
     */
-    uint64 VoidMe(IOCallback & output, bool bWithDefault = false);
+    std::uint64_t VoidMe(IOCallback & output, bool bWithDefault = false);
 
     bool DefaultISset() const {return DefaultIsSet;}
     void ForceNoDefault() {SetDefaultIsSet(false);}
@@ -459,11 +459,11 @@ class EBML_DLL_API EbmlElement {
     /*!
       \brief set the default size of an element
     */
-    virtual void SetDefaultSize(uint64 aDefaultSize) {DefaultSize = aDefaultSize;}
+    virtual void SetDefaultSize(std::uint64_t aDefaultSize) {DefaultSize = aDefaultSize;}
 
     bool ValueIsSet() const {return bValueIsSet;}
 
-    inline uint64 GetEndPosition() const {
+    inline std::uint64_t GetEndPosition() const {
       assert(bSizeIsFinite); // we don't know where the end is
       return SizePosition + CodedSizeLength(Size, SizeLength, bSizeIsFinite) + Size;
     }
@@ -488,22 +488,22 @@ class EBML_DLL_API EbmlElement {
     */
     EbmlElement(const EbmlElement & ElementToClone) = default;
 
-        inline uint64 GetDefaultSize() const {return DefaultSize;}
-        inline void SetSize_(uint64 aSize) {Size = aSize;}
+        inline std::uint64_t GetDefaultSize() const {return DefaultSize;}
+        inline void SetSize_(std::uint64_t aSize) {Size = aSize;}
         inline void SetValueIsSet(bool Set = true) {bValueIsSet = Set;}
         inline void SetDefaultIsSet(bool Set = true) {DefaultIsSet = Set;}
         inline void SetSizeIsFinite(bool Set = true) {bSizeIsFinite = Set;}
-        inline uint64 GetSizePosition() const {return SizePosition;}
+        inline std::uint64_t GetSizePosition() const {return SizePosition;}
 
 #if defined(EBML_STRICT_API)
   private:
 #endif
-    uint64 Size;        ///< the size of the data to write
-    uint64 DefaultSize; ///< Minimum data size to fill on rendering (0 = optimal)
+    std::uint64_t Size;        ///< the size of the data to write
+    std::uint64_t DefaultSize; ///< Minimum data size to fill on rendering (0 = optimal)
     int SizeLength; /// the minimum size on which the size will be written (0 = optimal)
     bool bSizeIsFinite;
-    uint64 ElementPosition;
-    uint64 SizePosition;
+    std::uint64_t ElementPosition;
+    std::uint64_t SizePosition;
     bool bValueIsSet;
     bool DefaultIsSet;
     bool bLocked;

@@ -76,14 +76,14 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     bool SetSizeInfinite(bool aIsInfinite = true) {SetSizeIsFinite(!aIsInfinite); return true;}
 
     bool PushElement(EbmlElement & element);
-    uint64 GetSize() const {
+    std::uint64_t GetSize() const {
       if (IsFiniteSize())
                 return EbmlElement::GetSize();
       else
         return (0-1);
     }
 
-    uint64 GetDataStart() const {
+    std::uint64_t GetDataStart() const {
       return GetElementPosition() + EBML_ID_LENGTH((const EbmlId&)*this) + CodedSizeLength(EbmlElement::GetSize(), GetSizeLength(), IsFiniteSize());
     }
 
@@ -107,7 +107,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     /*!
       \brief add an element at a specified location
     */
-    bool InsertElement(EbmlElement & element, size_t position = 0);
+    bool InsertElement(EbmlElement & element, std::size_t position = 0);
     bool InsertElement(EbmlElement & element, const EbmlElement & before);
 
     /*!
@@ -120,7 +120,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     */
     void Sort();
 
-    size_t ListSize() const {return ElementList.size();}
+    std::size_t ListSize() const {return ElementList.size();}
     std::vector<EbmlElement *> const &GetElementList() const {return ElementList;}
     std::vector<EbmlElement *> &GetElementList() {return ElementList;}
 
@@ -150,7 +150,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     /*!
       \brief Remove an element from the list of the master
     */
-    void Remove(size_t Index);
+    void Remove(std::size_t Index);
     void Remove(EBML_MASTER_ITERATOR & Itr);
     void Remove(EBML_MASTER_RITERATOR & Itr);
 
@@ -167,8 +167,8 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     void EnableChecksum(bool bIsEnabled = true) { bChecksumUsed = bIsEnabled; }
     bool HasChecksum() const {return bChecksumUsed;}
     bool VerifyChecksum() const;
-    uint32 GetCrc32() const {return Checksum.GetCrc32();}
-    void ForceChecksum(uint32 NewChecksum) {
+    std::uint32_t GetCrc32() const {return Checksum.GetCrc32();}
+    void ForceChecksum(std::uint32_t NewChecksum) {
       Checksum.ForceCrc32(NewChecksum);
       bChecksumUsed = true;
     }

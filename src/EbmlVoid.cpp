@@ -50,7 +50,7 @@ filepos_t EbmlVoid::RenderData(IOCallback & output, bool /* bForceRender */, boo
   // write dummy data by 4KB chunks
   static binary DummyBuf[4*1024];
 
-  uint64 SizeToWrite = GetSize();
+  std::uint64_t SizeToWrite = GetSize();
   while (SizeToWrite > 4*1024) {
     output.writeFully(DummyBuf, 4*1024);
     SizeToWrite -= 4*1024;
@@ -59,7 +59,7 @@ filepos_t EbmlVoid::RenderData(IOCallback & output, bool /* bForceRender */, boo
   return GetSize();
 }
 
-uint64 EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output, bool ComeBackAfterward, bool bWithDefault)
+std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output, bool ComeBackAfterward, bool bWithDefault)
 {
   EltToReplaceWith.UpdateSize(bWithDefault);
   if (HeadSize() + GetSize() < EltToReplaceWith.GetSize() + EltToReplaceWith.HeadSize()) {
@@ -71,7 +71,7 @@ uint64 EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output
     return INVALID_FILEPOS_T;
   }
 
-  uint64 CurrentPosition = output.getFilePointer();
+  std::uint64_t CurrentPosition = output.getFilePointer();
 
   output.setFilePointer(GetElementPosition());
   EltToReplaceWith.Render(output, bWithDefault);
@@ -96,7 +96,7 @@ uint64 EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output
   return GetSize() + HeadSize();
 }
 
-uint64 EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & output, bool ComeBackAfterward, bool bWithDefault)
+std::uint64_t EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & output, bool ComeBackAfterward, bool bWithDefault)
 {
   //  EltToVoid.UpdateSize(bWithDefault);
   if (EltToVoid.GetElementPosition() == 0) {
@@ -108,7 +108,7 @@ uint64 EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & output, b
     return 0;
   }
 
-  uint64 CurrentPosition = output.getFilePointer();
+  std::uint64_t CurrentPosition = output.getFilePointer();
 
   output.setFilePointer(EltToVoid.GetElementPosition());
 
@@ -116,8 +116,8 @@ uint64 EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & output, b
   SetSize(EltToVoid.GetSize() + EltToVoid.HeadSize() - 1); // 1 for the ID
   SetSize(GetSize() - CodedSizeLength(GetSize(), GetSizeLength(), IsFiniteSize()));
   // make sure we handle even the strange cases
-  //uint32 A1 = GetSize() + HeadSize();
-  //uint32 A2 = EltToVoid.GetSize() + EltToVoid.HeadSize();
+  //std::uint32_t A1 = GetSize() + HeadSize();
+  //std::uint32_t A2 = EltToVoid.GetSize() + EltToVoid.HeadSize();
   if (GetSize() + HeadSize() != EltToVoid.GetSize() + EltToVoid.HeadSize()) {
     SetSize(GetSize()-1);
     SetSizeLength(CodedSizeLength(GetSize(), GetSizeLength(), IsFiniteSize()) + 1);

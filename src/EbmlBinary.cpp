@@ -76,7 +76,7 @@ filepos_t EbmlBinary::RenderData(IOCallback & output, bool /* bForceRender */, b
 /*!
   \note no Default binary value handled
 */
-uint64 EbmlBinary::UpdateSize(bool /* bWithDefault */, bool /* bForceRender */)
+std::uint64_t EbmlBinary::UpdateSize(bool /* bWithDefault */, bool /* bForceRender */)
 {
   return GetSize();
 }

@@ -45,7 +45,7 @@ using namespace std;
 
 START_LIBEBML_NAMESPACE
 
-void IOCallback::writeFully(const void*Buffer,size_t Size)
+void IOCallback::writeFully(const void*Buffer,std::size_t Size)
 {
   if (Size == 0)
     return;
@@ -64,7 +64,7 @@ void IOCallback::writeFully(const void*Buffer,size_t Size)
 
 
 
-void IOCallback::readFully(void*Buffer,size_t Size)
+void IOCallback::readFully(void*Buffer,std::size_t Size)
 {
   if(Buffer == nullptr)
     throw;

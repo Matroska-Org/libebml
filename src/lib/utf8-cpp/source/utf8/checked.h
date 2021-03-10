@@ -39,27 +39,27 @@ namespace utf8
 
     // Exceptions that may be thrown from the library functions.
     class invalid_code_point : public exception {
-        uint32_t cp;
+        std::uint32_t cp;
     public:
-        invalid_code_point(uint32_t codepoint) : cp(codepoint) {}
+        invalid_code_point(std::uint32_t codepoint) : cp(codepoint) {}
         virtual const char* what() const UTF_CPP_NOEXCEPT UTF_CPP_OVERRIDE { return "Invalid code point"; }
-        uint32_t code_point() const {return cp;}
+        std::uint32_t code_point() const {return cp;}
     };
 
     class invalid_utf8 : public exception {
-        uint8_t u8;
+        std::uint8_t u8;
     public:
-        invalid_utf8 (uint8_t u) : u8(u) {}
+        invalid_utf8 (std::uint8_t u) : u8(u) {}
         virtual const char* what() const UTF_CPP_NOEXCEPT UTF_CPP_OVERRIDE { return "Invalid UTF-8"; }
-        uint8_t utf8_octet() const {return u8;}
+        std::uint8_t utf8_octet() const {return u8;}
     };
 
     class invalid_utf16 : public exception {
-        uint16_t u16;
+        std::uint16_t u16;
     public:
-        invalid_utf16 (uint16_t u) : u16(u) {}
+        invalid_utf16 (std::uint16_t u) : u16(u) {}
         virtual const char* what() const UTF_CPP_NOEXCEPT UTF_CPP_OVERRIDE { return "Invalid UTF-16"; }
-        uint16_t utf16_word() const {return u16;}
+        std::uint16_t utf16_word() const {return u16;}
     };
 
     class not_enough_room : public exception {
@@ -70,33 +70,33 @@ namespace utf8
     /// The library API - functions intended to be called by the users
 
     template <typename octet_iterator>
-    octet_iterator append(uint32_t cp, octet_iterator result)
+    octet_iterator append(std::uint32_t cp, octet_iterator result)
     {
         if (!utf8::internal::is_code_point_valid(cp))
             throw invalid_code_point(cp);
 
         if (cp < 0x80)                        // one octet
-            *(result++) = static_cast<uint8_t>(cp);
+            *(result++) = static_cast<std::uint8_t>(cp);
         else if (cp < 0x800) {                // two octets
-            *(result++) = static_cast<uint8_t>((cp >> 6)            | 0xc0);
-            *(result++) = static_cast<uint8_t>((cp & 0x3f)          | 0x80);
+            *(result++) = static_cast<std::uint8_t>((cp >> 6)            | 0xc0);
+            *(result++) = static_cast<std::uint8_t>((cp & 0x3f)          | 0x80);
         }
         else if (cp < 0x10000) {              // three octets
-            *(result++) = static_cast<uint8_t>((cp >> 12)           | 0xe0);
-            *(result++) = static_cast<uint8_t>(((cp >> 6) & 0x3f)   | 0x80);
-            *(result++) = static_cast<uint8_t>((cp & 0x3f)          | 0x80);
+            *(result++) = static_cast<std::uint8_t>((cp >> 12)           | 0xe0);
+            *(result++) = static_cast<std::uint8_t>(((cp >> 6) & 0x3f)   | 0x80);
+            *(result++) = static_cast<std::uint8_t>((cp & 0x3f)          | 0x80);
         }
         else {                                // four octets
-            *(result++) = static_cast<uint8_t>((cp >> 18)           | 0xf0);
-            *(result++) = static_cast<uint8_t>(((cp >> 12) & 0x3f)  | 0x80);
-            *(result++) = static_cast<uint8_t>(((cp >> 6) & 0x3f)   | 0x80);
-            *(result++) = static_cast<uint8_t>((cp & 0x3f)          | 0x80);
+            *(result++) = static_cast<std::uint8_t>((cp >> 18)           | 0xf0);
+            *(result++) = static_cast<std::uint8_t>(((cp >> 12) & 0x3f)  | 0x80);
+            *(result++) = static_cast<std::uint8_t>(((cp >> 6) & 0x3f)   | 0x80);
+            *(result++) = static_cast<std::uint8_t>((cp & 0x3f)          | 0x80);
         }
         return result;
     }
 
     template <typename octet_iterator, typename output_iterator>
-    output_iterator replace_invalid(octet_iterator start, octet_iterator end, output_iterator out, uint32_t replacement)
+    output_iterator replace_invalid(octet_iterator start, octet_iterator end, output_iterator out, std::uint32_t replacement)
     {
         while (start != end) {
             octet_iterator sequence_start = start;
@@ -131,14 +131,14 @@ namespace utf8
     template <typename octet_iterator, typename output_iterator>
     inline output_iterator replace_invalid(octet_iterator start, octet_iterator end, output_iterator out)
     {
-        static const uint32_t replacement_marker = utf8::internal::mask16(0xfffd);
+        static const std::uint32_t replacement_marker = utf8::internal::mask16(0xfffd);
         return utf8::replace_invalid(start, end, out, replacement_marker);
     }
 
     template <typename octet_iterator>
-    uint32_t next(octet_iterator& it, octet_iterator end)
+    std::uint32_t next(octet_iterator& it, octet_iterator end)
     {
-        uint32_t cp = 0;
+        std::uint32_t cp = 0;
         internal::utf_error err_code = utf8::internal::validate_next(it, end, cp);
         switch (err_code) {
             case internal::UTF8_OK :
@@ -156,13 +156,13 @@ namespace utf8
     }
 
     template <typename octet_iterator>
-    uint32_t peek_next(octet_iterator it, octet_iterator end)
+    std::uint32_t peek_next(octet_iterator it, octet_iterator end)
     {
         return utf8::next(it, end);
     }
 
     template <typename octet_iterator>
-    uint32_t prior(octet_iterator& it, octet_iterator start)
+    std::uint32_t prior(octet_iterator& it, octet_iterator start)
     {
         // can't do much if it == start
         if (it == start)
@@ -205,23 +205,23 @@ namespace utf8
     octet_iterator utf16to8 (u16bit_iterator start, u16bit_iterator end, octet_iterator result)
     {
         while (start != end) {
-            uint32_t cp = utf8::internal::mask16(*start++);
+            std::uint32_t cp = utf8::internal::mask16(*start++);
             // Take care of surrogate pairs first
             if (utf8::internal::is_lead_surrogate(cp)) {
                 if (start != end) {
-                    uint32_t trail_surrogate = utf8::internal::mask16(*start++);
+                    std::uint32_t trail_surrogate = utf8::internal::mask16(*start++);
                     if (utf8::internal::is_trail_surrogate(trail_surrogate))
                         cp = (cp << 10) + trail_surrogate + internal::SURROGATE_OFFSET;
                     else
-                        throw invalid_utf16(static_cast<uint16_t>(trail_surrogate));
+                        throw invalid_utf16(static_cast<std::uint16_t>(trail_surrogate));
                 }
                 else
-                    throw invalid_utf16(static_cast<uint16_t>(cp));
+                    throw invalid_utf16(static_cast<std::uint16_t>(cp));
 
             }
             // Lone trail surrogate
             else if (utf8::internal::is_trail_surrogate(cp))
-                throw invalid_utf16(static_cast<uint16_t>(cp));
+                throw invalid_utf16(static_cast<std::uint16_t>(cp));
 
             result = utf8::append(cp, result);
         }
@@ -232,13 +232,13 @@ namespace utf8
     u16bit_iterator utf8to16 (octet_iterator start, octet_iterator end, u16bit_iterator result)
     {
         while (start < end) {
-            uint32_t cp = utf8::next(start, end);
+            std::uint32_t cp = utf8::next(start, end);
             if (cp > 0xffff) { //make a surrogate pair
-                *result++ = static_cast<uint16_t>((cp >> 10)   + internal::LEAD_OFFSET);
-                *result++ = static_cast<uint16_t>((cp & 0x3ff) + internal::TRAIL_SURROGATE_MIN);
+                *result++ = static_cast<std::uint16_t>((cp >> 10)   + internal::LEAD_OFFSET);
+                *result++ = static_cast<std::uint16_t>((cp & 0x3ff) + internal::TRAIL_SURROGATE_MIN);
             }
             else
-                *result++ = static_cast<uint16_t>(cp);
+                *result++ = static_cast<std::uint16_t>(cp);
         }
         return result;
     }
@@ -268,9 +268,9 @@ namespace utf8
       octet_iterator range_start;
       octet_iterator range_end;
       public:
-      typedef uint32_t value_type;
-      typedef uint32_t* pointer;
-      typedef uint32_t& reference;
+      typedef std::uint32_t value_type;
+      typedef std::uint32_t* pointer;
+      typedef std::uint32_t& reference;
       typedef std::ptrdiff_t difference_type;
       typedef std::bidirectional_iterator_tag iterator_category;
       iterator () {}
@@ -284,7 +284,7 @@ namespace utf8
       }
       // the default "big three" are OK
       octet_iterator base () const { return it; }
-      uint32_t operator * () const
+      std::uint32_t operator * () const
       {
           octet_iterator temp = it;
           return utf8::next(temp, range_end);

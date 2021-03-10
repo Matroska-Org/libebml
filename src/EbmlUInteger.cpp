@@ -44,33 +44,33 @@ EbmlUInteger::EbmlUInteger()
   :EbmlElement(DEFAULT_UINT_SIZE, false)
 {}
 
-EbmlUInteger::EbmlUInteger(uint64 aDefaultValue)
+EbmlUInteger::EbmlUInteger(std::uint64_t aDefaultValue)
   :EbmlElement(DEFAULT_UINT_SIZE, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
 {
   SetDefaultIsSet();
 }
 
-void EbmlUInteger::SetDefaultValue(uint64 aValue)
+void EbmlUInteger::SetDefaultValue(std::uint64_t aValue)
 {
   assert(!DefaultISset());
   DefaultValue = aValue;
   SetDefaultIsSet();
 }
 
-uint64 EbmlUInteger::DefaultVal() const
+std::uint64_t EbmlUInteger::DefaultVal() const
 {
   assert(DefaultISset());
   return DefaultValue;
 }
 
-EbmlUInteger::operator uint8()  const {return uint8(Value); }
-EbmlUInteger::operator uint16() const {return uint16(Value);}
-EbmlUInteger::operator uint32() const {return uint32(Value);}
-EbmlUInteger::operator uint64() const {return Value;}
+EbmlUInteger::operator std::uint8_t()  const {return std::uint8_t(Value); }
+EbmlUInteger::operator std::uint16_t() const {return std::uint16_t(Value);}
+EbmlUInteger::operator std::uint32_t() const {return std::uint32_t(Value);}
+EbmlUInteger::operator std::uint64_t() const {return Value;}
 
-uint64 EbmlUInteger::GetValue() const {return Value;}
+std::uint64_t EbmlUInteger::GetValue() const {return Value;}
 
-EbmlUInteger & EbmlUInteger::SetValue(uint64 NewValue) {
+EbmlUInteger & EbmlUInteger::SetValue(std::uint64_t NewValue) {
   return *this = NewValue;
 }
 
@@ -84,7 +84,7 @@ filepos_t EbmlUInteger::RenderData(IOCallback & output, bool /* bForceRender */,
   if (GetSizeLength() > 8)
     return 0; // integer bigger coded on more than 64 bits are not supported
 
-  uint64 TempValue = Value;
+  std::uint64_t TempValue = Value;
   for (unsigned int i=0; i<GetSize();i++) {
     FinalData[GetSize()-i-1] = TempValue & 0xFF;
     TempValue >>= 8;
@@ -95,7 +95,7 @@ filepos_t EbmlUInteger::RenderData(IOCallback & output, bool /* bForceRender */,
   return GetSize();
 }
 
-uint64 EbmlUInteger::UpdateSize(bool bWithDefault, bool /* bForceRender */)
+std::uint64_t EbmlUInteger::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 {
   if (!bWithDefault && IsDefaultValue())
     return 0;

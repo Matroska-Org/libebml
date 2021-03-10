@@ -43,12 +43,6 @@
 #include "EbmlTypes.h"
 #include "EbmlElement.h"
 
-// ----- Added 10/15/2003 by jcsston from Zen -----
-#if defined (__BORLANDC__) //Maybe other compilers?
-  #include <mem.h>
-#endif //__BORLANDC__
-// ------------------------------------------------
-
 START_LIBEBML_NAMESPACE
 
 /*!
@@ -69,7 +63,7 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
     filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false);
 
-    void SetBuffer(const binary *Buffer, const uint32 BufferSize) {
+    void SetBuffer(const binary *Buffer, const std::uint32_t BufferSize) {
       Data = (binary *) Buffer;
       SetSize_(BufferSize);
       SetValueIsSet();
@@ -77,7 +71,7 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
 
     binary *GetBuffer() const {return Data;}
 
-    void CopyBuffer(const binary *Buffer, const uint32 BufferSize) {
+    void CopyBuffer(const binary *Buffer, const std::uint32_t BufferSize) {
       if (Data != nullptr)
         free(Data);
       Data = (binary *)malloc(BufferSize * sizeof(binary));

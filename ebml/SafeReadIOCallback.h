@@ -46,37 +46,37 @@ class EBML_DLL_API SafeReadIOCallback {
 public:
   class EBML_DLL_API EndOfStreamX {
   public:
-    size_t mMissingBytes;
+    std::size_t mMissingBytes;
     EndOfStreamX(std::size_t MissingBytes);
   };
 
 private:
   IOCallback *mIO;
   bool mDeleteIO;
-  size_t mSize;
+  std::size_t mSize;
 
 public:
   SafeReadIOCallback(IOCallback *IO, bool DeleteIO);
-  SafeReadIOCallback(void const *Mem, size_t Size);
+  SafeReadIOCallback(void const *Mem, std::size_t Size);
   SafeReadIOCallback(EbmlBinary const &Binary);
   ~SafeReadIOCallback();
 
-  size_t GetPosition() const;
-  size_t GetSize() const;
-  size_t GetRemainingBytes() const;
+  std::size_t GetPosition() const;
+  std::size_t GetSize() const;
+  std::size_t GetRemainingBytes() const;
   bool IsEmpty() const;
 
-  uint8  GetUInt8();
-  uint64 GetUIntBE(size_t NumBytes);
-  uint16 GetUInt16BE();
-  uint32 GetUInt24BE();
-  uint32 GetUInt32BE();
-  uint64 GetUInt64BE();
+  std::uint8_t  GetUInt8();
+  std::uint64_t GetUIntBE(std::size_t NumBytes);
+  std::uint16_t GetUInt16BE();
+  std::uint32_t GetUInt24BE();
+  std::uint32_t GetUInt32BE();
+  std::uint64_t GetUInt64BE();
 
-  void Read(void *Dst, size_t Count);
+  void Read(void *Dst, std::size_t Count);
 
-  void Skip(size_t Count);
-  void Seek(size_t Position);
+  void Skip(std::size_t Count);
+  void Seek(std::size_t Position);
 
 private:
   SafeReadIOCallback(SafeReadIOCallback const &) { }

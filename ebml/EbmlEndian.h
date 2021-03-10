@@ -32,7 +32,7 @@
     \file
     \version \$Id: EbmlEndian.h 1298 2008-02-21 22:14:18Z mosu $
     \author Ingo Ralf Blum   <ingoralfblum @ users.sf.net>
-    \author Lasse K‰rkk‰inen <tronic @ users.sf.net>
+    \author Lasse K√§rkk√§inen <tronic @ users.sf.net>
     \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #ifndef LIBEBML_ENDIAN_H
@@ -83,7 +83,7 @@ template<class TYPE, endianess ENDIAN> class Endian
       inline operator const TYPE&() const { return platform_value; }
     //  inline TYPE endian() const   { return endian_value; }
       inline const TYPE &endian() const       { return endian_value; }
-      inline size_t size() const   { return sizeof(TYPE); }
+      inline std::size_t size() const   { return sizeof(TYPE); }
       inline bool operator!=(const binary *buffer) const {return *((TYPE*)buffer) == platform_value;}
 
 #if defined(EBML_STRICT_API)
@@ -102,7 +102,7 @@ template<class TYPE, endianess ENDIAN> class Endian
 #else  // _ENDIANESS_
           if (ENDIAN == big_endian)
 #endif // _ENDIANESS_
-            std::reverse(reinterpret_cast<uint8*>(&endian_value),reinterpret_cast<uint8*>(&endian_value+1));
+            std::reverse(reinterpret_cast<std::uint8_t*>(&endian_value),reinterpret_cast<std::uint8_t*>(&endian_value+1));
       }
 
       inline void process_platform()
@@ -113,7 +113,7 @@ template<class TYPE, endianess ENDIAN> class Endian
 #else  // _ENDIANESS_
           if (ENDIAN == big_endian)
 #endif // _ENDIANESS_
-            std::reverse(reinterpret_cast<uint8*>(&platform_value),reinterpret_cast<uint8*>(&platform_value+1));
+            std::reverse(reinterpret_cast<std::uint8_t*>(&platform_value),reinterpret_cast<std::uint8_t*>(&platform_value+1));
       }
 };
 

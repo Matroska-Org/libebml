@@ -48,7 +48,7 @@ DECLARE_EBML_BINARY(EbmlVoid)
     /*!
       \brief Set the size of the data (not the complete size of the element)
     */
-    void SetSize(uint64 aSize) {SetSize_(aSize);}
+    void SetSize(std::uint64_t aSize) {SetSize_(aSize);}
 
     /*!
       \note overwrite to write fake data
@@ -58,12 +58,12 @@ DECLARE_EBML_BINARY(EbmlVoid)
     /*!
       \brief Replace the void element content (written) with this one
     */
-    uint64 ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output, bool ComeBackAfterward = true, bool bWithDefault = false);
+    std::uint64_t ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output, bool ComeBackAfterward = true, bool bWithDefault = false);
 
     /*!
       \brief Void the content of an element
     */
-    uint64 Overwrite(const EbmlElement & EltToVoid, IOCallback & output, bool ComeBackAfterward = true, bool bWithDefault = false);
+    std::uint64_t Overwrite(const EbmlElement & EltToVoid, IOCallback & output, bool ComeBackAfterward = true, bool bWithDefault = false);
 
         EBML_CONCRETE_CLASS(EbmlVoid)
 };

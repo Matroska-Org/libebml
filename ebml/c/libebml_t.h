@@ -48,81 +48,15 @@
 extern "C" {
 #endif
 
-// Changed char is unsigned now (signedness was causing trouble in endil)
-#if defined(_WIN32)
-# if !defined(__GNUC__)    // Microsoft Visual C++
-    typedef signed __int64 int64;
-    typedef signed __int32 int32;
-    typedef signed __int16 int16;
-    typedef signed __int8 int8;
-    typedef __int8 character;
-    typedef unsigned __int64 uint64;
-    typedef unsigned __int32 uint32;
-    typedef unsigned __int16 uint16;
-    typedef unsigned __int8 uint8;
-# else // __GNUC__, this is mingw
-#  include <stdint.h>
-    typedef int64_t int64;
-    typedef int32_t int32;
-    typedef int16_t int16;
-    typedef int8_t int8;
-    typedef int8_t character;
-    typedef uint64_t uint64;
-    typedef uint32_t uint32;
-    typedef uint16_t uint16;
-    typedef uint8_t uint8;
-# endif // __GNUC__
-#elif defined(__BEOS__) || defined(__HAIKU__)
-#include <SupportDefs.h>
-#elif defined(DJGPP)        /* SL : DJGPP doesn't support POSIX types ???? */
-    typedef signed long long int64;
-    typedef signed long int32;
-    typedef signed short int16;
-    typedef signed char int8;
-    typedef char character;
-    typedef unsigned long long uint64;
-    typedef unsigned long uint32;
-    typedef unsigned short uint16;
-    typedef unsigned char uint8;
-#elif defined(__sun) && (defined(__svr4__) || defined(__SVR4)) // SOLARIS
-# include <inttypes.h>
-# ifdef _NO_LONGLONG
-#  error This compiler does not support 64bit integers.
-# endif
-    typedef int64_t int64;
-    typedef int32_t int32;
-    typedef int16_t int16;
-    typedef int8_t int8;
-    typedef int8_t character;
-    typedef uint64_t uint64;
-    typedef uint32_t uint32;
-    typedef uint16_t uint16;
-    typedef uint8_t uint8;
-#elif defined(__BEOS__) || defined(__HAIKU__)
-# include <support/SupportDefs.h>
-#else // anything else (Linux, BSD, ...)
-# include <inttypes.h>
-# include <sys/types.h>
-    typedef int64_t int64;
-    typedef int32_t int32;
-    typedef int16_t int16;
-    typedef int8_t int8;
-    typedef int8_t character;
-    typedef uint64_t uint64;
-    typedef uint32_t uint32;
-    typedef uint16_t uint16;
-    typedef uint8_t uint8;
-#endif /* anything else */
+using binary = std::uint8_t;
+using filepos_t = std::uint64_t;
 
-typedef uint8  binary;
-typedef uint64 filepos_t;
-
-typedef enum open_mode {
+enum open_mode {
     MODE_READ,
     MODE_WRITE,
     MODE_CREATE,
     MODE_SAFE
-} open_mode;
+};
 
 #define EBML_MIN(x,y) ((x)<(y) ? (x) : (y))
 
