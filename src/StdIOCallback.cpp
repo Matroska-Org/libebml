@@ -77,7 +77,7 @@ StdIOCallback::StdIOCallback(const char*Path, const open_mode aMode)
       Mode = "wb+";
       break;
     default:
-      throw 0;
+      throw std::invalid_argument("Invalid file mode supplied.");
   }
 
   File=fopen(Path,Mode);
@@ -122,11 +122,7 @@ void StdIOCallback::setFilePointer(int64 Offset,seek_mode Mode)
 
   assert(Mode==SEEK_CUR||Mode==SEEK_END||Mode==SEEK_SET);
 
-  if(fseek(File,Offset,Mode)!=0) {
-    ostringstream Msg;
-    Msg<<"Failed to seek file "<<File<<" to offset "<<static_cast<unsigned long>(Offset)<<" in mode "<<Mode;
-    throw CRTError(Msg.str());
-  } else {
+  if(fseek(File,Offset,Mode)==0) {
     switch ( Mode ) {
       case SEEK_CUR:
         mCurrentPosition += Offset;
@@ -138,6 +134,10 @@ void StdIOCallback::setFilePointer(int64 Offset,seek_mode Mode)
         mCurrentPosition = Offset;
         break;
     }
+  } else {
+    ostringstream Msg;
+    Msg<<"Failed to seek file "<<File<<" to offset "<<Offset<<" in mode "<<Mode;
+    throw CRTError(Msg.str());
   }
 }
 
