@@ -40,24 +40,24 @@ START_LIBEBML_NAMESPACE
 
 class EBML_DLL_API MemReadIOCallback : public IOCallback {
 protected:
-  uint8 const *mStart, *mEnd, *mPtr;
+  std::uint8_t const *mStart, *mEnd, *mPtr;
 
 public:
-  MemReadIOCallback(void const *Ptr, size_t Size);
+  MemReadIOCallback(void const *Ptr, std::size_t Size);
   MemReadIOCallback(EbmlBinary const &Binary);
   MemReadIOCallback(MemReadIOCallback const &Mem);
   virtual ~MemReadIOCallback() = default;
 
-  uint32 read(void *Buffer, size_t Size);
-  void setFilePointer(int64 Offset, seek_mode Mode = seek_beginning);
-  size_t write(void const *, size_t) { return 0; }
-  virtual uint64 getFilePointer() { return mPtr - mStart; }
+  std::uint32_t read(void *Buffer, std::size_t Size);
+  void setFilePointer(std::int64_t Offset, seek_mode Mode = seek_beginning);
+  std::size_t write(void const *, std::size_t) { return 0; }
+  virtual std::uint64_t getFilePointer() { return mPtr - mStart; }
   void close() {}
   binary const *GetDataBuffer() const { return mPtr; }
-  uint64 GetDataBufferSize() const { return mEnd - mStart; }
+  std::uint64_t GetDataBufferSize() const { return mEnd - mStart; }
 
 protected:
-  void Init(void const *Ptr, size_t Size);
+  void Init(void const *Ptr, std::size_t Size);
 };
 
 END_LIBEBML_NAMESPACE

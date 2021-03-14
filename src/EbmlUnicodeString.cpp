@@ -96,7 +96,7 @@ UTFstring & UTFstring::operator=(const wchar_t * _aBuf)
     return *this;
   }
 
-  size_t aLen;
+  std::size_t aLen;
   for (aLen=0; _aBuf[aLen] != 0; aLen++);
   _Length = aLen;
   _Data = new wchar_t[_Length+1];
@@ -173,7 +173,7 @@ void UTFstring::UpdateFromUCS2()
     return;
 
   // Only convert up to the first \0 character if present.
-  size_t Current = 0;
+  std::size_t Current = 0;
   while ((Current < _Length) && _Data[Current])
     ++Current;
 
@@ -193,7 +193,7 @@ void UTFstring::UpdateFromUCS2()
 
 bool UTFstring::wcscmp_internal(const wchar_t *str1, const wchar_t *str2)
 {
-  size_t Index=0;
+  std::size_t Index=0;
   while (str1[Index] == str2[Index] && str1[Index] != 0) {
     Index++;
   }
@@ -235,7 +235,7 @@ const UTFstring & EbmlUnicodeString::DefaultVal() const
 */
 filepos_t EbmlUnicodeString::RenderData(IOCallback & output, bool /* bForceRender */, bool /* bWithDefault */)
 {
-  uint32 Result = Value.GetUTF8().length();
+  std::uint32_t Result = Value.GetUTF8().length();
 
   if (Result != 0) {
     output.writeFully(Value.GetUTF8().c_str(), Result);
@@ -286,7 +286,7 @@ std::string EbmlUnicodeString::GetValueUTF8() const {
 /*!
 \note limited to UCS-2
 */
-uint64 EbmlUnicodeString::UpdateSize(bool bWithDefault, bool /* bForceRender */)
+std::uint64_t EbmlUnicodeString::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 {
   if (!bWithDefault && IsDefaultValue())
     return 0;

@@ -62,25 +62,25 @@ namespace internal
     // Unicode constants
     // Leading (high) surrogates: 0xd800 - 0xdbff
     // Trailing (low) surrogates: 0xdc00 - 0xdfff
-    const uint16_t LEAD_SURROGATE_MIN  = 0xd800u;
-    const uint16_t LEAD_SURROGATE_MAX  = 0xdbffu;
-    const uint16_t TRAIL_SURROGATE_MIN = 0xdc00u;
-    const uint16_t TRAIL_SURROGATE_MAX = 0xdfffu;
-    const uint16_t LEAD_OFFSET         = 0xd7c0u;       // LEAD_SURROGATE_MIN - (0x10000 >> 10)
-    const uint32_t SURROGATE_OFFSET    = 0xfca02400u;   // 0x10000u - (LEAD_SURROGATE_MIN << 10) - TRAIL_SURROGATE_MIN
+    const std::uint16_t LEAD_SURROGATE_MIN  = 0xd800u;
+    const std::uint16_t LEAD_SURROGATE_MAX  = 0xdbffu;
+    const std::uint16_t TRAIL_SURROGATE_MIN = 0xdc00u;
+    const std::uint16_t TRAIL_SURROGATE_MAX = 0xdfffu;
+    const std::uint16_t LEAD_OFFSET         = 0xd7c0u;       // LEAD_SURROGATE_MIN - (0x10000 >> 10)
+    const std::uint32_t SURROGATE_OFFSET    = 0xfca02400u;   // 0x10000u - (LEAD_SURROGATE_MIN << 10) - TRAIL_SURROGATE_MIN
 
     // Maximum valid value for a Unicode code point
-    const uint32_t CODE_POINT_MAX      = 0x0010ffffu;
+    const std::uint32_t CODE_POINT_MAX      = 0x0010ffffu;
 
     template<typename octet_type>
-    inline uint8_t mask8(octet_type oc)
+    inline std::uint8_t mask8(octet_type oc)
     {
-        return static_cast<uint8_t>(0xff & oc);
+        return static_cast<std::uint8_t>(0xff & oc);
     }
     template<typename u16_type>
-    inline uint16_t mask16(u16_type oc)
+    inline std::uint16_t mask16(u16_type oc)
     {
-        return static_cast<uint16_t>(0xffff & oc);
+        return static_cast<std::uint16_t>(0xffff & oc);
     }
     template<typename octet_type>
     inline bool is_trail(octet_type oc)
@@ -116,7 +116,7 @@ namespace internal
     inline typename std::iterator_traits<octet_iterator>::difference_type
     sequence_length(octet_iterator lead_it)
     {
-        uint8_t lead = utf8::internal::mask8(*lead_it);
+        std::uint8_t lead = utf8::internal::mask8(*lead_it);
         if (lead < 0x80)
             return 1;
         else if ((lead >> 5) == 0x6)
@@ -130,7 +130,7 @@ namespace internal
     }
 
     template <typename octet_difference_type>
-    inline bool is_overlong_sequence(uint32_t cp, octet_difference_type length)
+    inline bool is_overlong_sequence(std::uint32_t cp, octet_difference_type length)
     {
         if (cp < 0x80) {
             if (length != 1) 
@@ -167,7 +167,7 @@ namespace internal
 
     /// get_sequence_x functions decode utf-8 sequences of the length x
     template <typename octet_iterator>
-    utf_error get_sequence_1(octet_iterator& it, octet_iterator end, uint32_t& code_point)
+    utf_error get_sequence_1(octet_iterator& it, octet_iterator end, std::uint32_t& code_point)
     {
         if (it == end)
             return NOT_ENOUGH_ROOM;
@@ -178,7 +178,7 @@ namespace internal
     }
 
     template <typename octet_iterator>
-    utf_error get_sequence_2(octet_iterator& it, octet_iterator end, uint32_t& code_point)
+    utf_error get_sequence_2(octet_iterator& it, octet_iterator end, std::uint32_t& code_point)
     {
         if (it == end) 
             return NOT_ENOUGH_ROOM;
@@ -193,7 +193,7 @@ namespace internal
     }
 
     template <typename octet_iterator>
-    utf_error get_sequence_3(octet_iterator& it, octet_iterator end, uint32_t& code_point)
+    utf_error get_sequence_3(octet_iterator& it, octet_iterator end, std::uint32_t& code_point)
     {
         if (it == end)
             return NOT_ENOUGH_ROOM;
@@ -212,7 +212,7 @@ namespace internal
     }
 
     template <typename octet_iterator>
-    utf_error get_sequence_4(octet_iterator& it, octet_iterator end, uint32_t& code_point)
+    utf_error get_sequence_4(octet_iterator& it, octet_iterator end, std::uint32_t& code_point)
     {
         if (it == end)
            return NOT_ENOUGH_ROOM;
@@ -237,7 +237,7 @@ namespace internal
     #undef UTF8_CPP_INCREASE_AND_RETURN_ON_ERROR
 
     template <typename octet_iterator>
-    utf_error validate_next(octet_iterator& it, octet_iterator end, uint32_t& code_point)
+    utf_error validate_next(octet_iterator& it, octet_iterator end, std::uint32_t& code_point)
     {
         if (it == end)
             return NOT_ENOUGH_ROOM;
@@ -246,7 +246,7 @@ namespace internal
         // Of course, it does not make much sense with i.e. stream iterators
         octet_iterator original_it = it;
 
-        uint32_t cp = 0;
+        std::uint32_t cp = 0;
         // Determine the sequence length based on the lead octet
         typedef typename std::iterator_traits<octet_iterator>::difference_type octet_difference_type;
         const octet_difference_type length = utf8::internal::sequence_length(it);
@@ -293,7 +293,7 @@ namespace internal
 
     template <typename octet_iterator>
     inline utf_error validate_next(octet_iterator& it, octet_iterator end) {
-        uint32_t ignored;
+        std::uint32_t ignored;
         return utf8::internal::validate_next(it, end, ignored);
     }
 
@@ -302,7 +302,7 @@ namespace internal
     /// The library API - functions intended to be called by the users
 
     // Byte order mark
-    const uint8_t bom[] = {0xef, 0xbb, 0xbf};
+    const std::uint8_t bom[] = {0xef, 0xbb, 0xbf};
 
     template <typename octet_iterator>
     octet_iterator find_invalid(octet_iterator start, octet_iterator end)

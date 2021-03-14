@@ -41,12 +41,12 @@ EbmlStream::EbmlStream(IOCallback & DataStream)
   :Stream(DataStream)
 {}
 
-EbmlElement * EbmlStream::FindNextID(const EbmlCallbacks & ClassInfos, uint64 MaxDataSize)
+EbmlElement * EbmlStream::FindNextID(const EbmlCallbacks & ClassInfos, std::uint64_t MaxDataSize)
 {
   return EbmlElement::FindNextID(Stream, ClassInfos, MaxDataSize);
 }
 
-EbmlElement * EbmlStream::FindNextElement(const EbmlSemanticContext & Context, int & UpperLevel, uint64 MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel)
+EbmlElement * EbmlStream::FindNextElement(const EbmlSemanticContext & Context, int & UpperLevel, std::uint64_t MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel)
 {
   return EbmlElement::FindNextElement(Stream, Context, UpperLevel, MaxDataSize, AllowDummyElt, MaxLowerLevel);
 }

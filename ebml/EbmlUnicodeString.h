@@ -70,7 +70,7 @@ public:
   UTFstring & operator=(wchar_t);
 
   /// Return length of string
-  size_t length() const {return _Length;}
+  std::size_t length() const {return _Length;}
 
   operator const wchar_t*() const;
   const wchar_t* c_str() const {return _Data;}
@@ -83,7 +83,7 @@ public:
 #else
     protected:
 #endif
-  size_t _Length; ///< length of the UCS string excluding the \0
+  std::size_t _Length; ///< length of the UCS string excluding the \0
   wchar_t* _Data; ///< internal UCS representation
   std::string UTF8string;
   static bool wcscmp_internal(const wchar_t *str1, const wchar_t *str2);

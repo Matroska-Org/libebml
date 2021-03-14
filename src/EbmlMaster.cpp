@@ -124,7 +124,7 @@ bool EbmlMaster::PushElement(EbmlElement & element)
   return true;
 }
 
-uint64 EbmlMaster::UpdateSize(bool bWithDefault, bool bForceRender)
+std::uint64_t EbmlMaster::UpdateSize(bool bWithDefault, bool bForceRender)
 {
   SetSize_(0);
 
@@ -139,9 +139,9 @@ uint64 EbmlMaster::UpdateSize(bool bWithDefault, bool bForceRender)
     if (!bWithDefault && Element->IsDefaultValue())
       continue;
     Element->UpdateSize(bWithDefault, bForceRender);
-    uint64 SizeToAdd = Element->ElementSize(bWithDefault);
+    std::uint64_t SizeToAdd = Element->ElementSize(bWithDefault);
 #if defined(LIBEBML_DEBUG)
-    if (static_cast<int64>(SizeToAdd) == (0-1))
+    if (static_cast<std::int64_t>(SizeToAdd) == (0-1))
       return (0-1);
 #endif // LIBEBML_DEBUG
     SetSize_(GetSize() + SizeToAdd);
@@ -304,7 +304,7 @@ EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks) const
 */
 EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt, bool bCreateIfNull)
 {
-  size_t Index;
+  std::size_t Index;
 
   for (Index = 0; Index < ElementList.size(); Index++) {
     if ((ElementList[Index]) == &PastElt) {
@@ -341,7 +341,7 @@ EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt, bool bCreateIf
 
 EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt) const
 {
-  size_t Index;
+  std::size_t Index;
 
   for (Index = 0; Index < ElementList.size(); Index++) {
     if ((ElementList[Index]) == &PastElt) {
@@ -397,7 +397,7 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
     }
   }
   ElementList.clear();
-  uint64 MaxSizeToRead;
+  std::uint64_t MaxSizeToRead;
 
   if (IsFiniteSize())
     MaxSizeToRead = GetSize();
@@ -508,7 +508,7 @@ processCrc:
   SetValueIsSet();
 }
 
-void EbmlMaster::Remove(size_t Index)
+void EbmlMaster::Remove(std::size_t Index)
 {
   if (Index < ElementList.size()) {
     auto Itr = ElementList.begin();
@@ -546,7 +546,7 @@ bool EbmlMaster::VerifyChecksum() const
   return (aChecksum.GetCrc32() == Checksum.GetCrc32());
 }
 
-bool EbmlMaster::InsertElement(EbmlElement & element, size_t position)
+bool EbmlMaster::InsertElement(EbmlElement & element, std::size_t position)
 {
   auto Itr = ElementList.begin();
   while (Itr != ElementList.end() && position--)

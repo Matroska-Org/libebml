@@ -199,7 +199,7 @@ Encodes a 32 bit code point as a UTF-8 sequence of octets and appends the sequen
 
 ```cpp
 template <typename octet_iterator>
-octet_iterator append(uint32_t cp, octet_iterator result);
+octet_iterator append(std::uint32_t cp, octet_iterator result);
 ```
 
 `octet_iterator`: an output iterator.  
@@ -227,7 +227,7 @@ Given the iterator to the beginning of the UTF-8 sequence, it returns the code p
 
 ```cpp
 template <typename octet_iterator> 
-uint32_t next(octet_iterator& it, octet_iterator end);
+std::uint32_t next(octet_iterator& it, octet_iterator end);
 ```
 
 `octet_iterator`: an input iterator.  
@@ -257,7 +257,7 @@ Given the iterator to the beginning of the UTF-8 sequence, it returns the code p
 
 ```cpp
 template <typename octet_iterator> 
-uint32_t peek_next(octet_iterator it, octet_iterator end);
+std::uint32_t peek_next(octet_iterator it, octet_iterator end);
 ```
 
 
@@ -286,7 +286,7 @@ Given a reference to an iterator pointing to an octet in a UTF-8 sequence, it de
 
 ```cpp
 template <typename octet_iterator> 
-uint32_t prior(octet_iterator& it, octet_iterator start);
+std::uint32_t prior(octet_iterator& it, octet_iterator start);
 ```
 
 `octet_iterator`: a bidirectional iterator.  
@@ -361,7 +361,7 @@ Example of use:
 
 ```cpp
 char* twochars = "\xe6\x97\xa5\xd1\x88";
-size_t dist = utf8::distance(twochars, twochars + 5);
+std::size_t dist = utf8::distance(twochars, twochars + 5);
 assert (dist == 2);
 ```
 
@@ -589,7 +589,7 @@ Available in version 3.0 and later. Requires a C++ 11 compliant compiler.
 Detects an invalid sequence within a UTF-8 string.
 
 ```cpp
-std::size_t find_invalid(const std::string& s);
+std::std::size_t find_invalid(const std::string& s);
 ```
 
 `s`: a UTF-8 encoded string.
@@ -714,7 +714,7 @@ Replaces all invalid UTF-8 sequences within a string with a replacement marker.
 
 ```cpp
 template <typename octet_iterator, typename output_iterator>
-output_iterator replace_invalid(octet_iterator start, octet_iterator end, output_iterator out, uint32_t replacement);
+output_iterator replace_invalid(octet_iterator start, octet_iterator end, output_iterator out, std::uint32_t replacement);
 template <typename octet_iterator, typename output_iterator>
 output_iterator replace_invalid(octet_iterator start, octet_iterator end, output_iterator out);
 ```
@@ -826,7 +826,7 @@ Thrown by UTF8 CPP functions such as `advance` and `next` if an UTF-8 sequence r
 ```cpp
 class invalid_code_point : public exception {
 public: 
-    uint32_t code_point() const;
+    std::uint32_t code_point() const;
 };
 ```
 
@@ -841,7 +841,7 @@ Thrown by UTF8 CPP functions such as `next` and `prior` if an invalid UTF-8 sequ
 ```cpp
 class invalid_utf8 : public exception {
 public: 
-    uint8_t utf8_octet() const;
+    std::uint8_t utf8_octet() const;
 };
 ```
 
@@ -856,7 +856,7 @@ Thrown by UTF8 CPP function `utf16to8` if an invalid UTF-16 sequence is detected
 ```cpp
 class invalid_utf16 : public exception {
 public: 
-    uint16_t utf16_word() const;
+    std::uint16_t utf16_word() const;
 };
 ```
 
@@ -891,7 +891,7 @@ class iterator;
 
 `octet_iterator base () const;` returns the underlying octet_iterator.
 
-`uint32_t operator * () const;` decodes the utf-8 sequence the underlying octet_iterator is pointing to and returns the code point.
+`std::uint32_t operator * () const;` decodes the utf-8 sequence the underlying octet_iterator is pointing to and returns the code point.
 
 `bool operator == (const iterator& rhs) const;` returns `true` if the two underlaying iterators are equal.
 
@@ -945,7 +945,7 @@ Encodes a 32 bit code point as a UTF-8 sequence of octets and appends the sequen
 
 ```cpp
 template <typename octet_iterator>
-octet_iterator append(uint32_t cp, octet_iterator result);
+octet_iterator append(std::uint32_t cp, octet_iterator result);
 ```
 
 `cp`: A 32 bit integer representing a code point to append to the sequence.  
@@ -970,7 +970,7 @@ Given the iterator to the beginning of a UTF-8 sequence, it returns the code poi
 
 ```cpp
 template <typename octet_iterator>
-uint32_t next(octet_iterator& it);
+std::uint32_t next(octet_iterator& it);
 ```
 
 `it`: a reference to an iterator pointing to the beginning of an UTF-8 encoded code point. After the function returns, it is incremented to point to the beginning of the next code point.  
@@ -996,7 +996,7 @@ Given the iterator to the beginning of a UTF-8 sequence, it returns the code poi
 
 ```cpp
 template <typename octet_iterator>
-uint32_t peek_next(octet_iterator it);
+std::uint32_t peek_next(octet_iterator it);
 ```
 
 `it`: an iterator pointing to the beginning of an UTF-8 encoded code point.  
@@ -1022,7 +1022,7 @@ Given a reference to an iterator pointing to an octet in a UTF-8 seqence, it dec
 
 ```cpp
 template <typename octet_iterator>
-uint32_t prior(octet_iterator& it);
+std::uint32_t prior(octet_iterator& it);
 ```
 
 `it`: a reference pointing to an octet within a UTF-8 encoded string. After the function returns, it is decremented to point to the beginning of the previous code point.  
@@ -1084,7 +1084,7 @@ Example of use:
 
 ```cpp
 char* twochars = "\xe6\x97\xa5\xd1\x88";
-size_t dist = utf8::unchecked::distance(twochars, twochars + 5);
+std::size_t dist = utf8::unchecked::distance(twochars, twochars + 5);
 assert (dist == 2);
 ```
 
@@ -1207,7 +1207,7 @@ Replaces all invalid UTF-8 sequences within a string with a replacement marker.
 
 ```cpp
 template <typename octet_iterator, typename output_iterator>
-output_iterator replace_invalid(octet_iterator start, octet_iterator end, output_iterator out, uint32_t replacement);
+output_iterator replace_invalid(octet_iterator start, octet_iterator end, output_iterator out, std::uint32_t replacement);
 template <typename octet_iterator, typename output_iterator>
 output_iterator replace_invalid(octet_iterator start, octet_iterator end, output_iterator out);
 ```
@@ -1257,7 +1257,7 @@ class iterator;
 
 `octet_iterator base () const;` returns the underlying octet_iterator.
 
-`uint32_t operator * () const;` decodes the utf-8 sequence the underlying octet_iterator is pointing to and returns the code point.
+`std::uint32_t operator * () const;` decodes the utf-8 sequence the underlying octet_iterator is pointing to and returns the code point.
 
 `bool operator == (const iterator& rhs) const;` returns `true` if the two underlaying iterators are equal.
 

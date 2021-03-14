@@ -91,7 +91,7 @@ filepos_t EbmlFloat::RenderData(IOCallback & output, bool /* bForceRender */, bo
     output.writeFully(&TmpToWrite.endian(), GetSize());
   } else if (GetSize() == 8) {
     double val = Value;
-    int64 Tmp;
+    std::int64_t Tmp;
     memcpy(&Tmp, &val, 8);
     big_int64 TmpToWrite(Tmp);
     output.writeFully(&TmpToWrite.endian(), GetSize());
@@ -100,7 +100,7 @@ filepos_t EbmlFloat::RenderData(IOCallback & output, bool /* bForceRender */, bo
   return GetSize();
 }
 
-uint64 EbmlFloat::UpdateSize(bool bWithDefault, bool  /* bForceRender */)
+std::uint64_t EbmlFloat::UpdateSize(bool bWithDefault, bool  /* bForceRender */)
 {
   if (!bWithDefault && IsDefaultValue())
     return 0;
@@ -128,7 +128,7 @@ filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
   if (GetSize() == 4) {
     big_int32 TmpRead;
     TmpRead.Eval(Buffer);
-    auto tmpp = int32(TmpRead);
+    auto tmpp = std::int32_t(TmpRead);
     float val;
     memcpy(&val, &tmpp, 4);
     Value = static_cast<double>(val);
@@ -136,7 +136,7 @@ filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
   } else {
     big_int64 TmpRead;
     TmpRead.Eval(Buffer);
-    auto tmpp = int64(TmpRead);
+    auto tmpp = std::int64_t(TmpRead);
     double val;
     memcpy(&val, &tmpp, 8);
     Value = val;

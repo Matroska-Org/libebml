@@ -123,7 +123,7 @@ std::string EbmlString::GetValue() const {
   return Value;
 }
 
-uint64 EbmlString::UpdateSize(bool bWithDefault, bool /* bForceRender */)
+std::uint64_t EbmlString::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 {
   if (!bWithDefault && IsDefaultValue())
     return 0;
