@@ -61,6 +61,7 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
   public:
     EbmlBinary();
     EbmlBinary(const EbmlBinary & ElementToClone);
+    EbmlBinary& operator=(const EbmlBinary & ElementToClone);
     ~EbmlBinary() override;
 
     bool ValidateSize() const override {return IsFiniteSize() && GetSize() < 0x7FFFFFFF;} // we don't mind about what's inside

@@ -50,6 +50,13 @@ EbmlBinary::EbmlBinary()
 EbmlBinary::EbmlBinary(const EbmlBinary & ElementToClone)
   :EbmlElement(ElementToClone)
 {
+  *this = ElementToClone;
+}
+
+EbmlBinary &
+EbmlBinary::operator=(const EbmlBinary & ElementToClone)
+{
+  free(Data);
   if (ElementToClone.Data == nullptr)
     Data = nullptr;
   else {
@@ -57,6 +64,7 @@ EbmlBinary::EbmlBinary(const EbmlBinary & ElementToClone)
     if(Data != nullptr)
       memcpy(Data, ElementToClone.Data, GetSize());
   }
+  return *this;
 }
 
 EbmlBinary::~EbmlBinary() {
