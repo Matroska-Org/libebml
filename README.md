@@ -42,6 +42,6 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 UTF-8 with C++ in a Portable Way
 
   * Copyright: 2006 Nemanja Trifunovic
-  * License: custom (see `src/lib/utf8-cpp/source/utf8.h`)
+  * License: BOOST (see `src/lib/utf8-cpp/source/utf8.h`)
   * URL: http://utfcpp.sourceforge.net/
   * Corresponding files: `src/lib/utf8-cpp/*`
