@@ -7,7 +7,7 @@ Specifications may be rendered at http://matroska-org.github.io/libebml/
 
 ## Building and installing the library
 
-libebml is based on `cmake` and requires only a C++ compiler. This
+libebml is based on `cmake` and requires only a C++11 compiler. This
 means that the normal build process consists of the usual steps:
 
 1. Create a build directory: `mkdir build ; cd build`
