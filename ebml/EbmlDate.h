@@ -92,7 +92,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 
     int64 myDate; ///< internal format of the date
 
-    static const uint64 UnixEpochDelay;
+    static const uint64 UnixEpochDelay = 978307200; // 2001/01/01 00:00:00 UTC
 };
 
 END_LIBEBML_NAMESPACE
