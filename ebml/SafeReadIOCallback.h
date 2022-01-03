@@ -59,7 +59,7 @@ public:
   SafeReadIOCallback(IOCallback *IO, bool DeleteIO);
   SafeReadIOCallback(void const *Mem, size_t Size);
   SafeReadIOCallback(EbmlBinary const &Binary);
-  ~SafeReadIOCallback();
+  ~SafeReadIOCallback() override;
 
   size_t GetPosition() const;
   size_t GetSize() const;
