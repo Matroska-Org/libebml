@@ -58,7 +58,7 @@ const bool bChecksumUsedByDefault = false;
 */
 class EBML_DLL_API EbmlMaster : public EbmlElement {
   public:
-    EbmlMaster(const EbmlSemanticContext & aContext, bool bSizeIsKnown = true);
+    explicit EbmlMaster(const EbmlSemanticContext & aContext, bool bSizeIsKnown = true);
     EbmlMaster(const EbmlMaster & ElementToClone);
     bool ValidateSize() const override {return true;}
     /*!

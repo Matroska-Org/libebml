@@ -47,7 +47,7 @@ public:
   class EBML_DLL_API EndOfStreamX : public std::exception {
   public:
     size_t mMissingBytes;
-    EndOfStreamX(std::size_t MissingBytes);
+    explicit EndOfStreamX(std::size_t MissingBytes);
   };
 
 private:
@@ -58,7 +58,7 @@ private:
 public:
   SafeReadIOCallback(IOCallback *IO, bool DeleteIO);
   SafeReadIOCallback(void const *Mem, size_t Size);
-  SafeReadIOCallback(EbmlBinary const &Binary);
+  explicit SafeReadIOCallback(EbmlBinary const &Binary);
   ~SafeReadIOCallback() override;
 
   size_t GetPosition() const;

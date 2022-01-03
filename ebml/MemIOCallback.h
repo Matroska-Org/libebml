@@ -48,7 +48,7 @@ namespace libebml {
 class EBML_DLL_API MemIOCallback : public IOCallback
 {
 public:
-  MemIOCallback(uint64 DefaultSize = 128);
+  explicit MemIOCallback(uint64 DefaultSize = 128);
   ~MemIOCallback() override;
 
   /*!

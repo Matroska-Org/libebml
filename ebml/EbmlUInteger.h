@@ -52,7 +52,7 @@ const int DEFAULT_UINT_SIZE = 0; ///< optimal size stored
 class EBML_DLL_API EbmlUInteger : public EbmlElement {
   public:
     EbmlUInteger();
-    EbmlUInteger(uint64 DefaultValue);
+    explicit EbmlUInteger(uint64 DefaultValue);
     EbmlUInteger(const EbmlUInteger & ElementToClone) = default;
 
     EbmlUInteger & operator=(uint64 NewValue) {Value = NewValue; SetValueIsSet(); return *this;}
@@ -69,10 +69,10 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
 
     bool IsSmallerThan(const EbmlElement *Cmp) const override;
 
-    operator uint8()  const;
-    operator uint16() const;
-    operator uint32() const;
-    operator uint64() const;
+    explicit operator uint8()  const;
+    explicit operator uint16() const;
+    explicit operator uint32() const;
+    explicit operator uint64() const;
 
     EbmlUInteger &SetValue(uint64 NewValue);
     uint64 GetValue() const;

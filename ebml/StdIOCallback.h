@@ -56,7 +56,7 @@ private:
 // Methoden...
 public:
   CRTError(int Error,const std::string&Description);
-  CRTError(const std::string&Description,int Error=errno);
+  explicit CRTError(const std::string&Description,int Error=errno);
 
   int getError() const noexcept { return Error; }
 };

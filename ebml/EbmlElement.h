@@ -314,7 +314,7 @@ class EBML_DLL_API EbmlSemantic {
         inline bool IsMandatory() const { return Mandatory; }
         inline bool IsUnique() const { return Unique; }
         inline EbmlElement & Create() const { return EBML_INFO_CREATE(GetCallbacks); }
-        inline operator const EbmlCallbacks &() const { return GetCallbacks; }
+        inline explicit operator const EbmlCallbacks &() const { return GetCallbacks; }
 
 #if defined(EBML_STRICT_API)
     private:
@@ -369,7 +369,7 @@ class EBML_DLL_API EbmlSemanticContext {
 */
 class EBML_DLL_API EbmlElement {
   public:
-    EbmlElement(uint64 aDefaultSize, bool bValueSet = false);
+    explicit EbmlElement(uint64 aDefaultSize, bool bValueSet = false);
     virtual ~EbmlElement();
 
     /// Set the minimum length that will be used to write the element size (-1 = optimal)
@@ -392,7 +392,7 @@ class EBML_DLL_API EbmlElement {
     */
     virtual EbmlElement * Clone() const = 0;
 
-    virtual operator const EbmlId &() const = 0;
+    virtual explicit operator const EbmlId &() const = 0;
 #if defined(EBML_STRICT_API)
         virtual const char *DebugName() const = 0;
         virtual const EbmlSemanticContext &Context() const = 0;
