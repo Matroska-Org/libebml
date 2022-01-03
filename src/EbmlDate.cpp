@@ -39,8 +39,8 @@ namespace libebml {
 
 EbmlDate::EbmlDate(const EbmlDate & ElementToClone)
 :EbmlElement(ElementToClone)
+,myDate(ElementToClone.myDate)
 {
-  myDate = ElementToClone.myDate;
 }
 
 filepos_t EbmlDate::ReadData(IOCallback & input, ScopeMode ReadFully)

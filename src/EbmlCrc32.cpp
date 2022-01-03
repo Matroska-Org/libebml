@@ -163,10 +163,10 @@ constexpr std::array<uint32, 256> EbmlCrc32::m_tab {
 };
 
 EbmlCrc32::EbmlCrc32()
+  :m_crc_final(0)
 {
   ResetCRC();
   SetDefaultSize(4);
-  m_crc_final = 0;
   SetSize_(4);
   //This EbmlElement has been set
   //  SetValueIsSet();
@@ -174,9 +174,9 @@ EbmlCrc32::EbmlCrc32()
 
 EbmlCrc32::EbmlCrc32(const EbmlCrc32 & ElementToClone)
   :EbmlBinary(ElementToClone)
+  ,m_crc(ElementToClone.m_crc)
+  ,m_crc_final(ElementToClone.m_crc_final)
 {
-  m_crc       = ElementToClone.m_crc;
-  m_crc_final = ElementToClone.m_crc_final;
 }
 
 void EbmlCrc32::ResetCRC()
