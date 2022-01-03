@@ -50,7 +50,7 @@ namespace libebml {
 class EBML_DLL_API EbmlString : public EbmlElement {
   public:
     EbmlString();
-    EbmlString(const std::string & aDefaultValue);
+    explicit EbmlString(const std::string & aDefaultValue);
     EbmlString(const EbmlString & ElementToClone) = default;
 
     ~EbmlString() override = default;
@@ -61,7 +61,7 @@ class EBML_DLL_API EbmlString : public EbmlElement {
     filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) override;
 
     EbmlString & operator=(const std::string &);
-    operator const std::string &() const;
+    explicit operator const std::string &() const;
 
     EbmlString &SetValue(std::string const &NewValue);
     std::string GetValue() const;

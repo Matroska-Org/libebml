@@ -109,7 +109,7 @@ private:
 class EBML_DLL_API ADbg
 {
 public:
-  ADbg(int /* level */ = 0){}
+  explicit ADbg(int /* level */ = 0){}
   virtual ~ADbg() = default;
 
   static inline int OutPut(int /* level */, const char * /* format */,...) {
