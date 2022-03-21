@@ -8,7 +8,7 @@ option(ENABLE_WIN32_IO "Build the Windows I/O helper class" OFF)
 
 include(GNUInstallDirs)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(libebml_SOURCES
