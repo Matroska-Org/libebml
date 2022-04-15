@@ -32,7 +32,7 @@
     \file
     \version \$Id: EbmlEndian.h 1298 2008-02-21 22:14:18Z mosu $
     \author Ingo Ralf Blum   <ingoralfblum @ users.sf.net>
-    \author Lasse K‰rkk‰inen <tronic @ users.sf.net>
+    \author Lasse K√§rkk√§inen <tronic @ users.sf.net>
     \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #ifndef LIBEBML_ENDIAN_H
