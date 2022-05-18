@@ -176,9 +176,9 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
     public: \
         virtual const EbmlSemanticContext &Context() const {return ClassInfos.GetContext();} \
         virtual const char *DebugName() const {return ClassInfos.GetName();} \
-    virtual operator const EbmlId &() const {return ClassInfos.ClassId();} \
-        virtual EbmlElement & CreateElement() const {return Create();} \
-        virtual EbmlElement * Clone() const { return new Type(*this); } \
+    operator const EbmlId &() const override {return ClassInfos.ClassId();} \
+        EbmlElement & CreateElement() const override {return Create();} \
+        EbmlElement * Clone() const override { return new Type(*this); } \
     static EbmlElement & Create() {return *(new Type);} \
         static const EbmlCallbacks & ClassInfo() {return ClassInfos;} \
         static const EbmlId & ClassId() {return ClassInfos.ClassId();} \
@@ -189,9 +189,9 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
     public: \
         virtual const EbmlSemanticContext &Context() const {return *static_cast<EbmlSemanticContext*>(nullptr);} \
         virtual const char *DebugName() const {return "DummyElement";} \
-    virtual operator const EbmlId &(); \
-        virtual EbmlElement & CreateElement() const {return Create();} \
-        virtual EbmlElement * Clone() const { return new Type(*this); } \
+    operator const EbmlId &() override; \
+        EbmlElement & CreateElement() const override {return Create();} \
+        EbmlElement * Clone() const override { return new Type(*this); } \
     static EbmlElement & Create() {return *(new Type);} \
         static const EbmlId & ClassId(); \
     static const EbmlCallbacks ClassInfos; \
@@ -223,19 +223,19 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #else
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
-    virtual const EbmlCallbacks & Generic() const {return ClassInfos;} \
-    virtual operator const EbmlId &() const {return ClassInfos.GlobalId;} \
-        virtual EbmlElement & CreateElement() const {return Create();} \
-        virtual EbmlElement * Clone() const { return new Type(*this); } \
+    const EbmlCallbacks & Generic() const override {return ClassInfos;} \
+    operator const EbmlId &() const override {return ClassInfos.GlobalId;} \
+        EbmlElement & CreateElement() const override {return Create();} \
+        EbmlElement * Clone() const override { return new Type(*this); } \
     static EbmlElement & Create() {return *(new Type);} \
     static const EbmlCallbacks ClassInfos; \
 
 #define EBML_CONCRETE_DUMMY_CLASS(Type) \
     public: \
-    virtual const EbmlCallbacks & Generic() const {return ClassInfos;} \
+    const EbmlCallbacks & Generic() const override {return ClassInfos;} \
     virtual operator const EbmlId &(); \
-        virtual EbmlElement & CreateElement() const {return Create();} \
-        virtual EbmlElement * Clone() const { return new Type(*this); } \
+        EbmlElement & CreateElement() const override {return Create();} \
+        EbmlElement * Clone() const override { return new Type(*this); } \
     static EbmlElement & Create() {return *(new Type);} \
     static const EbmlCallbacks ClassInfos; \
 

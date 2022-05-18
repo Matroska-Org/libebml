@@ -62,14 +62,14 @@ class EBML_DLL_API EbmlSInteger : public EbmlElement {
     /*!
       Set the default size of the integer (usually 1,2,4 or 8)
     */
-        virtual void SetDefaultSize(uint64 nDefaultSize = DEFAULT_INT_SIZE) {EbmlElement::SetDefaultSize(nDefaultSize); SetSize_(nDefaultSize);}
+        void SetDefaultSize(uint64 nDefaultSize = DEFAULT_INT_SIZE) override {EbmlElement::SetDefaultSize(nDefaultSize); SetSize_(nDefaultSize);}
 
-    virtual bool ValidateSize() const {return IsFiniteSize() && (GetSize() <= 8);}
-    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
-    filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
-    filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false);
+    bool ValidateSize() const override {return IsFiniteSize() && (GetSize() <= 8);}
+    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
+    filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
+    filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) override;
 
-    virtual bool IsSmallerThan(const EbmlElement *Cmp) const;
+    bool IsSmallerThan(const EbmlElement *Cmp) const override;
 
     operator int8() const;
     operator int16() const;
@@ -83,7 +83,7 @@ class EBML_DLL_API EbmlSInteger : public EbmlElement {
 
     int64 DefaultVal() const {assert(DefaultISset()); return DefaultValue;}
 
-    bool IsDefaultValue() const {
+    bool IsDefaultValue() const override {
       return (DefaultISset() && Value == DefaultValue);
     }
 

@@ -103,12 +103,12 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
     EbmlUnicodeString(const UTFstring & DefaultValue);
     EbmlUnicodeString(const EbmlUnicodeString & ElementToClone) = default;
 
-    virtual ~EbmlUnicodeString() = default;
+    ~EbmlUnicodeString() override = default;
 
-    virtual bool ValidateSize() const {return IsFiniteSize();} // any size is possible
-    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
-    filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
-    filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false);
+    bool ValidateSize() const override {return IsFiniteSize();} // any size is possible
+    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
+    filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
+    filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) override;
 
     EbmlUnicodeString & operator=(const UTFstring &); ///< platform dependant code
     operator const UTFstring &() const;
@@ -122,7 +122,7 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
 
     const UTFstring & DefaultVal() const;
 
-    bool IsDefaultValue() const {
+    bool IsDefaultValue() const override {
       return (DefaultISset() && Value == DefaultValue);
     }
 

@@ -60,23 +60,23 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
   public:
     EbmlMaster(const EbmlSemanticContext & aContext, bool bSizeIsKnown = true);
     EbmlMaster(const EbmlMaster & ElementToClone);
-    virtual bool ValidateSize() const {return true;}
+    bool ValidateSize() const override {return true;}
     /*!
       \warning be carefull to clear the memory allocated in the ElementList elsewhere
     */
-    virtual ~EbmlMaster();
+    ~EbmlMaster() override;
 
-    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
-    filepos_t ReadData(IOCallback & input, ScopeMode ReadFully);
-    filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false);
+    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
+    filepos_t ReadData(IOCallback & input, ScopeMode ReadFully) override;
+    filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) override;
 
     /*!
       \brief Set wether the size is finite (size is known in advance when writing, or infinite size is not known on writing)
     */
-    bool SetSizeInfinite(bool aIsInfinite = true) {SetSizeIsFinite(!aIsInfinite); return true;}
+    bool SetSizeInfinite(bool aIsInfinite = true) override {SetSizeIsFinite(!aIsInfinite); return true;}
 
     bool PushElement(EbmlElement & element);
-    uint64 GetSize() const {
+    uint64 GetSize() const override {
       if (IsFiniteSize())
                 return EbmlElement::GetSize();
       else
@@ -113,7 +113,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     /*!
       \brief Read the data and keep the known children
     */
-    void Read(EbmlStream & inDataStream, const EbmlSemanticContext & Context, int & UpperEltFound, EbmlElement * & FoundElt, bool AllowDummyElt, ScopeMode ReadFully = SCOPE_ALL_DATA);
+    void Read(EbmlStream & inDataStream, const EbmlSemanticContext & Context, int & UpperEltFound, EbmlElement * & FoundElt, bool AllowDummyElt, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
 
     /*!
       \brief sort Data when they can
@@ -136,10 +136,10 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     EbmlElement * operator[](unsigned int position) {return ElementList[position];}
     const EbmlElement * operator[](unsigned int position) const {return ElementList[position];}
 
-    bool IsDefaultValue() const {
+    bool IsDefaultValue() const override {
       return (ElementList.size() == 0);
     }
-    virtual bool IsMaster() const {return true;}
+    bool IsMaster() const override {return true;}
 
     /*!
       \brief verify that all mandatory elements are present

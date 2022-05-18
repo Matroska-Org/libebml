@@ -62,12 +62,12 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
     int64 GetEpochDate() const {return int64(myDate/1000000000 + UnixEpochDelay);}
     int64 GetValue() const {return GetEpochDate();}
 
-    virtual bool ValidateSize() const {return IsFiniteSize() && ((GetSize() == 8) || (GetSize() == 0));}
+    bool ValidateSize() const override {return IsFiniteSize() && ((GetSize() == 8) || (GetSize() == 0));}
 
     /*!
       \note no Default date handled
     */
-    filepos_t UpdateSize(bool /* bWithDefault = false */, bool /* bForceRender = false */) {
+    filepos_t UpdateSize(bool /* bWithDefault = false */, bool /* bForceRender = false */) override {
       if(!ValueIsSet())
         SetSize_(0);
       else
@@ -75,11 +75,11 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
       return GetSize();
     }
 
-    virtual bool IsSmallerThan(const EbmlElement *Cmp) const;
+    bool IsSmallerThan(const EbmlElement *Cmp) const override;
 
-    filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
+    filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
 
-    bool IsDefaultValue() const {
+    bool IsDefaultValue() const override {
       return false;
     }
 
@@ -88,7 +88,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 #else
     protected:
 #endif
-    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
+    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
 
     int64 myDate; ///< internal format of the date
 
