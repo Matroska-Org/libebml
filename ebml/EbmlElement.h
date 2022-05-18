@@ -227,7 +227,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
     operator const EbmlId &() const override {return ClassInfos.GlobalId;} \
         EbmlElement & CreateElement() const override {return Create();} \
         EbmlElement * Clone() const override { return new Type(*this); } \
-    static EbmlElement & Create() {return *(new Type);} \
+    static EbmlElement & Create() {return *(new (Type));} \
     static const EbmlCallbacks ClassInfos; \
 
 #define EBML_CONCRETE_DUMMY_CLASS(Type) \
@@ -236,7 +236,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
     virtual operator const EbmlId &(); \
         EbmlElement & CreateElement() const override {return Create();} \
         EbmlElement * Clone() const override { return new Type(*this); } \
-    static EbmlElement & Create() {return *(new Type);} \
+    static EbmlElement & Create() {return *(new (Type));} \
     static const EbmlCallbacks ClassInfos; \
 
 

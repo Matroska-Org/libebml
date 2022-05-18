@@ -162,7 +162,7 @@ extern ADbg globalDebug;
 #ifdef _MSC_VER
 #define EBML_ASSERT_NEW(p) if(p==0)throw std::bad_alloc()
 #else
-#define EBML_ASSERT_NEW(p) assert(p!=0)
+#define EBML_ASSERT_NEW(p) assert((p)!=0)
 #endif
 
 END_LIBEBML_NAMESPACE
