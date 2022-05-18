@@ -137,7 +137,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     const EbmlElement * operator[](unsigned int position) const {return ElementList[position];}
 
     bool IsDefaultValue() const override {
-      return (ElementList.size() == 0);
+      return (ElementList.empty());
     }
     bool IsMaster() const override {return true;}
 
