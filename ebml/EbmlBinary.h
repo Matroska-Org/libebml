@@ -70,7 +70,7 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
     filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) override;
 
     void SetBuffer(const binary *Buffer, const uint32 BufferSize) {
-      Data = (binary *) Buffer;
+      Data = const_cast<binary *>(Buffer);
       SetSize_(BufferSize);
       SetValueIsSet();
     }
@@ -80,7 +80,7 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
     void CopyBuffer(const binary *Buffer, const uint32 BufferSize) {
       if (Data != nullptr)
         free(Data);
-      Data = (binary *)malloc(BufferSize * sizeof(binary));
+      Data = static_cast<binary *>(malloc(BufferSize * sizeof(binary)));
       memcpy(Data, Buffer, BufferSize);
       SetSize_(BufferSize);
       SetValueIsSet();
