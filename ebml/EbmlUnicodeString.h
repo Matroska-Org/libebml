@@ -52,7 +52,7 @@ START_LIBEBML_NAMESPACE
 */
 class EBML_DLL_API UTFstring {
 public:
-  typedef wchar_t value_type;
+  using value_type = wchar_t;
 
   UTFstring();
   UTFstring(const wchar_t *); // should be NULL terminated

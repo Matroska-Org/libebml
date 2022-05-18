@@ -324,7 +324,7 @@ class EBML_DLL_API EbmlSemantic {
     const EbmlCallbacks & GetCallbacks;
 };
 
-typedef const class EbmlSemanticContext & (*_GetSemanticContext)();
+using _GetSemanticContext = const class EbmlSemanticContext &(*)();
 
 /*!
   Context of the element
