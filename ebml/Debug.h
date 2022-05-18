@@ -37,13 +37,13 @@
 #ifndef LIBEBML_DEBUG_H
 #define LIBEBML_DEBUG_H
 
-#include <stdarg.h> // va_list
-#include <string.h>
+#include <cstdarg> // va_list
+#include <cstring>
 
 #ifdef WIN32
 #include <windows.h>
 #else
-#include <stdio.h>
+#include <cstdio>
 #endif // WIN32
 
 #include "EbmlConfig.h"
