@@ -43,7 +43,7 @@ START_LIBEBML_NAMESPACE
 class EBML_DLL_API EbmlDummy : public EbmlBinary {
   public:
     EbmlDummy() :DummyId(DummyRawId) {}
-    EbmlDummy(const EbmlId & aId) :EbmlBinary(), DummyId(aId) {}
+    EbmlDummy(const EbmlId & aId) : DummyId(aId) {}
     EbmlDummy(const EbmlDummy & ElementToClone) = default;
 
     bool IsDummy() const override {return true;}
