@@ -70,7 +70,7 @@ class EBML_DLL_API StdIOCallback:public IOCallback
 
     public:
 //  StdIOCallback(const char*Path,const char*Mode);
-  StdIOCallback(const char*Path, const open_mode Mode);
+  StdIOCallback(const char*Path, open_mode Mode);
   ~StdIOCallback() noexcept override;
 
   uint32 read(void*Buffer,size_t Size) override;
