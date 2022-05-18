@@ -78,9 +78,8 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     bool PushElement(EbmlElement & element);
     uint64 GetSize() const override {
       if (IsFiniteSize())
-                return EbmlElement::GetSize();
-      else
-        return (0-1);
+        return EbmlElement::GetSize();
+      return (0-1);
     }
 
     uint64 GetDataStart() const {
