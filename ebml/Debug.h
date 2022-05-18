@@ -112,35 +112,35 @@ public:
   ADbg(int /* level */ = 0){}
   virtual ~ADbg() = default;
 
-  inline int OutPut(int /* level */, const char * /* format */,...) const {
+  static inline int OutPut(int /* level */, const char * /* format */,...) {
     return 0;
   }
 
-  inline int OutPut(const char * /* format */,...) const {
+  static inline int OutPut(const char * /* format */,...) {
     return 0;
   }
 
-  inline int setLevel(const int level) {
+  static inline int setLevel(const int level) {
     return level;
   }
 
-  inline bool setIncludeTime(const bool /* included */ = true) {
+  static inline bool setIncludeTime(const bool /* included */ = true) {
     return true;
   }
 
-  inline bool setDebugFile(const char * /* NewFilename */) {
+  static inline bool setDebugFile(const char * /* NewFilename */) {
     return true;
   }
 
-  inline bool unsetDebugFile() {
+  static inline bool unsetDebugFile() {
     return true;
   }
 
-  inline bool setUseFile(const bool /* usefile */ = true) {
+  static inline bool setUseFile(const bool /* usefile */ = true) {
     return true;
   }
 
-  inline const char * setPrefix(const char * string) {
+  static inline const char * setPrefix(const char * string) {
     return string;
   }
 };
