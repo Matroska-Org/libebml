@@ -45,7 +45,7 @@ START_LIBEBML_NAMESPACE
 */
 class EBML_DLL_API EbmlDate : public EbmlElement {
   public:
-    EbmlDate() :EbmlElement(8, false), myDate(0) {}
+    EbmlDate() :EbmlElement(8, false) {}
     EbmlDate(const EbmlDate & ElementToClone);
 
     /*!
@@ -90,7 +90,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 #endif
     filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
 
-    int64 myDate; ///< internal format of the date
+    int64 myDate{0}; ///< internal format of the date
 
     static const uint64 UnixEpochDelay;
 };

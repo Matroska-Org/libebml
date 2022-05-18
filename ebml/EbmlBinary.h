@@ -99,7 +99,7 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
 #else
   protected:
 #endif
-    binary *Data; // the binary data inside the element
+    binary *Data{nullptr}; // the binary data inside the element
 };
 
 END_LIBEBML_NAMESPACE

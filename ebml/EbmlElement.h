@@ -500,13 +500,13 @@ class EBML_DLL_API EbmlElement {
 #endif
     uint64 Size;        ///< the size of the data to write
     uint64 DefaultSize; ///< Minimum data size to fill on rendering (0 = optimal)
-    int SizeLength; /// the minimum size on which the size will be written (0 = optimal)
-    bool bSizeIsFinite;
-    uint64 ElementPosition;
-    uint64 SizePosition;
+    int SizeLength{0}; /// the minimum size on which the size will be written (0 = optimal)
+    bool bSizeIsFinite{true};
+    uint64 ElementPosition{0};
+    uint64 SizePosition{0};
     bool bValueIsSet;
-    bool DefaultIsSet;
-    bool bLocked;
+    bool DefaultIsSet{false};
+    bool bLocked{false};
 };
 
 END_LIBEBML_NAMESPACE
