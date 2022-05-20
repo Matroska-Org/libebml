@@ -66,8 +66,8 @@ double EbmlFloat::DefaultVal() const
   return DefaultValue;
 }
 
-EbmlFloat::operator float() const {return float(Value);}
-EbmlFloat::operator double() const {return double(Value);}
+EbmlFloat::operator float() const {return static_cast<float>(Value);}
+EbmlFloat::operator double() const {return (Value);}
 
 double EbmlFloat::GetValue() const {return Value;}
 
@@ -128,7 +128,7 @@ filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
   if (GetSize() == 4) {
     big_int32 TmpRead;
     TmpRead.Eval(Buffer);
-    auto tmpp = int32(TmpRead);
+    auto tmpp = static_cast<int32>(TmpRead);
     float val;
     memcpy(&val, &tmpp, 4);
     Value = static_cast<double>(val);
@@ -136,7 +136,7 @@ filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
   } else {
     big_int64 TmpRead;
     TmpRead.Eval(Buffer);
-    auto tmpp = int64(TmpRead);
+    auto tmpp = static_cast<int64>(TmpRead);
     double val;
     memcpy(&val, &tmpp, 8);
     Value = val;

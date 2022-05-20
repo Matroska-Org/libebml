@@ -123,12 +123,12 @@ template <class T1, class T2>
 inline T2 ModPowerOf2(T1 a, T2 b)
 {
   assert(IsPowerOf2(b));
-  return T2(a) & (b-1);
+  return static_cast<T2>(a) & (b-1);
 }
 
 inline bool IsAlignedOn(const void *p, unsigned int alignment)
 {
-  return IsPowerOf2(alignment) ? ModPowerOf2(uintptr_t(p), alignment) == 0 : uintptr_t(p) % alignment == 0;
+  return IsPowerOf2(alignment) ? ModPowerOf2(reinterpret_cast<uintptr_t>(p), alignment) == 0 : reinterpret_cast<uintptr_t>(p) % alignment == 0;
 }
 
 template <class T>

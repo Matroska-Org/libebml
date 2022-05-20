@@ -59,7 +59,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
       \brief get the date with a UNIX/C/EPOCH form
       \note the date is in UTC (no timezone)
     */
-    int64 GetEpochDate() const {return int64(myDate/1000000000 + UnixEpochDelay);}
+    int64 GetEpochDate() const {return static_cast<int64>(myDate/1000000000 + UnixEpochDelay);}
     int64 GetValue() const {return GetEpochDate();}
 
     bool ValidateSize() const override {return IsFiniteSize() && ((GetSize() == 8) || (GetSize() == 0));}
