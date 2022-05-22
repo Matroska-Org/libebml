@@ -303,18 +303,12 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
     } while (_SizeLength == 0);
   }
 
-  EbmlElement *Result = nullptr;
   EbmlId PossibleID(PossibleId.data(), PossibleID_Length);
-  if (PossibleID == EBML_INFO_ID(ClassInfos)) {
-    // the element is the one expected
-    Result = &EBML_INFO_CREATE(ClassInfos);
-  } else {
-    /// \todo find the element in the context
-    Result = new (std::nothrow) EbmlDummy(PossibleID);
-    if(Result == nullptr)
-      return nullptr;
-  }
-
+  auto Result = [=] {
+    if (PossibleID == EBML_INFO_ID(ClassInfos))
+      return &EBML_INFO_CREATE(ClassInfos);
+    return static_cast<EbmlElement *>(new EbmlDummy(PossibleID));
+  }();
   Result->SetSizeLength(PossibleSizeLength);
 
   Result->Size = SizeFound;
