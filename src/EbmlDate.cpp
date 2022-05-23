@@ -37,12 +37,6 @@
 
 namespace libebml {
 
-EbmlDate::EbmlDate(const EbmlDate & ElementToClone)
-:EbmlElement(ElementToClone)
-,myDate(ElementToClone.myDate)
-{
-}
-
 filepos_t EbmlDate::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
   if ((ReadFully == SCOPE_NO_DATA) || (GetSize() == 0))

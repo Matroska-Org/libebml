@@ -46,7 +46,6 @@ namespace libebml {
 class EBML_DLL_API EbmlDate : public EbmlElement {
   public:
     EbmlDate() :EbmlElement(8, false) {}
-    EbmlDate(const EbmlDate & ElementToClone);
 
     /*!
       \brief set the date with a UNIX/C/EPOCH form

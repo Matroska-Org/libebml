@@ -170,13 +170,6 @@ EbmlCrc32::EbmlCrc32() {
   //  SetValueIsSet();
 }
 
-EbmlCrc32::EbmlCrc32(const EbmlCrc32 & ElementToClone)
-  :EbmlBinary(ElementToClone)
-  ,m_crc(ElementToClone.m_crc)
-  ,m_crc_final(ElementToClone.m_crc_final)
-{
-}
-
 void EbmlCrc32::ResetCRC()
 {
   m_crc = CRC32_NEGL;
