@@ -162,9 +162,7 @@ constexpr std::array<uint32, 256> EbmlCrc32::m_tab {
 #endif
 };
 
-EbmlCrc32::EbmlCrc32()
-  :m_crc_final(0)
-{
+EbmlCrc32::EbmlCrc32() {
   ResetCRC();
   SetDefaultSize(4);
   SetSize_(4);

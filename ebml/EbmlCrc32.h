@@ -97,9 +97,9 @@ DECLARE_EBML_BINARY(EbmlCrc32)
 
     static const std::array<uint32, 256> m_tab;
     uint32 m_crc;
-    uint32 m_crc_final;
+    uint32 m_crc_final{0};
 
-        EBML_CONCRETE_CLASS(EbmlCrc32)
+    EBML_CONCRETE_CLASS(EbmlCrc32)
 };
 
 template <class T>
