@@ -304,24 +304,15 @@ EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks) const
 */
 EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt, bool bCreateIfNull)
 {
-  size_t Index;
+  auto it = std::find(ElementList.begin(), ElementList.end(), &PastElt);
+  if (it != ElementList.end()) {
+    it = std::find_if(it + 1, ElementList.end(), [&](auto &&element) {
+      return EbmlId(PastElt) == EbmlId(*element);
+    });
 
-  for (Index = 0; Index < ElementList.size(); Index++) {
-    if ((ElementList[Index]) == &PastElt) {
-      // found past element, new one is :
-      Index++;
-      break;
-    }
+    if (it != ElementList.end())
+      return *it;
   }
-
-  while (Index < ElementList.size()) {
-    if (EbmlId(PastElt) == EbmlId(*ElementList[Index]))
-      break;
-    Index++;
-  }
-
-  if (Index != ElementList.size())
-    return ElementList[Index];
 
   if (bCreateIfNull) {
     // add the element
