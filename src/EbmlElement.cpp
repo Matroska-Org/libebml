@@ -299,7 +299,8 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
 
       ReadSize += DataStream.read(&PossibleSize.at(PossibleSizeLength++), 1);
       _SizeLength = PossibleSizeLength;
-      SizeFound = ReadCodedSizeValue(&PossibleSize[0], _SizeLength, SizeUnknown);
+      SizeFound =
+          ReadCodedSizeValue(PossibleSize.data(), _SizeLength, SizeUnknown);
     } while (_SizeLength == 0);
   }
 
@@ -379,7 +380,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
       if (ReadIndex >= 4) {
         // ID not found
         // shift left the read octets
-        memmove(&PossibleIdNSize[0],&PossibleIdNSize[1], --ReadIndex);
+        memmove(PossibleIdNSize.data(), &PossibleIdNSize[1], --ReadIndex);
         IdStart++;
       }
 
@@ -456,7 +457,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
 
     // recover all the data in the buffer minus one byte
     ReadIndex = SizeIdx - 1;
-    memmove(&PossibleIdNSize[0], &PossibleIdNSize[1], ReadIndex);
+    memmove(PossibleIdNSize.data(), &PossibleIdNSize[1], ReadIndex);
     IdStart++;
     UpperLevel = UpperLevel_original;
   } while ( MaxDataSize >= ReadSize );
