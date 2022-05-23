@@ -92,7 +92,7 @@ public:
   */
   uint32 write(IOCallback & IOToRead, size_t Size);
 
-  bool IsOk() { return mOk; }
+  bool IsOk() const { return mOk; }
   const std::string &GetLastErrorStr() { return mLastErrorStr; }
 protected:
   bool mOk;
