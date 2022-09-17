@@ -40,7 +40,7 @@
 #include "ebml/EbmlBinary.h"
 #include "ebml/StdIOCallback.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 EbmlBinary::EbmlBinary()
   :EbmlElement(0, false), Data(nullptr)
@@ -109,4 +109,4 @@ bool EbmlBinary::operator==(const EbmlBinary & ElementToCompare) const
   return ((GetSize() == ElementToCompare.GetSize()) && (GetSize() == 0 || !memcmp(Data, ElementToCompare.Data, GetSize())));
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

@@ -43,7 +43,7 @@
 #define stringstream strstream
 #endif
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 class EBML_DLL_API MemIOCallback : public IOCallback
 {
@@ -113,6 +113,6 @@ protected:
   uint64 dataBufferMemorySize;
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_MEMIOCALLBACK_H

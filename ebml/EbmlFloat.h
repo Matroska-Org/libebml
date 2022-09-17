@@ -39,7 +39,7 @@
 #include "EbmlTypes.h"
 #include "EbmlElement.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 /*!
     \class EbmlFloat
@@ -102,6 +102,6 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
     double DefaultValue;
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_FLOAT_H

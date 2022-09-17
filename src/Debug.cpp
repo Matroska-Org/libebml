@@ -45,7 +45,7 @@
 
 #include "ebml/Debug.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 class ADbg globalDebug;
 
@@ -237,4 +237,4 @@ bool ADbg::unsetDebugFile() {
 
 #endif // defined(LIBEBML_DEBUG)
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

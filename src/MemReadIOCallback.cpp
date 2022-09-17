@@ -39,7 +39,7 @@
 #include "ebml/EbmlBinary.h"
 #include "ebml/MemReadIOCallback.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 MemReadIOCallback::MemReadIOCallback(void const *Ptr,
                                      size_t Size) {
@@ -86,4 +86,4 @@ MemReadIOCallback::setFilePointer(int64 Offset,
   mPtr = mStart + NewPosition;
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

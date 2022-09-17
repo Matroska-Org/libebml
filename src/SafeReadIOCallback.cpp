@@ -40,7 +40,7 @@
 #include "ebml/MemReadIOCallback.h"
 #include "ebml/SafeReadIOCallback.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 SafeReadIOCallback::EndOfStreamX::EndOfStreamX(size_t MissingBytes)
   : mMissingBytes(MissingBytes)
@@ -171,4 +171,4 @@ SafeReadIOCallback::Read(void *Dst,
     throw SafeReadIOCallback::EndOfStreamX(Count - NumRead);
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

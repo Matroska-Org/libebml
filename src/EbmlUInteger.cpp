@@ -38,7 +38,7 @@
 
 #include "ebml/EbmlUInteger.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 EbmlUInteger::EbmlUInteger()
   :EbmlElement(DEFAULT_UINT_SIZE, false)
@@ -157,4 +157,4 @@ bool EbmlUInteger::IsSmallerThan(const EbmlElement *Cmp) const
   return false;
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

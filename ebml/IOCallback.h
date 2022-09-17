@@ -41,7 +41,7 @@
 // #include <iostream>
 
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 enum seek_mode
 {
@@ -112,6 +112,6 @@ template<class TRAITS> std::basic_ostream<char,TRAITS>&operator<<(std::basic_ost
 }
 */
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // MATROSKA_IOCALLBACK_H

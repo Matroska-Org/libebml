@@ -38,7 +38,7 @@
 
 #include "ebml/EbmlFloat.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 EbmlFloat::EbmlFloat(const EbmlFloat::Precision prec)
   :EbmlElement(0, false)
@@ -154,4 +154,4 @@ bool EbmlFloat::IsSmallerThan(const EbmlElement *Cmp) const
   return false;
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

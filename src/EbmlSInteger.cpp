@@ -53,7 +53,7 @@ ToSigned(uint64 u) {
 
 } // namespace
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 EbmlSInteger::EbmlSInteger()
   :EbmlElement(DEFAULT_INT_SIZE, false)
@@ -166,4 +166,4 @@ bool EbmlSInteger::IsSmallerThan(const EbmlElement *Cmp) const
   return false;
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

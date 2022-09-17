@@ -48,7 +48,7 @@ static constexpr uint32_t CRC32_SHIFTED(uint32_t c) { return c >> 8; }
 
 static constexpr uint32 CRC32_NEGL = 0xffffffffL;
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 DEFINE_EBML_CLASS_GLOBAL(EbmlCrc32, 0xBF, 1, "EBMLCrc32\0ratamadabapa")
 
@@ -342,4 +342,4 @@ void EbmlCrc32::Finalize()
   SetValueIsSet();
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

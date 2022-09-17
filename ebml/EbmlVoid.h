@@ -39,7 +39,7 @@
 #include "EbmlTypes.h"
 #include "EbmlBinary.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 DECLARE_EBML_BINARY(EbmlVoid)
   public:
@@ -68,6 +68,6 @@ DECLARE_EBML_BINARY(EbmlVoid)
         EBML_CONCRETE_CLASS(EbmlVoid)
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_VOID_H

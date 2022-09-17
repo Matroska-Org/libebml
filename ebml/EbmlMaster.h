@@ -48,7 +48,7 @@
 #define EBML_MASTER_RITERATOR std::vector<EbmlElement *>::reverse_iterator
 #define EBML_MASTER_CONST_RITERATOR std::vector<EbmlElement *>::const_reverse_iterator
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 const bool bChecksumUsedByDefault = false;
 
@@ -230,6 +230,6 @@ Type & AddNewChild(EbmlMaster & Master)
   return *(static_cast<Type *>(Master.AddNewElt(EBML_INFO(Type))));
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_MASTER_H

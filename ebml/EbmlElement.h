@@ -38,7 +38,7 @@
 #include "EbmlId.h"
 #include "IOCallback.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 /*!
   \brief The size of the EBML-coded length
@@ -509,6 +509,6 @@ class EBML_DLL_API EbmlElement {
     bool bLocked;
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_ELEMENT_H

@@ -45,7 +45,7 @@
 #endif //__BORLANDC__
 // ------------------------------------------------
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 class EBML_DLL_API CRTError:public std::runtime_error
 {
@@ -96,6 +96,6 @@ class EBML_DLL_API StdIOCallback:public IOCallback
   virtual void close();
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif

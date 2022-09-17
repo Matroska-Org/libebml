@@ -36,7 +36,7 @@
 #include "ebml/EbmlDummy.h"
 #include "ebml/EbmlContexts.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 DEFINE_EBML_CLASS_ORPHAN(EbmlDummy, 0xFF, 1, "DummyElement")
 
@@ -47,4 +47,4 @@ EbmlDummy::operator const EbmlId &()
   return DummyId;
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

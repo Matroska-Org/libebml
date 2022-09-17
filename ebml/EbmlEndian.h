@@ -43,7 +43,7 @@
 
 #include "EbmlConfig.h" // contains _ENDIANESS_
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 enum endianess {
     big_endian,   ///< PowerPC, Alpha, 68000
@@ -117,6 +117,6 @@ template<class TYPE, endianess ENDIAN> class Endian
       }
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_ENDIAN_H

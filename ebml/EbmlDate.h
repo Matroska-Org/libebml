@@ -37,7 +37,7 @@
 #include "EbmlTypes.h"
 #include "EbmlElement.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 /*!
     \class EbmlDate
@@ -95,6 +95,6 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
     static const uint64 UnixEpochDelay = 978307200; // 2001/01/01 00:00:00 UTC
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_DATE_H

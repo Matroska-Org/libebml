@@ -37,7 +37,7 @@
 #include "ebml/EbmlSubHead.h"
 #include "ebml/EbmlContexts.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 DEFINE_START_SEMANTIC(EbmlHead)
 DEFINE_SEMANTIC_ITEM(true, true, EVersion)        ///< EBMLVersion
@@ -55,4 +55,4 @@ EbmlHead::EbmlHead()
   :EbmlMaster(EbmlHead_Context)
 {}
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

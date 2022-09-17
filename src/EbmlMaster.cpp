@@ -42,7 +42,7 @@
 #include "ebml/EbmlContexts.h"
 #include "ebml/MemIOCallback.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 EbmlMaster::EbmlMaster(const EbmlSemanticContext & aContext, bool bSizeIsknown)
  :EbmlElement(0), Context(aContext), bChecksumUsed(bChecksumUsedByDefault)
@@ -566,4 +566,4 @@ bool EbmlMaster::InsertElement(EbmlElement & element, const EbmlElement & before
 }
 
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

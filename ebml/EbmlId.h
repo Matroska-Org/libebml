@@ -38,7 +38,7 @@
 
 #include "EbmlTypes.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 
 #if defined(EBML_STRICT_API)
@@ -94,6 +94,6 @@ class EBML_DLL_API EbmlId {
     size_t Length;
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_ID_H

@@ -43,7 +43,7 @@
 
 using namespace std;
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 CRTError::CRTError(int nError, const std::string & Description)
   :std::runtime_error(Description+": "+strerror(nError))
@@ -179,4 +179,4 @@ void StdIOCallback::close()
   File=nullptr;
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

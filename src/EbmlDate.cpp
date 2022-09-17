@@ -35,7 +35,7 @@
 
 #include "ebml/EbmlDate.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 EbmlDate::EbmlDate(const EbmlDate & ElementToClone)
 :EbmlElement(ElementToClone)
@@ -86,4 +86,4 @@ bool EbmlDate::IsSmallerThan(const EbmlElement *Cmp) const
   return false;
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

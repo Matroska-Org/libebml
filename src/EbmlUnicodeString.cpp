@@ -42,7 +42,7 @@
 
 #include "lib/utf8-cpp/source/utf8/checked.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 // ===================== UTFstring class ===================
 
@@ -329,4 +329,4 @@ filepos_t EbmlUnicodeString::ReadData(IOCallback & input, ScopeMode ReadFully)
   return GetSize();
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
