@@ -38,7 +38,7 @@
 
 #include "EbmlBinary.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 class EBML_DLL_API EbmlDummy : public EbmlBinary {
   public:
@@ -64,6 +64,6 @@ class EBML_DLL_API EbmlDummy : public EbmlBinary {
         EBML_CONCRETE_DUMMY_CLASS(EbmlDummy)
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_DUMMY_H

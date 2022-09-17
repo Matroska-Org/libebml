@@ -37,7 +37,7 @@
 #include "ebml/EbmlCrc32.h"
 #include "ebml/EbmlVoid.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 static const EbmlSemantic EbmlGlobal_ContextList[2] =
 {
@@ -54,4 +54,4 @@ const EbmlSemanticContext & GetEbmlGlobal_Context()
   return EbmlGlobal_Context;
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

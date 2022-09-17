@@ -41,7 +41,7 @@
 #include "EbmlTypes.h"
 #include "EbmlElement.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 /*!
     \class EbmlString
@@ -83,6 +83,6 @@ class EBML_DLL_API EbmlString : public EbmlElement {
     std::string DefaultValue;
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_STRING_H

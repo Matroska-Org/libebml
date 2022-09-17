@@ -49,7 +49,7 @@
 #endif //__BORLANDC__
 // ------------------------------------------------
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 /*!
     \class EbmlBinary
@@ -102,6 +102,6 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
     binary *Data; // the binary data inside the element
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_BINARY_H

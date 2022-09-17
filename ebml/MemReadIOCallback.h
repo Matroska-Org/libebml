@@ -36,7 +36,7 @@
 #include "EbmlBinary.h"
 #include "IOCallback.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 class EBML_DLL_API MemReadIOCallback : public IOCallback {
 protected:
@@ -60,6 +60,6 @@ protected:
   void Init(void const *Ptr, size_t Size);
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_MEMREADIOCALLBACK_H

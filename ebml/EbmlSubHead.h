@@ -41,7 +41,7 @@
 #include "EbmlUInteger.h"
 #include "EbmlString.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 DECLARE_EBML_UINTEGER(EVersion)
   public:
@@ -92,6 +92,6 @@ DECLARE_EBML_UINTEGER(EDocTypeReadVersion)
         EBML_CONCRETE_CLASS(EDocTypeReadVersion)
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_SUBHEAD_H

@@ -36,7 +36,7 @@
 #include "ebml/EbmlVoid.h"
 #include "ebml/EbmlContexts.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 DEFINE_EBML_CLASS_GLOBAL(EbmlVoid, 0xEC, 1, "EBMLVoid")
 
@@ -134,4 +134,4 @@ uint64 EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & output, b
   return EltToVoid.GetSize() + EltToVoid.HeadSize();
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

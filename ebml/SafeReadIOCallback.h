@@ -40,7 +40,7 @@
 #include "EbmlTypes.h"
 #include "IOCallback.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 class EBML_DLL_API SafeReadIOCallback {
 public:
@@ -85,6 +85,6 @@ protected:
   void Init(IOCallback *IO, bool DeleteIO);
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif  // LIBEBML_SAFEREADIOCALLBACK_H

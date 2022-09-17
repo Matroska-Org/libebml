@@ -41,7 +41,7 @@
 #include <string>
 #include "ebml/IOCallback.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 class WinIOCallback: public IOCallback
 {
@@ -70,6 +70,6 @@ protected:
   HANDLE mFile;
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_WINIOCALLBACK_H

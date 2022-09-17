@@ -46,7 +46,7 @@
 #include "ebml/EbmlDummy.h"
 #include "ebml/EbmlContexts.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 /*!
   \todo handle more than CodedSize of 5
@@ -733,4 +733,4 @@ uint64 EbmlElement::VoidMe(IOCallback & output, bool bWithDefault)
   return Dummy.Overwrite(*this, output, true, bWithDefault);
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

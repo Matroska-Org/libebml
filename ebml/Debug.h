@@ -48,7 +48,7 @@
 
 #include "EbmlConfig.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 static const int MAX_PREFIX_LENGTH = 128;
 
@@ -165,6 +165,6 @@ extern ADbg globalDebug;
 #define EBML_ASSERT_NEW(p) assert(p!=0)
 #endif
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif

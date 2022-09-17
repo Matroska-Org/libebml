@@ -41,7 +41,7 @@
 #include "EbmlTypes.h"
 #include "EbmlElement.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 const int DEFAULT_UINT_SIZE = 0; ///< optimal size stored
 
@@ -94,6 +94,6 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
     uint64 DefaultValue;
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_UINTEGER_H

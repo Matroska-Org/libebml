@@ -37,7 +37,7 @@
 #include "ebml/EbmlConfig.h"
 #include "EbmlEndian.h" // binary needs to be defined
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 typedef wchar_t utf16;
 typedef uint32 utf32;
@@ -67,6 +67,6 @@ enum ScopeMode {
   SCOPE_NO_DATA
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif

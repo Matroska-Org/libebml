@@ -40,7 +40,7 @@
 
 using namespace std;
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 void IOCallback::writeFully(const void*Buffer,size_t Size)
 {
@@ -71,4 +71,4 @@ void IOCallback::readFully(void*Buffer,size_t Size)
   }
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

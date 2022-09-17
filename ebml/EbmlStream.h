@@ -40,7 +40,7 @@
 #include "IOCallback.h"
 #include "EbmlElement.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 /*!
     \class EbmlStream
@@ -71,6 +71,6 @@ class EBML_DLL_API EbmlStream {
     IOCallback & Stream;
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_STREAM_H

@@ -39,7 +39,7 @@
 #include "EbmlTypes.h"
 #include "EbmlElement.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 extern const EbmlSemanticContext EBML_DLL_API EbmlHead_Context;
 extern const EbmlSemanticContext EBML_DLL_API EVersion_Context;
@@ -55,6 +55,6 @@ extern const EbmlSemanticContext EBML_DLL_API EDocTypeReadVersion_Context;
 // global elements
 extern const EbmlSemanticContext EBML_DLL_API & GetEbmlGlobal_Context();
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_CONTEXTS_H

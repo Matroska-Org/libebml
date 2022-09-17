@@ -36,7 +36,7 @@
 #include "ebml/Debug.h"
 #include "ebml/EbmlConfig.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 MemIOCallback::MemIOCallback(uint64 DefaultSize)
 {
@@ -118,4 +118,4 @@ uint32 MemIOCallback::write(IOCallback & IOToRead, size_t Size)
   return Size;
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

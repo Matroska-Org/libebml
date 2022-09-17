@@ -42,7 +42,7 @@
 #include "EbmlTypes.h"
 #include "EbmlBinary.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 DECLARE_EBML_BINARY(EbmlCrc32)
   public:
@@ -137,6 +137,6 @@ inline bool IsAligned(const void *p, T * /* dummy */=nullptr)  // VC60 workaroun
   return IsAlignedOn(p, GetAlignment<T>());
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_CRC32_H

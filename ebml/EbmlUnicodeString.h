@@ -43,7 +43,7 @@
 #include "EbmlTypes.h"
 #include "EbmlElement.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 /*!
   \class UTFstring
@@ -135,6 +135,6 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
     UTFstring DefaultValue;
 };
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
 
 #endif // LIBEBML_UNICODE_STRING_H

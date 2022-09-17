@@ -36,7 +36,7 @@
 
 #include "ebml/EbmlVersion.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 const std::string EbmlCodeVersion = "1.4.2";
 
@@ -45,4 +45,4 @@ const std::string EbmlCodeVersion = "1.4.2";
 // remain API compatible.
 const std::string EbmlCodeDate = "Unknown";
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

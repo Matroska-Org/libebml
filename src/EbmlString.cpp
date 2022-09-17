@@ -38,7 +38,7 @@
 
 #include "ebml/EbmlString.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 EbmlString::EbmlString()
   :EbmlElement(0, false)
@@ -163,4 +163,4 @@ filepos_t EbmlString::ReadData(IOCallback & input, ScopeMode ReadFully)
   return GetSize();
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml

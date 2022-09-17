@@ -35,7 +35,7 @@
 */
 #include "ebml/EbmlStream.h"
 
-START_LIBEBML_NAMESPACE
+namespace libebml {
 
 EbmlStream::EbmlStream(IOCallback & DataStream)
   :Stream(DataStream)
@@ -51,4 +51,4 @@ EbmlElement * EbmlStream::FindNextElement(const EbmlSemanticContext & Context, i
   return EbmlElement::FindNextElement(Stream, Context, UpperLevel, MaxDataSize, AllowDummyElt, MaxLowerLevel);
 }
 
-END_LIBEBML_NAMESPACE
+} // namespace libebml
