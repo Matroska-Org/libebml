@@ -64,13 +64,8 @@
 #endif
 
 #define LIBEBML_NAMESPACE libebml
-#if defined(NO_NAMESPACE) // for older GCC
-# define START_LIBEBML_NAMESPACE
-# define END_LIBEBML_NAMESPACE
-#else // NO_NAMESPACE
-# define START_LIBEBML_NAMESPACE namespace LIBEBML_NAMESPACE {
-# define END_LIBEBML_NAMESPACE   }
-#endif // NO_NAMESPACE
+#define START_LIBEBML_NAMESPACE namespace LIBEBML_NAMESPACE {
+#define END_LIBEBML_NAMESPACE   }
 
 
 #ifndef countof
