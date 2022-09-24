@@ -129,9 +129,7 @@ void UTFstring::SetUTF8(const std::string & _aStr)
 void UTFstring::UpdateFromUTF8()
 {
   // Only convert up to the first \0 character if present.
-  std::string::iterator End = UTF8string.end(), Current = UTF8string.begin();
-  while ((Current != End) && *Current)
-    ++Current;
+  auto Current = std::find(UTF8string.begin(), UTF8string.end(), '\0');
 
   std::wstring Temp;
   try {
