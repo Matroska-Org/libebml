@@ -2,7 +2,7 @@
 
 * Fix compilation with g++ 11. Fixes #80.
 * Remove Coremake project files
-* Updated the bundled utf8cpp to v3.1.2.
+* Updated the bundled utf8cpp to v3.2.1.
 * Fixed several problems in `EbmlBinary:` potential segfault by
   writing to a `nullptr`, potential memory leak under certain error
   conditions.
