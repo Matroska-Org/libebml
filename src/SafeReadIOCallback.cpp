@@ -73,7 +73,7 @@ SafeReadIOCallback::Init(IOCallback *IO,
                          bool DeleteIO) {
   mIO                = IO;
   mDeleteIO          = DeleteIO;
-  int64 PrevPosition = IO->getFilePointer();
+  const int64 PrevPosition = IO->getFilePointer();
   IO->setFilePointer(0, seek_end);
   mSize              = IO->getFilePointer();
   IO->setFilePointer(PrevPosition);
@@ -146,10 +146,10 @@ SafeReadIOCallback::GetUInt64BE() {
 
 void
 SafeReadIOCallback::Skip(size_t Count) {
-  int64 PrevPosition     = mIO->getFilePointer();
-  int64 ExpectedPosition = PrevPosition + Count;
+  const int64 PrevPosition     = mIO->getFilePointer();
+  const int64 ExpectedPosition = PrevPosition + Count;
   mIO->setFilePointer(Count, seek_current);
-  int64 ActualPosition   = mIO->getFilePointer();
+  const int64 ActualPosition   = mIO->getFilePointer();
 
   if (ActualPosition != ExpectedPosition)
     throw SafeReadIOCallback::EndOfStreamX(ExpectedPosition - ActualPosition);
@@ -158,7 +158,7 @@ SafeReadIOCallback::Skip(size_t Count) {
 void
 SafeReadIOCallback::Seek(size_t Position) {
   mIO->setFilePointer(Position);
-  uint64 ActualPosition = mIO->getFilePointer();
+  const uint64 ActualPosition = mIO->getFilePointer();
   if (ActualPosition != Position)
     throw EndOfStreamX(ActualPosition - Position);
 }
@@ -166,7 +166,7 @@ SafeReadIOCallback::Seek(size_t Position) {
 void
 SafeReadIOCallback::Read(void *Dst,
                        size_t Count) {
-  uint64 NumRead = mIO->read(Dst, Count);
+ const uint64 NumRead = mIO->read(Dst, Count);
   if (NumRead != Count)
     throw SafeReadIOCallback::EndOfStreamX(Count - NumRead);
 }

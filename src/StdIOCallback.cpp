@@ -101,7 +101,7 @@ uint32 StdIOCallback::read(void*Buffer,size_t Size)
 {
   assert(File!=nullptr);
 
-  size_t result = fread(Buffer, 1, Size, File);
+  const size_t result = fread(Buffer, 1, Size, File);
   mCurrentPosition += result;
   return result;
 }
@@ -144,7 +144,7 @@ void StdIOCallback::setFilePointer(int64 Offset,seek_mode Mode)
 size_t StdIOCallback::write(const void*Buffer,size_t Size)
 {
   assert(File!=nullptr);
-  uint32 Result = fwrite(Buffer,1,Size,File);
+  const uint32 Result = fwrite(Buffer,1,Size,File);
   mCurrentPosition += Result;
   return Result;
 }

@@ -304,7 +304,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
     } while (_SizeLength == 0);
   }
 
-  EbmlId PossibleID(PossibleId.data(), PossibleID_Length);
+  const auto PossibleID = EbmlId(PossibleId.data(), PossibleID_Length);
   auto Result = [=] {
     if (PossibleID == EBML_INFO_ID(ClassInfos))
       return &EBML_INFO_CREATE(ClassInfos);
@@ -354,8 +354,8 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
   uint64 SizeFound;
   int SizeIdx;
   bool bFound;
-  int UpperLevel_original = UpperLevel;
-  uint64 ParseStart = DataStream.getFilePointer();
+  const int UpperLevel_original = UpperLevel;
+  const uint64 ParseStart = DataStream.getFilePointer();
 
   do {
     // read a potential ID
@@ -427,7 +427,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
 
     if (bFound) {
       // find the element in the context and use the correct creator
-      EbmlId PossibleID(PossibleIdNSize.data(), PossibleID_Length);
+      const auto PossibleID = EbmlId(PossibleIdNSize.data(), PossibleID_Length);
       EbmlElement * Result = CreateElementUsingContext(PossibleID, Context, UpperLevel, false, AllowDummyElt, MaxLowerLevel);
       ///< \todo continue is misplaced
       if (Result != nullptr) {
@@ -539,7 +539,7 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 
   // global elements
   assert(Context.GetGlobalContext != nullptr); // global should always exist, at least the EBML ones
-  const EbmlSemanticContext & tstContext = Context.GetGlobalContext();
+  const auto& tstContext = Context.GetGlobalContext();
   if (tstContext != Context) {
     LowLevel--;
     MaxLowerLevel--;
@@ -589,7 +589,7 @@ filepos_t EbmlElement::Render(IOCallback & output, bool bWithDefault, bool bKeep
   uint64 SupposedSize = UpdateSize(bWithDefault, bForceRender);
 #endif // LIBEBML_DEBUG
   filepos_t result = RenderHead(output, bForceRender, bWithDefault, bKeepPosition);
-  uint64 WrittenSize = RenderData(output, bForceRender, bWithDefault);
+  const uint64 WrittenSize = RenderData(output, bForceRender, bWithDefault);
 #if defined(LIBEBML_DEBUG)
   if (static_cast<int64>(SupposedSize) != (0-1))
     assert(WrittenSize == SupposedSize);
@@ -621,7 +621,7 @@ filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
   FinalHeadSize = EBML_ID_LENGTH((const EbmlId&)*this);
   EbmlId(*this).Fill(FinalHead.data());
 
-  int CodedSize = CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+  const int CodedSize = CodedSizeLength(Size, SizeLength, bSizeIsFinite);
   CodedValueLength(Size, CodedSize, &FinalHead.at(FinalHeadSize));
   FinalHeadSize += CodedSize;
 
@@ -665,8 +665,8 @@ bool EbmlElement::ForceSize(uint64 NewSize)
     return false;
   }
 
-  int OldSizeLen = CodedSizeLength(Size, SizeLength, bSizeIsFinite);
-  uint64 OldSize = Size;
+  const int OldSizeLen = CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+  const uint64 OldSize = Size;
 
   Size = NewSize;
 
@@ -685,9 +685,9 @@ filepos_t EbmlElement::OverwriteHead(IOCallback & output, bool bKeepPosition)
     return 0; // the element has not been written
   }
 
-  uint64 CurrentPosition = output.getFilePointer();
+  const uint64 CurrentPosition = output.getFilePointer();
   output.setFilePointer(GetElementPosition());
-  filepos_t Result = MakeRenderHead(output, bKeepPosition);
+  const filepos_t Result = MakeRenderHead(output, bKeepPosition);
   output.setFilePointer(CurrentPosition);
   return Result;
 }

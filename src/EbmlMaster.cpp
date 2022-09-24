@@ -139,7 +139,7 @@ uint64 EbmlMaster::UpdateSize(bool bWithDefault, bool bForceRender)
     if (!bWithDefault && Element->IsDefaultValue())
       continue;
     Element->UpdateSize(bWithDefault, bForceRender);
-    uint64 SizeToAdd = Element->ElementSize(bWithDefault);
+    const uint64 SizeToAdd = Element->ElementSize(bWithDefault);
 #if defined(LIBEBML_DEBUG)
     if (static_cast<int64>(SizeToAdd) == (0-1))
       return (0-1);
@@ -199,8 +199,8 @@ bool EbmlMaster::CheckMandatory() const
   for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
     if (EBML_CTX_IDX(Context,EltIdx).IsMandatory()) {
       if (FindElt(EBML_CTX_IDX_INFO(Context,EltIdx)) == nullptr) {
-        EbmlElement *testElement = &EBML_CTX_IDX(Context,EltIdx).Create();
-        bool hasDefaultValue     = testElement->DefaultISset();
+        const auto testElement = &EBML_CTX_IDX(Context,EltIdx).Create();
+        const bool hasDefaultValue = testElement->DefaultISset();
         delete testElement;
 
 #if defined(LIBEBML_DEBUG)

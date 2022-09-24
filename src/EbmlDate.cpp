@@ -64,7 +64,7 @@ filepos_t EbmlDate::RenderData(IOCallback & output, bool /* bForceRender */, boo
 {
   if (GetSize() != 0) {
     assert(GetSize() == 8);
-    big_int64 b64(myDate);
+    const auto b64 = big_int64(myDate);
 
     output.writeFully(&b64.endian(),GetSize());
   }

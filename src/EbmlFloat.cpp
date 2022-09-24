@@ -87,13 +87,13 @@ filepos_t EbmlFloat::RenderData(IOCallback & output, bool /* bForceRender */, bo
     auto val = static_cast<float>(Value);
     int Tmp;
     memcpy(&Tmp, &val, 4);
-    big_int32 TmpToWrite(Tmp);
+    const auto TmpToWrite = big_int32(Tmp);
     output.writeFully(&TmpToWrite.endian(), GetSize());
   } else if (GetSize() == 8) {
     double val = Value;
     int64 Tmp;
     memcpy(&Tmp, &val, 8);
-    big_int64 TmpToWrite(Tmp);
+    const auto TmpToWrite = big_int64(Tmp);
     output.writeFully(&TmpToWrite.endian(), GetSize());
   }
 
