@@ -1,3 +1,8 @@
+[![Linux](https://github.com/Matroska-Org/libebml/actions/workflows/linux.yaml/badge.svg)](https://github.com/Matroska-Org/libebml/actions/workflows/linux.yaml)
+[![Windows](https://github.com/Matroska-Org/libebml/actions/workflows/windows.yaml/badge.svg)](https://github.com/Matroska-Org/libebml/actions/workflows/windows.yaml)
+[![macOS](https://github.com/Matroska-Org/libebml/actions/workflows/macos.yaml/badge.svg)](https://github.com/Matroska-Org/libebml/actions/workflows/macos.yaml)
+[![GCC10](https://github.com/Matroska-Org/libebml/actions/workflows/linux-gcc10.yaml/badge.svg)](https://github.com/Matroska-Org/libebml/actions/workflows/linux-gcc10.yaml)
+
 # libebml
 a C++ library to parse EBML files
 
@@ -28,7 +33,7 @@ following additional `cmake` options are supported:
   `libebml.pc` package configuration module for `pkg-config`
 * `-DDISABLE_CMAKE_CONFIG=YES` — don't generate and install the
   package configuration module for `cmake`. Note that building
-  `libmatroska` requires that the `cmake` configuration is available.
+  `libebml` requires that the `cmake` configuration is available.
 * `-DBUILD_SHARED_LIBS=YES` — build the shared library instead of the
   static one (default: no)
 

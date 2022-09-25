@@ -1,0 +1,25 @@
+name: "Linux Build"
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    # branches: [ master ]
+
+jobs:
+  build_libebml:
+    name: libebml for Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: lukka/get-cmake@latest
+
+      - name: Get pushed code
+        uses: actions/checkout@v3
+      
+      - name: Configure CMake 
+        run: cmake -S . -B _build -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
+
+      - name: Build with CMake
+        run: cmake --build _build --parallel
+
+      - name: Test installation
+        run: cmake --install _build --prefix ${GITHUB_WORKSPACE}/_built
