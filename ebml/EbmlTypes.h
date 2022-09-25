@@ -39,26 +39,26 @@
 
 namespace libebml {
 
-typedef wchar_t utf16;
-typedef uint32 utf32;
-typedef char utf8;
+using utf16 = wchar_t;
+using utf32 = uint32;
+using utf8 = char;
 
-typedef binary bits80[10];
+using bits80 = binary[10];
 
-typedef Endian<int16,little_endian>  lil_int16;
-typedef Endian<int32,little_endian>  lil_int32;
-typedef Endian<int64,little_endian>  lil_int64;
-typedef Endian<uint16,little_endian> lil_uint16;
-typedef Endian<uint32,little_endian> lil_uint32;
-typedef Endian<uint64,little_endian> lil_uint64;
-typedef Endian<int16,big_endian>     big_int16;
-typedef Endian<int32,big_endian>     big_int32;
-typedef Endian<int64,big_endian>     big_int64;
-typedef Endian<uint16,big_endian>    big_uint16;
-typedef Endian<uint32,big_endian>    big_uint32;
-typedef Endian<uint64,big_endian>    big_uint64;
-typedef Endian<uint32,big_endian>    checksum;
-typedef Endian<bits80,big_endian>    big_80bits;
+using lil_int16 = Endian<int16, little_endian>;
+using lil_int32 = Endian<int32, little_endian>;
+using lil_int64 = Endian<int64, little_endian>;
+using lil_uint16 = Endian<uint16, little_endian>;
+using lil_uint32 = Endian<uint32, little_endian>;
+using lil_uint64 = Endian<uint64, little_endian>;
+using big_int16 = Endian<int16, big_endian>;
+using big_int32 = Endian<int32, big_endian>;
+using big_int64 = Endian<int64, big_endian>;
+using big_uint16 = Endian<uint16, big_endian>;
+using big_uint32 = Endian<uint32, big_endian>;
+using big_uint64 = Endian<uint64, big_endian>;
+using checksum = Endian<uint32, big_endian>;
+using big_80bits = Endian<bits80, big_endian>;
 
 
 enum ScopeMode {

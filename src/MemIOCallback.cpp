@@ -97,7 +97,7 @@ size_t MemIOCallback::write(const void *Buffer, size_t Size)
 {
   if (dataBufferMemorySize < dataBufferPos + Size) {
     //We need more memory!
-    dataBuffer = static_cast<binary *>(realloc((void *)dataBuffer, dataBufferPos + Size));
+    dataBuffer = static_cast<binary *>(realloc(static_cast<void *>(dataBuffer), dataBufferPos + Size));
   }
   memcpy(dataBuffer+dataBufferPos, Buffer, Size);
   dataBufferPos += Size;
@@ -111,7 +111,7 @@ uint32 MemIOCallback::write(IOCallback & IOToRead, size_t Size)
 {
   if (dataBufferMemorySize < dataBufferPos + Size) {
     //We need more memory!
-    dataBuffer = static_cast<binary *>(realloc((void *)dataBuffer, dataBufferPos + Size));
+    dataBuffer = static_cast<binary *>(realloc(static_cast<void *>(dataBuffer), dataBufferPos + Size));
   }
   IOToRead.readFully(&dataBuffer[dataBufferPos], Size);
   dataBufferTotalSize = Size;

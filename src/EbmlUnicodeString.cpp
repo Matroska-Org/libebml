@@ -46,21 +46,12 @@ namespace libebml {
 
 // ===================== UTFstring class ===================
 
-UTFstring::UTFstring()
-  :_Length(0)
-  ,_Data(nullptr)
-{}
-
 UTFstring::UTFstring(const wchar_t * _aBuf)
-  :_Length(0)
-  ,_Data(nullptr)
 {
   *this = _aBuf;
 }
 
 UTFstring::UTFstring(std::wstring const &_aBuf)
-  :_Length(0)
-  ,_Data(nullptr)
 {
   *this = _aBuf.c_str();
 }
@@ -71,8 +62,6 @@ UTFstring::~UTFstring()
 }
 
 UTFstring::UTFstring(const UTFstring & _aBuf)
-  :_Length(0)
-  ,_Data(nullptr)
 {
   *this = _aBuf.c_str();
 }
@@ -307,7 +296,7 @@ filepos_t EbmlUnicodeString::ReadData(IOCallback & input, ScopeMode ReadFully)
     return GetSize();
 
   if (GetSize() == 0) {
-    Value = UTFstring::value_type(0);
+    Value = static_cast<UTFstring::value_type>(0);
     SetValueIsSet();
   } else {
     auto Buffer = (GetSize() + 1 < std::numeric_limits<std::size_t>::max()) ? new (std::nothrow) char[GetSize()+1] : nullptr;

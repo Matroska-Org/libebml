@@ -65,9 +65,9 @@ EbmlSInteger::EbmlSInteger(int64 aDefaultValue)
   SetDefaultIsSet();
 }
 
-EbmlSInteger::operator int8() const {return  int8(Value);}
-EbmlSInteger::operator int16() const {return int16(Value);}
-EbmlSInteger::operator int32() const {return int32(Value);}
+EbmlSInteger::operator int8() const {return  static_cast<int8>(Value);}
+EbmlSInteger::operator int16() const {return static_cast<int16>(Value);}
+EbmlSInteger::operator int32() const {return static_cast<int32>(Value);}
 EbmlSInteger::operator int64() const {return Value;}
 
 int64 EbmlSInteger::GetValue() const {return Value;}
@@ -89,7 +89,7 @@ filepos_t EbmlSInteger::RenderData(IOCallback & output, bool /* bForceRender */,
 
   int64 TempValue = Value;
   for (i=0; i<GetSize();i++) {
-    FinalData[GetSize()-i-1] = binary(TempValue & 0xFF);
+    FinalData[GetSize()-i-1] = static_cast<binary>(TempValue & 0xFF);
     TempValue >>= 8;
   }
 

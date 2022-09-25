@@ -43,7 +43,7 @@
 namespace libebml {
 
 EbmlBinary::EbmlBinary()
-  :EbmlElement(0, false), Data(nullptr)
+  :EbmlElement(0, false) 
 {}
 
 EbmlBinary::EbmlBinary(const EbmlBinary & ElementToClone)

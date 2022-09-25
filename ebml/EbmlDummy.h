@@ -43,13 +43,13 @@ namespace libebml {
 class EBML_DLL_API EbmlDummy : public EbmlBinary {
   public:
     EbmlDummy() :DummyId(DummyRawId) {}
-    EbmlDummy(const EbmlId & aId) :EbmlBinary(), DummyId(aId) {}
-    EbmlDummy(const EbmlDummy & ElementToClone):EbmlBinary(ElementToClone), DummyId(ElementToClone.DummyId) {}
+    EbmlDummy(const EbmlId & aId) : DummyId(aId) {}
+    EbmlDummy(const EbmlDummy & ElementToClone) = default;
 
-    bool IsDummy() const {return true;}
-    bool IsDefaultValue() const {return true;}
+    bool IsDummy() const override {return true;}
+    bool IsDefaultValue() const override {return true;}
 
-        virtual operator const EbmlId &() const {
+        operator const EbmlId &() const override {
             return DummyId;
         }
 

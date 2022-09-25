@@ -52,18 +52,18 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
       ,FLOAT_64
     };
 
-    EbmlFloat(const Precision prec = FLOAT_32);
-    EbmlFloat(const double DefaultValue, const Precision prec = FLOAT_32);
+    EbmlFloat(Precision prec = FLOAT_32);
+    EbmlFloat(double DefaultValue, Precision prec = FLOAT_32);
     EbmlFloat(const EbmlFloat & ElementToClone) = default;
 
-    virtual bool ValidateSize() const
+    bool ValidateSize() const override
     {
       return (GetSize() == 4 || GetSize() == 8);
     }
 
-    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
-    filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
-    filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false);
+    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
+    filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
+    filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) override;
 
     void SetPrecision(const EbmlFloat::Precision prec = FLOAT_32)
     {
@@ -77,7 +77,7 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
 //    EbmlFloat & operator=(const float NewValue) { Value = NewValue; return *this;}
     EbmlFloat & operator=(const double NewValue) { Value = NewValue; SetValueIsSet(); return *this;}
 
-    virtual bool IsSmallerThan(const EbmlElement *Cmp) const;
+    bool IsSmallerThan(const EbmlElement *Cmp) const override;
 
     operator float() const;
     operator double() const;
@@ -89,7 +89,7 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
 
     double DefaultVal() const;
 
-    bool IsDefaultValue() const {
+    bool IsDefaultValue() const override {
       return (DefaultISset() && Value == DefaultValue);
     }
 

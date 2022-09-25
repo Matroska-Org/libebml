@@ -61,16 +61,16 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
   public:
     EbmlBinary();
     EbmlBinary(const EbmlBinary & ElementToClone);
-    virtual ~EbmlBinary(void);
+    ~EbmlBinary() override;
 
-    virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() < 0x7FFFFFFF;} // we don't mind about what's inside
+    bool ValidateSize() const override {return IsFiniteSize() && GetSize() < 0x7FFFFFFF;} // we don't mind about what's inside
 
-    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
-    filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA);
-    filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false);
+    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
+    filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
+    filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) override;
 
     void SetBuffer(const binary *Buffer, const uint32 BufferSize) {
-      Data = (binary *) Buffer;
+      Data = const_cast<binary *>(Buffer);
       SetSize_(BufferSize);
       SetValueIsSet();
     }
@@ -80,7 +80,7 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
     void CopyBuffer(const binary *Buffer, const uint32 BufferSize) {
       if (Data != nullptr)
         free(Data);
-      Data = (binary *)malloc(BufferSize * sizeof(binary));
+      Data = static_cast<binary *>(malloc(BufferSize * sizeof(binary)));
       memcpy(Data, Buffer, BufferSize);
       SetSize_(BufferSize);
       SetValueIsSet();
@@ -88,7 +88,7 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
 
     operator const binary &() const;
 
-    bool IsDefaultValue() const {
+    bool IsDefaultValue() const override {
       return false;
     }
 
@@ -99,7 +99,7 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
 #else
   protected:
 #endif
-    binary *Data; // the binary data inside the element
+    binary *Data{nullptr}; // the binary data inside the element
 };
 
 } // namespace libebml

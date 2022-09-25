@@ -176,9 +176,9 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
     public: \
         virtual const EbmlSemanticContext &Context() const {return ClassInfos.GetContext();} \
         virtual const char *DebugName() const {return ClassInfos.GetName();} \
-    virtual operator const EbmlId &() const {return ClassInfos.ClassId();} \
-        virtual EbmlElement & CreateElement() const {return Create();} \
-        virtual EbmlElement * Clone() const { return new Type(*this); } \
+    operator const EbmlId &() const override {return ClassInfos.ClassId();} \
+        EbmlElement & CreateElement() const override {return Create();} \
+        EbmlElement * Clone() const override { return new Type(*this); } \
     static EbmlElement & Create() {return *(new Type);} \
         static const EbmlCallbacks & ClassInfo() {return ClassInfos;} \
         static const EbmlId & ClassId() {return ClassInfos.ClassId();} \
@@ -189,9 +189,9 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
     public: \
         virtual const EbmlSemanticContext &Context() const {return *static_cast<EbmlSemanticContext*>(nullptr);} \
         virtual const char *DebugName() const {return "DummyElement";} \
-    virtual operator const EbmlId &(); \
-        virtual EbmlElement & CreateElement() const {return Create();} \
-        virtual EbmlElement * Clone() const { return new Type(*this); } \
+    operator const EbmlId &() override; \
+        EbmlElement & CreateElement() const override {return Create();} \
+        EbmlElement * Clone() const override { return new Type(*this); } \
     static EbmlElement & Create() {return *(new Type);} \
         static const EbmlId & ClassId(); \
     static const EbmlCallbacks ClassInfos; \
@@ -223,20 +223,20 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #else
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
-    virtual const EbmlCallbacks & Generic() const {return ClassInfos;} \
-    virtual operator const EbmlId &() const {return ClassInfos.GlobalId;} \
-        virtual EbmlElement & CreateElement() const {return Create();} \
-        virtual EbmlElement * Clone() const { return new Type(*this); } \
-    static EbmlElement & Create() {return *(new Type);} \
+    const EbmlCallbacks & Generic() const override {return ClassInfos;} \
+    operator const EbmlId &() const override {return ClassInfos.GlobalId;} \
+        EbmlElement & CreateElement() const override {return Create();} \
+        EbmlElement * Clone() const override { return new Type(*this); } \
+    static EbmlElement & Create() {return *(new (Type));} \
     static const EbmlCallbacks ClassInfos; \
 
 #define EBML_CONCRETE_DUMMY_CLASS(Type) \
     public: \
-    virtual const EbmlCallbacks & Generic() const {return ClassInfos;} \
+    const EbmlCallbacks & Generic() const override {return ClassInfos;} \
     virtual operator const EbmlId &(); \
-        virtual EbmlElement & CreateElement() const {return Create();} \
-        virtual EbmlElement * Clone() const { return new Type(*this); } \
-    static EbmlElement & Create() {return *(new Type);} \
+        EbmlElement & CreateElement() const override {return Create();} \
+        EbmlElement * Clone() const override { return new Type(*this); } \
+    static EbmlElement & Create() {return *(new (Type));} \
     static const EbmlCallbacks ClassInfos; \
 
 
@@ -324,7 +324,7 @@ class EBML_DLL_API EbmlSemantic {
     const EbmlCallbacks & GetCallbacks;
 };
 
-typedef const class EbmlSemanticContext & (*_GetSemanticContext)();
+using _GetSemanticContext = const class EbmlSemanticContext &(*)();
 
 /*!
   Context of the element
@@ -500,13 +500,13 @@ class EBML_DLL_API EbmlElement {
 #endif
     uint64 Size;        ///< the size of the data to write
     uint64 DefaultSize; ///< Minimum data size to fill on rendering (0 = optimal)
-    int SizeLength; /// the minimum size on which the size will be written (0 = optimal)
-    bool bSizeIsFinite;
-    uint64 ElementPosition;
-    uint64 SizePosition;
+    int SizeLength{0}; /// the minimum size on which the size will be written (0 = optimal)
+    bool bSizeIsFinite{true};
+    uint64 ElementPosition{0};
+    uint64 SizePosition{0};
     bool bValueIsSet;
-    bool DefaultIsSet;
-    bool bLocked;
+    bool DefaultIsSet{false};
+    bool bLocked{false};
 };
 
 } // namespace libebml

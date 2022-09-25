@@ -45,49 +45,49 @@ namespace libebml {
 
 DECLARE_EBML_UINTEGER(EVersion)
   public:
-    EVersion(const EVersion & ElementToClone) : EbmlUInteger(ElementToClone) {}
+    EVersion(const EVersion & ElementToClone)  = default;
 
         EBML_CONCRETE_CLASS(EVersion)
 };
 
 DECLARE_EBML_UINTEGER(EReadVersion)
   public:
-    EReadVersion(const EReadVersion & ElementToClone) : EbmlUInteger(ElementToClone) {}
+    EReadVersion(const EReadVersion & ElementToClone)  = default;
 
         EBML_CONCRETE_CLASS(EReadVersion)
 };
 
 DECLARE_EBML_UINTEGER(EMaxIdLength)
   public:
-    EMaxIdLength(const EMaxIdLength & ElementToClone) : EbmlUInteger(ElementToClone) {}
+    EMaxIdLength(const EMaxIdLength & ElementToClone)  = default;
 
         EBML_CONCRETE_CLASS(EMaxIdLength)
 };
 
 DECLARE_EBML_UINTEGER(EMaxSizeLength)
   public:
-    EMaxSizeLength(const EMaxSizeLength & ElementToClone) : EbmlUInteger(ElementToClone) {}
+    EMaxSizeLength(const EMaxSizeLength & ElementToClone)  = default;
 
         EBML_CONCRETE_CLASS(EMaxSizeLength)
 };
 
 DECLARE_EBML_STRING(EDocType)
   public:
-    EDocType(const EDocType & ElementToClone) : EbmlString(ElementToClone) {}
+    EDocType(const EDocType & ElementToClone)  = default;
 
         EBML_CONCRETE_CLASS(EDocType)
 };
 
 DECLARE_EBML_UINTEGER(EDocTypeVersion)
   public:
-    EDocTypeVersion(const EDocTypeVersion & ElementToClone) : EbmlUInteger(ElementToClone) {}
+    EDocTypeVersion(const EDocTypeVersion & ElementToClone)  = default;
 
         EBML_CONCRETE_CLASS(EDocTypeVersion)
 };
 
 DECLARE_EBML_UINTEGER(EDocTypeReadVersion)
   public:
-    EDocTypeReadVersion(const EDocTypeReadVersion & ElementToClone) : EbmlUInteger(ElementToClone) {}
+    EDocTypeReadVersion(const EDocTypeReadVersion & ElementToClone)  = default;
 
         EBML_CONCRETE_CLASS(EDocTypeReadVersion)
 };

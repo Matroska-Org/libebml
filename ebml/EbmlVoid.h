@@ -43,7 +43,7 @@ namespace libebml {
 
 DECLARE_EBML_BINARY(EbmlVoid)
   public:
-    EbmlVoid(const EbmlVoid & ElementToClone) :EbmlBinary(ElementToClone){}
+    EbmlVoid(const EbmlVoid & ElementToClone) = default;
 
     /*!
       \brief Set the size of the data (not the complete size of the element)
@@ -53,7 +53,7 @@ DECLARE_EBML_BINARY(EbmlVoid)
     /*!
       \note overwrite to write fake data
     */
-    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false);
+    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
 
     /*!
       \brief Replace the void element content (written) with this one

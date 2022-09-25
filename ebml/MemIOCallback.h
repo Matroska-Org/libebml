@@ -49,24 +49,24 @@ class EBML_DLL_API MemIOCallback : public IOCallback
 {
 public:
   MemIOCallback(uint64 DefaultSize = 128);
-  ~MemIOCallback();
+  ~MemIOCallback() override;
 
   /*!
     Use this to copy some data to the Buffer from this classes data
   */
-  uint32 read(void *Buffer, size_t Size);
+  uint32 read(void *Buffer, size_t Size) override;
 
   /*!
     Seek to the specified position. The mode can have either SEEK_SET, SEEK_CUR
     or SEEK_END. The callback should return true(1) if the seek operation succeeded
     or false (0), when the seek fails.
   */
-  void setFilePointer(int64 Offset, seek_mode Mode=seek_beginning);
+  void setFilePointer(int64 Offset, seek_mode Mode=seek_beginning) override;
 
   /*!
     This callback just works like its read pendant. It returns the number of bytes written.
   */
-  size_t write(const void *Buffer, size_t Size);
+  size_t write(const void *Buffer, size_t Size) override;
 
   /*!
     Although the position is always positive, the return value of this callback is signed to
@@ -75,14 +75,14 @@ public:
 
     If an error occurs, an exception should be thrown.
   */
-  virtual uint64 getFilePointer() {return dataBufferPos;}
+  uint64 getFilePointer() override {return dataBufferPos;}
 
   /*!
     The close callback flushes the file buffers to disk and closes the file. When using the stdio
     library, this is equivalent to calling fclose. When the close is not successful, an exception
     should be thrown.
   */
-  void close() {}
+  void close() override {}
 
   binary *GetDataBuffer() const {return dataBuffer;}
   uint64 GetDataBufferSize() const {return dataBufferTotalSize;}

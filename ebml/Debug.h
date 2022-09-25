@@ -37,13 +37,13 @@
 #ifndef LIBEBML_DEBUG_H
 #define LIBEBML_DEBUG_H
 
-#include <stdarg.h> // va_list
-#include <string.h>
+#include <cstdarg> // va_list
+#include <cstring>
 
 #ifdef WIN32
 #include <windows.h>
 #else
-#include <stdio.h>
+#include <cstdio>
 #endif // WIN32
 
 #include "EbmlConfig.h"
@@ -112,35 +112,35 @@ public:
   ADbg(int /* level */ = 0){}
   virtual ~ADbg() = default;
 
-  inline int OutPut(int /* level */, const char * /* format */,...) const {
+  static inline int OutPut(int /* level */, const char * /* format */,...) {
     return 0;
   }
 
-  inline int OutPut(const char * /* format */,...) const {
+  static inline int OutPut(const char * /* format */,...) {
     return 0;
   }
 
-  inline int setLevel(const int level) {
+  static inline int setLevel(const int level) {
     return level;
   }
 
-  inline bool setIncludeTime(const bool /* included */ = true) {
+  static inline bool setIncludeTime(const bool /* included */ = true) {
     return true;
   }
 
-  inline bool setDebugFile(const char * /* NewFilename */) {
+  static inline bool setDebugFile(const char * /* NewFilename */) {
     return true;
   }
 
-  inline bool unsetDebugFile() {
+  static inline bool unsetDebugFile() {
     return true;
   }
 
-  inline bool setUseFile(const bool /* usefile */ = true) {
+  static inline bool setUseFile(const bool /* usefile */ = true) {
     return true;
   }
 
-  inline const char * setPrefix(const char * string) {
+  static inline const char * setPrefix(const char * string) {
     return string;
   }
 };
@@ -162,7 +162,7 @@ extern ADbg globalDebug;
 #ifdef _MSC_VER
 #define EBML_ASSERT_NEW(p) if(p==0)throw std::bad_alloc()
 #else
-#define EBML_ASSERT_NEW(p) assert(p!=0)
+#define EBML_ASSERT_NEW(p) assert((p)!=0)
 #endif
 
 } // namespace libebml
