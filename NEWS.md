@@ -1,4 +1,4 @@
-# Version ? 2021-??-??
+# Version 1.4.3 2022-09-25
 
 * A C++14 compliant C++ compiler is now required.
 * Fix compilation with g++ 11. Fixes #80.
