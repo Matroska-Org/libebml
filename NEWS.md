@@ -1,3 +1,8 @@
+# Version 1.5.0 2022-??-??
+
+* Bumped the library's soname to 6 due to ABI breaking changes that
+  already happened in 1.4.3.
+
 # Version 1.4.3 2022-09-30
 
 * A C++14 compliant C++ compiler is now required.
