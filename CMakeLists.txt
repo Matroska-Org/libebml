@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1.2)
 
-project(ebml VERSION 1.4.3)
+project(ebml VERSION 1.5.0)
 
 option(DISABLE_PKGCONFIG "Disable PkgConfig module generation" OFF)
 option(DISABLE_CMAKE_CONFIG "Disable CMake package config module generation" OFF)
@@ -81,8 +81,8 @@ if(WIN32)
   endif()
 endif()
 set_target_properties(ebml PROPERTIES
-  VERSION 5.0.0
-  SOVERSION 5
+  VERSION 6.0.0
+  SOVERSION 6
   CXX_VISIBILITY_PRESET hidden
   VISIBILITY_INLINES_HIDDEN ON
 )
