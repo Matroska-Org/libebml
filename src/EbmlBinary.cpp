@@ -35,6 +35,7 @@
   \author Julien Coloos  <suiryc @ users.sf.net>
 */
 #include <cassert>
+#include <limits>
 #include <string>
 
 #include "ebml/EbmlBinary.h"
@@ -97,7 +98,7 @@ filepos_t EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
     return 0;
   }
 
-  Data = (GetSize() < SIZE_MAX) ? static_cast<binary *>(malloc(GetSize())) : nullptr;
+  Data = (GetSize() < std::numeric_limits<size_t>::max()) ? static_cast<binary *>(malloc(GetSize())) : nullptr;
   if (Data == nullptr)
     throw CRTError(std::string("Error allocating data"));
   SetValueIsSet();
