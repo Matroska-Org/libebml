@@ -54,7 +54,7 @@ public:
   /*!
     Use this to copy some data to the Buffer from this classes data
   */
-  uint32 read(void *Buffer, size_t Size) override;
+  size_t read(void *Buffer, size_t Size) override;
 
   /*!
     Seek to the specified position. The mode can have either SEEK_SET, SEEK_CUR

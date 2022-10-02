@@ -59,7 +59,7 @@ public:
   // file, the buffer and the size and the function returns the bytes read.
   // If an error occurs or the file pointer points to the end of the file 0 is returned.
   // Users are encouraged to throw a descriptive exception, when an error occurs.
-  virtual uint32 read(void*Buffer,size_t Size)=0;
+  virtual size_t read(void*Buffer,size_t Size)=0;
 
   // Seek to the specified position. The mode can have either SEEK_SET, SEEK_CUR
   // or SEEK_END. The callback should return true(1) if the seek operation succeeded

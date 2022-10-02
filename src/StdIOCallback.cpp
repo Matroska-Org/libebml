@@ -97,7 +97,7 @@ StdIOCallback::~StdIOCallback() noexcept
 
 
 
-uint32 StdIOCallback::read(void*Buffer,size_t Size)
+size_t StdIOCallback::read(void*Buffer,size_t Size)
 {
   assert(File!=nullptr);
 

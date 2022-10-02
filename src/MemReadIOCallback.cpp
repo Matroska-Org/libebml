@@ -62,7 +62,7 @@ MemReadIOCallback::Init(void const *Ptr,
   mPtr   = mStart;
 }
 
-uint32
+size_t
 MemReadIOCallback::read(void *Buffer,
                         size_t Size) {
   const size_t RemainingBytes = mEnd - mPtr;

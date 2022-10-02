@@ -73,7 +73,7 @@ class EBML_DLL_API StdIOCallback:public IOCallback
   StdIOCallback(const char*Path, open_mode Mode);
   ~StdIOCallback() noexcept override;
 
-  uint32 read(void*Buffer,size_t Size) override;
+  size_t read(void*Buffer,size_t Size) override;
 
   // Seek to the specified position. The mode can have either SEEK_SET, SEEK_CUR
   // or SEEK_END. The callback should return true(1) if the seek operation succeeded
