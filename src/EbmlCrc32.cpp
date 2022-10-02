@@ -38,6 +38,8 @@
 #include "ebml/EbmlContexts.h"
 #include "ebml/MemIOCallback.h"
 
+#include <limits>
+
 #ifdef WORDS_BIGENDIAN
 static constexpr uint32_t CRC32_INDEX(uint32_t c) { return c >> 24; }
 static constexpr uint32_t CRC32_SHIFTED(uint32_t c) { return c << 8; }
@@ -186,7 +188,11 @@ void EbmlCrc32::AddElementCRC32(EbmlElement &ElementToCRC)
   MemIOCallback memoryBuffer;
   ElementToCRC.Render(memoryBuffer, true, true);
 
-  Update(memoryBuffer.GetDataBuffer(), memoryBuffer.GetDataBufferSize());
+  uint64 memSize = memoryBuffer.GetDataBufferSize();
+  if (memSize > std::numeric_limits<uint32>::max())
+    return;
+
+  Update(memoryBuffer.GetDataBuffer(), static_cast<uint32>(memSize));
   //  Finalize();
 }
 
@@ -195,7 +201,11 @@ bool EbmlCrc32::CheckElementCRC32(EbmlElement &ElementToCRC) const
   MemIOCallback memoryBuffer;
   ElementToCRC.Render(memoryBuffer);
 
-  return CheckCRC(m_crc_final, memoryBuffer.GetDataBuffer(), memoryBuffer.GetDataBufferSize());
+  uint64 memSize = memoryBuffer.GetDataBufferSize();
+  if (memSize > std::numeric_limits<uint32>::max())
+    return false;
+
+  return CheckCRC(m_crc_final, memoryBuffer.GetDataBuffer(), static_cast<uint32>(memSize));
 }
 
 filepos_t EbmlCrc32::RenderData(IOCallback & output, bool /* bForceRender */, bool /* bWithDefault */)
