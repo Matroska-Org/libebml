@@ -188,7 +188,7 @@ void EbmlCrc32::AddElementCRC32(EbmlElement &ElementToCRC)
   MemIOCallback memoryBuffer;
   ElementToCRC.Render(memoryBuffer, true, true);
 
-  uint64 memSize = memoryBuffer.GetDataBufferSize();
+  const uint64 memSize = memoryBuffer.GetDataBufferSize();
   if (memSize > std::numeric_limits<uint32>::max())
     return;
 
@@ -201,7 +201,7 @@ bool EbmlCrc32::CheckElementCRC32(EbmlElement &ElementToCRC) const
   MemIOCallback memoryBuffer;
   ElementToCRC.Render(memoryBuffer);
 
-  uint64 memSize = memoryBuffer.GetDataBufferSize();
+  const uint64 memSize = memoryBuffer.GetDataBufferSize();
   if (memSize > std::numeric_limits<uint32>::max())
     return false;
 
