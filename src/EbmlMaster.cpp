@@ -317,8 +317,6 @@ EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt, bool bCreateIf
   if (bCreateIfNull) {
     // add the element
     EbmlElement *NewElt = &(PastElt.CreateElement());
-    if (NewElt == nullptr)
-      return nullptr;
 
     if (!PushElement(*NewElt)) {
       delete NewElt;
