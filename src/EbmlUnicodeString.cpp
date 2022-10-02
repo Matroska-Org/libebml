@@ -222,7 +222,7 @@ const UTFstring & EbmlUnicodeString::DefaultVal() const
 */
 filepos_t EbmlUnicodeString::RenderData(IOCallback & output, bool /* bForceRender */, bool /* bWithDefault */)
 {
-  uint32 Result = Value.GetUTF8().length();
+  size_t Result = Value.GetUTF8().length();
 
   if (Result != 0) {
     output.writeFully(Value.GetUTF8().c_str(), Result);
