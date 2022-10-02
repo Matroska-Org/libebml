@@ -1,4 +1,4 @@
-# Version 1.5.0 2022-??-??
+# Version 2.0.0 2022-??-??
 
 * API break: the function `IOCallback::read()` now returns a `size_t`
   instead of a `uint32`. This fixes the limitation that the function
