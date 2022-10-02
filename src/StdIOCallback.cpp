@@ -34,7 +34,7 @@
 */
 
 #include <cassert>
-#include <climits>
+#include <limits>
 #include <sstream>
 
 #include "ebml/StdIOCallback.h"
@@ -117,8 +117,8 @@ void StdIOCallback::setFilePointer(int64 Offset,seek_mode Mode)
     assert(Offset >= numeric_limits<long>::min());
   */
 
-  assert(Offset <= LONG_MAX);
-  assert(Offset >= LONG_MIN);
+  assert(Offset <= std::numeric_limits<long>::max());
+  assert(Offset >= std::numeric_limits<long>::min());
 
   assert(Mode==SEEK_CUR||Mode==SEEK_END||Mode==SEEK_SET);
 
