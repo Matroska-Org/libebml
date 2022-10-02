@@ -110,15 +110,8 @@ void StdIOCallback::setFilePointer(int64 Offset,seek_mode Mode)
 {
   assert(File!=nullptr);
 
-  // There is a numeric cast in the boost library, which would be quite nice for this checking
-  /*
-    SL : replaced because unknown class in cygwin
-    assert(Offset <= numeric_limits<long>::max());
-    assert(Offset >= numeric_limits<long>::min());
-  */
-
-  assert(Offset <= std::numeric_limits<long>::max());
-  assert(Offset >= std::numeric_limits<long>::min());
+  assert(Offset <= (std::numeric_limits<long>::max)());
+  assert(Offset >= (std::numeric_limits<long>::min)());
 
   assert(Mode==SEEK_CUR||Mode==SEEK_END||Mode==SEEK_SET);
 
