@@ -36,6 +36,7 @@
 
 #include <cassert>
 #include <algorithm>
+#include <limits>
 
 #include "ebml/EbmlMaster.h"
 #include "ebml/EbmlStream.h"
@@ -106,7 +107,14 @@ filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, bool bW
         continue;
       Element->Render(TmpBuf, bWithDefault, false ,bForceRender);
     }
-    Checksum.FillCRC32(TmpBuf.GetDataBuffer(), TmpBuf.GetDataBufferSize());
+    uint64 memSize = TmpBuf.GetDataBufferSize();
+    binary *memStart = TmpBuf.GetDataBuffer();
+    while (memSize != 0) {
+      uint32 fillSize = static_cast<uint32>(std::min<uint64>(std::numeric_limits<uint32>::max(), memSize));
+      Checksum.FillCRC32(memStart, fillSize);
+      memStart += fillSize;
+      memSize -= fillSize;
+    }
     Result += Checksum.Render(output, true, false ,bForceRender);
     output.writeFully(TmpBuf.GetDataBuffer(), TmpBuf.GetDataBufferSize());
     Result += TmpBuf.GetDataBufferSize();
@@ -520,7 +528,15 @@ bool EbmlMaster::VerifyChecksum() const
   for (auto Element : ElementList) {
     Element->Render(TmpBuf, true, false, true);
   }
-  aChecksum.FillCRC32(TmpBuf.GetDataBuffer(), TmpBuf.GetDataBufferSize());
+  uint64 memSize = TmpBuf.GetDataBufferSize();
+  binary *memStart = TmpBuf.GetDataBuffer();
+  while (memSize != 0) {
+    uint32 fillSize = static_cast<uint32>(std::min<uint64>(std::numeric_limits<uint32>::max(), memSize));
+    aChecksum.FillCRC32(memStart, fillSize);
+    memStart += fillSize;
+    memSize -= fillSize;
+  }
+
   return (aChecksum.GetCrc32() == Checksum.GetCrc32());
 }
 
