@@ -35,6 +35,7 @@
 #include <array>
 #include <cassert>
 #include <limits>
+#include <cstdint>
 
 #include "ebml/EbmlSInteger.h"
 
@@ -110,16 +111,16 @@ uint64 EbmlSInteger::UpdateSize(bool bWithDefault, bool /* bForceRender */)
     SetSize_(2);
   } else if (Value <= 0x7FFFFF && Value >= (-0x800000)) {
     SetSize_(3);
-  } else if (Value <= EBML_PRETTYLONGINT(0x7FFFFFFF) && Value >= (EBML_PRETTYLONGINT(-0x80000000))) {
+  } else if (Value <= INT64_C(0x7FFFFFFF) && Value >= (INT64_C(-0x80000000))) {
     SetSize_(4);
-  } else if (Value <= EBML_PRETTYLONGINT(0x7FFFFFFFFF) &&
-             Value >= EBML_PRETTYLONGINT(-0x8000000000)) {
+  } else if (Value <= INT64_C(0x7FFFFFFFFF) &&
+             Value >= INT64_C(-0x8000000000)) {
     SetSize_(5);
-  } else if (Value <= EBML_PRETTYLONGINT(0x7FFFFFFFFFFF) &&
-             Value >= EBML_PRETTYLONGINT(-0x800000000000)) {
+  } else if (Value <= INT64_C(0x7FFFFFFFFFFF) &&
+             Value >= INT64_C(-0x800000000000)) {
     SetSize_(6);
-  } else if (Value <= EBML_PRETTYLONGINT(0x7FFFFFFFFFFFFF) &&
-             Value >= EBML_PRETTYLONGINT(-0x80000000000000)) {
+  } else if (Value <= INT64_C(0x7FFFFFFFFFFFFF) &&
+             Value >= INT64_C(-0x80000000000000)) {
     SetSize_(7);
   } else {
     SetSize_(8);
