@@ -33,6 +33,7 @@
   \author Moritz Bunkus <moritz @ bunkus.org>
 */
 
+#include <limits>
 #include <sstream>
 #include <stdexcept>
 
@@ -64,10 +65,17 @@ void IOCallback::readFully(void*Buffer,size_t Size)
   if(Buffer == nullptr)
     throw;
 
-  if(read(Buffer,Size) != Size) {
-    stringstream Msg;
-    Msg<<"EOF in readFully("<<Buffer<<","<<Size<<")";
-    throw runtime_error(Msg.str());
+  char *readBuf = static_cast<char *>(Buffer);
+  uint32_t readSize = static_cast<uint32_t>(std::min<size_t>(std::numeric_limits<uint32>::max(), Size));
+  while (readSize != 0) {
+    if(read(readBuf,readSize) != readSize) {
+      stringstream Msg;
+      Msg<<"EOF in readFully("<<Buffer<<","<<Size<<")";
+      throw runtime_error(Msg.str());
+    }
+    Size -= readSize;
+    readBuf += readSize;
+    readSize = static_cast<uint32_t>(std::min<size_t>(std::numeric_limits<uint32>::max(), Size));
   }
 }
 
