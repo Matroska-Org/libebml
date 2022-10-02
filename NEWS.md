@@ -1,5 +1,9 @@
 # Version 1.5.0 2022-??-??
 
+* API break: the function `IOCallback::read()` now returns a `size_t`
+  instead of a `uint32`. This fixes the limitation that the function
+  couldn't signal success properly if the number of bytes to read
+  exceeded 4 GB.
 * Bumped the library's soname to 6 due to ABI breaking changes that
   already happened in 1.4.3.
 

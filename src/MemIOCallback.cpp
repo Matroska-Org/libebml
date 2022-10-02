@@ -63,7 +63,7 @@ MemIOCallback::~MemIOCallback()
     free(dataBuffer);
 }
 
-uint32 MemIOCallback::read(void *Buffer, size_t Size)
+size_t MemIOCallback::read(void *Buffer, size_t Size)
 {
   if (Buffer == nullptr || Size < 1)
     return 0;

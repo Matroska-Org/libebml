@@ -48,7 +48,7 @@ public:
   MemReadIOCallback(MemReadIOCallback const &Mem);
   ~MemReadIOCallback() override = default;
 
-  uint32 read(void *Buffer, size_t Size) override;
+  size_t read(void *Buffer, size_t Size) override;
   void setFilePointer(int64 Offset, seek_mode Mode = seek_beginning) override;
   size_t write(void const *, size_t) override { return 0; }
   uint64 getFilePointer() override { return mPtr - mStart; }
