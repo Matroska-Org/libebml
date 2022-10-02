@@ -7,22 +7,23 @@ on:
 
 jobs:
   build_libebml:
-    name: ${{ matrix.config }} libebml for Windows
+    name: ${{ matrix.config }} libebml shared:${{ matrix.BUILD_SHARED_LIBS }} for Windows
     runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
         config: [Debug, Release]
+        BUILD_SHARED_LIBS: [off, on]
     steps:
       - uses: lukka/get-cmake@latest
 
       - name: Get pushed code
         uses: actions/checkout@v3
       
-      - name: Configure CMake 
-        run: cmake -S . -B _build -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
+      - name: Configure CMake
+        run: cmake -S . -B _build -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -DBUILD_SHARED_LIBS=${{ matrix.BUILD_SHARED_LIBS }}
 
-      - name: Build with CMake
+      - name: Build
         run: cmake --build _build --config ${{ matrix.config }} --parallel
 
       - name: Test installation
