@@ -61,12 +61,11 @@ EbmlMaster::EbmlMaster(const EbmlMaster & ElementToClone)
  ,Checksum(ElementToClone.Checksum)
 {
   // add a clone of the list
-  auto Itr = ElementToClone.ElementList.begin();
   auto myItr = ElementList.begin();
-  while (Itr != ElementToClone.ElementList.end())
+  for (const auto& e : ElementToClone.ElementList)
   {
-    *myItr = (*Itr)->Clone();
-    ++Itr; ++myItr;
+    *myItr = e->Clone();
+    ++myItr;
   }
 
 }
