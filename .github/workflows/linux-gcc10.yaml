@@ -7,7 +7,7 @@ on:
 
 jobs:
   build_libebml:
-    name: libebml for Linux gcc10
+    name: libebml with gcc10
     runs-on: ubuntu-latest
     steps:
       - uses: lukka/get-cmake@latest
