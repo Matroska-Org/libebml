@@ -55,9 +55,9 @@ public:
   using value_type = wchar_t;
 
   UTFstring() = default;
-  UTFstring(const wchar_t *); // should be NULL terminated
+  explicit UTFstring(const wchar_t *); // should be NULL terminated
   UTFstring(const UTFstring &);
-  UTFstring(std::wstring const &);
+  explicit UTFstring(std::wstring const &);
 
   virtual ~UTFstring();
   bool operator==(const UTFstring&) const;
@@ -72,7 +72,7 @@ public:
   /// Return length of string
   size_t length() const {return _Length;}
 
-  operator const wchar_t*() const;
+  explicit operator const wchar_t*() const;
   const wchar_t* c_str() const {return _Data;}
 
   const std::string & GetUTF8() const {return UTF8string;}
@@ -100,7 +100,7 @@ public:
 class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
   public:
     EbmlUnicodeString();
-    EbmlUnicodeString(const UTFstring & DefaultValue);
+    explicit EbmlUnicodeString(const UTFstring & DefaultValue);
     EbmlUnicodeString(const EbmlUnicodeString & ElementToClone) = default;
 
     ~EbmlUnicodeString() override = default;
@@ -111,7 +111,7 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
     filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) override;
 
     EbmlUnicodeString & operator=(const UTFstring &); ///< platform dependant code
-    operator const UTFstring &() const;
+    explicit operator const UTFstring &() const;
 
     EbmlUnicodeString &SetValue(UTFstring const &NewValue);
     EbmlUnicodeString &SetValueUTF8(std::string const &NewValue);

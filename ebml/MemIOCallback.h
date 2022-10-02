@@ -48,7 +48,7 @@ namespace libebml {
 class EBML_DLL_API MemIOCallback : public IOCallback
 {
 public:
-  MemIOCallback(uint64 DefaultSize = 128);
+  explicit MemIOCallback(uint64 DefaultSize = 128);
   ~MemIOCallback() override;
 
   /*!
@@ -92,7 +92,7 @@ public:
   */
   uint32 write(IOCallback & IOToRead, size_t Size);
 
-  bool IsOk() { return mOk; }
+  bool IsOk() const { return mOk; }
   const std::string &GetLastErrorStr() { return mLastErrorStr; }
 protected:
   bool mOk;

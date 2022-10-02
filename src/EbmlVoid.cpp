@@ -71,7 +71,7 @@ uint64 EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output
     return INVALID_FILEPOS_T;
   }
 
-  uint64 CurrentPosition = output.getFilePointer();
+  const uint64 CurrentPosition = output.getFilePointer();
 
   output.setFilePointer(GetElementPosition());
   EltToReplaceWith.Render(output, bWithDefault);
@@ -80,9 +80,9 @@ uint64 EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output
     // fill the rest with another void element
     EbmlVoid aTmp;
     aTmp.SetSize_(HeadSize() + GetSize() - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() - 1); // 1 is the length of the Void ID
-    int HeadBefore = aTmp.HeadSize();
+    const int HeadBefore = aTmp.HeadSize();
     aTmp.SetSize_(aTmp.GetSize() - CodedSizeLength(aTmp.GetSize(), aTmp.GetSizeLength(), aTmp.IsFiniteSize()));
-    int HeadAfter = aTmp.HeadSize();
+    const int HeadAfter = aTmp.HeadSize();
     if (HeadBefore != HeadAfter) {
       aTmp.SetSizeLength(CodedSizeLength(aTmp.GetSize(), aTmp.GetSizeLength(), aTmp.IsFiniteSize()) - (HeadAfter - HeadBefore));
     }
@@ -108,7 +108,7 @@ uint64 EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & output, b
     return 0;
   }
 
-  uint64 CurrentPosition = output.getFilePointer();
+  const uint64 CurrentPosition = output.getFilePointer();
 
   output.setFilePointer(EltToVoid.GetElementPosition());
 

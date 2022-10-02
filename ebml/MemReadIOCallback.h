@@ -44,7 +44,7 @@ protected:
 
 public:
   MemReadIOCallback(void const *Ptr, size_t Size);
-  MemReadIOCallback(EbmlBinary const &Binary);
+  explicit MemReadIOCallback(EbmlBinary const &Binary);
   MemReadIOCallback(MemReadIOCallback const &Mem);
   ~MemReadIOCallback() override = default;
 

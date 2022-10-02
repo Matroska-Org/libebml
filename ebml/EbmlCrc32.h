@@ -37,6 +37,7 @@
 #ifndef LIBEBML_CRC32_H
 #define LIBEBML_CRC32_H
 
+#include <array>
 #include <cassert>
 
 #include "EbmlTypes.h"
@@ -46,8 +47,6 @@ namespace libebml {
 
 DECLARE_EBML_BINARY(EbmlCrc32)
   public:
-    EbmlCrc32(const EbmlCrc32 & ElementToClone);
-    EbmlCrc32 &operator =(const EbmlCrc32 &) = default;
     bool ValidateSize() const override {return IsFiniteSize() && (GetSize() == 4);}
     filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
@@ -58,7 +57,7 @@ DECLARE_EBML_BINARY(EbmlCrc32)
     }
 
     void AddElementCRC32(EbmlElement &ElementToCRC);
-    bool CheckElementCRC32(EbmlElement &ElementToCRC);
+    bool CheckElementCRC32(EbmlElement &ElementToCRC) const;
 
     /*!
       Use this to quickly check a CRC32 with some data
@@ -94,11 +93,11 @@ DECLARE_EBML_BINARY(EbmlCrc32)
     void ResetCRC();
     void UpdateByte(binary b);
 
-    static const uint32 m_tab[256];
+    static const std::array<uint32, 256> m_tab;
     uint32 m_crc;
-    uint32 m_crc_final;
+    uint32 m_crc_final{0};
 
-        EBML_CONCRETE_CLASS(EbmlCrc32)
+    EBML_CONCRETE_CLASS(EbmlCrc32)
 };
 
 template <class T>

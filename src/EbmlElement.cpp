@@ -32,6 +32,7 @@
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 
+#include <array>
 #include <cassert>
 #include <cstdlib>
 #include <cstring>
@@ -83,7 +84,7 @@ int CodedSizeLength(uint64 Length, unsigned int SizeLength, bool bSizeIsFinite)
     CodedSize = SizeLength;
   }
 
-  return CodedSize;
+  return static_cast<int>(CodedSize);
 }
 
 /*!
@@ -109,7 +110,7 @@ int CodedSizeLengthSigned(int64 Length, unsigned int SizeLength)
     CodedSize = SizeLength;
   }
 
-  return CodedSize;
+  return static_cast<int>(CodedSize);
 }
 
 int CodedValueLength(uint64 Length, int CodedSize, binary * OutBuffer)
@@ -145,8 +146,7 @@ uint64 ReadCodedSizeValue(const binary * InBuffer, uint32 & BufferSize, uint64 &
   binary SizeBitMask = 1 << 7;
   uint64 Result = 0x7F;
   unsigned int SizeIdx, PossibleSizeLength = 0;
-  binary PossibleSize[8];
-  memset(PossibleSize, 0, 8);
+  std::array<binary, 8> PossibleSize = {};
 
   SizeUnknown = 0x7F; // the last bit is discarded when computing the size
   for (SizeIdx = 0; SizeIdx < BufferSize && SizeIdx < 8; SizeIdx++) {
@@ -160,7 +160,7 @@ uint64 ReadCodedSizeValue(const binary * InBuffer, uint32 & BufferSize, uint64 &
         break;
 
       for (SizeIdx = 0; SizeIdx < PossibleSizeLength; SizeIdx++) {
-        PossibleSize[SizeIdx] = InBuffer[SizeIdx];
+        PossibleSize.at(SizeIdx) = InBuffer[SizeIdx];
       }
       for (SizeIdx = 0; SizeIdx < PossibleSizeLength - 1; SizeIdx++) {
         Result <<= 7;
@@ -171,7 +171,7 @@ uint64 ReadCodedSizeValue(const binary * InBuffer, uint32 & BufferSize, uint64 &
       Result |= PossibleSize[0] & ~SizeBitMask;
       for (unsigned int i = 1; i<PossibleSizeLength; i++) {
         Result <<= 8;
-        Result |= PossibleSize[i];
+        Result |= PossibleSize.at(i);
       }
 
       BufferSize = PossibleSizeLength;
@@ -250,9 +250,9 @@ EbmlElement::~EbmlElement()
 */
 EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbacks & ClassInfos, uint64 MaxDataSize)
 {
-  binary PossibleId[4];
+  std::array<binary, 4> PossibleId;
   int PossibleID_Length = 0;
-  binary PossibleSize[8]; // we don't support size stored in more than 64 bits
+  std::array<binary, 8> PossibleSize; // we don't support size stored in more than 64 bits
   uint32 PossibleSizeLength = 0;
   uint64 SizeUnknown = 0;
   uint64 SizeFound = 0;
@@ -266,7 +266,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
     uint32 ReadSize = 0;
     BitMask = 1 << 7;
     while (PossibleID_Length < 4) {
-      if (!DataStream.read(&PossibleId[PossibleID_Length], 1))
+      if (!DataStream.read(&PossibleId.at(PossibleID_Length), 1))
         return nullptr;            // no more data
 
       ++ReadSize;
@@ -297,24 +297,19 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
         // Size is larger than 8 bytes
         return nullptr;
 
-      ReadSize += DataStream.read(&PossibleSize[PossibleSizeLength++], 1);
+      ReadSize += DataStream.read(&PossibleSize.at(PossibleSizeLength++), 1);
       _SizeLength = PossibleSizeLength;
-      SizeFound = ReadCodedSizeValue(&PossibleSize[0], _SizeLength, SizeUnknown);
+      SizeFound =
+          ReadCodedSizeValue(PossibleSize.data(), _SizeLength, SizeUnknown);
     } while (_SizeLength == 0);
   }
 
-  EbmlElement *Result = nullptr;
-  EbmlId PossibleID(PossibleId, PossibleID_Length);
-  if (PossibleID == EBML_INFO_ID(ClassInfos)) {
-    // the element is the one expected
-    Result = &EBML_INFO_CREATE(ClassInfos);
-  } else {
-    /// \todo find the element in the context
-    Result = new (std::nothrow) EbmlDummy(PossibleID);
-    if(Result == nullptr)
-      return nullptr;
-  }
-
+  const auto PossibleID = EbmlId(PossibleId.data(), PossibleID_Length);
+  auto Result = [=] {
+    if (PossibleID == EBML_INFO_ID(ClassInfos))
+      return &EBML_INFO_CREATE(ClassInfos);
+    return static_cast<EbmlElement *>(new EbmlDummy(PossibleID));
+  }();
   Result->SetSizeLength(PossibleSizeLength);
 
   Result->Size = SizeFound;
@@ -351,7 +346,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
                                            uint64 MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel)
 {
   int PossibleID_Length = 0;
-  binary PossibleIdNSize[16];
+  std::array<binary, 16> PossibleIdNSize;
   int PossibleSizeLength;
   uint64 SizeUnknown;
   int ReadIndex = 0; // trick for the algo, start index at 0
@@ -359,8 +354,8 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
   uint64 SizeFound;
   int SizeIdx;
   bool bFound;
-  int UpperLevel_original = UpperLevel;
-  uint64 ParseStart = DataStream.getFilePointer();
+  const int UpperLevel_original = UpperLevel;
+  const uint64 ParseStart = DataStream.getFilePointer();
 
   do {
     // read a potential ID
@@ -385,13 +380,13 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
       if (ReadIndex >= 4) {
         // ID not found
         // shift left the read octets
-        memmove(&PossibleIdNSize[0],&PossibleIdNSize[1], --ReadIndex);
+        memmove(PossibleIdNSize.data(), &PossibleIdNSize[1], --ReadIndex);
         IdStart++;
       }
 
       if (MaxDataSize <= ReadSize)
         break;
-      if (DataStream.read(&PossibleIdNSize[ReadIndex++], 1) == 0) {
+      if (DataStream.read(&PossibleIdNSize.at(ReadIndex++), 1) == 0) {
         return nullptr; // no more data ?
       }
       ReadSize++;
@@ -410,7 +405,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
     PossibleSizeLength = ReadIndex;
     while (true) {
       _SizeLength = PossibleSizeLength;
-      SizeFound = ReadCodedSizeValue(&PossibleIdNSize[PossibleID_Length], _SizeLength, SizeUnknown);
+      SizeFound = ReadCodedSizeValue(&PossibleIdNSize.at(PossibleID_Length), _SizeLength, SizeUnknown);
       if (_SizeLength != 0) {
         bFound = true;
         break;
@@ -423,7 +418,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
         bFound = false;
         break;
       }
-      if( DataStream.read( &PossibleIdNSize[SizeIdx++], 1 ) == 0 ) {
+      if( DataStream.read( &PossibleIdNSize.at(SizeIdx++), 1 ) == 0 ) {
         return nullptr; // no more data ?
       }
       ReadSize++;
@@ -432,7 +427,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
 
     if (bFound) {
       // find the element in the context and use the correct creator
-      EbmlId PossibleID(PossibleIdNSize, PossibleID_Length);
+      const auto PossibleID = EbmlId(PossibleIdNSize.data(), PossibleID_Length);
       EbmlElement * Result = CreateElementUsingContext(PossibleID, Context, UpperLevel, false, AllowDummyElt, MaxLowerLevel);
       ///< \todo continue is misplaced
       if (Result != nullptr) {
@@ -462,7 +457,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
 
     // recover all the data in the buffer minus one byte
     ReadIndex = SizeIdx - 1;
-    memmove(&PossibleIdNSize[0], &PossibleIdNSize[1], ReadIndex);
+    memmove(PossibleIdNSize.data(), &PossibleIdNSize[1], ReadIndex);
     IdStart++;
     UpperLevel = UpperLevel_original;
   } while ( MaxDataSize >= ReadSize );
@@ -544,7 +539,7 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 
   // global elements
   assert(Context.GetGlobalContext != nullptr); // global should always exist, at least the EBML ones
-  const EbmlSemanticContext & tstContext = Context.GetGlobalContext();
+  const auto& tstContext = Context.GetGlobalContext();
   if (tstContext != Context) {
     LowLevel--;
     MaxLowerLevel--;
@@ -594,7 +589,7 @@ filepos_t EbmlElement::Render(IOCallback & output, bool bWithDefault, bool bKeep
   uint64 SupposedSize = UpdateSize(bWithDefault, bForceRender);
 #endif // LIBEBML_DEBUG
   filepos_t result = RenderHead(output, bForceRender, bWithDefault, bKeepPosition);
-  uint64 WrittenSize = RenderData(output, bForceRender, bWithDefault);
+  const uint64 WrittenSize = RenderData(output, bForceRender, bWithDefault);
 #if defined(LIBEBML_DEBUG)
   if (static_cast<int64>(SupposedSize) != (0-1))
     assert(WrittenSize == SupposedSize);
@@ -620,17 +615,17 @@ filepos_t EbmlElement::RenderHead(IOCallback & output, bool bForceRender, bool b
 
 filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
 {
-  binary FinalHead[4+8]; // Class D + 64 bits coded size
+  std::array<binary, 4 + 8> FinalHead; // Class D + 64 bits coded size
   unsigned int FinalHeadSize;
 
   FinalHeadSize = EBML_ID_LENGTH((const EbmlId&)*this);
-  EbmlId(*this).Fill(FinalHead);
+  EbmlId(*this).Fill(FinalHead.data());
 
-  int CodedSize = CodedSizeLength(Size, SizeLength, bSizeIsFinite);
-  CodedValueLength(Size, CodedSize, &FinalHead[FinalHeadSize]);
+  const int CodedSize = CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+  CodedValueLength(Size, CodedSize, &FinalHead.at(FinalHeadSize));
   FinalHeadSize += CodedSize;
 
-  output.writeFully(FinalHead, FinalHeadSize);
+  output.writeFully(FinalHead.data(), FinalHeadSize);
   if (!bKeepPosition) {
     ElementPosition = output.getFilePointer() - FinalHeadSize;
     SizePosition = ElementPosition + EBML_ID_LENGTH((const EbmlId&)*this);
@@ -670,8 +665,8 @@ bool EbmlElement::ForceSize(uint64 NewSize)
     return false;
   }
 
-  int OldSizeLen = CodedSizeLength(Size, SizeLength, bSizeIsFinite);
-  uint64 OldSize = Size;
+  const int OldSizeLen = CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+  const uint64 OldSize = Size;
 
   Size = NewSize;
 
@@ -690,9 +685,9 @@ filepos_t EbmlElement::OverwriteHead(IOCallback & output, bool bKeepPosition)
     return 0; // the element has not been written
   }
 
-  uint64 CurrentPosition = output.getFilePointer();
+  const uint64 CurrentPosition = output.getFilePointer();
   output.setFilePointer(GetElementPosition());
-  filepos_t Result = MakeRenderHead(output, bKeepPosition);
+  const filepos_t Result = MakeRenderHead(output, bKeepPosition);
   output.setFilePointer(CurrentPosition);
   return Result;
 }
@@ -717,7 +712,7 @@ filepos_t EbmlElement::OverwriteData(IOCallback & output, bool bKeepPosition)
 }
 
 
-uint64 EbmlElement::VoidMe(IOCallback & output, bool bWithDefault)
+uint64 EbmlElement::VoidMe(IOCallback & output, bool bWithDefault) const
 {
   if (ElementPosition == 0) {
     return 0; // the element has not been written

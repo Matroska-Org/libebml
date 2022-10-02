@@ -71,7 +71,7 @@ uint32 MemIOCallback::read(void *Buffer, size_t Size)
   if (Size + dataBufferPos > dataBufferTotalSize) {
     //We will only return the remaining data
     memcpy(Buffer, dataBuffer + dataBufferPos, dataBufferTotalSize - dataBufferPos);
-    uint64 oldDataPos = dataBufferPos;
+    const uint64 oldDataPos = dataBufferPos;
     dataBufferPos = dataBufferTotalSize;
     return dataBufferTotalSize - oldDataPos;
   }

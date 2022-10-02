@@ -39,15 +39,15 @@
 
 namespace libebml {
 
-static const EbmlSemantic EbmlGlobal_ContextList[2] =
+static constexpr EbmlSemantic EbmlGlobal_ContextList[2] =
 {
   EbmlSemantic(false, false, EBML_INFO(EbmlCrc32)),   ///< EbmlCrc32
   EbmlSemantic(false, false, EBML_INFO(EbmlVoid)),    ///< EbmlVoid
 };
 
-const EbmlSemanticContext Context_EbmlGlobal = EbmlSemanticContext(0, nullptr, nullptr, *GetEbmlGlobal_Context, nullptr);
+const EbmlSemanticContext Context_EbmlGlobal = EbmlSemanticContext(0, nullptr, nullptr, GetEbmlGlobal_Context, nullptr);
 
-static const EbmlSemanticContext EbmlGlobal_Context = EbmlSemanticContext(countof(EbmlGlobal_ContextList), EbmlGlobal_ContextList, nullptr, *GetEbmlGlobal_Context, nullptr);
+static const EbmlSemanticContext EbmlGlobal_Context = EbmlSemanticContext(countof(EbmlGlobal_ContextList), EbmlGlobal_ContextList, nullptr, GetEbmlGlobal_Context, nullptr);
 
 const EbmlSemanticContext & GetEbmlGlobal_Context()
 {

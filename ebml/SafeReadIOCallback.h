@@ -42,12 +42,12 @@
 
 namespace libebml {
 
-class EBML_DLL_API SafeReadIOCallback {
+class EBML_DLL_API SafeReadIOCallback : public std::exception {
 public:
-  class EBML_DLL_API EndOfStreamX {
+  class EBML_DLL_API EndOfStreamX : public std::exception {
   public:
     size_t mMissingBytes;
-    EndOfStreamX(std::size_t MissingBytes);
+    explicit EndOfStreamX(std::size_t MissingBytes);
   };
 
 private:
@@ -58,8 +58,8 @@ private:
 public:
   SafeReadIOCallback(IOCallback *IO, bool DeleteIO);
   SafeReadIOCallback(void const *Mem, size_t Size);
-  SafeReadIOCallback(EbmlBinary const &Binary);
-  ~SafeReadIOCallback();
+  explicit SafeReadIOCallback(EbmlBinary const &Binary);
+  ~SafeReadIOCallback() override;
 
   size_t GetPosition() const;
   size_t GetSize() const;

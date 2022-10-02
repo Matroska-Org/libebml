@@ -32,6 +32,7 @@
   \author Steve Lhomme     <robux4 @ users.sf.net>
   \author Moritz Bunkus <moritz @ bunkus.org>
 */
+#include <array>
 #include <cassert>
 #include <limits>
 
@@ -81,7 +82,7 @@ EbmlSInteger & EbmlSInteger::SetValue(int64 NewValue) {
 */
 filepos_t EbmlSInteger::RenderData(IOCallback & output, bool /* bForceRender */, bool /* bWithDefault */)
 {
-  binary FinalData[8]; // we don't handle more than 64 bits integers
+  std::array<binary, 8> FinalData; // we don't handle more than 64 bits integers
   unsigned int i;
 
   if (GetSizeLength() > 8)
@@ -89,11 +90,11 @@ filepos_t EbmlSInteger::RenderData(IOCallback & output, bool /* bForceRender */,
 
   int64 TempValue = Value;
   for (i=0; i<GetSize();i++) {
-    FinalData[GetSize()-i-1] = static_cast<binary>(TempValue & 0xFF);
+    FinalData.at(GetSize()-i-1) = static_cast<binary>(TempValue & 0xFF);
     TempValue >>= 8;
   }
 
-  output.writeFully(FinalData,GetSize());
+  output.writeFully(FinalData.data(),GetSize());
 
   return GetSize();
 }
@@ -142,14 +143,14 @@ filepos_t EbmlSInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
     return GetSize();
   }
 
-  binary Buffer[8];
-  input.readFully(Buffer, GetSize());
+  std::array<binary, 8> Buffer;
+  input.readFully(Buffer.data(), GetSize());
 
   uint64 TempValue = Buffer[0] & 0x80 ? std::numeric_limits<uint64>::max() : 0;
 
   for (unsigned int i=0; i<GetSize(); i++) {
     TempValue <<= 8;
-    TempValue |= Buffer[i];
+    TempValue |= Buffer.at(i);
   }
 
   Value = ToSigned(TempValue);
