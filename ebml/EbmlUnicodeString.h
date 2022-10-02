@@ -55,9 +55,9 @@ public:
   using value_type = wchar_t;
 
   UTFstring() = default;
-  explicit UTFstring(const wchar_t *); // should be NULL terminated
+  UTFstring(const wchar_t *); // should be NULL terminated
   UTFstring(const UTFstring &);
-  explicit UTFstring(std::wstring const &);
+  UTFstring(std::wstring const &);
 
   virtual ~UTFstring();
   bool operator==(const UTFstring&) const;
