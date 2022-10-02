@@ -121,22 +121,22 @@ SafeReadIOCallback::GetUIntBE(size_t NumBytes) {
 
 uint8
 SafeReadIOCallback::GetUInt8() {
-  return GetUIntBE(1);
+  return static_cast<uint8>(GetUIntBE(1));
 }
 
 uint16
 SafeReadIOCallback::GetUInt16BE() {
-  return GetUIntBE(2);
+  return static_cast<uint16>(GetUIntBE(2));
 }
 
 uint32
 SafeReadIOCallback::GetUInt24BE() {
-  return GetUIntBE(3);
+  return static_cast<uint32>(GetUIntBE(3));
 }
 
 uint32
 SafeReadIOCallback::GetUInt32BE() {
-  return GetUIntBE(4);
+  return static_cast<uint32>(GetUIntBE(4));
 }
 
 uint64
