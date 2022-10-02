@@ -80,9 +80,9 @@ uint64 EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output
     // fill the rest with another void element
     EbmlVoid aTmp;
     aTmp.SetSize_(HeadSize() + GetSize() - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() - 1); // 1 is the length of the Void ID
-    const int HeadBefore = aTmp.HeadSize();
+    const size_t HeadBefore = aTmp.HeadSize();
     aTmp.SetSize_(aTmp.GetSize() - CodedSizeLength(aTmp.GetSize(), aTmp.GetSizeLength(), aTmp.IsFiniteSize()));
-    const int HeadAfter = aTmp.HeadSize();
+    const size_t HeadAfter = aTmp.HeadSize();
     if (HeadBefore != HeadAfter) {
       aTmp.SetSizeLength(CodedSizeLength(aTmp.GetSize(), aTmp.GetSizeLength(), aTmp.IsFiniteSize()) - (HeadAfter - HeadBefore));
     }

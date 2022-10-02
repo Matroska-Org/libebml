@@ -616,7 +616,7 @@ filepos_t EbmlElement::RenderHead(IOCallback & output, bool bForceRender, bool b
 filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
 {
   std::array<binary, 4 + 8> FinalHead; // Class D + 64 bits coded size
-  unsigned int FinalHeadSize;
+  size_t FinalHeadSize;
 
   FinalHeadSize = EBML_ID_LENGTH((const EbmlId&)*this);
   EbmlId(*this).Fill(FinalHead.data());
