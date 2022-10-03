@@ -56,6 +56,9 @@ EbmlBinary::EbmlBinary(const EbmlBinary & ElementToClone)
 EbmlBinary &
 EbmlBinary::operator=(const EbmlBinary & ElementToClone)
 {
+  if (this == &ElementToClone)  // check for self-assigment
+    return *this;
+
   free(Data);
   if (ElementToClone.Data == nullptr)
     Data = nullptr;
