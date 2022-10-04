@@ -232,7 +232,7 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements()
       missingValue.append("\" of EbmlMaster \"");
       missingValue.append(EBML_NAME(this));
       missingValue.append("\", does not have a value set.");
-      missingElements.push_back(missingValue);
+      missingElements.push_back(std::move(missingValue));
     }
 
     if (childElement->IsMaster()) {
@@ -252,7 +252,7 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements()
         missingElement.append("\" in EbmlMaster \"");
         missingElement.append(EBML_INFO_NAME(*EBML_CTX_MASTER(Context)));
         missingElement.append("\"");
-        missingElements.push_back(missingElement);
+        missingElements.push_back(std::move(missingElement));
       }
     }
   }
