@@ -60,6 +60,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
   public:
     explicit EbmlMaster(const EbmlSemanticContext & aContext, bool bSizeIsKnown = true);
     EbmlMaster(const EbmlMaster & ElementToClone);
+    EbmlMaster& operator=(const EbmlMaster&) = delete;
     bool ValidateSize() const override {return true;}
     /*!
       \warning be carefull to clear the memory allocated in the ElementList elsewhere

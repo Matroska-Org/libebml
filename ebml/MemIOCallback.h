@@ -51,6 +51,9 @@ public:
   explicit MemIOCallback(std::uint64_t DefaultSize = 128);
   ~MemIOCallback() override;
 
+  MemIOCallback(const MemIOCallback&) = delete;
+  MemIOCallback& operator=(const MemIOCallback&) = delete;
+
   /*!
     Use this to copy some data to the Buffer from this classes data
   */

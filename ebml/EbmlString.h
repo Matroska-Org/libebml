@@ -51,9 +51,6 @@ class EBML_DLL_API EbmlString : public EbmlElement {
   public:
     EbmlString();
     explicit EbmlString(const std::string & aDefaultValue);
-    EbmlString(const EbmlString & ElementToClone) = default;
-
-    ~EbmlString() override = default;
 
     bool ValidateSize() const override {return IsFiniteSize() && GetSize() < 0x7FFFFFFF;} // any size is possible
     filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;

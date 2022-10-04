@@ -60,6 +60,8 @@ public:
   SafeReadIOCallback(void const *Mem, std::size_t Size);
   explicit SafeReadIOCallback(EbmlBinary const &Binary);
   ~SafeReadIOCallback() override;
+  SafeReadIOCallback(const SafeReadIOCallback&) = delete;
+  SafeReadIOCallback& operator=(const SafeReadIOCallback&) = delete;
 
   std::size_t GetPosition() const;
   std::size_t GetSize() const;
@@ -77,9 +79,6 @@ public:
 
   void Skip(std::size_t Count);
   void Seek(std::size_t Position);
-
-private:
-  SafeReadIOCallback(SafeReadIOCallback const &) { }
 
 protected:
   void Init(IOCallback *IO, bool DeleteIO);

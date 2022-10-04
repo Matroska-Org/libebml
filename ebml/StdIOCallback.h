@@ -64,6 +64,8 @@ class EBML_DLL_API StdIOCallback:public IOCallback
 //  StdIOCallback(const char*Path,const char*Mode);
   StdIOCallback(const char*Path, open_mode Mode);
   ~StdIOCallback() noexcept override;
+  StdIOCallback(const StdIOCallback&) = delete;
+  StdIOCallback& operator=(const StdIOCallback&) = delete;
 
   std::size_t read(void*Buffer,std::size_t Size) override;
 

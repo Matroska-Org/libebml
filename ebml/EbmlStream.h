@@ -49,8 +49,6 @@ namespace libebml {
 class EBML_DLL_API EbmlStream {
   public:
     EbmlStream(IOCallback & DataStream);
-    ~EbmlStream() = default;
-
     /*!
       \brief Find a possible next ID in the data stream
       \param MaxDataSize The maximum possible of the data in the element (for sanity checks)

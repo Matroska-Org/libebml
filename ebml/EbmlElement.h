@@ -376,6 +376,7 @@ class EBML_DLL_API EbmlElement {
   public:
     explicit EbmlElement(std::uint64_t aDefaultSize, bool bValueSet = false);
     virtual ~EbmlElement();
+    EbmlElement& operator=(const EbmlElement&) = delete;
 
     /// Set the minimum length that will be used to write the element size (-1 = optimal)
     void SetSizeLength(int NewSizeLength) {SizeLength = NewSizeLength;}

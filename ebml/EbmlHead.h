@@ -43,8 +43,6 @@ namespace libebml {
 
 DECLARE_EBML_MASTER(EbmlHead)
   public:
-    EbmlHead(const EbmlHead & ElementToClone)  = default;
-
         EBML_CONCRETE_CLASS(EbmlHead)
 };
 

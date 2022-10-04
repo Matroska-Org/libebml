@@ -55,7 +55,6 @@ class EBML_DLL_API EbmlSInteger : public EbmlElement {
   public:
     EbmlSInteger();
     explicit EbmlSInteger(std::int64_t DefaultValue);
-    EbmlSInteger(const EbmlSInteger & ElementToClone) = default;
 
     EbmlSInteger & operator = (std::int64_t NewValue) {Value = NewValue; SetValueIsSet(); return *this;}
 

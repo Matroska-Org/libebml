@@ -47,6 +47,7 @@ public:
   explicit MemReadIOCallback(EbmlBinary const &Binary);
   MemReadIOCallback(MemReadIOCallback const &Mem);
   ~MemReadIOCallback() override = default;
+  MemReadIOCallback& operator=(const MemReadIOCallback&) = delete;
 
   std::size_t read(void *Buffer, std::size_t Size) override;
   void setFilePointer(std::int64_t Offset, seek_mode Mode = seek_beginning) override;
