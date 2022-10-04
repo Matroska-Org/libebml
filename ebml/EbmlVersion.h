@@ -42,7 +42,7 @@
 
 namespace libebml {
 
-#define LIBEBML_VERSION 0x010403
+#define LIBEBML_VERSION 0x010404
 
 extern const EBML_DLL_API std::string EbmlCodeVersion;
 extern const EBML_DLL_API std::string EbmlCodeDate;
