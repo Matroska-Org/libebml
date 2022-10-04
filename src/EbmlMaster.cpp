@@ -55,19 +55,14 @@ EbmlMaster::EbmlMaster(const EbmlSemanticContext & aContext, bool bSizeIsknown)
 
 EbmlMaster::EbmlMaster(const EbmlMaster & ElementToClone)
  :EbmlElement(ElementToClone)
- ,ElementList(ElementToClone.ListSize())
  ,Context(ElementToClone.Context)
  ,bChecksumUsed(ElementToClone.bChecksumUsed)
  ,Checksum(ElementToClone.Checksum)
 {
+  ElementList.reserve(ElementToClone.ListSize());
   // add a clone of the list
-  auto myItr = ElementList.begin();
   for (const auto& e : ElementToClone.ElementList)
-  {
-    *myItr = e->Clone();
-    ++myItr;
-  }
-
+    ElementList.push_back(e->Clone());
 }
 
 EbmlMaster::~EbmlMaster()
