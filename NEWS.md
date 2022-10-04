@@ -1,3 +1,9 @@
+# Version 1.4.4 2022-10-05
+
+* Fix ABI compatibility: unfortunately release 1.4.3 broke ABI
+  compatibility. This release restores the compatibility with release
+  1.4.2. Please use it instead of release 1.4.3. Fixes #104.
+
 # Version 1.4.3 2022-09-30
 
 * A C++14 compliant C++ compiler is now required.
