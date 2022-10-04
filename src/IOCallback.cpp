@@ -64,8 +64,8 @@ void IOCallback::readFully(void*Buffer,std::size_t Size)
   if(Buffer == nullptr)
     throw;
 
-  char *readBuf = static_cast<char *>(Buffer);
-  uint32_t readSize = static_cast<uint32_t>(std::min<std::size_t>(std::numeric_limits<std::uint32_t>::max(), Size));
+  auto readBuf = static_cast<char *>(Buffer);
+  auto readSize = static_cast<uint32_t>(std::min<std::size_t>(std::numeric_limits<std::uint32_t>::max(), Size));
   while (readSize != 0) {
     if(read(readBuf,readSize) != readSize) {
       stringstream Msg;
