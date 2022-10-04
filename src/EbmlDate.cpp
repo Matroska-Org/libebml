@@ -37,6 +37,8 @@
 
 namespace libebml {
 
+const uint64 EbmlDate::UnixEpochDelay = 978307200; // 2001/01/01 00:00:00 UTC
+
 EbmlDate::EbmlDate(const EbmlDate & ElementToClone)
 :EbmlElement(ElementToClone)
 {
