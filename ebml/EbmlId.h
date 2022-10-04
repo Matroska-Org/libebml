@@ -55,11 +55,10 @@ namespace libebml {
 class EBML_DLL_API EbmlId {
   public:
     EbmlId(const binary aValue[4], const unsigned int aLength)
-      :Length(aLength)
+      :Value(0)
+      ,Length(aLength)
     {
-      Value = 0;
-      unsigned int i;
-      for (i=0; i<aLength; i++) {
+      for (unsigned int i=0; i<aLength; i++) {
         Value <<= 8;
         Value += aValue[i];
       }
