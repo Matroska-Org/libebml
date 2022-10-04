@@ -472,16 +472,14 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
   }
 processCrc:
 
-  EBML_MASTER_ITERATOR CrcItr;
-  auto Itr =
+  auto CrcItr =
       std::find_if(ElementList.begin(), ElementList.end(), [=](auto &&element) {
         return EbmlId(*element) == EBML_ID(EbmlCrc32);
       });
-  if (Itr != ElementList.end()) {
+  if (CrcItr != ElementList.end()) {
     bChecksumUsed = true;
     // remove the element
-    Checksum = *(static_cast<EbmlCrc32 *>(*Itr));
-    CrcItr = Itr;
+    Checksum = *(static_cast<EbmlCrc32 *>(*CrcItr));
   }
 
   if (bChecksumUsed)
