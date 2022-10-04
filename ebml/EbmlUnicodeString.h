@@ -54,7 +54,7 @@ class EBML_DLL_API UTFstring {
 public:
   using value_type = wchar_t;
 
-  UTFstring() = default;
+  UTFstring();
   UTFstring(const wchar_t *); // should be NULL terminated
   UTFstring(const UTFstring &);
   UTFstring(std::wstring const &);
@@ -83,8 +83,8 @@ public:
 #else
     protected:
 #endif
-  size_t _Length{0}; ///< length of the UCS string excluding the \0
-  wchar_t* _Data{nullptr}; ///< internal UCS representation
+  size_t _Length; ///< length of the UCS string excluding the \0
+  wchar_t* _Data; ///< internal UCS representation
   std::string UTF8string;
   static bool wcscmp_internal(const wchar_t *str1, const wchar_t *str2);
   void UpdateFromUTF8();

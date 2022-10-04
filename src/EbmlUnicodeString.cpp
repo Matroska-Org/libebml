@@ -46,12 +46,21 @@ namespace libebml {
 
 // ===================== UTFstring class ===================
 
+UTFstring::UTFstring()
+  :_Length(0)
+  ,_Data(nullptr)
+{}
+
 UTFstring::UTFstring(const wchar_t * _aBuf)
+  :_Length(0)
+  ,_Data(nullptr)
 {
   *this = _aBuf;
 }
 
 UTFstring::UTFstring(std::wstring const &_aBuf)
+  :_Length(0)
+  ,_Data(nullptr)
 {
   *this = _aBuf.c_str();
 }
@@ -62,6 +71,8 @@ UTFstring::~UTFstring()
 }
 
 UTFstring::UTFstring(const UTFstring & _aBuf)
+  :_Length(0)
+  ,_Data(nullptr)
 {
   *this = _aBuf.c_str();
 }
