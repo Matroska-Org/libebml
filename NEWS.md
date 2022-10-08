@@ -1,8 +1,10 @@
-# Version 1.4.4 2022-10-05
+# Version 1.4.4 2022-10-08
 
 * Fix ABI compatibility: unfortunately release 1.4.3 broke ABI
   compatibility. This release restores the compatibility with release
-  1.4.2. Please use it instead of release 1.4.3. Fixes #104.
+  1.4.2. Please use it instead of release 1.4.3. In other words: 1.4.2
+  & 1.4.4 are compatible, while 1.4.3 is compatible with neither 1.4.2
+  nor 1.4.4. Fixes #104.
 
 # Version 1.4.3 2022-09-30
 
