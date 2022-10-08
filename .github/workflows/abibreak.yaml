@@ -1,0 +1,48 @@
+name: "ABI Breakage"
+on:
+  push:
+    branches: [ v1.x ]
+  pull_request:
+
+jobs:
+  test_abidiff:
+    name: abidiff
+    runs-on: ubuntu-latest
+    steps:
+      - uses: lukka/get-cmake@latest
+
+      - name: Get pushed code
+        uses: actions/checkout@v3
+      
+      - name: Configure
+        run: cmake -S . -B _build -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
+
+      - name: Build
+        run: cmake --build _build --parallel
+
+      - name: Install
+        run: cmake --install _build --prefix ${GITHUB_WORKSPACE}/_built
+
+      - name: Get v1.x code
+        uses: actions/checkout@v3
+        with: 
+          path: libebml-1
+          ref: v1.x
+      
+      - name: Configure v1.x
+        run: cmake -S libebml-1 -B _build_1 -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built_1
+
+      - name: Build v1.x
+        run: cmake --build _build_1 --parallel
+
+      - name: Install v1.x
+        run: cmake --install _build_1 --prefix ${GITHUB_WORKSPACE}/_built_1
+
+      - name: Get abidiff
+        run: |
+          sudo apt update
+          sudo apt install abigail-tools
+
+      - name: Check ABI differences
+        run: abidiff ${GITHUB_WORKSPACE}/_built/lib/libebml.so ${GITHUB_WORKSPACE}/_built_1/lib/libebml.so
+
