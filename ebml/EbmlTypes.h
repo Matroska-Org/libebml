@@ -33,9 +33,20 @@
 #ifndef LIBEBML_TYPES_H
 #define LIBEBML_TYPES_H
 
-#include "ebml/c/libebml_t.h"
+#include <cstdint>
+
 #include "ebml/EbmlConfig.h"
-#include "EbmlEndian.h" // binary needs to be defined
+
+using int64  = std::int64_t;
+using int32  = std::int32_t;
+using int16  = std::int16_t;
+using int8   = std::int8_t;
+using uint64 = std::uint64_t;
+using uint32 = std::uint32_t;
+using uint16 = std::uint16_t;
+using uint8  = std::uint8_t;
+using binary = std::uint8_t;
+using filepos_t = std::uint64_t;
 
 enum open_mode {
     MODE_READ,
@@ -43,6 +54,8 @@ enum open_mode {
     MODE_CREATE,
     MODE_SAFE
 };
+
+#include "EbmlEndian.h" // binary needs to be defined
 
 namespace libebml {
 
