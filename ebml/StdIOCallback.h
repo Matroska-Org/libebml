@@ -38,13 +38,6 @@
 #include <stdexcept>
 #include <cerrno>
 
-// ----- Added 10/15/2003 by jcsston from Zen -----
-#if defined (__BORLANDC__) //Maybe other compilers?
-  #include <errno.h>
-  #include <stdio.h>
-#endif //__BORLANDC__
-// ------------------------------------------------
-
 namespace libebml {
 
 class EBML_DLL_API CRTError:public std::runtime_error
