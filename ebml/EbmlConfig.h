@@ -86,10 +86,4 @@
 # endif
 #endif
 
-#ifdef __GNUC__
-#define EBML_PRETTYLONGINT(c) (c ## ll)
-#else // __GNUC__
-#define EBML_PRETTYLONGINT(c) (c)
-#endif // __GNUC__
-
 #endif // LIBEBML_CONFIG_H
