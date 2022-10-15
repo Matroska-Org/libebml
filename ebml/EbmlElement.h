@@ -39,6 +39,12 @@
 
 namespace libebml {
 
+template <typename T, std::size_t N>
+constexpr std::size_t countof(T const (&)[N]) noexcept
+{
+    return N;
+}
+
 /*!
   \brief The size of the EBML-coded length
 */
