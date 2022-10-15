@@ -117,13 +117,6 @@ extern "C" {
 typedef uint8  binary;
 typedef uint64 filepos_t;
 
-typedef enum open_mode {
-    MODE_READ,
-    MODE_WRITE,
-    MODE_CREATE,
-    MODE_SAFE
-} open_mode;
-
 #define EBML_MIN(x,y) ((x)<(y) ? (x) : (y))
 
 #ifdef __cplusplus
