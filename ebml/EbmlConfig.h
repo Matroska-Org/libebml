@@ -42,34 +42,6 @@
 
 #include "ebml_export.h"
 
-#if defined(__linux__)
-#include <endian.h>
-#if __BYTE_ORDER == __LITTLE_ENDIAN
-#undef WORDS_BIGENDIAN
-#elif __BYTE_ORDER == __BIG_ENDIAN
-#define WORDS_BIGENDIAN 1
-#endif
-#else // !LINUX
-// automatic endianess detection working on GCC
-#if !defined(WORDS_BIGENDIAN)
-#if (defined (__arm__) && ! defined (__ARMEB__)) || defined (__i386__) || defined (__i860__) || defined (__ns32000__) || defined (__vax__) || defined (__amd64__) || defined (__x86_64__)
-#undef WORDS_BIGENDIAN
-#elif defined (__sparc__) || defined (__alpha__) || defined (__PPC__) || defined (__mips__) || defined (__ppc__) || defined (__BIG_ENDIAN__)
-#define WORDS_BIGENDIAN 1
-#else // other CPU
-// not automatically detected, put it yourself
-#undef WORDS_BIGENDIAN // for my testing platform (x86)
-#endif
-#endif // not autoconf
-#endif
-
-#if defined(WORDS_BIGENDIAN) && defined(BUILD_LITTLE_ENDIAN)
-#error mismatching endianess between C++ compiler anc CMake
-#endif
-#if !defined(WORDS_BIGENDIAN) && defined(BUILD_BIG_ENDIAN)
-#error mismatching endianess between C++ compiler anc CMake
-#endif
-
 #define LIBEBML_NAMESPACE libebml
 #define START_LIBEBML_NAMESPACE namespace LIBEBML_NAMESPACE {
 #define END_LIBEBML_NAMESPACE   }
