@@ -43,12 +43,6 @@
 #include "EbmlTypes.h"
 #include "EbmlElement.h"
 
-// ----- Added 10/15/2003 by jcsston from Zen -----
-#if defined (__BORLANDC__) //Maybe other compilers?
-  #include <mem.h>
-#endif //__BORLANDC__
-// ------------------------------------------------
-
 namespace libebml {
 
 /*!
