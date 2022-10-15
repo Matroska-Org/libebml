@@ -58,10 +58,6 @@ enum open_mode {
 
 namespace libebml {
 
-using utf16 = wchar_t;
-using utf32 = std::uint32_t;
-using utf8 = char;
-
 using bits80 = binary[10];
 
 using lil_int16 = Endian<std::int16_t, little_endian>;
