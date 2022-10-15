@@ -42,7 +42,7 @@
 namespace libebml {
 
 MemReadIOCallback::MemReadIOCallback(void const *Ptr,
-                                     size_t Size) {
+                                     std::size_t Size) {
   Init(Ptr, Size);
 }
 
@@ -56,16 +56,16 @@ MemReadIOCallback::MemReadIOCallback(MemReadIOCallback const &Mem) {
 
 void
 MemReadIOCallback::Init(void const *Ptr,
-                        size_t Size) {
+                        std::size_t Size) {
   mStart = reinterpret_cast<std::uint8_t const *>(Ptr);
   mEnd   = mStart + Size;
   mPtr   = mStart;
 }
 
-size_t
+std::size_t
 MemReadIOCallback::read(void *Buffer,
-                        size_t Size) {
-  const size_t RemainingBytes = mEnd - mPtr;
+                        std::size_t Size) {
+  const std::size_t RemainingBytes = mEnd - mPtr;
   if (RemainingBytes < Size)
     Size = RemainingBytes;
 

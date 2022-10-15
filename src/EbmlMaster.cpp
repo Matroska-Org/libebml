@@ -493,7 +493,7 @@ processCrc:
   SetValueIsSet();
 }
 
-void EbmlMaster::Remove(size_t Index)
+void EbmlMaster::Remove(std::size_t Index)
 {
   if (Index < ElementList.size()) {
     ElementList.erase(ElementList.begin() + Index);
@@ -534,7 +534,7 @@ bool EbmlMaster::VerifyChecksum() const
   return (aChecksum.GetCrc32() == Checksum.GetCrc32());
 }
 
-bool EbmlMaster::InsertElement(EbmlElement & element, size_t position)
+bool EbmlMaster::InsertElement(EbmlElement & element, std::size_t position)
 {
   if ((ElementList.empty()) && position)
     return false;

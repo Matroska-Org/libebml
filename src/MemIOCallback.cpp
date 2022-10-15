@@ -63,7 +63,7 @@ MemIOCallback::~MemIOCallback()
     free(dataBuffer);
 }
 
-size_t MemIOCallback::read(void *Buffer, size_t Size)
+std::size_t MemIOCallback::read(void *Buffer, std::size_t Size)
 {
   if (Buffer == nullptr || Size < 1)
     return 0;
@@ -93,7 +93,7 @@ void MemIOCallback::setFilePointer(std::int64_t Offset, seek_mode Mode)
     dataBufferPos = dataBufferTotalSize + Offset;
 }
 
-size_t MemIOCallback::write(const void *Buffer, size_t Size)
+std::size_t MemIOCallback::write(const void *Buffer, std::size_t Size)
 {
   if (dataBufferMemorySize < dataBufferPos + Size) {
     //We need more memory!
@@ -107,7 +107,7 @@ size_t MemIOCallback::write(const void *Buffer, size_t Size)
   return Size;
 }
 
-std::uint32_t MemIOCallback::write(IOCallback & IOToRead, size_t Size)
+std::uint32_t MemIOCallback::write(IOCallback & IOToRead, std::size_t Size)
 {
   if (dataBufferMemorySize < dataBufferPos + Size) {
     //We need more memory!

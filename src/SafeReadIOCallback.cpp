@@ -42,7 +42,7 @@
 
 namespace libebml {
 
-SafeReadIOCallback::EndOfStreamX::EndOfStreamX(size_t MissingBytes)
+SafeReadIOCallback::EndOfStreamX::EndOfStreamX(std::size_t MissingBytes)
   : mMissingBytes(MissingBytes)
 {
 }
@@ -55,7 +55,7 @@ SafeReadIOCallback::SafeReadIOCallback(IOCallback *IO,
 }
 
 SafeReadIOCallback::SafeReadIOCallback(void const *Mem,
-                                       size_t Size) {
+                                       std::size_t Size) {
   Init(new MemReadIOCallback(Mem, Size), true);
 }
 
@@ -79,19 +79,19 @@ SafeReadIOCallback::Init(IOCallback *IO,
   IO->setFilePointer(PrevPosition);
 }
 
-size_t
+std::size_t
 SafeReadIOCallback::GetPosition()
   const {
   return mIO->getFilePointer();
 }
 
-size_t
+std::size_t
 SafeReadIOCallback::GetSize()
   const {
   return mSize;
 }
 
-size_t
+std::size_t
 SafeReadIOCallback::GetRemainingBytes()
   const {
   return GetSize() - GetPosition();
@@ -104,16 +104,16 @@ SafeReadIOCallback::IsEmpty()
 }
 
 std::uint64_t
-SafeReadIOCallback::GetUIntBE(size_t NumBytes) {
+SafeReadIOCallback::GetUIntBE(std::size_t NumBytes) {
   std::uint8_t Buffer[8];
 
-  NumBytes     = std::min<size_t>(std::max<size_t>(1, NumBytes), 8);
+  NumBytes     = std::min<std::size_t>(std::max<std::size_t>(1, NumBytes), 8);
   std::uint64_t Value = 0;
   std::uint8_t* Ptr   = &Buffer[0];
 
   Read(Buffer, NumBytes);
 
-  for (size_t i = 0; NumBytes > i; ++i, ++Ptr)
+  for (std::size_t i = 0; NumBytes > i; ++i, ++Ptr)
     Value = (Value << 8) + *Ptr;
 
   return Value;
@@ -145,7 +145,7 @@ SafeReadIOCallback::GetUInt64BE() {
 }
 
 void
-SafeReadIOCallback::Skip(size_t Count) {
+SafeReadIOCallback::Skip(std::size_t Count) {
   const std::int64_t PrevPosition     = mIO->getFilePointer();
   const std::int64_t ExpectedPosition = PrevPosition + Count;
   mIO->setFilePointer(Count, seek_current);
@@ -156,7 +156,7 @@ SafeReadIOCallback::Skip(size_t Count) {
 }
 
 void
-SafeReadIOCallback::Seek(size_t Position) {
+SafeReadIOCallback::Seek(std::size_t Position) {
   mIO->setFilePointer(Position);
   const std::uint64_t ActualPosition = mIO->getFilePointer();
   if (ActualPosition != Position)
@@ -165,7 +165,7 @@ SafeReadIOCallback::Seek(size_t Position) {
 
 void
 SafeReadIOCallback::Read(void *Dst,
-                       size_t Count) {
+                       std::size_t Count) {
  const std::uint64_t NumRead = mIO->read(Dst, Count);
   if (NumRead != Count)
     throw SafeReadIOCallback::EndOfStreamX(Count - NumRead);

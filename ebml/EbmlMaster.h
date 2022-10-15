@@ -106,7 +106,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     /*!
       \brief add an element at a specified location
     */
-    bool InsertElement(EbmlElement & element, size_t position = 0);
+    bool InsertElement(EbmlElement & element, std::size_t position = 0);
     bool InsertElement(EbmlElement & element, const EbmlElement & before);
 
     /*!
@@ -119,7 +119,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     */
     void Sort();
 
-    size_t ListSize() const {return ElementList.size();}
+    std::size_t ListSize() const {return ElementList.size();}
     std::vector<EbmlElement *> const &GetElementList() const {return ElementList;}
     std::vector<EbmlElement *> &GetElementList() {return ElementList;}
 
@@ -149,7 +149,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     /*!
       \brief Remove an element from the list of the master
     */
-    void Remove(size_t Index);
+    void Remove(std::size_t Index);
     void Remove(EBML_MASTER_ITERATOR & Itr);
     void Remove(EBML_MASTER_RITERATOR & Itr);
 

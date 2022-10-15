@@ -220,7 +220,7 @@ EbmlCallbacks::EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalI
   assert((Create!=nullptr) || !strcmp(aDebugName, "DummyElement"));
 }
 
-const EbmlSemantic & EbmlSemanticContext::GetSemantic(size_t i) const
+const EbmlSemantic & EbmlSemanticContext::GetSemantic(std::size_t i) const
 {
   assert(i<Size);
   if (i<Size)
@@ -616,7 +616,7 @@ filepos_t EbmlElement::RenderHead(IOCallback & output, bool bForceRender, bool b
 filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
 {
   std::array<binary, 4 + 8> FinalHead; // Class D + 64 bits coded size
-  size_t FinalHeadSize;
+  std::size_t FinalHeadSize;
 
   FinalHeadSize = EBML_ID_LENGTH((const EbmlId&)*this);
   EbmlId(*this).Fill(FinalHead.data());
