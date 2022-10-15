@@ -28,7 +28,6 @@
 
 /*!
   \file
-  \version \$Id: IOCallback.cpp 639 2004-07-09 20:59:14Z mosu $
   \author Steve Lhomme     <robux4 @ users.sf.net>
   \author Moritz Bunkus <moritz @ bunkus.org>
 */

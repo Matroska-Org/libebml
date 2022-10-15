@@ -28,7 +28,6 @@
 
 /*!
   \file
-  \version \$Id: EbmlConfig.h 1241 2006-01-25 00:59:45Z robux4 $
   \author Steve Lhomme     <robux4 @ users.sf.net>
   \author Moritz Bunkus <moritz @ bunkus.org>
 */
