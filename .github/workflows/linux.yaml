@@ -9,16 +9,18 @@ jobs:
   build_libebml:
     name: libebml
     runs-on: ubuntu-latest
+    env:
+      CMAKE_OPTIONS: -DCMAKE_CXX_EXTENSIONS=OFF
     steps:
       - uses: lukka/get-cmake@latest
 
       - name: Get pushed code
         uses: actions/checkout@v3
       
-      - name: Configure CMake 
-        run: cmake -S . -B _build -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
+      - name: Configure
+        run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
 
-      - name: Build with CMake
+      - name: Build
         run: cmake --build _build --parallel
 
       - name: Test installation
