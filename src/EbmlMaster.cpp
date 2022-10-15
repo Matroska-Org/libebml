@@ -236,7 +236,7 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements()
     }
 
     if (childElement->IsMaster()) {
-      auto childMaster = reinterpret_cast<EbmlMaster *>(childElement);
+      const auto childMaster = static_cast<EbmlMaster*>(childElement);
 
       std::vector<std::string> childMissingElements = childMaster->FindAllMissingElements();
       std::copy(childMissingElements.begin(), childMissingElements.end(), std::back_inserter(missingElements));
