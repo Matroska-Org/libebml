@@ -38,7 +38,7 @@
 
 namespace libebml {
 
-MemIOCallback::MemIOCallback(uint64 DefaultSize)
+MemIOCallback::MemIOCallback(std::uint64_t DefaultSize)
 {
   //The default size of the buffer is 128 bytes
   dataBuffer = static_cast<binary *>(malloc(DefaultSize));
@@ -71,7 +71,7 @@ size_t MemIOCallback::read(void *Buffer, size_t Size)
   if (Size + dataBufferPos > dataBufferTotalSize) {
     //We will only return the remaining data
     memcpy(Buffer, dataBuffer + dataBufferPos, dataBufferTotalSize - dataBufferPos);
-    const uint64 oldDataPos = dataBufferPos;
+    const std::uint64_t oldDataPos = dataBufferPos;
     dataBufferPos = dataBufferTotalSize;
     return dataBufferTotalSize - oldDataPos;
   }
@@ -83,7 +83,7 @@ size_t MemIOCallback::read(void *Buffer, size_t Size)
   return Size;
 }
 
-void MemIOCallback::setFilePointer(int64 Offset, seek_mode Mode)
+void MemIOCallback::setFilePointer(std::int64_t Offset, seek_mode Mode)
 {
   if (Mode == seek_beginning)
     dataBufferPos = Offset;
@@ -107,7 +107,7 @@ size_t MemIOCallback::write(const void *Buffer, size_t Size)
   return Size;
 }
 
-uint32 MemIOCallback::write(IOCallback & IOToRead, size_t Size)
+std::uint32_t MemIOCallback::write(IOCallback & IOToRead, size_t Size)
 {
   if (dataBufferMemorySize < dataBufferPos + Size) {
     //We need more memory!

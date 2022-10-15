@@ -52,15 +52,15 @@ const int DEFAULT_UINT_SIZE = 0; ///< optimal size stored
 class EBML_DLL_API EbmlUInteger : public EbmlElement {
   public:
     EbmlUInteger();
-    explicit EbmlUInteger(uint64 DefaultValue);
+    explicit EbmlUInteger(std::uint64_t DefaultValue);
     EbmlUInteger(const EbmlUInteger & ElementToClone) = default;
 
-    EbmlUInteger & operator=(uint64 NewValue) {Value = NewValue; SetValueIsSet(); return *this;}
+    EbmlUInteger & operator=(std::uint64_t NewValue) {Value = NewValue; SetValueIsSet(); return *this;}
 
     /*!
       Set the default size of the integer (usually 1,2,4 or 8)
     */
-    void SetDefaultSize(uint64 nDefaultSize = DEFAULT_UINT_SIZE) override {EbmlElement::SetDefaultSize(nDefaultSize); SetSize_(nDefaultSize);}
+    void SetDefaultSize(std::uint64_t nDefaultSize = DEFAULT_UINT_SIZE) override {EbmlElement::SetDefaultSize(nDefaultSize); SetSize_(nDefaultSize);}
 
     bool ValidateSize() const override {return IsFiniteSize() && (GetSize() <= 8);}
     filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
@@ -69,17 +69,17 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
 
     bool IsSmallerThan(const EbmlElement *Cmp) const override;
 
-    explicit operator uint8()  const;
-    explicit operator uint16() const;
-    explicit operator uint32() const;
-    explicit operator uint64() const;
+    explicit operator std::uint8_t()  const;
+    explicit operator std::uint16_t() const;
+    explicit operator std::uint32_t() const;
+    explicit operator std::uint64_t() const;
 
-    EbmlUInteger &SetValue(uint64 NewValue);
-    uint64 GetValue() const;
+    EbmlUInteger &SetValue(std::uint64_t NewValue);
+    std::uint64_t GetValue() const;
 
-    void SetDefaultValue(uint64);
+    void SetDefaultValue(std::uint64_t);
 
-    uint64 DefaultVal() const;
+    std::uint64_t DefaultVal() const;
 
     bool IsDefaultValue() const override {
       return (DefaultISset() && Value == DefaultValue);
@@ -90,8 +90,8 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
 #else
     protected:
 #endif
-    uint64 Value; /// The actual value of the element
-    uint64 DefaultValue;
+    std::uint64_t Value; /// The actual value of the element
+    std::uint64_t DefaultValue;
 };
 
 } // namespace libebml

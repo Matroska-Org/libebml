@@ -45,12 +45,12 @@
 
 namespace {
 
-int64
-ToSigned(uint64 u) {
-  if (u <= static_cast<uint64>(std::numeric_limits<int64>::max()))
-    return static_cast<int64>(u);
+std::int64_t
+ToSigned(std::uint64_t u) {
+  if (u <= static_cast<std::uint64_t>(std::numeric_limits<std::int64_t>::max()))
+    return static_cast<std::int64_t>(u);
 
-  return static_cast<int64>(u - std::numeric_limits<int64>::min()) + std::numeric_limits<int64>::min();
+  return static_cast<std::int64_t>(u - std::numeric_limits<std::int64_t>::min()) + std::numeric_limits<std::int64_t>::min();
 }
 
 } // namespace
@@ -61,20 +61,20 @@ EbmlSInteger::EbmlSInteger()
   :EbmlElement(DEFAULT_INT_SIZE, false)
 {}
 
-EbmlSInteger::EbmlSInteger(int64 aDefaultValue)
+EbmlSInteger::EbmlSInteger(std::int64_t aDefaultValue)
   :EbmlElement(DEFAULT_INT_SIZE, true), Value(aDefaultValue)
 {
   SetDefaultIsSet();
 }
 
-EbmlSInteger::operator int8() const {return  static_cast<int8>(Value);}
-EbmlSInteger::operator int16() const {return static_cast<int16>(Value);}
-EbmlSInteger::operator int32() const {return static_cast<int32>(Value);}
-EbmlSInteger::operator int64() const {return Value;}
+EbmlSInteger::operator std::int8_t() const {return  static_cast<std::int8_t>(Value);}
+EbmlSInteger::operator std::int16_t() const {return static_cast<std::int16_t>(Value);}
+EbmlSInteger::operator std::int32_t() const {return static_cast<std::int32_t>(Value);}
+EbmlSInteger::operator std::int64_t() const {return Value;}
 
-int64 EbmlSInteger::GetValue() const {return Value;}
+std::int64_t EbmlSInteger::GetValue() const {return Value;}
 
-EbmlSInteger & EbmlSInteger::SetValue(int64 NewValue) {
+EbmlSInteger & EbmlSInteger::SetValue(std::int64_t NewValue) {
   return *this = NewValue;
 }
 
@@ -89,7 +89,7 @@ filepos_t EbmlSInteger::RenderData(IOCallback & output, bool /* bForceRender */,
   if (GetSizeLength() > 8)
     return 0; // integer bigger coded on more than 64 bits are not supported
 
-  int64 TempValue = Value;
+  std::int64_t TempValue = Value;
   for (i=0; i<GetSize();i++) {
     FinalData.at(GetSize()-i-1) = static_cast<binary>(TempValue & 0xFF);
     TempValue >>= 8;
@@ -100,7 +100,7 @@ filepos_t EbmlSInteger::RenderData(IOCallback & output, bool /* bForceRender */,
   return GetSize();
 }
 
-uint64 EbmlSInteger::UpdateSize(bool bWithDefault, bool /* bForceRender */)
+std::uint64_t EbmlSInteger::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 {
   if (!bWithDefault && IsDefaultValue())
     return 0;
@@ -147,7 +147,7 @@ filepos_t EbmlSInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
   std::array<binary, 8> Buffer;
   input.readFully(Buffer.data(), GetSize());
 
-  uint64 TempValue = Buffer[0] & 0x80 ? std::numeric_limits<uint64>::max() : 0;
+  std::uint64_t TempValue = Buffer[0] & 0x80 ? std::numeric_limits<std::uint64_t>::max() : 0;
 
   for (unsigned int i=0; i<GetSize(); i++) {
     TempValue <<= 8;

@@ -51,15 +51,15 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
       \brief set the date with a UNIX/C/EPOCH form
       \param NewDate UNIX/C date in UTC (no timezone)
     */
-    void SetEpochDate(int64 NewDate) {myDate = (NewDate - UnixEpochDelay) * 1000000000; SetValueIsSet();}
-    EbmlDate &SetValue(int64 NewValue) {SetEpochDate(NewValue); return *this;}
+    void SetEpochDate(std::int64_t NewDate) {myDate = (NewDate - UnixEpochDelay) * 1000000000; SetValueIsSet();}
+    EbmlDate &SetValue(std::int64_t NewValue) {SetEpochDate(NewValue); return *this;}
 
     /*!
       \brief get the date with a UNIX/C/EPOCH form
       \note the date is in UTC (no timezone)
     */
-    int64 GetEpochDate() const {return static_cast<int64>(myDate/1000000000 + UnixEpochDelay);}
-    int64 GetValue() const {return GetEpochDate();}
+    std::int64_t GetEpochDate() const {return static_cast<std::int64_t>(myDate/1000000000 + UnixEpochDelay);}
+    std::int64_t GetValue() const {return GetEpochDate();}
 
     bool ValidateSize() const override {return IsFiniteSize() && ((GetSize() == 8) || (GetSize() == 0));}
 
@@ -89,9 +89,9 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 #endif
     filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
 
-    int64 myDate{0}; ///< internal format of the date
+    std::int64_t myDate{0}; ///< internal format of the date
 
-    static const uint64 UnixEpochDelay = 978307200; // 2001/01/01 00:00:00 UTC
+    static const std::uint64_t UnixEpochDelay = 978307200; // 2001/01/01 00:00:00 UTC
 };
 
 } // namespace libebml

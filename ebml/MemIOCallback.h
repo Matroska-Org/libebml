@@ -48,7 +48,7 @@ namespace libebml {
 class EBML_DLL_API MemIOCallback : public IOCallback
 {
 public:
-  explicit MemIOCallback(uint64 DefaultSize = 128);
+  explicit MemIOCallback(std::uint64_t DefaultSize = 128);
   ~MemIOCallback() override;
 
   /*!
@@ -61,7 +61,7 @@ public:
     or SEEK_END. The callback should return true(1) if the seek operation succeeded
     or false (0), when the seek fails.
   */
-  void setFilePointer(int64 Offset, seek_mode Mode=seek_beginning) override;
+  void setFilePointer(std::int64_t Offset, seek_mode Mode=seek_beginning) override;
 
   /*!
     This callback just works like its read pendant. It returns the number of bytes written.
@@ -75,7 +75,7 @@ public:
 
     If an error occurs, an exception should be thrown.
   */
-  uint64 getFilePointer() override {return dataBufferPos;}
+  std::uint64_t getFilePointer() override {return dataBufferPos;}
 
   /*!
     The close callback flushes the file buffers to disk and closes the file. When using the stdio
@@ -85,12 +85,12 @@ public:
   void close() override {}
 
   binary *GetDataBuffer() const {return dataBuffer;}
-  uint64 GetDataBufferSize() const {return dataBufferTotalSize;}
-  void SetDataBufferSize(uint64 newDataBufferSize) {dataBufferTotalSize = newDataBufferSize;}
+  std::uint64_t GetDataBufferSize() const {return dataBufferTotalSize;}
+  void SetDataBufferSize(std::uint64_t newDataBufferSize) {dataBufferTotalSize = newDataBufferSize;}
   /*!
     Use this to write some data from another IOCallback
   */
-  uint32 write(IOCallback & IOToRead, size_t Size);
+  std::uint32_t write(IOCallback & IOToRead, size_t Size);
 
   bool IsOk() const { return mOk; }
   const std::string &GetLastErrorStr() { return mLastErrorStr; }
@@ -102,15 +102,15 @@ protected:
   /*!
     Postion where we start 'writing' to the dataBuffer
   */
-  uint64 dataBufferPos;
+  std::uint64_t dataBufferPos;
   /*!
     Size of the data in the dataBuffer
   */
-  uint64 dataBufferTotalSize;
+  std::uint64_t dataBufferTotalSize;
   /*!
     Size of the memory malloc()/realloc()
   */
-  uint64 dataBufferMemorySize;
+  std::uint64_t dataBufferMemorySize;
 };
 
 } // namespace libebml

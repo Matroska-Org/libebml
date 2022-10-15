@@ -102,7 +102,7 @@ template<class TYPE, endianess ENDIAN> class Endian
 #else  // _ENDIANESS_
           if (ENDIAN == big_endian)
 #endif // _ENDIANESS_
-            std::reverse(reinterpret_cast<uint8*>(&endian_value),reinterpret_cast<uint8*>(&endian_value+1));
+            std::reverse(reinterpret_cast<std::uint8_t*>(&endian_value),reinterpret_cast<std::uint8_t*>(&endian_value+1));
       }
 
       inline void process_platform()
@@ -113,7 +113,7 @@ template<class TYPE, endianess ENDIAN> class Endian
 #else  // _ENDIANESS_
           if (ENDIAN == big_endian)
 #endif // _ENDIANESS_
-            std::reverse(reinterpret_cast<uint8*>(&platform_value),reinterpret_cast<uint8*>(&platform_value+1));
+            std::reverse(reinterpret_cast<std::uint8_t*>(&platform_value),reinterpret_cast<std::uint8_t*>(&platform_value+1));
       }
 };
 

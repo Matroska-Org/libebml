@@ -106,7 +106,7 @@ size_t StdIOCallback::read(void*Buffer,size_t Size)
   return result;
 }
 
-void StdIOCallback::setFilePointer(int64 Offset,seek_mode Mode)
+void StdIOCallback::setFilePointer(std::int64_t Offset,seek_mode Mode)
 {
   assert(File!=nullptr);
 
@@ -137,12 +137,12 @@ void StdIOCallback::setFilePointer(int64 Offset,seek_mode Mode)
 size_t StdIOCallback::write(const void*Buffer,size_t Size)
 {
   assert(File!=nullptr);
-  const uint32 Result = fwrite(Buffer,1,Size,File);
+  const std::uint32_t Result = fwrite(Buffer,1,Size,File);
   mCurrentPosition += Result;
   return Result;
 }
 
-uint64 StdIOCallback::getFilePointer()
+std::uint64_t StdIOCallback::getFilePointer()
 {
   assert(File!=nullptr);
 

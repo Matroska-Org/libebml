@@ -203,7 +203,7 @@ void WinIOCallback::close()
   }
 }
 
-uint64 WinIOCallback::getFilePointer()
+std::uint64_t WinIOCallback::getFilePointer()
 {
   if (!mFile) {
     return 0;
@@ -214,12 +214,12 @@ uint64 WinIOCallback::getFilePointer()
   LONG High = 0;
   DWORD Low = SetFilePointer(mFile, 0, &High, FILE_CURRENT);
   if ( (Low==INVALID_SET_FILE_POINTER) && (GetLastError()!=NO_ERROR) )
-    return static_cast<uint64>(-1);
-  return ((uint64(High)<<32) | Low);
+    return static_cast<std::uint64_t>(-1);
+  return ((std::uint64_t(High)<<32) | Low);
 #endif
 }
 
-void WinIOCallback::setFilePointer(int64 Offset, seek_mode Mode)
+void WinIOCallback::setFilePointer(std::int64_t Offset, seek_mode Mode)
 {
   DWORD Method;
   switch(Mode) {
@@ -242,13 +242,13 @@ void WinIOCallback::setFilePointer(int64 Offset, seek_mode Mode)
   if ( mCurrentPosition == INVALID_SET_FILE_POINTER ) {
     High = 0;
     DWORD Low = SetFilePointer(mFile, 0, &High, FILE_CURRENT);
-    mCurrentPosition = ((uint64(High)<<32) | Low);
+    mCurrentPosition = ((std::uint64_t(High)<<32) | Low);
   } else {
-    mCurrentPosition |= uint64(High)<<32;
+    mCurrentPosition |= std::uint64_t(High)<<32;
   }
 }
 
-uint32 WinIOCallback::read(void*Buffer,size_t Size)
+std::uint32_t WinIOCallback::read(void*Buffer,size_t Size)
 {
   DWORD BytesRead;
   if (!ReadFile(mFile, Buffer, Size, &BytesRead, NULL)) {
