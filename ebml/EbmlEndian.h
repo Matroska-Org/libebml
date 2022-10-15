@@ -38,12 +38,111 @@
 #ifndef LIBEBML_ENDIAN_H
 #define LIBEBML_ENDIAN_H
 
+#if !defined(WORDS_BIGENDIAN)
+#if defined(_MSC_VER)
+#include <intrin.h>     // _byteswap_uint64
+// #include <immintrin.h>  // Intel _loadbe_i64 / _storebe_i64 depends on the CPU
+#endif // MSVC
+#endif // !BIGENDIAN
+
 #include <algorithm>
 #include <cstring>
 
 #include "EbmlConfig.h" // contains _ENDIANESS_
 
 namespace libebml {
+
+namespace endian {
+
+
+#if defined(WORDS_BIGENDIAN)
+
+// nothing to do
+#define swap_big(T)  (T)
+
+#elif defined(__GNUC__) || defined(__clang__) || defined(_MSC_VER)
+
+// optimized little-endian
+static inline std::int64_t swap_big(std::int64_t value)
+{
+#if defined(__GNUC__) || defined(__clang__)
+    return __builtin_bswap64(value);
+#else // _MSC_VER
+    return _byteswap_uint64(value);
+#endif
+}
+
+static inline std::int32_t swap_big(std::int32_t value)
+{
+#if defined(__GNUC__) || defined(__clang__)
+    return __builtin_bswap32(value);
+#else // _MSC_VER
+    return _byteswap_ulong(value);
+#endif
+}
+
+static inline std::int16_t swap_big(std::int16_t value)
+{
+#if defined(__GNUC__) || defined(__clang__)
+    return __builtin_bswap16(value);
+#else // _MSC_VER
+    return _byteswap_ushort(value);
+#endif
+}
+
+#else  // !GCC && !CLANG && !MSVC
+
+// generic version
+template<class T>
+static inline T swap_big(T value)
+{
+    std::reverse(reinterpret_cast<std::uint8_t*>(&value),reinterpret_cast<std::uint8_t*>(&value+1));
+    // TODO support C++23 std::byteswap
+    return value;
+}
+
+#endif // !GCC && !CLANG && !MSVC
+
+static inline std::int64_t from_big64(const binary *big_ptr)
+{
+    std::int64_t result;
+    memcpy(&result, big_ptr, sizeof(result));
+    return swap_big(result);
+}
+
+static inline std::int32_t from_big32(const binary *big_ptr)
+{
+    std::int32_t result;
+    memcpy(&result, big_ptr, sizeof(result));
+    return swap_big(result);
+}
+
+static inline std::int16_t from_big16(const binary *big_ptr)
+{
+    std::int16_t result;
+    memcpy(&result, big_ptr, sizeof(result));
+    return swap_big(result);
+}
+
+static inline void to_big64(std::int64_t value, binary out[8])
+{
+    value = swap_big(value);
+    memcpy(out, &value, sizeof(value));
+}
+
+static inline void to_big32(std::int32_t value, binary out[4])
+{
+    value = swap_big(value);
+    memcpy(out, &value, sizeof(value));
+}
+
+static inline void to_big16(std::int16_t value, binary out[2])
+{
+    value = swap_big(value);
+    memcpy(out, &value, sizeof(value));
+}
+
+} // namespace endian
 
 enum endianess {
     big_endian,   ///< PowerPC, Alpha, 68000
