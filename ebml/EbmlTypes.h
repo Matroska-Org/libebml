@@ -37,6 +37,13 @@
 #include "ebml/EbmlConfig.h"
 #include "EbmlEndian.h" // binary needs to be defined
 
+enum open_mode {
+    MODE_READ,
+    MODE_WRITE,
+    MODE_CREATE,
+    MODE_SAFE
+};
+
 namespace libebml {
 
 using utf16 = wchar_t;
