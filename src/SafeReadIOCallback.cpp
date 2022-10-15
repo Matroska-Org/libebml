@@ -35,6 +35,7 @@
 */
 
 #include <cstring>
+#include <algorithm>
 
 #include "ebml/EbmlBinary.h"
 #include "ebml/MemReadIOCallback.h"
