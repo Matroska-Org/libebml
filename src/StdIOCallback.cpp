@@ -28,7 +28,6 @@
 
 /*!
   \file
-  \version \$Id: StdIOCallback.cpp 1298 2008-02-21 22:14:18Z mosu $
   \author Steve Lhomme     <robux4 @ users.sf.net>
   \author Moritz Bunkus <moritz @ bunkus.org>
 */

@@ -30,7 +30,6 @@
 
 /*!
   \file
-  \version \$Id: EbmlCrc32.cpp 1155 2005-05-06 11:43:38Z robux4 $
   \author Steve Lhomme     <robux4 @ users.sf.net>
   \author Jory Stone       <jcsston @ toughguy.net>
 */

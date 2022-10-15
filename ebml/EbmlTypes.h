@@ -28,7 +28,6 @@
 
 /*!
   \file
-  \version \$Id: EbmlTypes.h 639 2004-07-09 20:59:14Z mosu $
 */
 #ifndef LIBEBML_TYPES_H
 #define LIBEBML_TYPES_H

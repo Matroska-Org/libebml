@@ -28,7 +28,6 @@
 
 /*!
   \file
-  \version \$Id: StdIOCallback.h 1090 2005-03-16 12:47:59Z robux4 $
 */
 #ifndef LIBEBML_STDIOCALLBACK_H
 #define LIBEBML_STDIOCALLBACK_H
