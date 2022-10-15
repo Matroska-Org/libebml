@@ -7,18 +7,22 @@ on:
 
 jobs:
   build_libebml:
-    name: libebml
+    name: libebml ${{ matrix.arch }} Library
     runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:   [x86_64, arm64]
     steps:
       - uses: lukka/get-cmake@latest
 
       - name: Get pushed code
         uses: actions/checkout@v3
       
-      - name: Configure CMake 
-        run: cmake -S . -B _build -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
+      - name: Configure
+        run: cmake -S . -B _build -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -DCMAKE_OSX_ARCHITECTURES="${{ matrix.arch }}"
 
-      - name: Build with CMake
+      - name: Build
         run: cmake --build _build --parallel
 
       - name: Test installation
