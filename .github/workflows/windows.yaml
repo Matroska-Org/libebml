@@ -7,7 +7,7 @@ on:
 
 jobs:
   build_libebml:
-    name: libebml ${{ matrix.config }} ${{ matrix.shared.name }}
+    name: libebml ${{ matrix.arch.name }} ${{ matrix.config }} ${{ matrix.shared.name }}
     runs-on: windows-latest
     strategy:
       fail-fast: false
@@ -16,6 +16,11 @@ jobs:
         shared: [
           { "name": "Dynamic", "option": "ON"},
           { "name": "Static",  "option": "OFF"}
+        ]
+        arch: [
+          { "name": "x64",   "option": "x64"},
+          { "name": "x86",   "option": "win32"},
+          { "name": "arm64", "option": "arm64"},
         ]
     env:
       CMAKE_OPTIONS: -DENABLE_WIN32_IO=ON
@@ -26,7 +31,7 @@ jobs:
         uses: actions/checkout@v3
       
       - name: Configure ${{ matrix.shared.name }} library
-        run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DBUILD_SHARED_LIBS=${{ matrix.shared.option }}
+        run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -A ${{ matrix.arch.option }} -DBUILD_SHARED_LIBS=${{ matrix.shared.option }}
 
       - name: Build
         run: cmake --build _build --config ${{ matrix.config }} --parallel
