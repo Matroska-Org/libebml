@@ -145,6 +145,19 @@ template<class TYPE, endianess ENDIAN> class Endian
       }
 };
 
+using lil_int16 = Endian<std::int16_t, little_endian>;
+using lil_int32 = Endian<std::int32_t, little_endian>;
+using lil_int64 = Endian<std::int64_t, little_endian>;
+using lil_uint16 = Endian<std::uint16_t, little_endian>;
+using lil_uint32 = Endian<std::uint32_t, little_endian>;
+using lil_uint64 = Endian<std::uint64_t, little_endian>;
+using big_int16 = Endian<std::int16_t, big_endian>;
+using big_int32 = Endian<std::int32_t, big_endian>;
+using big_int64 = Endian<std::int64_t, big_endian>;
+using big_uint16 = Endian<std::uint16_t, big_endian>;
+using big_uint32 = Endian<std::uint32_t, big_endian>;
+using big_uint64 = Endian<std::uint64_t, big_endian>;
+
 } // namespace libebml
 
 #endif // LIBEBML_ENDIAN_H
