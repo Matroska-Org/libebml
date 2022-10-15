@@ -332,7 +332,7 @@ using _GetSemanticContext = const class EbmlSemanticContext &(*)();
 */
 class EBML_DLL_API EbmlSemanticContext {
   public:
-    EbmlSemanticContext(size_t aSize,
+    EbmlSemanticContext(std::size_t aSize,
       const EbmlSemantic *aMyTable,
       const EbmlSemanticContext *aUpTable,
       const _GetSemanticContext aGetGlobalContext,
@@ -346,10 +346,10 @@ class EBML_DLL_API EbmlSemanticContext {
         (MasterElt != aElt.MasterElt));
     }
 
-        inline size_t GetSize() const { return Size; }
+        inline std::size_t GetSize() const { return Size; }
         inline const EbmlCallbacks* GetMaster() const { return MasterElt; }
         inline const EbmlSemanticContext* Parent() const { return UpTable; }
-        const EbmlSemantic & GetSemantic(size_t i) const;
+        const EbmlSemantic & GetSemantic(std::size_t i) const;
 
     const _GetSemanticContext GetGlobalContext; ///< global elements supported at this level
 
@@ -357,7 +357,7 @@ class EBML_DLL_API EbmlSemanticContext {
     private:
 #endif
         const EbmlSemantic *MyTable; ///< First element in the table
-    size_t Size;          ///< number of elements in the table
+    std::size_t Size;          ///< number of elements in the table
     const EbmlSemanticContext *UpTable; ///< Parent element
     /// \todo replace with the global context directly
     const EbmlCallbacks *MasterElt;
@@ -433,7 +433,7 @@ class EBML_DLL_API EbmlElement {
     virtual bool IsDummy() const {return false;}
     virtual bool IsMaster() const {return false;}
 
-    size_t HeadSize() const {
+    std::size_t HeadSize() const {
       return EBML_ID_LENGTH((const EbmlId&)*this) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
     } /// return the size of the head, on reading/writing
 

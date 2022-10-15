@@ -84,14 +84,14 @@ class EBML_DLL_API EbmlId {
       }
     }
 
-        inline size_t GetLength() const { return Length; }
+        inline std::size_t GetLength() const { return Length; }
         inline std::uint32_t GetValue() const { return Value; }
 
 #if defined(EBML_STRICT_API)
     private:
 #endif
     std::uint32_t Value;
-    size_t Length;
+    std::size_t Length;
 };
 
 } // namespace libebml

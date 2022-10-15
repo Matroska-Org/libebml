@@ -43,7 +43,7 @@ using namespace std;
 
 namespace libebml {
 
-void IOCallback::writeFully(const void*Buffer,size_t Size)
+void IOCallback::writeFully(const void*Buffer,std::size_t Size)
 {
   if (Size == 0)
     return;
@@ -60,13 +60,13 @@ void IOCallback::writeFully(const void*Buffer,size_t Size)
 
 
 
-void IOCallback::readFully(void*Buffer,size_t Size)
+void IOCallback::readFully(void*Buffer,std::size_t Size)
 {
   if(Buffer == nullptr)
     throw;
 
   char *readBuf = static_cast<char *>(Buffer);
-  uint32_t readSize = static_cast<uint32_t>(std::min<size_t>(std::numeric_limits<std::uint32_t>::max(), Size));
+  uint32_t readSize = static_cast<uint32_t>(std::min<std::size_t>(std::numeric_limits<std::uint32_t>::max(), Size));
   while (readSize != 0) {
     if(read(readBuf,readSize) != readSize) {
       stringstream Msg;
@@ -75,7 +75,7 @@ void IOCallback::readFully(void*Buffer,size_t Size)
     }
     Size -= readSize;
     readBuf += readSize;
-    readSize = static_cast<uint32_t>(std::min<size_t>(std::numeric_limits<std::uint32_t>::max(), Size));
+    readSize = static_cast<uint32_t>(std::min<std::size_t>(std::numeric_limits<std::uint32_t>::max(), Size));
   }
 }
 

@@ -54,7 +54,7 @@ public:
   /*!
     Use this to copy some data to the Buffer from this classes data
   */
-  size_t read(void *Buffer, size_t Size) override;
+  std::size_t read(void *Buffer, std::size_t Size) override;
 
   /*!
     Seek to the specified position. The mode can have either SEEK_SET, SEEK_CUR
@@ -66,7 +66,7 @@ public:
   /*!
     This callback just works like its read pendant. It returns the number of bytes written.
   */
-  size_t write(const void *Buffer, size_t Size) override;
+  std::size_t write(const void *Buffer, std::size_t Size) override;
 
   /*!
     Although the position is always positive, the return value of this callback is signed to
@@ -90,7 +90,7 @@ public:
   /*!
     Use this to write some data from another IOCallback
   */
-  std::uint32_t write(IOCallback & IOToRead, size_t Size);
+  std::uint32_t write(IOCallback & IOToRead, std::size_t Size);
 
   bool IsOk() const { return mOk; }
   const std::string &GetLastErrorStr() { return mLastErrorStr; }
