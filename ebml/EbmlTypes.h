@@ -63,12 +63,6 @@ using utf16 = wchar_t;
 using utf32 = std::uint32_t;
 using utf8 = char;
 
-using bits80 = binary[10];
-
-using checksum = Endian<std::uint32_t, big_endian>;
-using big_80bits = Endian<bits80, big_endian>;
-
-
 enum ScopeMode {
   SCOPE_PARTIAL_DATA = 0,
   SCOPE_ALL_DATA,
