@@ -117,8 +117,6 @@ extern "C" {
 typedef uint8  binary;
 typedef uint64 filepos_t;
 
-#define EBML_MIN(x,y) ((x)<(y) ? (x) : (y))
-
 #ifdef __cplusplus
 }
 #endif
