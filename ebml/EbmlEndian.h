@@ -42,6 +42,34 @@
 
 #include "EbmlConfig.h" // contains _ENDIANESS_
 
+#if defined(__linux__)
+#include <endian.h>
+#if __BYTE_ORDER == __LITTLE_ENDIAN
+#undef WORDS_BIGENDIAN
+#elif __BYTE_ORDER == __BIG_ENDIAN
+#define WORDS_BIGENDIAN 1
+#endif
+#else // !LINUX
+// automatic endianess detection working on GCC
+#if !defined(WORDS_BIGENDIAN)
+#if (defined (__arm__) && ! defined (__ARMEB__)) || defined (__i386__) || defined (__i860__) || defined (__ns32000__) || defined (__vax__) || defined (__amd64__) || defined (__x86_64__)
+#undef WORDS_BIGENDIAN
+#elif defined (__sparc__) || defined (__alpha__) || defined (__PPC__) || defined (__mips__) || defined (__ppc__) || defined (__BIG_ENDIAN__)
+#define WORDS_BIGENDIAN 1
+#else // other CPU
+// not automatically detected, put it yourself
+#undef WORDS_BIGENDIAN // for my testing platform (x86)
+#endif
+#endif // not autoconf
+#endif
+
+#if defined(WORDS_BIGENDIAN) && defined(BUILD_LITTLE_ENDIAN)
+#error mismatching endianess between C++ compiler anc CMake
+#endif
+#if !defined(WORDS_BIGENDIAN) && defined(BUILD_BIG_ENDIAN)
+#error mismatching endianess between C++ compiler anc CMake
+#endif
+
 namespace libebml {
 
 enum endianess {
@@ -115,6 +143,13 @@ template<class TYPE, endianess ENDIAN> class Endian
             std::reverse(reinterpret_cast<std::uint8_t*>(&platform_value),reinterpret_cast<std::uint8_t*>(&platform_value+1));
       }
 };
+
+using big_int16 = Endian<std::int16_t, big_endian>;
+using big_int32 = Endian<std::int32_t, big_endian>;
+using big_int64 = Endian<std::int64_t, big_endian>;
+using big_uint16 = Endian<std::uint16_t, big_endian>;
+using big_uint32 = Endian<std::uint32_t, big_endian>;
+using big_uint64 = Endian<std::uint64_t, big_endian>;
 
 } // namespace libebml
 

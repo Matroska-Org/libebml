@@ -95,6 +95,14 @@ if(MSVC)
   target_compile_definitions(ebml PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()
 
+include(TestBigEndian)
+test_big_endian(BUILD_BIG_ENDIAN)
+if(BUILD_BIG_ENDIAN)
+  target_compile_definitions(ebml PRIVATE BUILD_BIG_ENDIAN)
+else()
+  target_compile_definitions(ebml PRIVATE BUILD_LITTLE_ENDIAN)
+endif()
+
 include(GenerateExportHeader)
 generate_export_header(ebml EXPORT_MACRO_NAME EBML_DLL_API)
 target_sources(ebml
