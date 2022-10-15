@@ -95,6 +95,9 @@ if(MSVC)
   target_compile_definitions(ebml PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()
 
+add_subdirectory(src/lib/utf8-cpp)
+target_link_libraries(ebml PRIVATE $<BUILD_INTERFACE:utf8-cpp>)
+
 include(GenerateExportHeader)
 generate_export_header(ebml EXPORT_MACRO_NAME EBML_DLL_API)
 target_sources(ebml
