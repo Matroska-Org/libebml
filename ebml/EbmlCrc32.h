@@ -63,27 +63,27 @@ DECLARE_EBML_BINARY(EbmlCrc32)
       Use this to quickly check a CRC32 with some data
       \return True if inputCRC matches CRC32 generated from input data
     */
-    static bool CheckCRC(uint32 inputCRC, const binary *input, uint32 length);
+    static bool CheckCRC(std::uint32_t inputCRC, const binary *input, std::uint32_t length);
     /*!
       Calls Update() and Finalize(), use to create a CRC32 in one go
     */
-    void FillCRC32(const binary *input, uint32 length);
+    void FillCRC32(const binary *input, std::uint32_t length);
     /*!
       Add data to the CRC table, in other words process some data bit by bit
     */
-    void Update(const binary *input, uint32 length);
+    void Update(const binary *input, std::uint32_t length);
     /*!
       Use this with Update() to Finalize() or Complete the CRC32
     */
     void Finalize();
     /*!
-      Returns a uint32 that has the value of the CRC32
+      Returns a std::uint32_t that has the value of the CRC32
     */
-    uint32 GetCrc32() const {
+    std::uint32_t GetCrc32() const {
       return m_crc_final;
     }
 
-    void ForceCrc32(uint32 NewValue) { m_crc_final = NewValue; SetValueIsSet();}
+    void ForceCrc32(std::uint32_t NewValue) { m_crc_final = NewValue; SetValueIsSet();}
 
 #if defined(EBML_STRICT_API)
     private:
@@ -93,9 +93,9 @@ DECLARE_EBML_BINARY(EbmlCrc32)
     void ResetCRC();
     void UpdateByte(binary b);
 
-    static const std::array<uint32, 256> m_tab;
-    uint32 m_crc;
-    uint32 m_crc_final{0};
+    static const std::array<std::uint32_t, 256> m_tab;
+    std::uint32_t m_crc;
+    std::uint32_t m_crc_final{0};
 
     EBML_CONCRETE_CLASS(EbmlCrc32)
 };

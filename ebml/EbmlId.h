@@ -65,7 +65,7 @@ class EBML_DLL_API EbmlId {
       }
     }
 
-    EbmlId(const uint32 aValue, const unsigned int aLength)
+    EbmlId(const std::uint32_t aValue, const unsigned int aLength)
       :Value(aValue), Length(aLength) {}
 
     inline bool operator==(const EbmlId & TestId) const
@@ -85,12 +85,12 @@ class EBML_DLL_API EbmlId {
     }
 
         inline size_t GetLength() const { return Length; }
-        inline uint32 GetValue() const { return Value; }
+        inline std::uint32_t GetValue() const { return Value; }
 
 #if defined(EBML_STRICT_API)
     private:
 #endif
-    uint32 Value;
+    std::uint32_t Value;
     size_t Length;
 };
 

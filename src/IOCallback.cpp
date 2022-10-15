@@ -66,7 +66,7 @@ void IOCallback::readFully(void*Buffer,size_t Size)
     throw;
 
   char *readBuf = static_cast<char *>(Buffer);
-  uint32_t readSize = static_cast<uint32_t>(std::min<size_t>(std::numeric_limits<uint32>::max(), Size));
+  uint32_t readSize = static_cast<uint32_t>(std::min<size_t>(std::numeric_limits<std::uint32_t>::max(), Size));
   while (readSize != 0) {
     if(read(readBuf,readSize) != readSize) {
       stringstream Msg;
@@ -75,7 +75,7 @@ void IOCallback::readFully(void*Buffer,size_t Size)
     }
     Size -= readSize;
     readBuf += readSize;
-    readSize = static_cast<uint32_t>(std::min<size_t>(std::numeric_limits<uint32>::max(), Size));
+    readSize = static_cast<uint32_t>(std::min<size_t>(std::numeric_limits<std::uint32_t>::max(), Size));
   }
 }
 

@@ -101,10 +101,10 @@ filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, bool bW
         continue;
       Element->Render(TmpBuf, bWithDefault, false ,bForceRender);
     }
-    uint64 memSize = TmpBuf.GetDataBufferSize();
+    std::uint64_t memSize = TmpBuf.GetDataBufferSize();
     binary *memStart = TmpBuf.GetDataBuffer();
     while (memSize != 0) {
-      const uint32 fillSize = static_cast<uint32>(std::min<uint64>(std::numeric_limits<uint32>::max(), memSize));
+      const std::uint32_t fillSize = static_cast<std::uint32_t>(std::min<std::uint64_t>(std::numeric_limits<std::uint32_t>::max(), memSize));
       Checksum.FillCRC32(memStart, fillSize);
       memStart += fillSize;
       memSize -= fillSize;
@@ -126,7 +126,7 @@ bool EbmlMaster::PushElement(EbmlElement & element)
   return true;
 }
 
-uint64 EbmlMaster::UpdateSize(bool bWithDefault, bool bForceRender)
+std::uint64_t EbmlMaster::UpdateSize(bool bWithDefault, bool bForceRender)
 {
   SetSize_(0);
 
@@ -141,9 +141,9 @@ uint64 EbmlMaster::UpdateSize(bool bWithDefault, bool bForceRender)
     if (!bWithDefault && Element->IsDefaultValue())
       continue;
     Element->UpdateSize(bWithDefault, bForceRender);
-    const uint64 SizeToAdd = Element->ElementSize(bWithDefault);
+    const std::uint64_t SizeToAdd = Element->ElementSize(bWithDefault);
 #if defined(LIBEBML_DEBUG)
-    if (static_cast<int64>(SizeToAdd) == (0-1))
+    if (static_cast<std::int64_t>(SizeToAdd) == (0-1))
       return (0-1);
 #endif // LIBEBML_DEBUG
     SetSize_(GetSize() + SizeToAdd);
@@ -382,7 +382,7 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
     }
   }
   ElementList.clear();
-  uint64 MaxSizeToRead;
+  std::uint64_t MaxSizeToRead;
 
   if (IsFiniteSize())
     MaxSizeToRead = GetSize();
@@ -522,10 +522,10 @@ bool EbmlMaster::VerifyChecksum() const
   for (auto Element : ElementList) {
     Element->Render(TmpBuf, true, false, true);
   }
-  uint64 memSize = TmpBuf.GetDataBufferSize();
+  std::uint64_t memSize = TmpBuf.GetDataBufferSize();
   binary *memStart = TmpBuf.GetDataBuffer();
   while (memSize != 0) {
-    const uint32 fillSize = static_cast<uint32>(std::min<uint64>(std::numeric_limits<uint32>::max(), memSize));
+    const std::uint32_t fillSize = static_cast<std::uint32_t>(std::min<std::uint64_t>(std::numeric_limits<std::uint32_t>::max(), memSize));
     aChecksum.FillCRC32(memStart, fillSize);
     memStart += fillSize;
     memSize -= fillSize;

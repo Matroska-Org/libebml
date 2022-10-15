@@ -273,7 +273,7 @@ std::string EbmlUnicodeString::GetValueUTF8() const {
 /*!
 \note limited to UCS-2
 */
-uint64 EbmlUnicodeString::UpdateSize(bool bWithDefault, bool /* bForceRender */)
+std::uint64_t EbmlUnicodeString::UpdateSize(bool bWithDefault, bool /* bForceRender */)
 {
   if (!bWithDefault && IsDefaultValue())
     return 0;

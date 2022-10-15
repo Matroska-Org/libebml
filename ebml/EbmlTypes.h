@@ -60,24 +60,24 @@ enum open_mode {
 namespace libebml {
 
 using utf16 = wchar_t;
-using utf32 = uint32;
+using utf32 = std::uint32_t;
 using utf8 = char;
 
 using bits80 = binary[10];
 
-using lil_int16 = Endian<int16, little_endian>;
-using lil_int32 = Endian<int32, little_endian>;
-using lil_int64 = Endian<int64, little_endian>;
-using lil_uint16 = Endian<uint16, little_endian>;
-using lil_uint32 = Endian<uint32, little_endian>;
-using lil_uint64 = Endian<uint64, little_endian>;
-using big_int16 = Endian<int16, big_endian>;
-using big_int32 = Endian<int32, big_endian>;
-using big_int64 = Endian<int64, big_endian>;
-using big_uint16 = Endian<uint16, big_endian>;
-using big_uint32 = Endian<uint32, big_endian>;
-using big_uint64 = Endian<uint64, big_endian>;
-using checksum = Endian<uint32, big_endian>;
+using lil_int16 = Endian<std::int16_t, little_endian>;
+using lil_int32 = Endian<std::int32_t, little_endian>;
+using lil_int64 = Endian<std::int64_t, little_endian>;
+using lil_uint16 = Endian<std::uint16_t, little_endian>;
+using lil_uint32 = Endian<std::uint32_t, little_endian>;
+using lil_uint64 = Endian<std::uint64_t, little_endian>;
+using big_int16 = Endian<std::int16_t, big_endian>;
+using big_int32 = Endian<std::int32_t, big_endian>;
+using big_int64 = Endian<std::int64_t, big_endian>;
+using big_uint16 = Endian<std::uint16_t, big_endian>;
+using big_uint32 = Endian<std::uint32_t, big_endian>;
+using big_uint64 = Endian<std::uint64_t, big_endian>;
+using checksum = Endian<std::uint32_t, big_endian>;
 using big_80bits = Endian<bits80, big_endian>;
 
 

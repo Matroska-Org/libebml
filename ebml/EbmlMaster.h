@@ -76,13 +76,13 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     bool SetSizeInfinite(bool aIsInfinite = true) override {SetSizeIsFinite(!aIsInfinite); return true;}
 
     bool PushElement(EbmlElement & element);
-    uint64 GetSize() const override {
+    std::uint64_t GetSize() const override {
       if (IsFiniteSize())
         return EbmlElement::GetSize();
       return (0-1);
     }
 
-    uint64 GetDataStart() const {
+    std::uint64_t GetDataStart() const {
       return GetElementPosition() + EBML_ID_LENGTH((const EbmlId&)*this) + CodedSizeLength(EbmlElement::GetSize(), GetSizeLength(), IsFiniteSize());
     }
 
@@ -166,8 +166,8 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     void EnableChecksum(bool bIsEnabled = true) { bChecksumUsed = bIsEnabled; }
     bool HasChecksum() const {return bChecksumUsed;}
     bool VerifyChecksum() const;
-    uint32 GetCrc32() const {return Checksum.GetCrc32();}
-    void ForceChecksum(uint32 NewChecksum) {
+    std::uint32_t GetCrc32() const {return Checksum.GetCrc32();}
+    void ForceChecksum(std::uint32_t NewChecksum) {
       Checksum.ForceCrc32(NewChecksum);
       bChecksumUsed = true;
     }

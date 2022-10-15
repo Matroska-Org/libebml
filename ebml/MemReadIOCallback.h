@@ -40,7 +40,7 @@ namespace libebml {
 
 class EBML_DLL_API MemReadIOCallback : public IOCallback {
 protected:
-  uint8 const *mStart, *mEnd, *mPtr;
+  std::uint8_t const *mStart, *mEnd, *mPtr;
 
 public:
   MemReadIOCallback(void const *Ptr, size_t Size);
@@ -49,12 +49,12 @@ public:
   ~MemReadIOCallback() override = default;
 
   size_t read(void *Buffer, size_t Size) override;
-  void setFilePointer(int64 Offset, seek_mode Mode = seek_beginning) override;
+  void setFilePointer(std::int64_t Offset, seek_mode Mode = seek_beginning) override;
   size_t write(void const *, size_t) override { return 0; }
-  uint64 getFilePointer() override { return mPtr - mStart; }
+  std::uint64_t getFilePointer() override { return mPtr - mStart; }
   void close() override {}
   binary const *GetDataBuffer() const { return mPtr; }
-  uint64 GetDataBufferSize() const { return mEnd - mStart; }
+  std::uint64_t GetDataBufferSize() const { return mEnd - mStart; }
 
 protected:
   void Init(void const *Ptr, size_t Size);

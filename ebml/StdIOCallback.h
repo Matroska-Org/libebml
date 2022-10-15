@@ -66,7 +66,7 @@ class EBML_DLL_API StdIOCallback:public IOCallback
 {
     private:
       FILE*File;
-    uint64 mCurrentPosition;
+    std::uint64_t mCurrentPosition;
 
     public:
 //  StdIOCallback(const char*Path,const char*Mode);
@@ -78,7 +78,7 @@ class EBML_DLL_API StdIOCallback:public IOCallback
   // Seek to the specified position. The mode can have either SEEK_SET, SEEK_CUR
   // or SEEK_END. The callback should return true(1) if the seek operation succeeded
   // or false (0), when the seek fails.
-  void setFilePointer(int64 Offset,seek_mode Mode=seek_beginning) override;
+  void setFilePointer(std::int64_t Offset,seek_mode Mode=seek_beginning) override;
 
   // This callback just works like its read pendant. It returns the number of bytes written.
   size_t write(const void*Buffer,size_t Size) override;
@@ -88,7 +88,7 @@ class EBML_DLL_API StdIOCallback:public IOCallback
   // should return -1 and the file pointer otherwise.
   //
   // If an error occurs, an exception should be thrown.
-  uint64 getFilePointer() override;
+  std::uint64_t getFilePointer() override;
 
   // The close callback flushes the file buffers to disk and closes the file. When using the stdio
   // library, this is equivalent to calling fclose. When the close is not successful, an exception
