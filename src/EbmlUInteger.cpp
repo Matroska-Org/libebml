@@ -109,11 +109,11 @@ std::uint64_t EbmlUInteger::UpdateSize(bool bWithDefault, bool /* bForceRender *
     SetSize_(3);
   } else if (Value <= 0xFFFFFFFF) {
     SetSize_(4);
-  } else if (Value <= EBML_PRETTYLONGINT(0xFFFFFFFFFF)) {
+  } else if (Value <= 0xFFFFFFFFFFLL) {
     SetSize_(5);
-  } else if (Value <= EBML_PRETTYLONGINT(0xFFFFFFFFFFFF)) {
+  } else if (Value <= 0xFFFFFFFFFFFFLL) {
     SetSize_(6);
-  } else if (Value <= EBML_PRETTYLONGINT(0xFFFFFFFFFFFFFF)) {
+  } else if (Value <= 0xFFFFFFFFFFFFFFLL) {
     SetSize_(7);
   } else {
     SetSize_(8);
