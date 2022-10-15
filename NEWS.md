@@ -6,6 +6,7 @@
   exceeded 4 GB.
 * Bumped the library's soname to 6 due to ABI breaking changes that
   already happened in 1.4.3.
+* Remove libebml_t.h.
 
 # Version 1.4.3 2022-09-30
 

@@ -71,9 +71,7 @@ set(libebml_PUBLIC_HEADERS
   ebml/SafeReadIOCallback.h
   ebml/StdIOCallback.h)
 
-set(libebml_C_PUBLIC_HEADERS ebml/c/libebml_t.h)
-
-add_library(ebml ${libebml_SOURCES} ${libebml_PUBLIC_HEADERS} ${libebml_C_PUBLIC_HEADERS})
+add_library(ebml ${libebml_SOURCES} ${libebml_PUBLIC_HEADERS})
 if(WIN32)
   include(CheckIncludeFile)
   check_include_file(winapifamily.h HAVE_WINAPIFAMILY_H)
@@ -115,7 +113,6 @@ install(TARGETS ebml
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 install(FILES ${libebml_PUBLIC_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ebml)
-install(FILES ${libebml_C_PUBLIC_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ebml/c)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ebml_export.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ebml)
 
 if(NOT DISABLE_PKGCONFIG)
