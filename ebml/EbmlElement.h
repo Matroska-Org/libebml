@@ -274,18 +274,19 @@ class EBML_DLL_API EbmlCallbacks {
 */
 class EBML_DLL_API EbmlSemantic {
   public:
-    constexpr EbmlSemantic(bool aMandatory, bool aUnique, const EbmlCallbacks & aGetCallbacks)
-      :Mandatory(aMandatory), Unique(aUnique), GetCallbacks(aGetCallbacks) {}
+    constexpr EbmlSemantic(bool aMandatory, bool aUnique, const EbmlCallbacks & aCallbacks)
+      :Mandatory(aMandatory), Unique(aUnique), Callbacks(aCallbacks) {}
 
         inline bool IsMandatory() const { return Mandatory; }
         inline bool IsUnique() const { return Unique; }
-        inline EbmlElement & Create() const { return EBML_INFO_CREATE(GetCallbacks); }
-        inline explicit operator const EbmlCallbacks &() const { return GetCallbacks; }
+        inline EbmlElement & Create() const { return EBML_INFO_CREATE(Callbacks); }
+        inline explicit operator const EbmlCallbacks &() const { return Callbacks; }
+        inline EbmlCallbacks const &GetCallbacks() const { return Callbacks; }
 
     private:
     bool Mandatory; ///< wether the element is mandatory in the context or not
     bool Unique;
-    const EbmlCallbacks & GetCallbacks;
+    const EbmlCallbacks & Callbacks;
 };
 
 using _GetSemanticContext = const class EbmlSemanticContext &(*)();
