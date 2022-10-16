@@ -199,22 +199,22 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #if defined(EBML_STRICT_API)
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
-        virtual const EbmlSemanticContext &Context() const {return ClassInfos.GetContext();} \
-        virtual const char *DebugName() const {return ClassInfos.GetName();} \
+        const EbmlSemanticContext &Context() const override {return ClassInfos.GetContext();} \
+        const char *DebugName() const override {return ClassInfos.GetName();} \
     operator const EbmlId &() const override {return ClassInfos.ClassId();} \
         EbmlElement & CreateElement() const override {return Create();} \
         EbmlElement * Clone() const override { return new Type(*this); } \
     static EbmlElement & Create() {return *(new Type);} \
-        static const EbmlCallbacks & ClassInfo() {return ClassInfos;} \
+        static constexpr const EbmlCallbacks & ClassInfo() {return ClassInfos;} \
         static const EbmlId & ClassId() {return ClassInfos.ClassId();} \
     private: \
     static const EbmlCallbacks ClassInfos; \
 
 #define EBML_CONCRETE_DUMMY_CLASS(Type) \
     public: \
-        virtual const EbmlSemanticContext &Context() const {return *static_cast<EbmlSemanticContext*>(nullptr);} \
-        virtual const char *DebugName() const {return "DummyElement";} \
-    operator const EbmlId &() override; \
+        const EbmlSemanticContext &Context() const override {return *static_cast<EbmlSemanticContext*>(nullptr);} \
+        const char *DebugName() const override {return "DummyElement";} \
+    operator const EbmlId &(); \
         EbmlElement & CreateElement() const override {return Create();} \
         EbmlElement * Clone() const override { return new Type(*this); } \
     static EbmlElement & Create() {return *(new Type);} \
