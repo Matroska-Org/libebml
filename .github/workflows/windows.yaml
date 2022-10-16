@@ -7,7 +7,7 @@ on:
 
 jobs:
   build_libebml:
-    name: libebml ${{ matrix.config }} ${{ matrix.shared }} Library
+    name: libebml ${{ matrix.config }} ${{ matrix.shared }}
     runs-on: windows-latest
     strategy:
       fail-fast: false
@@ -24,11 +24,11 @@ jobs:
       
       - name: Configure static library
         if: ${{ matrix.shared == 'Static' }}
-        run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -DBUILD_SHARED_LIBS=OFF
+        run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DBUILD_SHARED_LIBS=OFF
 
       - name: Configure dynamic library
         if: ${{ matrix.shared == 'Dynamic' }}
-        run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -DBUILD_SHARED_LIBS=ON
+        run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DBUILD_SHARED_LIBS=ON
 
       - name: Build
         run: cmake --build _build --config ${{ matrix.config }} --parallel
