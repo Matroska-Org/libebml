@@ -102,9 +102,9 @@ filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, bool bW
       Element->Render(TmpBuf, bWithDefault, false ,bForceRender);
     }
     std::uint64_t memSize = TmpBuf.GetDataBufferSize();
-    binary *memStart = TmpBuf.GetDataBuffer();
+    auto memStart = TmpBuf.GetDataBuffer();
     while (memSize != 0) {
-      const std::uint32_t fillSize = static_cast<std::uint32_t>(std::min<std::uint64_t>(std::numeric_limits<std::uint32_t>::max(), memSize));
+      const auto fillSize = static_cast<std::uint32_t>(std::min<std::uint64_t>(std::numeric_limits<std::uint32_t>::max(), memSize));
       Checksum.FillCRC32(memStart, fillSize);
       memStart += fillSize;
       memSize -= fillSize;
@@ -177,14 +177,11 @@ filepos_t EbmlMaster::ReadData(IOCallback & input, ScopeMode /* ReadFully */)
 bool EbmlMaster::ProcessMandatory()
 {
   if (EBML_CTX_SIZE(Context) == 0)
-  {
     return true;
-  }
 
   assert(Context.GetSize() != 0);
 
-  unsigned int EltIdx;
-  for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
+  for (unsigned int EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
     if (EBML_CTX_IDX(Context,EltIdx).IsMandatory() && EBML_CTX_IDX(Context,EltIdx).IsUnique()) {
 //      assert(EBML_CTX_IDX(Context,EltIdx).Create != NULL);
             PushElement(EBML_SEM_CREATE(EBML_CTX_IDX(Context,EltIdx)));
@@ -197,21 +194,18 @@ bool EbmlMaster::CheckMandatory() const
 {
   assert(Context.GetSize() != 0);
 
-  unsigned int EltIdx;
-  for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
-    if (EBML_CTX_IDX(Context,EltIdx).IsMandatory()) {
-      if (FindElt(EBML_CTX_IDX_INFO(Context,EltIdx)) == nullptr) {
-        const auto testElement = &EBML_CTX_IDX(Context,EltIdx).Create();
-        const bool hasDefaultValue = testElement->DefaultISset();
-        delete testElement;
+  for (unsigned int EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
+    if (EBML_CTX_IDX(Context,EltIdx).IsMandatory() && !FindElt(EBML_CTX_IDX_INFO(Context,EltIdx))) {
+      const auto testElement = &EBML_CTX_IDX(Context,EltIdx).Create();
+      const bool hasDefaultValue = testElement->DefaultISset();
+      delete testElement;
 
 #if defined(LIBEBML_DEBUG)
-        // you are missing this Mandatory element
-//         const char * MissingName = EBML_INFO_NAME(EBML_CTX_IDX_INFO(Context,EltIdx));
+      // you are missing this Mandatory element
+//       const char * MissingName = EBML_INFO_NAME(EBML_CTX_IDX_INFO(Context,EltIdx));
 #endif // LIBEBML_DEBUG
-        if (!hasDefaultValue)
-          return false;
-      }
+      if (!hasDefaultValue)
+        return false;
     }
   }
 
@@ -224,7 +218,7 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements() const
 
   std::vector<std::string> missingElements;
 
-  for (auto childElement : ElementList) {
+  for (const auto& childElement : ElementList) {
     if (!childElement->ValueIsSet()) {
       std::string missingValue;
       missingValue = "The Child Element \"";
@@ -242,18 +236,15 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements() const
       std::copy(childMissingElements.begin(), childMissingElements.end(), std::back_inserter(missingElements));
     }
   }
-  unsigned int EltIdx;
-  for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
-    if (EBML_CTX_IDX(Context,EltIdx).IsMandatory()) {
-      if (FindElt(EBML_CTX_IDX_INFO(Context,EltIdx)) == nullptr) {
-        std::string missingElement;
-        missingElement = "Missing element \"";
-        missingElement.append(EBML_INFO_NAME(EBML_CTX_IDX_INFO(Context,EltIdx)));
-        missingElement.append("\" in EbmlMaster \"");
-        missingElement.append(EBML_INFO_NAME(*EBML_CTX_MASTER(Context)));
-        missingElement.append("\"");
-        missingElements.push_back(std::move(missingElement));
-      }
+  for (unsigned int EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
+    if (EBML_CTX_IDX(Context,EltIdx).IsMandatory() && !FindElt(EBML_CTX_IDX_INFO(Context,EltIdx))) {
+      std::string missingElement;
+      missingElement = "Missing element \"";
+      missingElement.append(EBML_INFO_NAME(EBML_CTX_IDX_INFO(Context,EltIdx)));
+      missingElement.append("\" in EbmlMaster \"");
+      missingElement.append(EBML_INFO_NAME(*EBML_CTX_MASTER(Context)));
+      missingElement.append("\"");
+      missingElements.push_back(std::move(missingElement));
     }
   }
 
@@ -516,9 +507,9 @@ bool EbmlMaster::VerifyChecksum() const
     Element->Render(TmpBuf, true, false, true);
   }
   std::uint64_t memSize = TmpBuf.GetDataBufferSize();
-  binary *memStart = TmpBuf.GetDataBuffer();
+  auto memStart = TmpBuf.GetDataBuffer();
   while (memSize != 0) {
-    const std::uint32_t fillSize = static_cast<std::uint32_t>(std::min<std::uint64_t>(std::numeric_limits<std::uint32_t>::max(), memSize));
+    const auto fillSize = static_cast<std::uint32_t>(std::min<std::uint64_t>(std::numeric_limits<std::uint32_t>::max(), memSize));
     aChecksum.FillCRC32(memStart, fillSize);
     memStart += fillSize;
     memSize -= fillSize;

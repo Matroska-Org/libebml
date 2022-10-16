@@ -110,7 +110,7 @@ SafeReadIOCallback::GetUIntBE(std::size_t NumBytes) {
 
   NumBytes     = std::min<std::size_t>(std::max<std::size_t>(1, NumBytes), 8);
   std::uint64_t Value = 0;
-  std::uint8_t* Ptr   = &Buffer[0];
+  auto Ptr   = &Buffer[0];
 
   Read(Buffer, NumBytes);
 

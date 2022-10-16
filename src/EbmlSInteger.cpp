@@ -84,13 +84,12 @@ EbmlSInteger & EbmlSInteger::SetValue(std::int64_t NewValue) {
 filepos_t EbmlSInteger::RenderData(IOCallback & output, bool /* bForceRender */, bool /* bWithDefault */)
 {
   std::array<binary, 8> FinalData; // we don't handle more than 64 bits integers
-  unsigned int i;
 
   if (GetSizeLength() > 8)
     return 0; // integer bigger coded on more than 64 bits are not supported
 
   std::int64_t TempValue = Value;
-  for (i=0; i<GetSize();i++) {
+  for (unsigned int i=0; i<GetSize();i++) {
     FinalData.at(GetSize()-i-1) = static_cast<binary>(TempValue & 0xFF);
     TempValue >>= 8;
   }

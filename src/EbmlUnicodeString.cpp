@@ -140,8 +140,8 @@ void UTFstring::UpdateFromUTF8()
       ::utf8::utf8to16(UTF8string.begin(), Current, std::back_inserter(Temp));
     else
       ::utf8::utf8to32(UTF8string.begin(), Current, std::back_inserter(Temp));
-  } catch (::utf8::invalid_code_point &) {
-  } catch (::utf8::invalid_utf8 &) {
+  } catch (const ::utf8::invalid_code_point&) {
+  } catch (const ::utf8::invalid_utf8&) {
   }
 
   delete [] _Data;
@@ -172,8 +172,8 @@ void UTFstring::UpdateFromUCS2()
       ::utf8::utf16to8(_Data, _Data + Current, std::back_inserter(UTF8string));
     else
       ::utf8::utf32to8(_Data, _Data + Current, std::back_inserter(UTF8string));
-  } catch (::utf8::invalid_code_point &) {
-  } catch (::utf8::invalid_utf16 &) {
+  } catch (const ::utf8::invalid_code_point&) {
+  } catch (const ::utf8::invalid_utf16&) {
   }
 }
 

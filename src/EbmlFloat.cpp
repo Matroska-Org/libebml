@@ -67,7 +67,7 @@ double EbmlFloat::DefaultVal() const
 }
 
 EbmlFloat::operator float() const {return static_cast<float>(Value);}
-EbmlFloat::operator double() const {return (Value);}
+EbmlFloat::operator double() const {return Value;}
 
 double EbmlFloat::GetValue() const {return Value;}
 

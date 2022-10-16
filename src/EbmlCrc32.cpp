@@ -252,8 +252,10 @@ bool EbmlCrc32::CheckCRC(std::uint32_t inputCRC, const binary *input, std::uint3
 {
   std::uint32_t crc = CRC32_NEGL;
 
-  for(; !IsAligned<std::uint32_t>(input) && length > 0; length--)
+  while (!IsAligned<std::uint32_t>(input) && length > 0) {
     crc = m_tab.at(CRC32_INDEX(crc) ^ *input++) ^ CRC32_SHIFTED(crc);
+    --length;
+  }
 
   while (length >= 4) {
     crc ^= *reinterpret_cast<const std::uint32_t *>(input);
@@ -312,8 +314,10 @@ void EbmlCrc32::Update(const binary *input, std::uint32_t length)
 {
   std::uint32_t crc = m_crc;
 
-  for(; !IsAligned<std::uint32_t>(input) && length > 0; length--)
+  while (!IsAligned<std::uint32_t>(input) && length > 0) {
     crc = m_tab.at(CRC32_INDEX(crc) ^ *input++) ^ CRC32_SHIFTED(crc);
+    --length;
+  }
 
   while (length >= 4) {
     crc ^= *reinterpret_cast<const std::uint32_t *>(input);
