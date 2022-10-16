@@ -51,21 +51,19 @@ filepos_t EbmlDate::ReadData(IOCallback & input, ScopeMode ReadFully)
   binary Buffer[8];
   input.readFully(Buffer, GetSize());
 
-  big_int64 b64;
-  b64.Eval(Buffer);
-
-  myDate = b64;
+  myDate = endian::from_big64(Buffer);
   SetValueIsSet();
   return GetSize();
 }
 
 filepos_t EbmlDate::RenderData(IOCallback & output, bool /* bForceRender */, bool  /* bWithDefault */)
 {
-  if (GetSize() != 0) {
-    assert(GetSize() == 8);
-    const auto b64 = big_int64(myDate);
+  assert(GetSize() == 8 || GetSize() == 0);
+  if (GetSize() == 8) {
+    binary b64[8];
+    endian::to_big64(myDate, b64);
 
-    output.writeFully(&b64.endian(),GetSize());
+    output.writeFully(b64,8);
   }
 
   return GetSize();

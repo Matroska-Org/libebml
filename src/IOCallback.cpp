@@ -32,6 +32,7 @@
   \author Moritz Bunkus <moritz @ bunkus.org>
 */
 
+#include <algorithm>
 #include <limits>
 #include <sstream>
 #include <stdexcept>
