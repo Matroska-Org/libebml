@@ -1,4 +1,4 @@
-name: "macOS Build"
+name: "macOS"
 on:
   push:
     branches: [ master ]
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build_libebml:
-    name: libebml ${{ matrix.arch }} Library
+    name: libebml ${{ matrix.arch }}
     runs-on: macos-latest
     strategy:
       fail-fast: false
