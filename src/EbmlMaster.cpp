@@ -218,7 +218,7 @@ bool EbmlMaster::CheckMandatory() const
   return true;
 }
 
-std::vector<std::string> EbmlMaster::FindAllMissingElements()
+std::vector<std::string> EbmlMaster::FindAllMissingElements() const
 {
   assert(Context.GetSize() != 0);
 
@@ -236,7 +236,7 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements()
     }
 
     if (childElement->IsMaster()) {
-      auto childMaster = reinterpret_cast<EbmlMaster *>(childElement);
+      const auto childMaster = static_cast<const EbmlMaster*>(childElement);
 
       std::vector<std::string> childMissingElements = childMaster->FindAllMissingElements();
       std::copy(childMissingElements.begin(), childMissingElements.end(), std::back_inserter(missingElements));

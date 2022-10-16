@@ -176,7 +176,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     /*!
       \brief drill down all sub-elements, finding any missing elements
     */
-    std::vector<std::string> FindAllMissingElements();
+    std::vector<std::string> FindAllMissingElements() const;
 
 #if defined(EBML_STRICT_API)
     private:
