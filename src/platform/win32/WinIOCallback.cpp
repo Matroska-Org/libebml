@@ -248,7 +248,7 @@ void WinIOCallback::setFilePointer(std::int64_t Offset, seek_mode Mode)
   }
 }
 
-std::uint32_t WinIOCallback::read(void*Buffer,std::size_t Size)
+std::size_t WinIOCallback::read(void*Buffer,std::size_t Size)
 {
   DWORD BytesRead;
   if (!ReadFile(mFile, Buffer, Size, &BytesRead, NULL)) {
