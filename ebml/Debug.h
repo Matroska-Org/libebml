@@ -156,15 +156,6 @@ extern ADbg globalDebug;
 #define EBML_TRACE
 #endif
 
-// Unfortunately the Visual C++ new operator doesn't throw a std::bad_alloc. One solution is to
-// define out own new operator. But we can't do this globally, since we allow static linking.
-// The other is to check every new allocation with an MATROSKA_ASSERT_NEW.
-#ifdef _MSC_VER
-#define EBML_ASSERT_NEW(p) if(p==0)throw std::bad_alloc()
-#else
-#define EBML_ASSERT_NEW(p) assert((p)!=0)
-#endif
-
 } // namespace libebml
 
 #endif
