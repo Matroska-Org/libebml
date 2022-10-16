@@ -48,11 +48,4 @@
 #define LIBEBML_DEBUG
 #endif
 
-#ifdef HAVE_WINAPIFAMILY_H
-# include <winapifamily.h>
-# if !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
-#  undef LIBEBML_DEBUG
-# endif
-#endif
-
 #endif // LIBEBML_CONFIG_H

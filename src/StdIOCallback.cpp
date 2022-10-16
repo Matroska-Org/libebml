@@ -37,7 +37,6 @@
 #include <sstream>
 
 #include "ebml/StdIOCallback.h"
-#include "ebml/Debug.h"
 #include "ebml/EbmlConfig.h"
 
 using namespace std;

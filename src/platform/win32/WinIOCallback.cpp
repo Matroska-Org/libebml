@@ -38,8 +38,6 @@
 
 #include "WinIOCallback.h"
 
-#include "ebml/Debug.h"
-
 #ifndef INVALID_SET_FILE_POINTER // found in newer platform SDKs
 #define INVALID_SET_FILE_POINTER ((DWORD)-1)
 #endif // INVALID_SET_FILE_POINTER
