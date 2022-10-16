@@ -85,11 +85,7 @@ DECLARE_EBML_BINARY(EbmlCrc32)
 
     void ForceCrc32(std::uint32_t NewValue) { m_crc_final = NewValue; SetValueIsSet();}
 
-#if defined(EBML_STRICT_API)
     private:
-#else
-    protected:
-#endif
     void ResetCRC();
     void UpdateByte(binary b);
 

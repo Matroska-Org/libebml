@@ -212,11 +212,7 @@ template<class TYPE, endianess ENDIAN> class Endian
       inline std::size_t size() const   { return sizeof(TYPE); }
       inline bool operator!=(const binary *buffer) const {return *(reinterpret_cast<TYPE*>(buffer)) == platform_value;}
 
-#if defined(EBML_STRICT_API)
     private:
-#else
-    protected:
-#endif
       TYPE platform_value;
       TYPE endian_value;
 

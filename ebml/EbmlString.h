@@ -72,11 +72,7 @@ class EBML_DLL_API EbmlString : public EbmlElement {
       return (DefaultISset() && Value == DefaultValue);
     }
 
-#if defined(EBML_STRICT_API)
     private:
-#else
-    protected:
-#endif
     std::string Value;  /// The actual value of the element
     std::string DefaultValue;
 };

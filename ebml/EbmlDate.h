@@ -82,11 +82,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
       return false;
     }
 
-#if defined(EBML_STRICT_API)
     private:
-#else
-    protected:
-#endif
     filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
 
     std::int64_t myDate{0}; ///< internal format of the date
