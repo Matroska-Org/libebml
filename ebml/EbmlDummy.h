@@ -43,12 +43,12 @@ namespace libebml {
 class EBML_DLL_API EbmlDummy : public EbmlBinary {
   public:
     EbmlDummy() :DummyId(DummyRawId) {}
-    EbmlDummy(const EbmlId & aId) : DummyId(aId) {}
+    explicit EbmlDummy(const EbmlId & aId) : DummyId(aId) {}
 
     bool IsDummy() const override {return true;}
     bool IsDefaultValue() const override {return true;}
 
-        operator const EbmlId &() const override {
+        explicit operator const EbmlId &() const override {
             return DummyId;
         }
 

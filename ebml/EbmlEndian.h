@@ -186,7 +186,7 @@ template<class TYPE, endianess ENDIAN> class Endian
     public:
       Endian() = default;
 
-      Endian(const TYPE value)
+      explicit Endian(const TYPE value)
       {
         memcpy(&platform_value, &value, sizeof(TYPE));
         process_endian();
@@ -206,7 +206,7 @@ template<class TYPE, endianess ENDIAN> class Endian
           memcpy(endian_buffer, &endian_value, sizeof(TYPE)); // See above.
       }
 
-      inline operator const TYPE&() const { return platform_value; }
+      inline explicit operator const TYPE&() const { return platform_value; }
     //  inline TYPE endian() const   { return endian_value; }
       inline const TYPE &endian() const       { return endian_value; }
       inline std::size_t size() const   { return sizeof(TYPE); }

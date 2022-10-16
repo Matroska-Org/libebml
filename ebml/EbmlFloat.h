@@ -52,8 +52,8 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
       ,FLOAT_64
     };
 
-    EbmlFloat(Precision prec = FLOAT_32);
-    EbmlFloat(double DefaultValue, Precision prec = FLOAT_32);
+    explicit EbmlFloat(Precision prec = FLOAT_32);
+    explicit EbmlFloat(double DefaultValue, Precision prec = FLOAT_32);
 
     bool ValidateSize() const override
     {
@@ -78,8 +78,8 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
 
     bool IsSmallerThan(const EbmlElement *Cmp) const override;
 
-    operator float() const;
-    operator double() const;
+    explicit operator float() const;
+    explicit operator double() const;
 
     EbmlFloat &SetValue(double NewValue);
     double GetValue() const;

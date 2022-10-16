@@ -48,7 +48,7 @@ namespace libebml {
 */
 class EBML_DLL_API EbmlStream {
   public:
-    EbmlStream(IOCallback & DataStream);
+    explicit EbmlStream(IOCallback & DataStream);
     /*!
       \brief Find a possible next ID in the data stream
       \param MaxDataSize The maximum possible of the data in the element (for sanity checks)
@@ -59,7 +59,7 @@ class EBML_DLL_API EbmlStream {
     EbmlElement * FindNextElement(const EbmlSemanticContext & Context, int & UpperLevel, std::uint64_t MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel = 1) const;
 
     inline IOCallback & I_O() {return Stream;}
-        operator IOCallback &() {return Stream;}
+        explicit operator IOCallback &() {return Stream;}
 
 #if defined(EBML_STRICT_API)
     private:
