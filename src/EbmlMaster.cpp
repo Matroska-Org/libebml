@@ -46,7 +46,7 @@
 namespace libebml {
 
 EbmlMaster::EbmlMaster(const EbmlSemanticContext & aContext, bool bSizeIsknown)
- :EbmlElement(0), Context(aContext), bChecksumUsed(bChecksumUsedByDefault)
+ :EbmlElement(0), MasterContext(aContext), bChecksumUsed(bChecksumUsedByDefault)
 {
   SetSizeIsFinite(bSizeIsknown);
   SetValueIsSet();
@@ -55,7 +55,7 @@ EbmlMaster::EbmlMaster(const EbmlSemanticContext & aContext, bool bSizeIsknown)
 
 EbmlMaster::EbmlMaster(const EbmlMaster & ElementToClone)
  :EbmlElement(ElementToClone)
- ,Context(ElementToClone.Context)
+ ,MasterContext(ElementToClone.MasterContext)
  ,bChecksumUsed(ElementToClone.bChecksumUsed)
  ,Checksum(ElementToClone.Checksum)
 {
@@ -176,18 +176,18 @@ filepos_t EbmlMaster::ReadData(IOCallback & input, ScopeMode /* ReadFully */)
 */
 bool EbmlMaster::ProcessMandatory()
 {
-  if (EBML_CTX_SIZE(Context) == 0)
+  if (EBML_CTX_SIZE(MasterContext) == 0)
   {
     return true;
   }
 
-  assert(Context.GetSize() != 0);
+  assert(MasterContext.GetSize() != 0);
 
   unsigned int EltIdx;
-  for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
-    if (EBML_CTX_IDX(Context,EltIdx).IsMandatory() && EBML_CTX_IDX(Context,EltIdx).IsUnique()) {
-//      assert(EBML_CTX_IDX(Context,EltIdx).Create != NULL);
-            PushElement(EBML_SEM_CREATE(EBML_CTX_IDX(Context,EltIdx)));
+  for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
+    if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory() && EBML_CTX_IDX(MasterContext,EltIdx).IsUnique()) {
+//      assert(EBML_CTX_IDX(MasterContext,EltIdx).Create != NULL);
+            PushElement(EBML_SEM_CREATE(EBML_CTX_IDX(MasterContext,EltIdx)));
     }
   }
   return true;
@@ -195,19 +195,19 @@ bool EbmlMaster::ProcessMandatory()
 
 bool EbmlMaster::CheckMandatory() const
 {
-  assert(Context.GetSize() != 0);
+  assert(MasterContext.GetSize() != 0);
 
   unsigned int EltIdx;
-  for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
-    if (EBML_CTX_IDX(Context,EltIdx).IsMandatory()) {
-      if (FindElt(EBML_CTX_IDX_INFO(Context,EltIdx)) == nullptr) {
-        const auto testElement = &EBML_CTX_IDX(Context,EltIdx).Create();
+  for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
+    if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory()) {
+      if (FindElt(EBML_CTX_IDX_INFO(MasterContext,EltIdx)) == nullptr) {
+        const auto testElement = &EBML_CTX_IDX(MasterContext,EltIdx).Create();
         const bool hasDefaultValue = testElement->DefaultISset();
         delete testElement;
 
 #if !defined(NDEBUG)
         // you are missing this Mandatory element
-//         const char * MissingName = EBML_INFO_NAME(EBML_CTX_IDX_INFO(Context,EltIdx));
+//         const char * MissingName = EBML_INFO_NAME(EBML_CTX_IDX_INFO(MasterContext,EltIdx));
 #endif // !NDEBUG
         if (!hasDefaultValue)
           return false;
@@ -220,7 +220,7 @@ bool EbmlMaster::CheckMandatory() const
 
 std::vector<std::string> EbmlMaster::FindAllMissingElements() const
 {
-  assert(Context.GetSize() != 0);
+  assert(MasterContext.GetSize() != 0);
 
   std::vector<std::string> missingElements;
 
@@ -243,14 +243,14 @@ std::vector<std::string> EbmlMaster::FindAllMissingElements() const
     }
   }
   unsigned int EltIdx;
-  for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(Context); EltIdx++) {
-    if (EBML_CTX_IDX(Context,EltIdx).IsMandatory()) {
-      if (FindElt(EBML_CTX_IDX_INFO(Context,EltIdx)) == nullptr) {
+  for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
+    if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory()) {
+      if (FindElt(EBML_CTX_IDX_INFO(MasterContext,EltIdx)) == nullptr) {
         std::string missingElement;
         missingElement = "Missing element \"";
-        missingElement.append(EBML_INFO_NAME(EBML_CTX_IDX_INFO(Context,EltIdx)));
+        missingElement.append(EBML_INFO_NAME(EBML_CTX_IDX_INFO(MasterContext,EltIdx)));
         missingElement.append("\" in EbmlMaster \"");
-        missingElement.append(EBML_INFO_NAME(*EBML_CTX_MASTER(Context)));
+        missingElement.append(EBML_INFO_NAME(*EBML_CTX_MASTER(MasterContext)));
         missingElement.append("\"");
         missingElements.push_back(std::move(missingElement));
       }
