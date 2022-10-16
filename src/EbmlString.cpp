@@ -64,10 +64,10 @@ EbmlString::EbmlString(const std::string & aDefaultValue)
 /*!
   \todo Cloning should be on the same exact type !
 */
-void EbmlString::SetDefaultValue(std::string & aValue)
+void EbmlString::SetDefaultValue(std::string aValue)
 {
   assert(!DefaultISset());
-  DefaultValue = aValue;
+  DefaultValue = std::move(aValue);
   SetDefaultIsSet();
 }
 

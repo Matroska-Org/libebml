@@ -201,7 +201,7 @@ EbmlUnicodeString::EbmlUnicodeString(const UTFstring & aDefaultValue)
   SetDefaultIsSet();
 }
 
-void EbmlUnicodeString::SetDefaultValue(UTFstring & aValue)
+void EbmlUnicodeString::SetDefaultValue(const UTFstring& aValue)
 {
   assert(!DefaultISset());
   DefaultValue = aValue;

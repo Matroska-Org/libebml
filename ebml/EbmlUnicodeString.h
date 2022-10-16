@@ -115,7 +115,7 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
     UTFstring GetValue() const;
     std::string GetValueUTF8() const;
 
-    void SetDefaultValue(UTFstring &);
+    void SetDefaultValue(const UTFstring&);
 
     const UTFstring & DefaultVal() const;
 
