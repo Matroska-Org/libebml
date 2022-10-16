@@ -14,6 +14,8 @@ jobs:
       matrix:
         config: [Debug, Release]
         shared: [Dynamic, Static]
+    env:
+      CMAKE_OPTIONS: -DENABLE_WIN32_IO=ON
     steps:
       - uses: lukka/get-cmake@latest
 
@@ -22,11 +24,11 @@ jobs:
       
       - name: Configure static library
         if: ${{ matrix.shared == 'Static' }}
-        run: cmake -S . -B _build -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -DBUILD_SHARED_LIBS=OFF
+        run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -DBUILD_SHARED_LIBS=OFF
 
       - name: Configure dynamic library
         if: ${{ matrix.shared == 'Dynamic' }}
-        run: cmake -S . -B _build -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -DBUILD_SHARED_LIBS=ON
+        run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -DBUILD_SHARED_LIBS=ON
 
       - name: Build
         run: cmake --build _build --config ${{ matrix.config }} --parallel
