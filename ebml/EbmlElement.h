@@ -196,7 +196,6 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
   public: \
     x();
 
-#if defined(EBML_STRICT_API)
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
         const EbmlSemanticContext &Context() const override {return ClassInfos.GetContext();} \
@@ -245,50 +244,6 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define EBML_CTX_IDX(c,i)      (c).GetSemantic(i)
 #define EBML_CTX_IDX_INFO(c,i) (const EbmlCallbacks &)((c).GetSemantic(i))
 #define EBML_CTX_IDX_ID(c,i)   ((const EbmlCallbacks &)((c).GetSemantic(i))).ClassId()
-#else
-#define EBML_CONCRETE_CLASS(Type) \
-    public: \
-    const EbmlCallbacks & Generic() const override {return ClassInfos;} \
-    operator const EbmlId &() const override {return ClassInfos.GlobalId;} \
-        EbmlElement & CreateElement() const override {return Create();} \
-        EbmlElement * Clone() const override { return new Type(*this); } \
-    static EbmlElement & Create() {return *(new (Type));} \
-    static const EbmlCallbacks ClassInfos; \
-
-#define EBML_CONCRETE_DUMMY_CLASS(Type) \
-    public: \
-    const EbmlCallbacks & Generic() const override {return ClassInfos;} \
-    virtual operator const EbmlId &(); \
-        EbmlElement & CreateElement() const override {return Create();} \
-        EbmlElement * Clone() const override { return new Type(*this); } \
-    static EbmlElement & Create() {return *(new (Type));} \
-    static const EbmlCallbacks ClassInfos; \
-
-
-#define EBML_INFO(ref)             ref::ClassInfos
-#define EBML_ID(ref)               ref::ClassInfos.GlobalId
-#define EBML_CLASS_SEMCONTEXT(ref) Context_##ref
-#define EBML_CLASS_CONTEXT(ref)    ref::ClassInfos.Context
-#define EBML_CLASS_CALLBACK(ref)   ref::ClassInfos
-#define EBML_CONTEXT(e)            (e)->Generic().Context
-#define EBML_NAME(e)               (e)->Generic().DebugName
-
-#define EBML_INFO_ID(cb)      (cb).GlobalId
-#define EBML_INFO_NAME(cb)    (cb).DebugName
-#define EBML_INFO_CREATE(cb)  (cb).Create()
-#define EBML_INFO_CONTEXT(cb) (cb).Context
-
-#define EBML_SEM_UNIQUE(s)  (s).Unique
-#define EBML_SEM_CONTEXT(s) (s).GetCallbacks.Context
-#define EBML_SEM_CREATE(s)  (s).Create()
-
-#define EBML_CTX_SIZE(c)       (c).Size
-#define EBML_CTX_MASTER(c)     (c).MasterElt
-#define EBML_CTX_PARENT(c)     (c).UpTable
-#define EBML_CTX_IDX(c,i)      (c).MyTable[(i)]
-#define EBML_CTX_IDX_INFO(c,i) (c).MyTable[(i)].GetCallbacks
-#define EBML_CTX_IDX_ID(c,i)   (c).MyTable[(i)].GetCallbacks.GlobalId
-#endif
 
 #if !defined(INVALID_FILEPOS_T)
 #define INVALID_FILEPOS_T 0
@@ -318,9 +273,7 @@ class EBML_DLL_API EbmlCallbacks {
         inline const char * GetName() const { return DebugName; }
         inline EbmlElement & NewElement() const { return Create(); }
 
-#if defined(EBML_STRICT_API)
     private:
-#endif
     EbmlElement & (*Create)();
     const EbmlId & GlobalId;
     const char * DebugName;
@@ -341,9 +294,7 @@ class EBML_DLL_API EbmlSemantic {
         inline EbmlElement & Create() const { return EBML_INFO_CREATE(GetCallbacks); }
         inline explicit operator const EbmlCallbacks &() const { return GetCallbacks; }
 
-#if defined(EBML_STRICT_API)
     private:
-#endif
     bool Mandatory; ///< wether the element is mandatory in the context or not
     bool Unique;
     const EbmlCallbacks & GetCallbacks;
@@ -378,9 +329,7 @@ class EBML_DLL_API EbmlSemanticContext {
 
     const _GetSemanticContext GetGlobalContext; ///< global elements supported at this level
 
-#if defined(EBML_STRICT_API)
     private:
-#endif
         const EbmlSemantic *MyTable; ///< First element in the table
     std::size_t Size;          ///< number of elements in the table
     const EbmlSemanticContext *UpTable; ///< Parent element
@@ -419,13 +368,8 @@ class EBML_DLL_API EbmlElement {
     virtual EbmlElement * Clone() const = 0;
 
     virtual explicit operator const EbmlId &() const = 0;
-#if defined(EBML_STRICT_API)
         virtual const char *DebugName() const = 0;
         virtual const EbmlSemanticContext &Context() const = 0;
-#else
-    /// return the generic callback to monitor a derived class
-    virtual const EbmlCallbacks & Generic() const = 0;
-#endif
         virtual EbmlElement & CreateElement() const = 0;
 
     // by default only allow to set element as finite (override when needed)
@@ -521,9 +465,7 @@ class EBML_DLL_API EbmlElement {
         inline void SetSizeIsFinite(bool Set = true) {bSizeIsFinite = Set;}
         inline std::uint64_t GetSizePosition() const {return SizePosition;}
 
-#if defined(EBML_STRICT_API)
   private:
-#endif
     std::uint64_t Size;        ///< the size of the data to write
     std::uint64_t DefaultSize; ///< Minimum data size to fill on rendering (0 = optimal)
     int SizeLength{0}; /// the minimum size on which the size will be written (0 = optimal)

@@ -178,11 +178,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     */
     std::vector<std::string> FindAllMissingElements() const;
 
-#if defined(EBML_STRICT_API)
     private:
-#else
-    protected:
-#endif
     std::vector<EbmlElement *> ElementList;
 
     const EbmlSemanticContext & Context;

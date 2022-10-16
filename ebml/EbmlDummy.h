@@ -52,11 +52,7 @@ class EBML_DLL_API EbmlDummy : public EbmlBinary {
             return DummyId;
         }
 
-#if defined(EBML_STRICT_API)
     private:
-#else
-    protected:
-#endif
     const EbmlId DummyId;
     static const EbmlId DummyRawId;
 

@@ -78,11 +78,7 @@ public:
   const std::string & GetUTF8() const {return UTF8string;}
   void SetUTF8(const std::string &);
 
-#if defined(EBML_STRICT_API)
     private:
-#else
-    protected:
-#endif
   std::size_t _Length{0}; ///< length of the UCS string excluding the \0
   wchar_t* _Data{nullptr}; ///< internal UCS representation
   std::string UTF8string;
@@ -124,11 +120,7 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
       return (DefaultISset() && Value == DefaultValue);
     }
 
-#if defined(EBML_STRICT_API)
     private:
-#else
-    protected:
-#endif
     UTFstring Value; /// The actual value of the element
     UTFstring DefaultValue;
 };
