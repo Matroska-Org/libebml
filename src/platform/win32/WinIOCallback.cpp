@@ -146,37 +146,7 @@ bool WinIOCallback::open(const wchar_t* Path, const open_mode aMode, DWORD dwFla
       assert(false);
   }
 
-  if ((LONG)GetVersion() >= 0) {
-    mFile = CreateFileW(Path, AccessMode, ShareMode, NULL, Disposition, dwFlags, NULL);
-  } else {
-    int errCode;
-    int pathSize = wcslen(Path);
-    unsigned int bufferSize = pathSize + sizeof(wchar_t) * 2;
-    std::string PathA;
-    PathA.resize(bufferSize);
-    errCode = WideCharToMultiByte(CP_ACP, 0, Path, pathSize, (char *)PathA.c_str(), bufferSize, NULL, NULL);
-    if (errCode == 0)
-      errCode = GetLastError();
-#ifdef _DEBUG
-    if (errCode == ERROR_INSUFFICIENT_BUFFER) OutputDebugString(TEXT("WinIOCallback::WideCharToMultiByte::ERROR_INSUFFICIENT_BUFFER"));
-    if (errCode == ERROR_INVALID_FLAGS) OutputDebugString(TEXT("WinIOCallback::WideCharToMultiByte::ERROR_INVALID_FLAGS"));
-    if (errCode == ERROR_INVALID_PARAMETER) OutputDebugString(TEXT("WinIOCallback::WideCharToMultiByte::ERROR_INVALID_PARAMETER"));
-#endif
-    while (errCode == ERROR_INSUFFICIENT_BUFFER) {
-      // Increase the buffer size
-      bufferSize += MAX_PATH;
-      PathA.resize(bufferSize);
-      errCode = WideCharToMultiByte(CP_ACP, WC_SEPCHARS, Path, pathSize, (char *)PathA.c_str(), bufferSize, NULL, NULL);
-      if (errCode == 0)
-        errCode = GetLastError();
-    }
-    if (errCode != 0) {
-      mFile = CreateFileA(PathA.c_str(), AccessMode, ShareMode, NULL, Disposition, dwFlags, NULL);
-    } else {
-      mLastErrorStr = "Couldn't convert Unicode filename to ANSI.";
-      return mOk = false;
-    }
-  }
+  mFile = CreateFileW(Path, AccessMode, ShareMode, NULL, Disposition, dwFlags, NULL);
   if (mFile == INVALID_HANDLE_VALUE) {
     //File was not opened
     char err_msg[256];
