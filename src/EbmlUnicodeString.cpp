@@ -60,19 +60,7 @@ UTFstring::~UTFstring()
   delete [] _Data;
 }
 
-UTFstring::UTFstring(const UTFstring & _aBuf)
-{
-  *this = _aBuf.c_str();
-}
-
-UTFstring & UTFstring::operator=(const UTFstring & _aBuf)
-{
-  *this = _aBuf.c_str();
-  return *this;
-}
-
 UTFstring::operator const wchar_t*() const {return _Data;}
-
 
 UTFstring & UTFstring::operator=(const wchar_t * _aBuf)
 {

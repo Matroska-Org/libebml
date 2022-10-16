@@ -56,7 +56,6 @@ public:
 
   UTFstring() = default;
   explicit UTFstring(const wchar_t *); // should be NULL terminated
-  UTFstring(const UTFstring &);
   explicit UTFstring(std::wstring const &);
 
   virtual ~UTFstring();
@@ -65,7 +64,6 @@ public:
   {
     return !(*this == cmp);
   }
-  UTFstring & operator=(const UTFstring &);
   UTFstring & operator=(const wchar_t *);
   UTFstring & operator=(wchar_t);
 
