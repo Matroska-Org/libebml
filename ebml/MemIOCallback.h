@@ -96,7 +96,7 @@ public:
   std::uint32_t write(IOCallback & IOToRead, std::size_t Size);
 
   bool IsOk() const { return mOk; }
-  const std::string &GetLastErrorStr() { return mLastErrorStr; }
+  const std::string &GetLastErrorStr() const { return mLastErrorStr; }
 protected:
   bool mOk;
   std::string mLastErrorStr;
