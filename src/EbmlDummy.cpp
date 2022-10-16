@@ -42,9 +42,9 @@ DEFINE_EBML_CLASS_ORPHAN(EbmlDummy, 0xFF, 1, "DummyElement")
 
 const EbmlId EbmlDummy::DummyRawId = Id_EbmlDummy;
 
-EbmlDummy::operator const EbmlId &()
+const EbmlSemanticContext &EbmlDummy::Context() const
 {
-  return DummyId;
+  return Context_EbmlDummy;
 }
 
 } // namespace libebml

@@ -209,18 +209,6 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
     private: \
     static const EbmlCallbacks ClassInfos; \
 
-#define EBML_CONCRETE_DUMMY_CLASS(Type) \
-    public: \
-        const EbmlSemanticContext &Context() const override {return *static_cast<EbmlSemanticContext*>(nullptr);} \
-        const char *DebugName() const override {return "DummyElement";} \
-    operator const EbmlId &(); \
-        EbmlElement & CreateElement() const override {return Create();} \
-        EbmlElement * Clone() const override { return new Type(*this); } \
-    static EbmlElement & Create() {return *(new Type);} \
-        static const EbmlId & ClassId(); \
-    static const EbmlCallbacks ClassInfos; \
-
-
 #define EBML_INFO(ref)             ref::ClassInfo()
 #define EBML_ID(ref)               ref::ClassId()
 #define EBML_CLASS_SEMCONTEXT(ref) Context_##ref

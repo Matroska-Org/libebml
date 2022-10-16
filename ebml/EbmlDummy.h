@@ -48,15 +48,22 @@ class EBML_DLL_API EbmlDummy : public EbmlBinary {
     bool IsDummy() const override {return true;}
     bool IsDefaultValue() const override {return true;}
 
-        operator const EbmlId &() const override {
-            return DummyId;
-        }
+    operator const EbmlId &() const override {
+        return DummyId;
+    }
 
-    private:
+    const EbmlSemanticContext &Context() const override;
+    const char *DebugName() const override { return "DummyElement"; }
+    EbmlElement & CreateElement() const override { return Create(); }
+    EbmlElement * Clone() const override { return &Create(); }
+
+    static EbmlElement & Create() { return *(new EbmlDummy); }
+    static const EbmlId & ClassId();
+    static const EbmlCallbacks ClassInfos;
+
+  private:
     const EbmlId DummyId;
     static const EbmlId DummyRawId;
-
-        EBML_CONCRETE_DUMMY_CLASS(EbmlDummy)
 };
 
 } // namespace libebml
