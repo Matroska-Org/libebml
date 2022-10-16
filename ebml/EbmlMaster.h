@@ -181,7 +181,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     private:
     std::vector<EbmlElement *> ElementList;
 
-    const EbmlSemanticContext & Context;
+    const EbmlSemanticContext & MasterContext;
 
     bool      bChecksumUsed;
     EbmlCrc32 Checksum;
