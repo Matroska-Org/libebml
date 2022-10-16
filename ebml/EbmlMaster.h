@@ -43,11 +43,6 @@
 #include "EbmlElement.h"
 #include "EbmlCrc32.h"
 
-#define EBML_MASTER_ITERATOR  std::vector<EbmlElement *>::iterator
-#define EBML_MASTER_CONST_ITERATOR  std::vector<EbmlElement *>::const_iterator
-#define EBML_MASTER_RITERATOR std::vector<EbmlElement *>::reverse_iterator
-#define EBML_MASTER_CONST_RITERATOR std::vector<EbmlElement *>::const_reverse_iterator
-
 namespace libebml {
 
 const bool bChecksumUsedByDefault = false;
@@ -57,6 +52,10 @@ const bool bChecksumUsedByDefault = false;
     \brief Handle all operations on an EBML element that contains other EBML elements
 */
 class EBML_DLL_API EbmlMaster : public EbmlElement {
+  using EBML_MASTER_ITERATOR = std::vector<EbmlElement *>::iterator;
+  using EBML_MASTER_CONST_ITERATOR = std::vector<EbmlElement *>::const_iterator;
+  using EBML_MASTER_RITERATOR = std::vector<EbmlElement *>::reverse_iterator;
+  using EBML_MASTER_CONST_RITERATOR = std::vector<EbmlElement *>::const_reverse_iterator;
   public:
     explicit EbmlMaster(const EbmlSemanticContext & aContext, bool bSizeIsKnown = true);
     EbmlMaster(const EbmlMaster & ElementToClone);
