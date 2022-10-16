@@ -347,7 +347,7 @@ class EBML_DLL_API EbmlSemanticContext {
 
     bool operator!=(const EbmlSemanticContext & aElt) const {
       return ((Size != aElt.Size) || (MyTable != aElt.MyTable) ||
-        (UpTable != aElt.UpTable) || (GetGlobalContext != aElt.GetGlobalContext) |
+        (UpTable != aElt.UpTable) || (GetGlobalContext != aElt.GetGlobalContext) ||
         (MasterElt != aElt.MasterElt));
     }
 
