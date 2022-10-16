@@ -53,7 +53,7 @@ public:
   bool open(const wchar_t* Path, const open_mode Mode, DWORD dwFlags=0);
   bool open(const char* Path, const open_mode Mode, DWORD dwFlags=0);
 
-  virtual std::uint32_t read(void*Buffer,std::size_t Size);
+  virtual std::size_t read(void*Buffer,std::size_t Size);
   virtual std::size_t write(const void*Buffer,std::size_t Size);
   virtual void setFilePointer(std::int64_t Offset,seek_mode Mode=seek_beginning);
   virtual std::uint64_t getFilePointer();
