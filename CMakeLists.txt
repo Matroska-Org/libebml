@@ -91,7 +91,7 @@ target_include_directories(ebml
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-if(MSVC)
+if(WIN32)
   target_compile_definitions(ebml PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()
 
