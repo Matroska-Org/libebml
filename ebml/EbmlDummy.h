@@ -48,8 +48,8 @@ class EBML_DLL_API EbmlDummy : public EbmlBinary {
     bool IsDummy() const override {return true;}
     bool IsDefaultValue() const override {return true;}
 
-    operator const EbmlId &() const override {
-        return DummyId;
+    EbmlId const &GetClassId() const override {
+      return DummyId;
     }
 
     const EbmlSemanticContext &Context() const override;

@@ -200,7 +200,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
     public: \
         const EbmlSemanticContext &Context() const override {return ClassInfos.GetContext();} \
         const char *DebugName() const override {return ClassInfos.GetName();} \
-    operator const EbmlId &() const override {return ClassInfos.ClassId();} \
+        EbmlId const &GetClassId() const override {return ClassInfos.ClassId();} \
         EbmlElement & CreateElement() const override {return Create();} \
         EbmlElement * Clone() const override { return new Type(*this); } \
     static EbmlElement & Create() {return *(new Type);} \
@@ -356,7 +356,8 @@ class EBML_DLL_API EbmlElement {
     */
     virtual EbmlElement * Clone() const = 0;
 
-    virtual explicit operator const EbmlId &() const = 0;
+    virtual EbmlId const &GetClassId() const = 0;
+    virtual explicit operator const EbmlId &() const { return GetClassId(); }
         virtual const char *DebugName() const = 0;
         virtual const EbmlSemanticContext &Context() const = 0;
         virtual EbmlElement & CreateElement() const = 0;
