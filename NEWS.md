@@ -7,6 +7,10 @@
 * Bumped the library's soname to 6 due to ABI breaking changes that
   already happened in 1.4.3.
 * Remove libebml_t.h.
+* Fix dataBufferMemorySize updating logic in `MemIOCallback::write()`.
+  It was not updated properly, leading to incorrect behavior when
+  write cursor moved back to, for example, rewrite the head of a file.
+  
 
 # Version 1.4.3 2022-09-30
 
