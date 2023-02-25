@@ -102,6 +102,9 @@ else()
   target_compile_definitions(ebml PRIVATE BUILD_LITTLE_ENDIAN)
 endif()
 
+add_executable(signed test/signed-ebml.cpp)
+target_link_libraries(signed PUBLIC ebml)
+
 include(GenerateExportHeader)
 generate_export_header(ebml EXPORT_MACRO_NAME EBML_DLL_API)
 target_sources(ebml
