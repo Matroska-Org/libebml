@@ -92,7 +92,7 @@ int CodedSizeLength(std::uint64_t Length, unsigned int SizeLength, bool bSizeIsF
 */
 int CodedSizeLengthSigned(std::int64_t Length, unsigned int SizeLength)
 {
-  unsigned int CodedSize;
+  int CodedSize;
   // prepare the head of the size (000...01xxxxxx)
   // optimal size
   if (Length > -64 && Length < 64) // 2^6
@@ -110,7 +110,7 @@ int CodedSizeLengthSigned(std::int64_t Length, unsigned int SizeLength)
     CodedSize = SizeLength;
   }
 
-  return static_cast<int>(CodedSize);
+  return CodedSize;
 }
 
 int CodedValueLength(std::uint64_t Length, int CodedSize, binary * OutBuffer)
