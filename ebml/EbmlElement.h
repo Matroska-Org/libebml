@@ -169,10 +169,19 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define DECLARE_EBML_UINTEGER(x)  class EBML_DLL_API x : public EbmlUInteger { \
   public: \
     x();
+#define DECLARE_EBML_SINTEGER(x)  class EBML_DLL_API x : public EbmlSInteger { \
+  public: \
+    x();
 #define DECLARE_EBML_STRING(x)    class EBML_DLL_API x : public EbmlString { \
   public: \
     x();
 #define DECLARE_EBML_BINARY(x)    class EBML_DLL_API x : public EbmlBinary { \
+  public: \
+    x();
+#define DECLARE_EBML_DATE(x)  class EBML_DLL_API x : public EbmlDate { \
+  public: \
+    x();
+#define DECLARE_EBML_FLOAT(x)  class EBML_DLL_API x : public EbmlFloat { \
   public: \
     x();
 
