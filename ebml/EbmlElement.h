@@ -46,15 +46,21 @@ constexpr std::size_t countof(T const (&)[N]) noexcept
 }
 
 /*!
-  \brief The size of the EBML-coded length
+  \brief The size of the EBML-coded integer
+  \param Value value to encode as EBML integer
+  \param MinSizeLength minimum size length to encode the value (0 for shortest size)
+  \param bSizeIsFinite whether the size will be written as an infinite EBML size or not
 */
-int EBML_DLL_API CodedSizeLength(std::uint64_t Length, unsigned int SizeLength, bool bSizeIsFinite = true);
+int EBML_DLL_API CodedSizeLength(std::uint64_t Value, unsigned int MinSizeLength, bool bSizeIsFinite = true);
 
 /*!
-  \brief The coded value of the EBML-coded length
-  \note The size of OutBuffer must be 8 octets at least
+  \brief The coded value of the EBML-coded integer
+  \param Value value to encode as EBML integer
+  \param CodedSize amount of octets to use to write the integer
+  \param OutBuffer buffer to write the EBML-coded integer
+  \note The size of OutBuffer must be at least CodedSize octets big
 */
-int EBML_DLL_API CodedValueLength(std::uint64_t Length, int CodedSize, binary * OutBuffer);
+int EBML_DLL_API CodedValueLength(std::uint64_t Value, int CodedSize, binary * OutBuffer);
 
 /*!
   \brief Read an EBML-coded value from a buffer
@@ -63,15 +69,20 @@ int EBML_DLL_API CodedValueLength(std::uint64_t Length, int CodedSize, binary * 
 std::uint64_t EBML_DLL_API ReadCodedSizeValue(const binary * InBuffer, std::uint32_t & BufferSize, std::uint64_t & SizeUnknown);
 
 /*!
-  \brief The size of the EBML-coded signed length
+  \brief The size of the EBML-coded signed integer
+  \param Value value to get the signed integer
+  \param MinSizeLength minimum size length to encode the value (0 for shortest size)
 */
-int EBML_DLL_API CodedSizeLengthSigned(std::int64_t Length, unsigned int SizeLength);
+int EBML_DLL_API CodedSizeLengthSigned(std::int64_t Value, unsigned int MinSizeLength);
 
 /*!
-  \brief The coded value of the EBML-coded signed length
-  \note the size of OutBuffer must be 8 octets at least
+  \brief The coded value of the EBML-coded signed integer
+  \param Value value to encode as EBML signed integer
+  \param CodedSize amount of octets to use to write the integer
+  \param OutBuffer buffer to write the EBML-coded signed integer
+  \note The size of OutBuffer must be at least CodedSize octets big
 */
-int EBML_DLL_API CodedValueLengthSigned(std::int64_t Length, int CodedSize, binary * OutBuffer);
+int EBML_DLL_API CodedValueLengthSigned(std::int64_t Value, int CodedSize, binary * OutBuffer);
 
 /*!
   \brief Read a signed EBML-coded value from a buffer
