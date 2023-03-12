@@ -41,18 +41,4 @@
 #define START_LIBEBML_NAMESPACE namespace LIBEBML_NAMESPACE {
 #define END_LIBEBML_NAMESPACE   }
 
-
-// The LIBEBML_DEBUG symbol is defined, when we are creating a debug build. In this
-// case the debug logging code is compiled in.
-#if (defined(DEBUG)||defined(_DEBUG)) && !defined(LIBEBML_DEBUG)
-#define LIBEBML_DEBUG
-#endif
-
-#ifdef HAVE_WINAPIFAMILY_H
-# include <winapifamily.h>
-# if !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
-#  undef LIBEBML_DEBUG
-# endif
-#endif
-
 #endif // LIBEBML_CONFIG_H

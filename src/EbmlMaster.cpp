@@ -142,10 +142,10 @@ std::uint64_t EbmlMaster::UpdateSize(bool bWithDefault, bool bForceRender)
       continue;
     Element->UpdateSize(bWithDefault, bForceRender);
     const std::uint64_t SizeToAdd = Element->ElementSize(bWithDefault);
-#if defined(LIBEBML_DEBUG)
+#if !defined(NDEBUG)
     if (static_cast<std::int64_t>(SizeToAdd) == (0-1))
       return (0-1);
-#endif // LIBEBML_DEBUG
+#endif // !NDEBUG
     SetSize_(GetSize() + SizeToAdd);
   }
   if (bChecksumUsed) {
@@ -205,10 +205,10 @@ bool EbmlMaster::CheckMandatory() const
         const bool hasDefaultValue = testElement->DefaultISset();
         delete testElement;
 
-#if defined(LIBEBML_DEBUG)
+#if !defined(NDEBUG)
         // you are missing this Mandatory element
 //         const char * MissingName = EBML_INFO_NAME(EBML_CTX_IDX_INFO(Context,EltIdx));
-#endif // LIBEBML_DEBUG
+#endif // !NDEBUG
         if (!hasDefaultValue)
           return false;
       }

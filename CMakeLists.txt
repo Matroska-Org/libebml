@@ -13,7 +13,6 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(libebml_SOURCES
-  src/Debug.cpp
   src/EbmlBinary.cpp
   src/EbmlContexts.cpp
   src/EbmlCrc32.cpp
@@ -43,7 +42,6 @@ if(WIN32 AND ENABLE_WIN32_IO)
 endif()
 
 set(libebml_PUBLIC_HEADERS
-  ebml/Debug.h
   ebml/EbmlBinary.h
   ebml/EbmlConfig.h
   ebml/EbmlContexts.h
@@ -72,13 +70,6 @@ set(libebml_PUBLIC_HEADERS
   ebml/StdIOCallback.h)
 
 add_library(ebml ${libebml_SOURCES} ${libebml_PUBLIC_HEADERS})
-if(WIN32)
-  include(CheckIncludeFile)
-  check_include_file(winapifamily.h HAVE_WINAPIFAMILY_H)
-  if(HAVE_WINAPIFAMILY_H)
-    target_compile_definitions(ebml PUBLIC HAVE_WINAPIFAMILY_H)
-  endif()
-endif()
 set_target_properties(ebml PROPERTIES
   VERSION 6.0.0
   SOVERSION 6

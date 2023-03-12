@@ -585,15 +585,15 @@ filepos_t EbmlElement::Render(IOCallback & output, bool bWithDefault, bool bKeep
   if (!bWithDefault && IsDefaultValue()) {
     return 0;
   }
-#if defined(LIBEBML_DEBUG)
+#if !defined(NDEBUG)
   std::uint64_t SupposedSize = UpdateSize(bWithDefault, bForceRender);
-#endif // LIBEBML_DEBUG
+#endif // !NDEBUG
   filepos_t result = RenderHead(output, bForceRender, bWithDefault, bKeepPosition);
   const std::uint64_t WrittenSize = RenderData(output, bForceRender, bWithDefault);
-#if defined(LIBEBML_DEBUG)
+#if !defined(NDEBUG)
   if (static_cast<std::int64_t>(SupposedSize) != (0-1))
     assert(WrittenSize == SupposedSize);
-#endif // LIBEBML_DEBUG
+#endif // !NDEBUG
   result += WrittenSize;
   return result;
 }

@@ -38,8 +38,6 @@
 
 #include "WinIOCallback.h"
 
-#include "ebml/Debug.h"
-
 #ifndef INVALID_SET_FILE_POINTER // found in newer platform SDKs
 #define INVALID_SET_FILE_POINTER ((DWORD)-1)
 #endif // INVALID_SET_FILE_POINTER
@@ -102,15 +100,11 @@ bool WinIOCallback::open(const char* Path, const open_mode aMode, DWORD dwFlags)
     // An error message about the file already existing is not really an error message :P
     if (error_code != ERROR_ALREADY_EXISTS) {
       FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, 0, error_code, 0, err_msg, 255, NULL);
-      EBML_TRACE("Failed to open file \"%hs\" in mode %d.", Path, aMode);
-
       mLastErrorStr = err_msg;
       return mOk = false;
     }
   }
   mCurrentPosition = 0;
-
-  EBML_TRACE("Successfully opened file \"%hs\" in mode %d. The handle is %p\n", Path, aMode, mFile);
 
   return mOk = true;
 };
@@ -154,14 +148,12 @@ bool WinIOCallback::open(const wchar_t* Path, const open_mode aMode, DWORD dwFla
     // An error message about the file already existing is not really an error message :P
     if (error_code != ERROR_ALREADY_EXISTS) {
       FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, 0, error_code, 0, err_msg, 255, NULL);
-      EBML_TRACE("Failed to open file \"%S\" in mode %d.", Path, aMode);
       mLastErrorStr = err_msg;
       return mOk = false;
     }
   }
   mCurrentPosition = 0;
 
-  EBML_TRACE("Successfully opened file \"%S\" in mode %d. The handle is %p\n", Path, aMode, mFile);
   return mOk = true;
 }
 
