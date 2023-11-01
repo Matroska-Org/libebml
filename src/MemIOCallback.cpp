@@ -68,7 +68,8 @@ uint32 MemIOCallback::read(void *Buffer, size_t Size)
   if (Buffer == nullptr || Size < 1)
     return 0;
   //If the size is larger than than the amount left in the buffer
-  if (Size + dataBufferPos > dataBufferTotalSize) {
+  if (Size + dataBufferPos < Size || // overflow, reading too much
+      Size + dataBufferPos > dataBufferTotalSize) {
     //We will only return the remaining data
     memcpy(Buffer, dataBuffer + dataBufferPos, dataBufferTotalSize - dataBufferPos);
     uint64 oldDataPos = dataBufferPos;
