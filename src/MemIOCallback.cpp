@@ -95,6 +95,8 @@ void MemIOCallback::setFilePointer(std::int64_t Offset, seek_mode Mode)
 
 std::size_t MemIOCallback::write(const void *Buffer, std::size_t Size)
 {
+  if (dataBufferPos + Size < Size) // overflow, we can't hold that much
+    return 0;
   if (dataBufferMemorySize < dataBufferPos + Size) {
     //We need more memory!
     dataBuffer = static_cast<binary *>(realloc(static_cast<void *>(dataBuffer), dataBufferPos + Size));
@@ -110,6 +112,8 @@ std::size_t MemIOCallback::write(const void *Buffer, std::size_t Size)
 
 std::uint32_t MemIOCallback::write(IOCallback & IOToRead, std::size_t Size)
 {
+  if (dataBufferPos + Size < Size) // overflow, we can't hold that much
+    return 0;
   if (dataBufferMemorySize < dataBufferPos + Size) {
     //We need more memory!
     dataBuffer = static_cast<binary *>(realloc(static_cast<void *>(dataBuffer), dataBufferPos + Size));
