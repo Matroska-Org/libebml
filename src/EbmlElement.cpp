@@ -92,7 +92,7 @@ int CodedSizeLength(std::uint64_t Length, unsigned int SizeLength, bool bSizeIsF
 */
 int CodedSizeLengthSigned(std::int64_t Length, unsigned int SizeLength)
 {
-  int CodedSize;
+  unsigned int CodedSize;
   // prepare the head of the size (000...01xxxxxx)
   // optimal size
   if (Length > -64 && Length < 64) // 2^6
