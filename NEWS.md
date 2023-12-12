@@ -1,3 +1,8 @@
+# Version 1.4.5 2023-12-12
+
+* Fix invalid memory access (reading beyond allocated memory) due to
+  missing integer overflow check.
+
 # Version 1.4.4 2022-10-08
 
 * Fix ABI compatibility: unfortunately release 1.4.3 broke ABI
