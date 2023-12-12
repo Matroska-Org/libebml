@@ -38,7 +38,7 @@
 
 namespace libebml {
 
-const std::string EbmlCodeVersion = "1.4.4";
+const std::string EbmlCodeVersion = "1.4.5";
 
 // Up to version 1.3.3 this library exported a build date string. As
 // this made the build non-reproducible, replace it by a placeholder to
