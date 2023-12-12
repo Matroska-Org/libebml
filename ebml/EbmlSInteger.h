@@ -70,6 +70,7 @@ class EBML_DLL_API EbmlSInteger : public EbmlElement {
 
     bool IsSmallerThan(const EbmlElement *Cmp) const override;
 
+    using EbmlElement::operator const EbmlId &;
     explicit operator std::int8_t() const;
     explicit operator std::int16_t() const;
     explicit operator std::int32_t() const;

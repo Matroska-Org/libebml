@@ -78,6 +78,7 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
 
     bool IsSmallerThan(const EbmlElement *Cmp) const override;
 
+    using EbmlElement::operator const EbmlId &;
     operator float() const;
     operator double() const;
 

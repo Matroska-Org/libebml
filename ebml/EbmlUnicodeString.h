@@ -108,6 +108,7 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
     filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) override;
 
     EbmlUnicodeString & operator=(const UTFstring &); ///< platform dependant code
+    using EbmlElement::operator const EbmlId &;
     explicit operator const UTFstring &() const;
 
     EbmlUnicodeString &SetValue(UTFstring const &NewValue);

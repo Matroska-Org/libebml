@@ -80,6 +80,7 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
       SetValueIsSet();
     }
 
+    using EbmlElement::operator const EbmlId &;
     operator const binary &() const;
 
     bool IsDefaultValue() const override {
