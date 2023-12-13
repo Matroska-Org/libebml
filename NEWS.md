@@ -1,16 +1,41 @@
-# Version 2.0.0 2022-??-??
+# Version 2.0.0 2023-??-??
 
-* API break: the function `IOCallback::read()` now returns a `size_t`
-  instead of a `uint32`. This fixes the limitation that the function
-  couldn't signal success properly if the number of bytes to read
-  exceeded 4 GB.
-* Bumped the library's soname to 6 due to ABI breaking changes that
-  already happened in 1.4.3.
-* Remove libebml_t.h.
+* API break: the function `IOCallback::read()` now returns a
+  `std::size_t` instead of a `uint32`. This fixes the limitation that
+  the function couldn't signal success properly if the number of bytes
+  to read exceeded 4 GB.
+* API break: `EbmlElement::HeadSize()` now returns a `std::size_t`
+  instead of a `uint8_t`.
+* API break: the custom integer types (e.g. `uint8`, `int16`,
+  `uint64`) were removed in favor of the standard integer types
+  (e.g. `std::uint8_t`, `std::int16_t`, `std::uint64_`).
+* API break: The header file `ebml/c/libebml_t.h` has been
+  removed. Its remaining types (`enum open_mode`) were moved to
+  `EbmlElement.h`. The `EBML_MIN` macro was remove & replaced with
+  appropriate calls to `std::min`.
+* API break: the custom types `utf8`, `utf16`, `utf32` were removed.
+* API break: the default `EbmlEndian` related types were moved from
+  `EbmlTypes.h` to `EbmlEndian.h`.
+* API break: several unused Endian-related types were removed: all
+  relating to Little Endian numbers; `bits80`, `checksum` &
+  `big_80bits`.
+* ABI break: several functions in `EbmlMaster` & `EbmlStream` are now
+  `const`.
+* API break: Several debugging calls & classes have been removed.
+* API break: removed several pre-processor definitions
+  (`EBML_ASSERT_NEW`, `EBML_PRETTYLONGINT` & others).
+* Bumped the library's soname to 6 due to API & ABI breaking changes.
 * Fix dataBufferMemorySize updating logic in `MemIOCallback::write()`.
   It was not updated properly, leading to incorrect behavior when
   write cursor moved back to, for example, rewrite the head of a file.
-  
+* Fix invalid memory access (reading beyond allocated memory) in
+  `MemIOCallback::read()` due to missing integer overflow check.
+* `EbmlBinary` now provides a copy-assignment operator to complement
+  the already existing copy constructor.
+* Fixed the CMake files in order to support having it included from
+  parent projects via `add_subdirectory`.
+* Enabled building shared libraries via the usual CMake definition
+  `BUILD_SHARES_LIBS` (default: off).
 
 # Version 1.4.3 2022-09-30
 
