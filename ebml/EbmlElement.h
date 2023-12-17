@@ -128,7 +128,11 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define DEFINE_START_SEMANTIC(x)     static const EbmlSemantic ContextList_##x[] = {
 #define DEFINE_END_SEMANTIC(x)       };
 #define DEFINE_SEMANTIC_ITEM(m,u,c)  EbmlSemantic(m, u, EBML_INFO(c)),
-#define DEFINE_SEMANTIC_ITEM_UINT(m,u,d,c)  EbmlSemantic(m, u, true, EBML_INFO(c)),
+#define DEFINE_SEMANTIC_ITEM_UINT(m,u,d,c)      EbmlSemantic(m, u, static_cast<std::uint64_t>(d), EBML_INFO(c)),
+#define DEFINE_SEMANTIC_ITEM_SINT(m,u,d,c)      EbmlSemantic(m, u, static_cast<std::int64_t>(d),  EBML_INFO(c)),
+#define DEFINE_SEMANTIC_ITEM_FLOAT(m,u,d,c)     EbmlSemantic(m, u, static_cast<double>(d),        EBML_INFO(c)),
+#define DEFINE_SEMANTIC_ITEM_STRING(m,u,d,c)    EbmlSemantic(m, u, static_cast<const char*>(d),    EBML_INFO(c)),
+#define DEFINE_SEMANTIC_ITEM_UTF8(m,u,d,c)      EbmlSemantic(m, u, static_cast<const wchar_t*>(d), EBML_INFO(c)),
 
 #define DECLARE_EBML_MASTER(x)  class EBML_DLL_API x : public EbmlMaster { \
   public: \
@@ -224,22 +228,61 @@ class EBML_DLL_API EbmlCallbacks {
 class EBML_DLL_API EbmlSemantic {
   public:
     constexpr EbmlSemantic(bool aMandatory, bool aUnique, const EbmlCallbacks & aCallbacks)
-      :Mandatory(aMandatory), Unique(aUnique), hasDefault(false), Callbacks(aCallbacks) {}
+      :Mandatory(aMandatory), Unique(aUnique), defaultValue(), Callbacks(aCallbacks) {}
 
-    constexpr EbmlSemantic(bool aMandatory, bool aUnique, bool HasDefault, const EbmlCallbacks & aCallbacks)
-      :Mandatory(aMandatory), Unique(aUnique), hasDefault(HasDefault), Callbacks(aCallbacks) {}
+    constexpr EbmlSemantic(bool aMandatory, bool aUnique, std::uint64_t def, const EbmlCallbacks & aCallbacks)
+      :Mandatory(aMandatory), Unique(aUnique), defaultValue(def), Callbacks(aCallbacks) {}
+
+    constexpr EbmlSemantic(bool aMandatory, bool aUnique, std::int64_t def, const EbmlCallbacks & aCallbacks)
+      :Mandatory(aMandatory), Unique(aUnique), defaultValue(def), Callbacks(aCallbacks) {}
+
+    constexpr EbmlSemantic(bool aMandatory, bool aUnique, double def, const EbmlCallbacks & aCallbacks)
+      :Mandatory(aMandatory), Unique(aUnique), defaultValue(def), Callbacks(aCallbacks) {}
+
+    constexpr EbmlSemantic(bool aMandatory, bool aUnique, const char *def, const EbmlCallbacks & aCallbacks)
+      :Mandatory(aMandatory), Unique(aUnique), defaultValue(def), Callbacks(aCallbacks) {}
+
+    constexpr EbmlSemantic(bool aMandatory, bool aUnique, const wchar_t *def, const EbmlCallbacks & aCallbacks)
+      :Mandatory(aMandatory), Unique(aUnique), defaultValue(def), Callbacks(aCallbacks) {}
 
         inline bool IsMandatory() const { return Mandatory; }
         inline bool IsUnique() const { return Unique; }
-        inline bool HasDefault() const { return hasDefault; }
+        inline bool HasDefault() const { return defaultValue.HasDefault(); }
         inline EbmlElement & Create() const { return EBML_INFO_CREATE(Callbacks); }
         inline explicit operator const EbmlCallbacks &() const { return Callbacks; }
         inline EbmlCallbacks const &GetCallbacks() const { return Callbacks; }
 
-    private:
+     struct DefaultValues {
+      enum DefaultType {
+        NO_DEFAULT,
+        UINTEGER,
+        SINTEGER,
+        DOUBLE,
+        STRING,
+        UNISTRING,
+      } type;
+      union {
+        std::uint64_t  u64;
+        std::int64_t   i64;
+        double         f;
+        const char*    s;
+        const wchar_t* ws;
+      };
+
+      constexpr DefaultValues(void) : u64(0), type(DefaultType::NO_DEFAULT) {}
+      constexpr DefaultValues(std::uint64_t u) : u64(u), type(DefaultType::UINTEGER) {}
+      constexpr DefaultValues(std::int64_t u) : i64(u), type(DefaultType::UINTEGER) {}
+      constexpr DefaultValues(double d) : f(d), type(DefaultType::DOUBLE) {}
+      constexpr DefaultValues(const char *d) : s(d), type(DefaultType::STRING) {}
+      constexpr DefaultValues(const wchar_t *d) : ws(d), type(DefaultType::UNISTRING) {}
+
+      bool HasDefault() const { return type != DefaultType::NO_DEFAULT; }
+    };
+
+  private:
     const bool Mandatory; ///< whether the element is mandatory in the context or not
     const bool Unique;
-    const bool hasDefault;
+    const DefaultValues defaultValue;
     const EbmlCallbacks & Callbacks;
 };
 
