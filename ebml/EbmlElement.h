@@ -201,7 +201,7 @@ class EBML_DLL_API EbmlCallbacks {
         inline EbmlElement & NewElement() const { return Create(); }
 
     private:
-    EbmlElement & (*Create)();
+    EbmlElement & (* const Create)();
     const EbmlId & GlobalId;
     const char * DebugName;
     const EbmlSemanticContext & Context;
