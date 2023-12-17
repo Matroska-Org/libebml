@@ -227,6 +227,8 @@ class EBML_DLL_API EbmlCallbacks {
 */
 class EBML_DLL_API EbmlSemantic {
   public:
+    struct DefaultValues;
+
     constexpr EbmlSemantic(bool aMandatory, bool aUnique, const EbmlCallbacks & aCallbacks)
       :Mandatory(aMandatory), Unique(aUnique), defaultValue(), Callbacks(aCallbacks) {}
 
@@ -247,20 +249,21 @@ class EBML_DLL_API EbmlSemantic {
 
         inline bool IsMandatory() const { return Mandatory; }
         inline bool IsUnique() const { return Unique; }
-        inline bool HasDefault() const { return defaultValue.HasDefault(); }
+        inline const DefaultValues & DefaultValue() const { return defaultValue; }
         inline EbmlElement & Create() const { return EBML_INFO_CREATE(Callbacks); }
         inline explicit operator const EbmlCallbacks &() const { return Callbacks; }
         inline EbmlCallbacks const &GetCallbacks() const { return Callbacks; }
 
-     struct DefaultValues {
-      enum DefaultType {
-        NO_DEFAULT,
-        UINTEGER,
-        SINTEGER,
-        DOUBLE,
-        STRING,
-        UNISTRING,
-      } type;
+    enum DefaultType {
+      NO_DEFAULT,
+      UINTEGER,
+      SINTEGER,
+      DOUBLE,
+      STRING,
+      UNISTRING,
+    };
+   struct DefaultValues {
+      DefaultType type;
       union {
         std::uint64_t  u64;
         std::int64_t   i64;
