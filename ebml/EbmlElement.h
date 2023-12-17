@@ -128,6 +128,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define DEFINE_START_SEMANTIC(x)     static const EbmlSemantic ContextList_##x[] = {
 #define DEFINE_END_SEMANTIC(x)       };
 #define DEFINE_SEMANTIC_ITEM(m,u,c)  EbmlSemantic(m, u, EBML_INFO(c)),
+#define DEFINE_SEMANTIC_ITEM_UINT(m,u,d,c)  EbmlSemantic(m, u, true, EBML_INFO(c)),
 
 #define DECLARE_EBML_MASTER(x)  class EBML_DLL_API x : public EbmlMaster { \
   public: \
@@ -223,10 +224,14 @@ class EBML_DLL_API EbmlCallbacks {
 class EBML_DLL_API EbmlSemantic {
   public:
     constexpr EbmlSemantic(bool aMandatory, bool aUnique, const EbmlCallbacks & aCallbacks)
-      :Mandatory(aMandatory), Unique(aUnique), Callbacks(aCallbacks) {}
+      :Mandatory(aMandatory), Unique(aUnique), hasDefault(false), Callbacks(aCallbacks) {}
+
+    constexpr EbmlSemantic(bool aMandatory, bool aUnique, bool HasDefault, const EbmlCallbacks & aCallbacks)
+      :Mandatory(aMandatory), Unique(aUnique), hasDefault(HasDefault), Callbacks(aCallbacks) {}
 
         inline bool IsMandatory() const { return Mandatory; }
         inline bool IsUnique() const { return Unique; }
+        inline bool HasDefault() const { return hasDefault; }
         inline EbmlElement & Create() const { return EBML_INFO_CREATE(Callbacks); }
         inline explicit operator const EbmlCallbacks &() const { return Callbacks; }
         inline EbmlCallbacks const &GetCallbacks() const { return Callbacks; }
@@ -234,6 +239,7 @@ class EBML_DLL_API EbmlSemantic {
     private:
     const bool Mandatory; ///< whether the element is mandatory in the context or not
     const bool Unique;
+    const bool hasDefault;
     const EbmlCallbacks & Callbacks;
 };
 

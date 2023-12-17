@@ -12,13 +12,13 @@
 namespace libebml {
 
 DEFINE_START_SEMANTIC(EbmlHead)
-DEFINE_SEMANTIC_ITEM(true, true, EVersion)        ///< EBMLVersion
-DEFINE_SEMANTIC_ITEM(true, true, EReadVersion)    ///< EBMLReadVersion
-DEFINE_SEMANTIC_ITEM(true, true, EMaxIdLength)    ///< EBMLMaxIdLength
-DEFINE_SEMANTIC_ITEM(true, true, EMaxSizeLength)  ///< EBMLMaxSizeLength
+DEFINE_SEMANTIC_ITEM_UINT(true, true, 1, EVersion)        ///< EBMLVersion
+DEFINE_SEMANTIC_ITEM_UINT(true, true, 1, EReadVersion)    ///< EBMLReadVersion
+DEFINE_SEMANTIC_ITEM_UINT(true, true, 4, EMaxIdLength)    ///< EBMLMaxIdLength
+DEFINE_SEMANTIC_ITEM_UINT(true, true, 8, EMaxSizeLength)  ///< EBMLMaxSizeLength
 DEFINE_SEMANTIC_ITEM(true, true, EDocType)        ///< DocType
-DEFINE_SEMANTIC_ITEM(true, true, EDocTypeVersion) ///< DocTypeVersion
-DEFINE_SEMANTIC_ITEM(true, true, EDocTypeReadVersion) ///< DocTypeReadVersion
+DEFINE_SEMANTIC_ITEM_UINT(true, true, 1, EDocTypeVersion) ///< DocTypeVersion
+DEFINE_SEMANTIC_ITEM_UINT(true, true, 1, EDocTypeReadVersion) ///< DocTypeReadVersion
 DEFINE_END_SEMANTIC(EbmlHead)
 
 DEFINE_EBML_MASTER_ORPHAN(EbmlHead, 0x1A45DFA3, 4, "EBMLHead\0ratamapaga")
