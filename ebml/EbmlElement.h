@@ -320,7 +320,7 @@ class EBML_DLL_API EbmlSemanticContext {
 
     private:
         const EbmlSemantic *MyTable; ///< First element in the table
-    std::size_t Size;          ///< number of elements in the table
+    const std::size_t Size;          ///< number of elements in the table
     const EbmlSemanticContext *UpTable; ///< Parent element
     /// \todo replace with the global context directly
     const EbmlCallbacks *MasterElt;
