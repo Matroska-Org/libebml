@@ -232,20 +232,8 @@ class EBML_DLL_API EbmlSemantic {
     constexpr EbmlSemantic(bool aMandatory, bool aUnique, const EbmlCallbacks & aCallbacks)
       :Mandatory(aMandatory), Unique(aUnique), defaultValue(), Callbacks(aCallbacks) {}
 
-    constexpr EbmlSemantic(bool aMandatory, bool aUnique, std::uint64_t def, const EbmlCallbacks & aCallbacks)
-      :Mandatory(aMandatory), Unique(aUnique), defaultValue(def), Callbacks(aCallbacks) {}
-
-    constexpr EbmlSemantic(bool aMandatory, bool aUnique, std::int64_t def, const EbmlCallbacks & aCallbacks)
-      :Mandatory(aMandatory), Unique(aUnique), defaultValue(def), Callbacks(aCallbacks) {}
-
-    constexpr EbmlSemantic(bool aMandatory, bool aUnique, double def, const EbmlCallbacks & aCallbacks)
-      :Mandatory(aMandatory), Unique(aUnique), defaultValue(def), Callbacks(aCallbacks) {}
-
-    constexpr EbmlSemantic(bool aMandatory, bool aUnique, const char *def, const EbmlCallbacks & aCallbacks)
-      :Mandatory(aMandatory), Unique(aUnique), defaultValue(def), Callbacks(aCallbacks) {}
-
-    constexpr EbmlSemantic(bool aMandatory, bool aUnique, const wchar_t *def, const EbmlCallbacks & aCallbacks)
-      :Mandatory(aMandatory), Unique(aUnique), defaultValue(def), Callbacks(aCallbacks) {}
+    constexpr EbmlSemantic(bool aMandatory, bool aUnique, const DefaultValues &def, const EbmlCallbacks & aGetCallbacks)
+      :Mandatory(aMandatory), Unique(aUnique), defaultValue(def), Callbacks(aGetCallbacks) {}
 
         inline bool IsMandatory() const { return Mandatory; }
         inline bool IsUnique() const { return Unique; }
@@ -273,6 +261,7 @@ class EBML_DLL_API EbmlSemantic {
       };
 
       constexpr DefaultValues(void) : u64(0), type(DefaultType::NO_DEFAULT) {}
+      constexpr DefaultValues(const DefaultValues &) = default;
       constexpr DefaultValues(std::uint64_t u) : u64(u), type(DefaultType::UINTEGER) {}
       constexpr DefaultValues(std::int64_t u) : i64(u), type(DefaultType::UINTEGER) {}
       constexpr DefaultValues(double d) : f(d), type(DefaultType::DOUBLE) {}
