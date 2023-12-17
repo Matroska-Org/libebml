@@ -223,8 +223,8 @@ class EBML_DLL_API EbmlSemantic {
         inline EbmlCallbacks const &GetCallbacks() const { return Callbacks; }
 
     private:
-    bool Mandatory; ///< wether the element is mandatory in the context or not
-    bool Unique;
+    const bool Mandatory; ///< whether the element is mandatory in the context or not
+    const bool Unique;
     const EbmlCallbacks & Callbacks;
 };
 
