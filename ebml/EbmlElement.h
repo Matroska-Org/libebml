@@ -130,6 +130,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define DEFINE_SEMANTIC_ITEM(m,u,c)  EbmlSemantic(m, u, EBML_INFO(c)),
 #define DEFINE_SEMANTIC_ITEM_UINT(m,u,d,c)      EbmlSemantic(m, u, static_cast<std::uint64_t>(d), EBML_INFO(c)),
 #define DEFINE_SEMANTIC_ITEM_SINT(m,u,d,c)      EbmlSemantic(m, u, static_cast<std::int64_t>(d),  EBML_INFO(c)),
+#define DEFINE_SEMANTIC_ITEM_DATE(m,u,d,c)      EbmlSemantic(m, u, static_cast<std::int64_t>(d,true), EBML_INFO(c)),
 #define DEFINE_SEMANTIC_ITEM_FLOAT(m,u,d,c)     EbmlSemantic(m, u, static_cast<double>(d),        EBML_INFO(c)),
 #define DEFINE_SEMANTIC_ITEM_STRING(m,u,d,c)    EbmlSemantic(m, u, static_cast<const char*>(d),    EBML_INFO(c)),
 #define DEFINE_SEMANTIC_ITEM_UTF8(m,u,d,c)      EbmlSemantic(m, u, static_cast<const wchar_t*>(d), EBML_INFO(c)),
@@ -246,6 +247,7 @@ class EBML_DLL_API EbmlSemantic {
       NO_DEFAULT,
       UINTEGER,
       SINTEGER,
+      DATE,
       DOUBLE,
       STRING,
       UNISTRING,
@@ -263,7 +265,7 @@ class EBML_DLL_API EbmlSemantic {
       constexpr DefaultValues(void) : u64(0), type(DefaultType::NO_DEFAULT) {}
       constexpr DefaultValues(const DefaultValues &) = default;
       constexpr DefaultValues(std::uint64_t u) : u64(u), type(DefaultType::UINTEGER) {}
-      constexpr DefaultValues(std::int64_t u) : i64(u), type(DefaultType::UINTEGER) {}
+      constexpr DefaultValues(std::int64_t u, bool date = false) : i64(u), type(date ? DefaultType::UINTEGER : DefaultType::DATE) {}
       constexpr DefaultValues(double d) : f(d), type(DefaultType::DOUBLE) {}
       constexpr DefaultValues(const char *d) : s(d), type(DefaultType::STRING) {}
       constexpr DefaultValues(const wchar_t *d) : ws(d), type(DefaultType::UNISTRING) {}
