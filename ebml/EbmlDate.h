@@ -87,7 +87,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 
     std::int64_t myDate{0}; ///< internal format of the date
 
-    static const std::uint64_t UnixEpochDelay = 978307200; // 2001/01/01 00:00:00 UTC
+    static constexpr std::uint64_t UnixEpochDelay = 978307200; // 2001/01/01 00:00:00 UTC
 };
 
 } // namespace libebml
