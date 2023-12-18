@@ -37,6 +37,8 @@
 #include "EbmlId.h"
 #include "IOCallback.h"
 
+#include <cassert>
+
 namespace libebml {
 
 template <typename T, std::size_t N>
