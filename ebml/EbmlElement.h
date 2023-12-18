@@ -200,7 +200,6 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define EBML_INFO_CREATE(cb)  (cb).NewElement()
 #define EBML_INFO_CONTEXT(cb) (cb).GetContext()
 
-#define EBML_SEM_UNIQUE(s)  (s).IsUnique()
 #define EBML_SEM_CONTEXT(s) ((const EbmlCallbacks &)(s)).GetContext()
 #define EBML_SEM_CREATE(s)  (s).Create()
 
