@@ -296,7 +296,7 @@ class EBML_DLL_API EbmlSemanticContext {
 class EBML_DLL_API EbmlElement {
   public:
     explicit EbmlElement(std::uint64_t aDefaultSize, bool bValueSet = false);
-    virtual ~EbmlElement();
+    virtual ~EbmlElement() = default;
     EbmlElement& operator=(const EbmlElement&) = delete;
 
     /// Set the minimum length that will be used to write the element size (-1 = optimal)
@@ -343,9 +343,6 @@ class EBML_DLL_API EbmlElement {
 
     virtual filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) = 0;
     virtual void Read(EbmlStream & inDataStream, const EbmlSemanticContext & Context, int & UpperEltFound, EbmlElement * & FoundElt, bool AllowDummyElt = false, ScopeMode ReadFully = SCOPE_ALL_DATA);
-
-    bool IsLocked() const {return bLocked;}
-    void Lock(bool bLock = true) { bLocked = bLock;}
 
     /*!
       \brief default comparison for elements that can't be compared
@@ -427,7 +424,6 @@ class EBML_DLL_API EbmlElement {
     std::uint64_t SizePosition{0};
     bool bValueIsSet;
     bool DefaultIsSet{false};
-    bool bLocked{false};
 };
 
 } // namespace libebml
