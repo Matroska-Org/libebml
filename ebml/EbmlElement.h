@@ -190,15 +190,12 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define EBML_INFO(ref)             ref::ClassInfo()
 #define EBML_ID(ref)               ref::ClassId()
 #define EBML_CLASS_SEMCONTEXT(ref) Context_##ref
-#define EBML_CLASS_CONTEXT(ref)    ref::ClassInfo().GetContext()
-#define EBML_CLASS_CALLBACK(ref)   ref::ClassInfo()
 #define EBML_CONTEXT(e) (e)->Context()
 #define EBML_NAME(e)    (e)->DebugName()
 
 #define EBML_INFO_ID(cb)      (cb).ClassId()
 #define EBML_INFO_NAME(cb)    (cb).GetName()
 #define EBML_INFO_CREATE(cb)  (cb).NewElement()
-#define EBML_INFO_CONTEXT(cb) (cb).GetContext()
 
 #define EBML_SEM_CONTEXT(s) ((const EbmlCallbacks &)(s)).GetContext()
 #define EBML_SEM_CREATE(s)  (s).Create()
