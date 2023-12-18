@@ -306,7 +306,7 @@ using _GetSemanticContext = const class EbmlSemanticContext &(*)();
 */
 class EBML_DLL_API EbmlSemanticContext {
   public:
-    EbmlSemanticContext(std::size_t aSize,
+    constexpr EbmlSemanticContext(std::size_t aSize,
       const EbmlSemantic *aMyTable,
       const EbmlSemanticContext *aUpTable,
       const _GetSemanticContext aGetGlobalContext,
