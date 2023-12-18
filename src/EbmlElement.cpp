@@ -121,15 +121,6 @@ std::uint64_t ReadCodedSizeValue(const binary * InBuffer, std::uint32_t & Buffer
 }
 
 
-EbmlCallbacks::EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, const char * aDebugName, const EbmlSemanticContext & aContext)
-  :Create(Creator)
-  ,GlobalId(aGlobalId)
-  ,DebugName(aDebugName)
-  ,Context(aContext)
-{
-  assert(Create!=nullptr);
-}
-
 const EbmlSemantic & EbmlSemanticContext::GetSemantic(std::size_t i) const
 {
   assert(i<Size);
