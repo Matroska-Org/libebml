@@ -70,12 +70,8 @@ EbmlMaster::EbmlMaster(const EbmlMaster & ElementToClone)
 
 EbmlMaster::~EbmlMaster()
 {
-  assert(!IsLocked()); // you're trying to delete a locked element !!!
-
   for (auto Element : ElementList) {
-    if (!Element->IsLocked())  {
-      delete Element;
-    }
+    delete Element;
   }
 }
 
@@ -375,9 +371,7 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
   EbmlElement * ElementLevelA;
   // remove all existing elements, including the mandatory ones...
   for (auto Element : ElementList) {
-    if (!Element->IsLocked()) {
-        delete Element;
-    }
+    delete Element;
   }
   ElementList.clear();
   std::uint64_t MaxSizeToRead;

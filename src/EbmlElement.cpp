@@ -174,11 +174,6 @@ EbmlElement::EbmlElement(std::uint64_t aDefaultSize, bool bValueSet)
   Size = DefaultSize;
 }
 
-EbmlElement::~EbmlElement()
-{
-  assert(!bLocked);
-}
-
 /*!
   \todo this method is deprecated and should be called FindThisID
   \todo replace the new RawElement with the appropriate class (when known)
