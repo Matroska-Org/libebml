@@ -21,13 +21,13 @@ namespace libebml {
 */
 class EBML_DLL_API EbmlId {
   public:
-    EbmlId(const binary aValue[4], const unsigned int aLength)
+    constexpr EbmlId(const binary aValue[4], const unsigned int aLength)
       :Value(FromBuffer(aValue, aLength))
       ,Length(aLength)
     {
     }
 
-    EbmlId(const std::uint32_t aValue, const unsigned int aLength)
+    constexpr EbmlId(const std::uint32_t aValue, const unsigned int aLength)
       :Value(aValue), Length(aLength) {}
 
     inline bool operator==(const EbmlId & TestId) const
@@ -53,7 +53,7 @@ class EBML_DLL_API EbmlId {
     const std::uint32_t Value;
     const std::size_t Length;
 
-    static std::uint32_t FromBuffer(const binary aValue[4], const unsigned int aLength)
+    static constexpr std::uint32_t FromBuffer(const binary aValue[4], const unsigned int aLength)
     {
       std::uint32_t Value = 0;
       for (unsigned int i=0; i<aLength; i++) {
