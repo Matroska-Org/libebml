@@ -1,7 +1,7 @@
 [![Linux](https://github.com/Matroska-Org/libebml/actions/workflows/linux.yaml/badge.svg)](https://github.com/Matroska-Org/libebml/actions/workflows/linux.yaml)
 [![Windows](https://github.com/Matroska-Org/libebml/actions/workflows/windows.yaml/badge.svg)](https://github.com/Matroska-Org/libebml/actions/workflows/windows.yaml)
 [![macOS](https://github.com/Matroska-Org/libebml/actions/workflows/macos.yaml/badge.svg)](https://github.com/Matroska-Org/libebml/actions/workflows/macos.yaml)
-[![GCC10](https://github.com/Matroska-Org/libebml/actions/workflows/linux-gcc10.yaml/badge.svg)](https://github.com/Matroska-Org/libebml/actions/workflows/linux-gcc10.yaml)
+[![GCC13](https://github.com/Matroska-Org/libebml/actions/workflows/linux-gcc13.yaml/badge.svg)](https://github.com/Matroska-Org/libebml/actions/workflows/linux-gcc13.yaml)
 
 # libebml
 a C++ library to parse EBML files
