@@ -256,7 +256,14 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 */
 class EBML_DLL_API EbmlCallbacks {
   public:
-    EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, const char * aDebugName, const EbmlSemanticContext & aContext);
+    constexpr EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, const char * aDebugName, const EbmlSemanticContext & aContext)
+      :Create(Creator)
+      ,GlobalId(aGlobalId)
+      ,DebugName(aDebugName)
+      ,Context(aContext)
+    {
+      assert(Creator!=nullptr);
+    }
 
         inline const EbmlId & ClassId() const { return GlobalId; }
         inline const EbmlSemanticContext & GetContext() const { return Context; }
