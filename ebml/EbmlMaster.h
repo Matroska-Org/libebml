@@ -39,9 +39,9 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     */
     ~EbmlMaster() override;
 
-    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
+    filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully) override;
-    filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) override;
+    filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault, bool bForceRender = false) override;
 
     bool PushElement(EbmlElement & element);
     std::uint64_t GetSize() const override {
@@ -129,7 +129,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     /*!
       \brief facility for Master elements to write only the head and force the size later
     */
-    filepos_t WriteHead(IOCallback & output, int SizeLength, bool bWithDefault = false);
+    filepos_t WriteHead(IOCallback & output, int SizeLength, ShouldWrite writeFilter = WriteSkipDefault);
 
     void EnableChecksum(bool bIsEnabled = true) { bChecksumUsed = bIsEnabled; }
     bool HasChecksum() const {return bChecksumUsed;}

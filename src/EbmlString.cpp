@@ -53,7 +53,7 @@ const std::string & EbmlString::DefaultVal() const
 /*!
   \todo handle exception on errors
 */
-filepos_t EbmlString::RenderData(IOCallback & output, bool /* bForceRender */, bool /* bWithDefault */)
+filepos_t EbmlString::RenderData(IOCallback & output, bool /* bForceRender */, ShouldWrite /* writeFilter */)
 {
   filepos_t Result;
   output.writeFully(Value.c_str(), Value.length());
@@ -90,9 +90,9 @@ std::string EbmlString::GetValue() const {
   return Value;
 }
 
-std::uint64_t EbmlString::UpdateSize(bool bWithDefault, bool /* bForceRender */)
+std::uint64_t EbmlString::UpdateSize(ShouldWrite writeFilter, bool /* bForceRender */)
 {
-  if (!bWithDefault && IsDefaultValue())
+  if (!writeFilter(*this))
     return 0;
 
   if (Value.length() < GetDefaultSize()) {

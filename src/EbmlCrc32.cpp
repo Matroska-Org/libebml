@@ -161,7 +161,7 @@ void EbmlCrc32::AddElementCRC32(EbmlElement &ElementToCRC)
 {
   // Use a special IOCallback class that Render's to memory instead of to disk
   MemIOCallback memoryBuffer;
-  ElementToCRC.Render(memoryBuffer, true, true);
+  ElementToCRC.Render(memoryBuffer, WriteAll, true);
 
   const std::uint64_t memSize = memoryBuffer.GetDataBufferSize();
   if (memSize > std::numeric_limits<std::uint32_t>::max())
@@ -183,7 +183,7 @@ bool EbmlCrc32::CheckElementCRC32(EbmlElement &ElementToCRC) const
   return CheckCRC(m_crc_final, memoryBuffer.GetDataBuffer(), static_cast<std::uint32_t>(memSize));
 }
 
-filepos_t EbmlCrc32::RenderData(IOCallback & output, bool /* bForceRender */, bool /* bWithDefault */)
+filepos_t EbmlCrc32::RenderData(IOCallback & output, bool /* bForceRender */, ShouldWrite /* writeFilter */)
 {
   filepos_t Result = 4;
 

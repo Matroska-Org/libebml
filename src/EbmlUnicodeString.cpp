@@ -131,7 +131,7 @@ const UTFstring & EbmlUnicodeString::DefaultVal() const
 \note limited to UCS-2
 \todo handle exception on errors
 */
-filepos_t EbmlUnicodeString::RenderData(IOCallback & output, bool /* bForceRender */, bool /* bWithDefault */)
+filepos_t EbmlUnicodeString::RenderData(IOCallback & output, bool /* bForceRender */, ShouldWrite /* writeFilter */)
 {
   std::size_t Result = Value.GetUTF8().length();
 
@@ -179,9 +179,9 @@ std::string EbmlUnicodeString::GetValueUTF8() const {
 /*!
 \note limited to UCS-2
 */
-std::uint64_t EbmlUnicodeString::UpdateSize(bool bWithDefault, bool /* bForceRender */)
+std::uint64_t EbmlUnicodeString::UpdateSize(ShouldWrite writeFilter, bool /* bForceRender */)
 {
-  if (!bWithDefault && IsDefaultValue())
+  if (!writeFilter(*this))
     return 0;
 
   SetSize_(Value.GetUTF8().length());

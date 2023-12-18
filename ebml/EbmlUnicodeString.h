@@ -71,9 +71,9 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
     explicit EbmlUnicodeString(const EbmlCallbacks &, const UTFstring & DefaultValue);
 
     bool ValidateSize() const override {return true;} // any size is possible
-    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
+    filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
-    filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) override;
+    filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault, bool bForceRender = false) override;
 
     EbmlUnicodeString & operator=(const UTFstring &); ///< platform dependant code
     using EbmlElement::operator const EbmlId &;

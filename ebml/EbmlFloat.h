@@ -32,9 +32,9 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
       return (GetSize() == 4 || GetSize() == 8);
     }
 
-    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
+    filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
-    filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) override;
+    filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault, bool bForceRender = false) override;
 
     void SetPrecision(const EbmlFloat::Precision prec = FLOAT_32)
     {

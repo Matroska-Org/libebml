@@ -51,7 +51,7 @@ EbmlFloat & EbmlFloat::SetValue(double NewValue) {
   \todo handle exception on errors
   \todo handle 10 bits precision
 */
-filepos_t EbmlFloat::RenderData(IOCallback & output, bool /* bForceRender */, bool /* bWithDefault */)
+filepos_t EbmlFloat::RenderData(IOCallback & output, bool /* bForceRender */, ShouldWrite /* writeFilter */)
 {
   assert(GetSize() == 4 || GetSize() == 8);
 
@@ -74,9 +74,9 @@ filepos_t EbmlFloat::RenderData(IOCallback & output, bool /* bForceRender */, bo
   return GetSize();
 }
 
-std::uint64_t EbmlFloat::UpdateSize(bool bWithDefault, bool  /* bForceRender */)
+std::uint64_t EbmlFloat::UpdateSize(ShouldWrite writeFilter, bool /* bForceRender */)
 {
-  if (!bWithDefault && IsDefaultValue())
+  if (!writeFilter(*this))
     return 0;
   return GetSize();
 }

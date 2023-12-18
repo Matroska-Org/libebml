@@ -20,9 +20,9 @@ namespace libebml {
 DECLARE_EBML_BINARY(EbmlCrc32)
   public:
     bool ValidateSize() const override {return GetSize() == 4;}
-    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
+    filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
-//    filepos_t UpdateSize(bool bWithDefault = false);
+//    filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault);
 
     bool IsDefaultValue() const override {
       return false;
