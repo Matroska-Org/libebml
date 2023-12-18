@@ -64,8 +64,13 @@ EbmlMaster::EbmlMaster(const EbmlMaster & ElementToClone)
   auto myItr = ElementList.begin();
   while (Itr != ElementToClone.ElementList.end())
   {
-    *myItr = (*Itr)->Clone();
-    ++Itr; ++myItr;
+    auto *clone = (*Itr)->Clone();
+    if (clone != nullptr)
+    {
+     *myItr = clone;
+     ++myItr;
+    }
+    ++Itr;
   }
 
 }
