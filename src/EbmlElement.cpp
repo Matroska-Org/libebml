@@ -28,7 +28,6 @@
 
 /*!
   \file
-  \version \$Id$
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 

@@ -30,7 +30,6 @@
 
 /*!
   \file
-  \version \$Id$
   \author Moritz Bunkus <moritz@bunkus.org>
 */
 #ifndef LIBEBML_SAFEREADIOCALLBACK_H

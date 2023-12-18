@@ -30,7 +30,6 @@
 
 /*!
   \file
-  \version \$Id$
   \author Steve Lhomme     <robux4 @ users.sf.net>
   \author Moritz Bunkus <moritz @ bunkus.org>
   \author Jory Stone       <jcsston @ toughguy.net>

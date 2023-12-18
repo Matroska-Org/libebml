@@ -30,7 +30,6 @@
 
 /*!
   \file
-  \version \$Id: EbmlVoid.cpp 1232 2005-10-15 15:56:52Z robux4 $
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #include "ebml/EbmlVoid.h"

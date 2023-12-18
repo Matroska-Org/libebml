@@ -28,7 +28,6 @@
 
 /*!
   \file
-  \version \$Id: IOCallback.h 639 2004-07-09 20:59:14Z mosu $
 */
 #ifndef MATROSKA_IOCALLBACK_H
 #define MATROSKA_IOCALLBACK_H

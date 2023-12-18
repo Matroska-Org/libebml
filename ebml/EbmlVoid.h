@@ -30,7 +30,6 @@
 
 /*!
   \file
-  \version \$Id: EbmlVoid.h 1079 2005-03-03 13:18:14Z robux4 $
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #ifndef LIBEBML_VOID_H

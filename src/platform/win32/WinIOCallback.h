@@ -27,7 +27,6 @@
 **********************************************************************/
 /*!
   \file
-  \version \$Id: WinIOCallback.h 1090 2005-03-16 12:47:59Z robux4 $
   \author Steve Lhomme     <robux4 @ users.sf.net>
   \author Jory Stone       <jcsston @ toughguy.net>
   \author Cyrius           <suiryc @ users.sf.net>

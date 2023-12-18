@@ -30,7 +30,6 @@
 
 /*!
   \file
-  \version \$Id: EbmlSubHead.h 639 2004-07-09 20:59:14Z mosu $
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #ifndef LIBEBML_SUBHEAD_H
