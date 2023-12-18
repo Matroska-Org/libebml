@@ -87,32 +87,6 @@ int CodedSizeLength(std::uint64_t Length, unsigned int SizeLength, bool bSizeIsF
   return static_cast<int>(CodedSize);
 }
 
-/*!
-  \todo handle more than CodedSize of 5
-*/
-int CodedSizeLengthSigned(std::int64_t Length, unsigned int SizeLength)
-{
-  unsigned int CodedSize;
-  // prepare the head of the size (000...01xxxxxx)
-  // optimal size
-  if (Length > -64 && Length < 64) // 2^6
-    CodedSize = 1;
-  else if (Length > -8192 && Length < 8192) // 2^13
-    CodedSize = 2;
-  else if (Length > -1048576L && Length < 1048576L) // 2^20
-    CodedSize = 3;
-  else if (Length > -134217728L && Length < 134217728L) // 2^27
-    CodedSize = 4;
-  else CodedSize = 5;
-
-  if (SizeLength > 0 && CodedSize < SizeLength) {
-    // defined size
-    CodedSize = SizeLength;
-  }
-
-  return CodedSize;
-}
-
 int CodedValueLength(std::uint64_t Length, int CodedSize, binary * OutBuffer)
 {
   int _SizeMask = 0xFF;
@@ -125,20 +99,6 @@ int CodedValueLength(std::uint64_t Length, int CodedSize, binary * OutBuffer)
   // first one use a OR with the "EBML size head"
   OutBuffer[0] |= Length & 0xFF & _SizeMask;
   return CodedSize;
-}
-
-int CodedValueLengthSigned(std::int64_t Length, int CodedSize, binary * OutBuffer)
-{
-  if (Length > -64 && Length < 64) // 2^6
-    Length += 63;
-  else if (Length > -8192 && Length < 8192) // 2^13
-    Length += 8191;
-  else if (Length > -1048576L && Length < 1048576L) // 2^20
-    Length += 1048575L;
-  else if (Length > -134217728L && Length < 134217728L) // 2^27
-    Length += 134217727L;
-
-  return CodedValueLength(Length, CodedSize, OutBuffer);
 }
 
 std::uint64_t ReadCodedSizeValue(const binary * InBuffer, std::uint32_t & BufferSize, std::uint64_t & SizeUnknown)
@@ -184,30 +144,6 @@ std::uint64_t ReadCodedSizeValue(const binary * InBuffer, std::uint32_t & Buffer
 
   BufferSize = 0;
   return 0;
-}
-
-std::int64_t ReadCodedSizeSignedValue(const binary * InBuffer, std::uint32_t & BufferSize, std::uint64_t & SizeUnknown)
-{
-  std::int64_t Result = ReadCodedSizeValue(InBuffer, BufferSize, SizeUnknown);
-
-  if (BufferSize != 0) {
-    switch (BufferSize) {
-      case 1:
-        Result -= 63;
-        break;
-      case 2:
-        Result -= 8191;
-        break;
-      case 3:
-        Result -= 1048575L;
-        break;
-      case 4:
-        Result -= 134217727L;
-        break;
-    }
-  }
-
-  return Result;
 }
 
 

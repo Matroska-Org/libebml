@@ -68,28 +68,6 @@ int EBML_DLL_API CodedValueLength(std::uint64_t Value, int CodedSize, binary * O
 */
 std::uint64_t EBML_DLL_API ReadCodedSizeValue(const binary * InBuffer, std::uint32_t & BufferSize, std::uint64_t & SizeUnknown);
 
-/*!
-  \brief The size of the EBML-coded signed integer
-  \param Value value to get the signed integer
-  \param MinSizeLength minimum size length to encode the value (0 for shortest size)
-*/
-int EBML_DLL_API CodedSizeLengthSigned(std::int64_t Value, unsigned int MinSizeLength);
-
-/*!
-  \brief The coded value of the EBML-coded signed integer
-  \param Value value to encode as EBML signed integer
-  \param CodedSize amount of octets to use to write the integer
-  \param OutBuffer buffer to write the EBML-coded signed integer
-  \note The size of OutBuffer must be at least CodedSize octets big
-*/
-int EBML_DLL_API CodedValueLengthSigned(std::int64_t Value, int CodedSize, binary * OutBuffer);
-
-/*!
-  \brief Read a signed EBML-coded value from a buffer
-  \return the value read
-*/
-std::int64_t EBML_DLL_API ReadCodedSizeSignedValue(const binary * InBuffer, std::uint32_t & BufferSize, std::uint64_t & SizeUnknown);
-
 class EbmlStream;
 class EbmlSemanticContext;
 class EbmlElement;
