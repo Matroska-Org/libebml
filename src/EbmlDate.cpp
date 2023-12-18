@@ -31,7 +31,7 @@ filepos_t EbmlDate::ReadData(IOCallback & input, ScopeMode ReadFully)
   return GetSize();
 }
 
-filepos_t EbmlDate::RenderData(IOCallback & output, bool /* bForceRender */, bool  /* bWithDefault */)
+filepos_t EbmlDate::RenderData(IOCallback & output, bool /* bForceRender */, ShouldWrite /* writeFilter */)
 {
   assert(GetSize() == 8 || GetSize() == 0);
   if (GetSize() == 8) {

@@ -475,18 +475,18 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 /*!
   \todo verify that the size written is the same as the data written
 */
-filepos_t EbmlElement::Render(IOCallback & output, bool bWithDefault, bool bKeepPosition, bool bForceRender)
+filepos_t EbmlElement::Render(IOCallback & output, ShouldWrite writeFilter, bool bKeepPosition, bool bForceRender)
 {
-  assert(bValueIsSet || (bWithDefault && DefaultISset())); // an element is been rendered without a value set !!!
+  assert(bValueIsSet || writeFilter(*this)); // an element is been rendered without a value set !!!
   // it may be a mandatory element without a default value
-  if (!bWithDefault && IsDefaultValue()) {
+  if (!writeFilter(*this)) {
     return 0;
   }
 #if !defined(NDEBUG)
-  std::uint64_t SupposedSize = UpdateSize(bWithDefault, bForceRender);
+  std::uint64_t SupposedSize = UpdateSize(writeFilter, bForceRender);
 #endif // !NDEBUG
-  filepos_t result = RenderHead(output, bForceRender, bWithDefault, bKeepPosition);
-  const std::uint64_t WrittenSize = RenderData(output, bForceRender, bWithDefault);
+  filepos_t result = RenderHead(output, bForceRender, writeFilter, bKeepPosition);
+  const std::uint64_t WrittenSize = RenderData(output, bForceRender, writeFilter);
 #if !defined(NDEBUG)
   if (static_cast<std::int64_t>(SupposedSize) != (0-1))
     assert(WrittenSize == SupposedSize);
@@ -500,12 +500,12 @@ filepos_t EbmlElement::Render(IOCallback & output, bool bWithDefault, bool bKeep
   \todo handle exceptions on errors
   \todo handle CodeSize bigger than 5 bytes
 */
-filepos_t EbmlElement::RenderHead(IOCallback & output, bool bForceRender, bool bWithDefault, bool bKeepPosition)
+filepos_t EbmlElement::RenderHead(IOCallback & output, bool bForceRender, ShouldWrite writeFilter, bool bKeepPosition)
 {
   if (EBML_ID_LENGTH((const EbmlId&)*this) <= 0 || EBML_ID_LENGTH((const EbmlId&)*this) > 4)
     return 0;
 
-  UpdateSize(bWithDefault, bForceRender);
+  UpdateSize(writeFilter, bForceRender);
 
   return MakeRenderHead(output, bKeepPosition);
 }
@@ -531,9 +531,9 @@ filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
   return FinalHeadSize;
 }
 
-std::uint64_t EbmlElement::ElementSize(bool bWithDefault) const
+std::uint64_t EbmlElement::ElementSize(ShouldWrite writeFilter) const
 {
-  if (!bWithDefault && IsDefaultValue())
+  if (!writeFilter(*this))
     return 0; // won't be saved
   return Size + EBML_ID_LENGTH((const EbmlId&)*this) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
 }
@@ -602,21 +602,21 @@ filepos_t EbmlElement::OverwriteData(IOCallback & output, bool bKeepPosition)
 
   auto CurrentPosition = output.getFilePointer();
   output.setFilePointer(GetElementPosition() + HeaderSize);
-  auto Result = RenderData(output, true, bKeepPosition);
+  auto Result = RenderData(output, true, bKeepPosition ? WriteAll : WriteSkipDefault);
   output.setFilePointer(CurrentPosition);
   assert(Result == DataSize);
   return Result;
 }
 
 
-std::uint64_t EbmlElement::VoidMe(IOCallback & output, bool bWithDefault) const
+std::uint64_t EbmlElement::VoidMe(IOCallback & output, ShouldWrite writeFilter) const
 {
   if (ElementPosition == 0) {
     return 0; // the element has not been written
   }
 
   EbmlVoid Dummy;
-  return Dummy.Overwrite(*this, output, true, bWithDefault);
+  return Dummy.Overwrite(*this, output, true, writeFilter);
 }
 
 } // namespace libebml

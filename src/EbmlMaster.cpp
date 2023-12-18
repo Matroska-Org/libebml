@@ -49,7 +49,7 @@ EbmlMaster::~EbmlMaster()
   \todo handle exception on errors
   \todo write all the Mandatory elements in the Context, otherwise assert
 */
-filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, bool bWithDefault)
+filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter)
 {
   filepos_t Result = 0;
 
@@ -59,16 +59,16 @@ filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, bool bW
 
   if (!bChecksumUsed) { // old school
     for (auto Element : ElementList) {
-      if (!bWithDefault && Element->IsDefaultValue())
+      if (!writeFilter(*Element))
         continue;
-      Result += Element->Render(output, bWithDefault, false ,bForceRender);
+      Result += Element->Render(output, writeFilter, false ,bForceRender);
     }
   } else { // new school
     MemIOCallback TmpBuf(GetSize() - 6);
     for (auto Element : ElementList) {
-      if (!bWithDefault && Element->IsDefaultValue())
+      if (!writeFilter(*Element))
         continue;
-      Element->Render(TmpBuf, bWithDefault, false ,bForceRender);
+      Element->Render(TmpBuf, writeFilter, false ,bForceRender);
     }
     std::uint64_t memSize = TmpBuf.GetDataBufferSize();
     binary *memStart = TmpBuf.GetDataBuffer();
@@ -78,7 +78,7 @@ filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, bool bW
       memStart += fillSize;
       memSize -= fillSize;
     }
-    Result += Checksum.Render(output, true, false ,bForceRender);
+    Result += Checksum.Render(output, writeFilter, false ,bForceRender);
     output.writeFully(TmpBuf.GetDataBuffer(), TmpBuf.GetDataBufferSize());
     Result += TmpBuf.GetDataBufferSize();
   }
@@ -95,7 +95,7 @@ bool EbmlMaster::PushElement(EbmlElement & element)
   return true;
 }
 
-std::uint64_t EbmlMaster::UpdateSize(bool bWithDefault, bool bForceRender)
+std::uint64_t EbmlMaster::UpdateSize(ShouldWrite writeFilter, bool bForceRender)
 {
   SetSize_(0);
 
@@ -107,10 +107,10 @@ std::uint64_t EbmlMaster::UpdateSize(bool bWithDefault, bool bForceRender)
     }
 
   for (auto Element : ElementList) {
-    if (!bWithDefault && Element->IsDefaultValue())
+    if (!writeFilter(*Element))
       continue;
-    Element->UpdateSize(bWithDefault, bForceRender);
-    const std::uint64_t SizeToAdd = Element->ElementSize(bWithDefault);
+    Element->UpdateSize(writeFilter, bForceRender);
+    const std::uint64_t SizeToAdd = Element->ElementSize(writeFilter);
 #if !defined(NDEBUG)
     if (static_cast<std::int64_t>(SizeToAdd) == (0-1))
       return (0-1);
@@ -124,10 +124,10 @@ std::uint64_t EbmlMaster::UpdateSize(bool bWithDefault, bool bForceRender)
   return GetSize();
 }
 
-filepos_t EbmlMaster::WriteHead(IOCallback & output, int nSizeLength, bool bWithDefault)
+filepos_t EbmlMaster::WriteHead(IOCallback & output, int nSizeLength, ShouldWrite writeFilter)
 {
   SetSizeLength(nSizeLength);
-  return RenderHead(output, false, bWithDefault);
+  return RenderHead(output, false, writeFilter);
 }
 
 /*!
@@ -480,7 +480,7 @@ bool EbmlMaster::VerifyChecksum() const
   /// \todo find another way when not all default values are saved or (unknown from the reader !!!)
   MemIOCallback TmpBuf(GetSize() - 6);
   for (auto Element : ElementList) {
-    Element->Render(TmpBuf, true, false, true);
+    Element->Render(TmpBuf, WriteAll, false, true);
   }
   std::uint64_t memSize = TmpBuf.GetDataBufferSize();
   binary *memStart = TmpBuf.GetDataBuffer();

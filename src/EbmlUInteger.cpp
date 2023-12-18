@@ -50,7 +50,7 @@ EbmlUInteger & EbmlUInteger::SetValue(std::uint64_t NewValue) {
 /*!
   \todo handle exception on errors
 */
-filepos_t EbmlUInteger::RenderData(IOCallback & output, bool /* bForceRender */, bool /* bWithDefault */)
+filepos_t EbmlUInteger::RenderData(IOCallback & output, bool /* bForceRender */, ShouldWrite /* writeFilter */)
 {
   std::array<binary, 8> FinalData; // we don't handle more than 64 bits integers
 
@@ -68,9 +68,9 @@ filepos_t EbmlUInteger::RenderData(IOCallback & output, bool /* bForceRender */,
   return GetSize();
 }
 
-std::uint64_t EbmlUInteger::UpdateSize(bool bWithDefault, bool /* bForceRender */)
+std::uint64_t EbmlUInteger::UpdateSize(ShouldWrite writeFilter, bool /* bForceRender */)
 {
-  if (!bWithDefault && IsDefaultValue())
+  if (!writeFilter(*this))
     return 0;
 
   if (Value <= 0xFF) {

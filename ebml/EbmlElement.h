@@ -293,6 +293,21 @@ class EBML_DLL_API EbmlSemanticContext {
 */
 class EBML_DLL_API EbmlElement {
   public:
+    // callback to tell if the element should be written or not
+    // \return true if the element should be written
+    using ShouldWrite = bool (*)(const EbmlElement &);
+
+    // write only elements that don't have their default value set
+    static bool WriteSkipDefault(const EbmlElement &elt) {
+      if (elt.IsDefaultValue())
+        return false;
+      return true;
+    }
+
+    static bool WriteAll(const EbmlElement &elt) {
+      return true;
+    }
+
     explicit EbmlElement(const EbmlCallbacks &, std::uint64_t aDefaultSize, bool bValueSet = false);
     virtual ~EbmlElement() = default;
     EbmlElement& operator=(const EbmlElement&) = delete;
@@ -345,11 +360,11 @@ class EBML_DLL_API EbmlElement {
       return ElementPosition;
     }
 
-    std::uint64_t ElementSize(bool bWithDefault = false) const; /// return the size of the header+data, before writing
+    std::uint64_t ElementSize(ShouldWrite writeFilter = WriteSkipDefault) const; /// return the size of the header+data, before writing
 
-    filepos_t Render(IOCallback & output, bool bWithDefault = false, bool bKeepPosition = false, bool bForceRender = false);
+    filepos_t Render(IOCallback & output, ShouldWrite writeFilter = WriteSkipDefault, bool bKeepPosition = false, bool bForceRender = false);
 
-    virtual filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) = 0; /// update the Size of the Data stored
+    virtual filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault, bool bForceRender = false) = 0; /// update the Size of the Data stored
     virtual filepos_t GetSize() const {return Size;} /// return the size of the data stored in the element, on reading
 
     virtual filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) = 0;
@@ -380,7 +395,7 @@ class EBML_DLL_API EbmlElement {
     /*!
       \brief void the content of the element (replace by EbmlVoid)
     */
-    std::uint64_t VoidMe(IOCallback & output, bool bWithDefault = false) const;
+    std::uint64_t VoidMe(IOCallback & output, ShouldWrite writeFilter = WriteSkipDefault) const;
 
     bool DefaultISset() const {return DefaultIsSet;}
     void ForceNoDefault() {SetDefaultIsSet(false);}
@@ -406,13 +421,13 @@ class EBML_DLL_API EbmlElement {
     */
     static EbmlElement *CreateElementUsingContext(const EbmlId & aID, const EbmlSemanticContext & Context, int & LowLevel, bool IsGlobalContext, bool bAllowDummy = false, unsigned int MaxLowerLevel = 1);
 
-    filepos_t RenderHead(IOCallback & output, bool bForceRender, bool bWithDefault = false, bool bKeepPosition = false);
+    filepos_t RenderHead(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault, bool bKeepPosition = false);
     filepos_t MakeRenderHead(IOCallback & output, bool bKeepPosition);
 
     /*!
       \brief prepare the data before writing them (in case it's not already done by default)
     */
-    virtual filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) = 0;
+    virtual filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) = 0;
 
     /*!
       \brief special constructor for cloning
@@ -440,5 +455,7 @@ class EBML_DLL_API EbmlElement {
 };
 
 } // namespace libebml
+
+#define EBML_WRITE_FILTER 1
 
 #endif // LIBEBML_ELEMENT_H

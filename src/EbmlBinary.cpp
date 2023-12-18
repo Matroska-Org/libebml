@@ -50,7 +50,7 @@ EbmlBinary::~EbmlBinary() {
 EbmlBinary::operator const binary &() const {return *Data;}
 
 
-filepos_t EbmlBinary::RenderData(IOCallback & output, bool /* bForceRender */, bool /* bWithDefault */)
+filepos_t EbmlBinary::RenderData(IOCallback & output, bool /* bForceRender */, ShouldWrite /* writeFilter */)
 {
   output.writeFully(Data,GetSize());
 
@@ -60,7 +60,7 @@ filepos_t EbmlBinary::RenderData(IOCallback & output, bool /* bForceRender */, b
 /*!
   \note no Default binary value handled
 */
-std::uint64_t EbmlBinary::UpdateSize(bool /* bWithDefault */, bool /* bForceRender */)
+std::uint64_t EbmlBinary::UpdateSize(ShouldWrite /* writeFilter */, bool /* bForceRender */)
 {
   return GetSize();
 }

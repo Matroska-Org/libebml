@@ -40,7 +40,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
     /*!
       \note no Default date handled
     */
-    filepos_t UpdateSize(bool /* bWithDefault = false */, bool /* bForceRender = false */) override {
+    filepos_t UpdateSize(ShouldWrite /* writeFilter */, bool /* bForceRender = false */) override {
       if(!ValueIsSet())
         SetSize_(0);
       else
@@ -57,7 +57,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
     }
 
     private:
-    filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
+    filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;
 
     std::int64_t myDate{0}; ///< internal format of the date
 
