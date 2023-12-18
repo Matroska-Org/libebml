@@ -1,4 +1,4 @@
-name: "Linux+gcc10"
+name: "Linux+gcc13"
 on:
   push:
     branches: [ master ]
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build_libebml:
-    name: libebml with gcc10
+    name: libebml with gcc13
     runs-on: ubuntu-latest
     env:
       CMAKE_OPTIONS: -DCMAKE_CXX_EXTENSIONS=OFF
@@ -16,12 +16,12 @@ jobs:
 
       - name: Get pushed code
         uses: actions/checkout@v3
-      
+
       - name: Configure
         run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
         env:
-          CC:  gcc-10
-          CXX: g++-10
+          CC:  gcc-13
+          CXX: g++-13
 
       - name: Build
         run: cmake --build _build --parallel
