@@ -61,7 +61,11 @@ EbmlMaster::EbmlMaster(const EbmlMaster & ElementToClone)
   ElementList.reserve(ElementToClone.ListSize());
   // add a clone of the list
   for (const auto& e : ElementToClone.ElementList)
-    ElementList.push_back(e->Clone());
+  {
+    auto *clone = e->Clone();
+    if (clone != nullptr)
+      ElementList.push_back(clone);
+  }
 }
 
 EbmlMaster::~EbmlMaster()
