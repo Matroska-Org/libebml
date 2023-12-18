@@ -23,10 +23,9 @@ const int DEFAULT_INT_SIZE = 1; ///< optimal size stored
     \class EbmlSInteger
     \brief Handle all operations on a signed integer EBML element
 */
-class EBML_DLL_API EbmlSInteger : public EbmlElement {
+class EBML_DLL_API EbmlSInteger : public EbmlElementDefault<std::int64_t> {
   public:
-    EbmlSInteger(const EbmlCallbacks &);
-    explicit EbmlSInteger(const EbmlCallbacks &, std::int64_t DefaultValue);
+    EbmlSInteger(const EbmlCallbacksDefault<std::int64_t> &);
 
     /*!
       Set the default size of the integer (usually 1,2,4 or 8)
@@ -49,17 +48,12 @@ class EBML_DLL_API EbmlSInteger : public EbmlElement {
     EbmlSInteger &SetValue(std::int64_t NewValue);
     std::int64_t GetValue() const;
 
-    void SetDefaultValue(std::int64_t aValue) {assert(!DefaultISset()); DefaultValue = aValue; SetDefaultIsSet();}
-
-    std::int64_t DefaultVal() const {assert(DefaultISset()); return DefaultValue;}
-
-    bool IsDefaultValue() const override {
-      return (DefaultISset() && Value == DefaultValue);
+    bool operator==(const std::int64_t & val) const override {
+      return val == Value;
     }
 
     private:
     std::int64_t Value; /// The actual value of the element
-    std::int64_t DefaultValue;
 };
 
 } // namespace libebml

@@ -65,10 +65,9 @@ private:
     \brief Handle all operations on a Unicode string EBML element
   \note internally treated as a string made of wide characters (ie UCS-2 or UCS-4 depending on the machine)
 */
-class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
+class EBML_DLL_API EbmlUnicodeString : public EbmlElementDefault<const wchar_t *> {
   public:
-    EbmlUnicodeString(const EbmlCallbacks &);
-    explicit EbmlUnicodeString(const EbmlCallbacks &, const UTFstring & DefaultValue);
+    EbmlUnicodeString(const EbmlCallbacksDefault<const wchar_t *> &);
 
     bool ValidateSize() const override {return true;} // any size is possible
     filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;
@@ -83,17 +82,12 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
     UTFstring GetValue() const;
     std::string GetValueUTF8() const;
 
-    void SetDefaultValue(UTFstring &);
-
-    const UTFstring & DefaultVal() const;
-
-    bool IsDefaultValue() const override {
-      return (DefaultISset() && Value == DefaultValue);
+    bool operator==(const wchar_t * const & val) const override {
+      return static_cast<UTFstring>(val) == Value;
     }
 
     private:
     UTFstring Value; /// The actual value of the element
-    UTFstring DefaultValue;
 };
 
 } // namespace libebml

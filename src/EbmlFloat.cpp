@@ -12,30 +12,15 @@
 
 namespace libebml {
 
-EbmlFloat::EbmlFloat(const EbmlCallbacks & classInfo, const EbmlFloat::Precision prec)
-  :EbmlElement(classInfo, 0, false)
+EbmlFloat::EbmlFloat(const EbmlCallbacksDefault<double> & classInfo, const EbmlFloat::Precision prec)
+  :EbmlElementDefault(classInfo, 0)
 {
   SetPrecision(prec);
-}
-
-EbmlFloat::EbmlFloat(const EbmlCallbacks & classInfo, const double aDefaultValue, const EbmlFloat::Precision prec)
-  :EbmlElement(classInfo, 0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
-{
-  SetDefaultIsSet();
-  SetPrecision(prec);
-}
-
-void EbmlFloat::SetDefaultValue(double aValue)
-{
-  assert(!DefaultISset());
-  DefaultValue = aValue;
-  SetDefaultIsSet();
-}
-
-double EbmlFloat::DefaultVal() const
-{
-  assert(DefaultISset());
-  return DefaultValue;
+  if (classInfo.HasDefault())
+  {
+    auto def = static_cast<const EbmlCallbacksWithDefault<double> &>(classInfo);
+    SetValue(def.DefaultValue());
+  }
 }
 
 EbmlFloat::operator float() const {return static_cast<float>(Value);}

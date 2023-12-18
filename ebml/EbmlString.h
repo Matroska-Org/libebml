@@ -19,10 +19,9 @@ namespace libebml {
     \class EbmlString
     \brief Handle all operations on a printable string EBML element
 */
-class EBML_DLL_API EbmlString : public EbmlElement {
+class EBML_DLL_API EbmlString : public EbmlElementDefault<const char *> {
   public:
-    EbmlString(const EbmlCallbacks &);
-    explicit EbmlString(const EbmlCallbacks &, const std::string & aDefaultValue);
+    EbmlString(const EbmlCallbacksDefault<const char *> &);
 
     bool ValidateSize() const override {return GetSize() < 0x7FFFFFFF;} // any size is possible
     filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;
@@ -35,17 +34,12 @@ class EBML_DLL_API EbmlString : public EbmlElement {
     EbmlString &SetValue(std::string const &NewValue);
     std::string GetValue() const;
 
-    void SetDefaultValue(std::string &);
-
-    const std::string & DefaultVal() const;
-
-    bool IsDefaultValue() const override {
-      return (DefaultISset() && Value == DefaultValue);
+    bool operator==(const char * const & val) const override {
+      return val == Value;
     }
 
     private:
     std::string Value;  /// The actual value of the element
-    std::string DefaultValue;
 };
 
 } // namespace libebml

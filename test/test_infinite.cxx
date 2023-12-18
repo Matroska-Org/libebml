@@ -7,7 +7,7 @@
 
 using namespace libebml;
 
-DECLARE_xxx_UINTEGER(DummyChild,)
+DECLARE_xxx_UINTEGER_DEF(DummyChild,)
 EBML_CONCRETE_CLASS(DummyChild)
 };
 

@@ -15,37 +15,37 @@
 
 namespace libebml {
 
-DECLARE_EBML_UINTEGER(EVersion)
+DECLARE_EBML_UINTEGER_DEF(EVersion)
   public:
         EBML_CONCRETE_CLASS(EVersion)
 };
 
-DECLARE_EBML_UINTEGER(EReadVersion)
+DECLARE_EBML_UINTEGER_DEF(EReadVersion)
   public:
         EBML_CONCRETE_CLASS(EReadVersion)
 };
 
-DECLARE_EBML_UINTEGER(EMaxIdLength)
+DECLARE_EBML_UINTEGER_DEF(EMaxIdLength)
   public:
         EBML_CONCRETE_CLASS(EMaxIdLength)
 };
 
-DECLARE_EBML_UINTEGER(EMaxSizeLength)
+DECLARE_EBML_UINTEGER_DEF(EMaxSizeLength)
   public:
         EBML_CONCRETE_CLASS(EMaxSizeLength)
 };
 
-DECLARE_EBML_STRING(EDocType)
+DECLARE_EBML_STRING_DEF(EDocType)
   public:
         EBML_CONCRETE_CLASS(EDocType)
 };
 
-DECLARE_EBML_UINTEGER(EDocTypeVersion)
+DECLARE_EBML_UINTEGER_DEF(EDocTypeVersion)
   public:
         EBML_CONCRETE_CLASS(EDocTypeVersion)
 };
 
-DECLARE_EBML_UINTEGER(EDocTypeReadVersion)
+DECLARE_EBML_UINTEGER_DEF(EDocTypeReadVersion)
   public:
         EBML_CONCRETE_CLASS(EDocTypeReadVersion)
 };

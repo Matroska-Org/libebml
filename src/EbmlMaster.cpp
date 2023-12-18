@@ -170,13 +170,12 @@ bool EbmlMaster::CheckMandatory() const
   for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
     if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory()) {
       if (FindElt(EBML_CTX_IDX_INFO(MasterContext,EltIdx)) == nullptr) {
-        const auto testElement = &EBML_CTX_IDX(MasterContext,EltIdx).Create();
-        const bool hasDefaultValue = testElement->DefaultISset();
-        delete testElement;
+        const auto & semcb = EBML_CTX_IDX(MasterContext,EltIdx).GetCallbacks();
+        const bool hasDefaultValue = semcb.HasDefault();
 
 #if !defined(NDEBUG)
         // you are missing this Mandatory element
-//         const char * MissingName = EBML_INFO_NAME(EBML_CTX_IDX_INFO(MasterContext,EltIdx));
+//         const char * MissingName = semcb.GetName();
 #endif // !NDEBUG
         if (!hasDefaultValue)
           return false;
