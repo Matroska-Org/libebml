@@ -17,9 +17,16 @@ namespace libebml {
     \class EbmlDate
     \brief Handle all operations related to an EBML date
 */
-class EBML_DLL_API EbmlDate : public EbmlElement {
+class EBML_DLL_API EbmlDate : public EbmlElementDefault<std::int64_t> {
   public:
-    EbmlDate(const EbmlCallbacks & classInfo) :EbmlElement(classInfo, 8, false) {}
+    EbmlDate(const EbmlCallbacksDefault<std::int64_t> & classInfo) :EbmlElementDefault<std::int64_t>(classInfo, 8)
+    {
+      if (classInfo.HasDefault())
+      {
+        auto def = static_cast<const EbmlCallbacksWithDefault<std::int64_t> &>(classInfo);
+        SetValue(def.DefaultValue());
+      }
+    }
 
     /*!
       \brief set the date with a UNIX/C/EPOCH form
@@ -52,8 +59,8 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
 
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
 
-    bool IsDefaultValue() const override {
-      return false;
+    bool operator==(const std::int64_t & val) const override {
+      return val == Value;
     }
 
     private:

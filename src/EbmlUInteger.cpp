@@ -13,27 +13,14 @@
 
 namespace libebml {
 
-EbmlUInteger::EbmlUInteger(const EbmlCallbacks & classInfo)
-  :EbmlElement(classInfo, DEFAULT_UINT_SIZE, false)
-{}
-
-EbmlUInteger::EbmlUInteger(const EbmlCallbacks & classInfo, std::uint64_t aDefaultValue)
-  :EbmlElement(classInfo, DEFAULT_UINT_SIZE, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
+EbmlUInteger::EbmlUInteger(const EbmlCallbacksDefault<std::uint64_t> & classInfo)
+  :EbmlElementDefault(classInfo, DEFAULT_UINT_SIZE)
 {
-  SetDefaultIsSet();
-}
-
-void EbmlUInteger::SetDefaultValue(std::uint64_t aValue)
-{
-  assert(!DefaultISset());
-  DefaultValue = aValue;
-  SetDefaultIsSet();
-}
-
-std::uint64_t EbmlUInteger::DefaultVal() const
-{
-  assert(DefaultISset());
-  return DefaultValue;
+  if (classInfo.HasDefault())
+  {
+    auto def = static_cast<const EbmlCallbacksWithDefault<std::uint64_t> &>(classInfo);
+    SetValue(def.DefaultValue());
+  }
 }
 
 EbmlUInteger::operator std::uint8_t()  const {return static_cast<std::uint8_t>(Value); }

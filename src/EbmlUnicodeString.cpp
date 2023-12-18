@@ -100,32 +100,15 @@ void UTFstring::UpdateFromUCS2(const std::wstring & WString)
 
 // ===================== EbmlUnicodeString class ===================
 
-EbmlUnicodeString::EbmlUnicodeString(const EbmlCallbacks & classInfo)
-  :EbmlElement(classInfo, 0, false)
+EbmlUnicodeString::EbmlUnicodeString(const EbmlCallbacksDefault<const wchar_t *> & classInfo)
+  :EbmlElementDefault(classInfo, 0)
 {
-  SetDefaultSize(0);
+  if (classInfo.HasDefault())
+  {
+    auto def = static_cast<const EbmlCallbacksWithDefault<const wchar_t *> &>(classInfo);
+    SetValue(UTFstring{def.DefaultValue()});
+  }
 }
-
-EbmlUnicodeString::EbmlUnicodeString(const EbmlCallbacks & classInfo, const UTFstring & aDefaultValue)
-  :EbmlElement(classInfo, 0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
-{
-  SetDefaultSize(0);
-  SetDefaultIsSet();
-}
-
-void EbmlUnicodeString::SetDefaultValue(UTFstring & aValue)
-{
-  assert(!DefaultISset());
-  DefaultValue = aValue;
-  SetDefaultIsSet();
-}
-
-const UTFstring & EbmlUnicodeString::DefaultVal() const
-{
-  assert(DefaultISset());
-  return DefaultValue;
-}
-
 
 /*!
 \note limited to UCS-2

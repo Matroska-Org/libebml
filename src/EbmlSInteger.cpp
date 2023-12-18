@@ -31,14 +31,14 @@ ToSigned(std::uint64_t u) {
 
 namespace libebml {
 
-EbmlSInteger::EbmlSInteger(const EbmlCallbacks & classInfo)
-  :EbmlElement(classInfo, DEFAULT_INT_SIZE, false)
-{}
-
-EbmlSInteger::EbmlSInteger(const EbmlCallbacks & classInfo, std::int64_t aDefaultValue)
-  :EbmlElement(classInfo, DEFAULT_INT_SIZE, true), Value(aDefaultValue)
+EbmlSInteger::EbmlSInteger(const EbmlCallbacksDefault<std::int64_t> & classInfo)
+  :EbmlElementDefault(classInfo, DEFAULT_INT_SIZE)
 {
-  SetDefaultIsSet();
+  if (classInfo.HasDefault())
+  {
+    auto def = static_cast<const EbmlCallbacksWithDefault<std::int64_t> &>(classInfo);
+    SetValue(def.DefaultValue());
+  }
 }
 
 EbmlSInteger::operator std::int8_t() const {return  static_cast<std::int8_t>(Value);}

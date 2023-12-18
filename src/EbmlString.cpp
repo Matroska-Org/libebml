@@ -12,43 +12,15 @@
 
 namespace libebml {
 
-EbmlString::EbmlString(const EbmlCallbacks & classInfo)
-  :EbmlElement(classInfo, 0, false)
+EbmlString::EbmlString(const EbmlCallbacksDefault<const char *> & classInfo)
+  :EbmlElementDefault(classInfo, 0)
 {
-  SetDefaultSize(0);
-/* done automatically
-  SetSize_(Value.length());
-  if (GetDefaultSize() > GetSize())
-    SetSize_(GetDefaultSize());*/
+  if (classInfo.HasDefault())
+  {
+    auto def = static_cast<const EbmlCallbacksWithDefault<const char *> &>(classInfo);
+    SetValue(def.DefaultValue());
+  }
 }
-
-EbmlString::EbmlString(const EbmlCallbacks & classInfo, const std::string & aDefaultValue)
-  :EbmlElement(classInfo, 0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
-{
-  SetDefaultSize(0);
-  SetDefaultIsSet();
-/* done automatically
-  SetSize_(Value.length());
-  if (GetDefaultSize() > GetSize())
-    SetSize_(GetDefaultSize());*/
-}
-
-/*!
-  \todo Cloning should be on the same exact type !
-*/
-void EbmlString::SetDefaultValue(std::string & aValue)
-{
-  assert(!DefaultISset());
-  DefaultValue = aValue;
-  SetDefaultIsSet();
-}
-
-const std::string & EbmlString::DefaultVal() const
-{
-  assert(DefaultISset());
-  return DefaultValue;
-}
-
 
 /*!
   \todo handle exception on errors

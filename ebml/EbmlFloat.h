@@ -17,15 +17,14 @@ namespace libebml {
     \class EbmlFloat
     \brief Handle all operations on a float EBML element
 */
-class EBML_DLL_API EbmlFloat : public EbmlElement {
+class EBML_DLL_API EbmlFloat : public EbmlElementDefault<double> {
   public:
     enum Precision {
        FLOAT_32
       ,FLOAT_64
     };
 
-    EbmlFloat(const EbmlCallbacks &, Precision prec = FLOAT_32);
-    EbmlFloat(const EbmlCallbacks &, double DefaultValue, Precision prec = FLOAT_32);
+    EbmlFloat(const EbmlCallbacksDefault<double> &, Precision prec = FLOAT_32);
 
     bool ValidateSize() const override
     {
@@ -54,17 +53,12 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
     EbmlFloat &SetValue(double NewValue);
     double GetValue() const;
 
-    void SetDefaultValue(double);
-
-    double DefaultVal() const;
-
-    bool IsDefaultValue() const override {
-      return (DefaultISset() && Value == DefaultValue);
+    bool operator==(const double & val) const override {
+      return val == Value;
     }
 
     private:
     double Value; /// The actual value of the element
-    double DefaultValue;
 };
 
 } // namespace libebml
