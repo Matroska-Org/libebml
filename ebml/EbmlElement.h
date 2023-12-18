@@ -215,17 +215,6 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define INVALID_FILEPOS_T 0
 #endif
 
-#define EBML_DEF_CONS
-#define EBML_DEF_SEP
-#define EBML_DEF_PARAM
-#define EBML_DEF_BINARY_INIT
-#define EBML_DEF_BINARY_CTX(x)
-#define EBML_DEF_SINTEGER(x)
-#define EBML_DEF_BINARY(x)
-#define EBML_EXTRA_PARAM
-#define EBML_EXTRA_CALL
-#define EBML_EXTRA_DEF
-
 // functions for generic handling of data (should be static to all classes)
 /*!
   \todo Handle default value
