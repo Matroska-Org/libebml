@@ -398,7 +398,6 @@ class EBML_DLL_API EbmlElement {
     std::uint64_t VoidMe(IOCallback & output, ShouldWrite writeFilter = WriteSkipDefault) const;
 
     bool DefaultISset() const {return DefaultIsSet;}
-    void ForceNoDefault() {SetDefaultIsSet(false);}
     virtual bool IsDefaultValue() const = 0;
     bool IsFiniteSize() const {return bSizeIsFinite;}
 
