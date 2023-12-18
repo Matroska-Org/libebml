@@ -28,7 +28,6 @@
 
 /*!
   \file
-  \version \$Id: MemIOCallback.cpp 693 2004-07-31 08:56:28Z robux4 $
   \author Jory Stone <jcsston @ toughguy.net>
 */
 

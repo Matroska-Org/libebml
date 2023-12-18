@@ -30,7 +30,6 @@
 
 /*!
   \file
-  \version \$Id: EbmlMaster.h 1232 2005-10-15 15:56:52Z robux4 $
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #ifndef LIBEBML_MASTER_H

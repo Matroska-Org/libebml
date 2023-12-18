@@ -30,7 +30,6 @@
 
 /*!
   \file
-  \version \$Id: EbmlContexts.h 736 2004-08-28 14:05:09Z robux4 $
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #ifndef LIBEBML_CONTEXTS_H

@@ -30,7 +30,6 @@
 
 /*!
   \file
-  \version \$Id: EbmlHead.cpp 1096 2005-03-17 09:14:52Z robux4 $
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #include "ebml/EbmlHead.h"

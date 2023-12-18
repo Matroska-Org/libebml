@@ -28,7 +28,6 @@
 
 /*!
   \file
-  \version \$Id: MemIOCallback.h 1298 2008-02-21 22:14:18Z mosu $
   \author Jory Stone <jcsston @ toughguy.net>
 */
 #ifndef LIBEBML_MEMIOCALLBACK_H
