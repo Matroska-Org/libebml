@@ -121,8 +121,12 @@ filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, bool bW
 */
 bool EbmlMaster::PushElement(EbmlElement & element)
 {
-  ElementList.push_back(&element);
-  return true;
+  try {
+    ElementList.push_back(&element);
+    return true;
+  } catch(...) {
+  }
+  return false;
 }
 
 std::uint64_t EbmlMaster::UpdateSize(bool bWithDefault, bool bForceRender)
