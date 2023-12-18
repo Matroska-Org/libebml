@@ -127,7 +127,7 @@ EbmlCallbacks::EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalI
   ,DebugName(aDebugName)
   ,Context(aContext)
 {
-  assert((Create!=nullptr) || !strcmp(aDebugName, "DummyElement"));
+  assert(Create!=nullptr);
 }
 
 const EbmlSemantic & EbmlSemanticContext::GetSemantic(std::size_t i) const
