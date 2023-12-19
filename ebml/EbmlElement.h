@@ -410,7 +410,12 @@ class EBML_DLL_API EbmlElement {
         inline void SetSize_(std::uint64_t aSize) {Size = aSize;}
         inline void SetValueIsSet(bool Set = true) {bValueIsSet = Set;}
         inline void SetDefaultIsSet(bool Set = true) {DefaultIsSet = Set;}
-        inline void SetSizeIsFinite(bool Set = true) {bSizeIsFinite = Set;}
+        /// Set whether the master element will have a finite or infinite/unknown size
+        inline void SetSizeIsFinite(bool Set = true) {
+          assert(Set || ClassInfo.CanHaveInfiniteSize());
+          if (ClassInfo.CanHaveInfiniteSize())
+            bSizeIsFinite = Set;
+        }
         inline std::uint64_t GetSizePosition() const {return SizePosition;}
 
   protected:
