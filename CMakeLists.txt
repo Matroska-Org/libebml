@@ -5,6 +5,7 @@ project(ebml VERSION 2.0.0)
 option(DISABLE_PKGCONFIG "Disable PkgConfig module generation" OFF)
 option(DISABLE_CMAKE_CONFIG "Disable CMake package config module generation" OFF)
 option(BUILD_SHARED_LIBS "Build libebml as a shared library" OFF)
+option(BUILD_TESTING "Build tests" OFF)
 
 include(GNUInstallDirs)
 
@@ -97,6 +98,15 @@ target_sources(ebml
 if(NOT BUILD_SHARED_LIBS)
   target_compile_definitions(ebml PUBLIC EBML_STATIC_DEFINE)
 endif()
+
+if (BUILD_TESTING)
+  enable_testing()
+
+  add_executable(test_id test/test_id.cxx)
+  target_link_libraries(test_id PUBLIC ebml)
+  add_test(test_id test_id)
+endif(BUILD_TESTING)
+
 
 install(TARGETS ebml
   EXPORT EBMLTargets
