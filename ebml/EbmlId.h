@@ -49,9 +49,9 @@ class EBML_DLL_API EbmlId {
         inline std::size_t GetLength() const { return Length; }
         inline std::uint32_t GetValue() const { return Value; }
 
-    private:
-    const std::uint32_t Value;
-    const std::size_t Length;
+  private:
+    std::uint32_t Value;
+    std::size_t Length;
 
     static constexpr std::uint32_t FromBuffer(const binary aValue[4], const unsigned int aLength)
     {
