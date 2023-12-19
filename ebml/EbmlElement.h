@@ -129,27 +129,35 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 #define DEFINE_END_SEMANTIC(x)       };
 #define DEFINE_SEMANTIC_ITEM(m,u,c)  EbmlSemantic(m, u, EBML_INFO(c)),
 
-#define DECLARE_EBML_MASTER(x)  class EBML_DLL_API x : public EbmlMaster { \
+#define DECLARE_xxx_MASTER(x,DllApi)  class DllApi x : public EbmlMaster { \
   public: \
     x();
-#define DECLARE_EBML_UINTEGER(x)  class EBML_DLL_API x : public EbmlUInteger { \
+#define DECLARE_xxx_UINTEGER(x,DllApi)  class DllApi x : public EbmlUInteger { \
   public: \
     x();
-#define DECLARE_EBML_SINTEGER(x)  class EBML_DLL_API x : public EbmlSInteger { \
+#define DECLARE_xxx_SINTEGER(x,DllApi)  class DllApi x : public EbmlSInteger { \
   public: \
     x();
-#define DECLARE_EBML_STRING(x)    class EBML_DLL_API x : public EbmlString { \
+#define DECLARE_xxx_STRING(x,DllApi)    class DllApi x : public EbmlString { \
   public: \
     x();
-#define DECLARE_EBML_BINARY(x)    class EBML_DLL_API x : public EbmlBinary { \
+#define DECLARE_xxx_UNISTRING(x,DllApi) class DllApi x : public EbmlUnicodeString { \
   public: \
     x();
-#define DECLARE_EBML_DATE(x)  class EBML_DLL_API x : public EbmlDate { \
+#define DECLARE_xxx_BINARY(x,DllApi)    class DllApi x : public EbmlBinary { \
   public: \
     x();
-#define DECLARE_EBML_FLOAT(x)  class EBML_DLL_API x : public EbmlFloat { \
+#define DECLARE_xxx_DATE(x,DllApi)  class DllApi x : public EbmlDate { \
   public: \
     x();
+#define DECLARE_xxx_FLOAT(x,DllApi)  class DllApi x : public EbmlFloat { \
+  public: \
+    x();
+
+#define DECLARE_EBML_MASTER(x)    DECLARE_xxx_MASTER(  x,EBML_DLL_API)
+#define DECLARE_EBML_UINTEGER(x)  DECLARE_xxx_UINTEGER(x,EBML_DLL_API)
+#define DECLARE_EBML_STRING(x)    DECLARE_xxx_STRING(  x,EBML_DLL_API)
+#define DECLARE_EBML_BINARY(x)    DECLARE_xxx_BINARY(  x,EBML_DLL_API)
 
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
