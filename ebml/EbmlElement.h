@@ -58,7 +58,7 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
     constexpr EbmlId Id_##x    (id, idl); \
     const EbmlSemanticContext Context_##x = EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
     constexpr EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
-    x::x() :EbmlMaster(Context_##x) {}
+    x::x() :EbmlMaster(x::ClassInfos, Context_##x) {}
 
 #define DEFINE_xxx_MASTER_CONS(x,id,idl,parent,name,global) \
     constexpr EbmlId Id_##x    (id, idl); \
@@ -85,25 +85,25 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
     constexpr EbmlId Id_##x    (id, idl); \
     const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
     constexpr EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
-    x::x() :EbmlUInteger(defval) {}
+    x::x() :EbmlUInteger(x::ClassInfos, defval) {}
 
 #define DEFINE_xxx_SINTEGER_DEF(x,id,idl,parent,name,global,defval) \
     constexpr EbmlId Id_##x    (id, idl); \
     const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
     constexpr EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
-    x::x() :EbmlSInteger(defval) {}
+    x::x() :EbmlSInteger(x::ClassInfos, defval) {}
 
 #define DEFINE_xxx_STRING_DEF(x,id,idl,parent,name,global,defval) \
     constexpr EbmlId Id_##x    (id, idl); \
     const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
     constexpr EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
-    x::x() :EbmlString(defval) {}
+    x::x() :EbmlString(x::ClassInfos, defval) {}
 
 #define DEFINE_xxx_FLOAT_DEF(x,id,idl,parent,name,global,defval) \
     constexpr EbmlId Id_##x    (id, idl); \
     const EbmlSemanticContext Context_##x = EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
     constexpr EbmlCallbacks x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
-    x::x() :EbmlFloat(defval) {}
+    x::x() :EbmlFloat(x::ClassInfos, defval) {}
 
 #define DEFINE_xxx_CLASS_GLOBAL(x,id,idl,name,global) \
     constexpr EbmlId Id_##x    (id, idl); \
@@ -288,7 +288,7 @@ class EBML_DLL_API EbmlSemanticContext {
 */
 class EBML_DLL_API EbmlElement {
   public:
-    explicit EbmlElement(std::uint64_t aDefaultSize, bool bValueSet = false);
+    explicit EbmlElement(const EbmlCallbacks &, std::uint64_t aDefaultSize, bool bValueSet = false);
     virtual ~EbmlElement() = default;
     EbmlElement& operator=(const EbmlElement&) = delete;
 
@@ -407,6 +407,9 @@ class EBML_DLL_API EbmlElement {
         inline void SetDefaultIsSet(bool Set = true) {DefaultIsSet = Set;}
         inline void SetSizeIsFinite(bool Set = true) {bSizeIsFinite = Set;}
         inline std::uint64_t GetSizePosition() const {return SizePosition;}
+
+  protected:
+    const EbmlCallbacks & ClassInfo;
 
   private:
     std::uint64_t Size;        ///< the size of the data to write

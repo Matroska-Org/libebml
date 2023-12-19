@@ -133,8 +133,9 @@ const EbmlSemantic & EbmlSemanticContext::GetSemantic(std::size_t i) const
 }
 
 
-EbmlElement::EbmlElement(std::uint64_t aDefaultSize, bool bValueSet)
-  :DefaultSize(aDefaultSize)
+EbmlElement::EbmlElement(const EbmlCallbacks & classInfo, std::uint64_t aDefaultSize, bool bValueSet)
+  : ClassInfo(classInfo)
+  , DefaultSize(aDefaultSize)
   , bValueIsSet(bValueSet)
 {
   Size = DefaultSize;

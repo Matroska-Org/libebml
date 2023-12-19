@@ -12,8 +12,8 @@
 
 namespace libebml {
 
-EbmlString::EbmlString()
-  :EbmlElement(0, false)
+EbmlString::EbmlString(const EbmlCallbacks & classInfo)
+  :EbmlElement(classInfo, 0, false)
 {
   SetDefaultSize(0);
 /* done automatically
@@ -22,8 +22,8 @@ EbmlString::EbmlString()
     SetSize_(GetDefaultSize());*/
 }
 
-EbmlString::EbmlString(const std::string & aDefaultValue)
-  :EbmlElement(0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
+EbmlString::EbmlString(const EbmlCallbacks & classInfo, const std::string & aDefaultValue)
+  :EbmlElement(classInfo, 0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
 {
   SetDefaultSize(0);
   SetDefaultIsSet();

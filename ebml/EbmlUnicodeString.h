@@ -67,8 +67,8 @@ public:
 */
 class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
   public:
-    EbmlUnicodeString();
-    explicit EbmlUnicodeString(const UTFstring & DefaultValue);
+    EbmlUnicodeString(const EbmlCallbacks &);
+    explicit EbmlUnicodeString(const EbmlCallbacks &, const UTFstring & DefaultValue);
 
     bool ValidateSize() const override {return IsFiniteSize();} // any size is possible
     filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;

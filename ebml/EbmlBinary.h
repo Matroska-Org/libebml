@@ -25,7 +25,7 @@ namespace libebml {
 */
 class EBML_DLL_API EbmlBinary : public EbmlElement {
   public:
-    EbmlBinary();
+    EbmlBinary(const EbmlCallbacks &);
     EbmlBinary(const EbmlBinary & ElementToClone);
     EbmlBinary& operator=(const EbmlBinary & ElementToClone);
     ~EbmlBinary() override;
