@@ -31,6 +31,7 @@ EbmlMaster::EbmlMaster(const EbmlMaster & ElementToClone)
  ,bChecksumUsed(ElementToClone.bChecksumUsed)
  ,Checksum(ElementToClone.Checksum)
 {
+  SetSizeIsFinite(IsFiniteSize());
   ElementList.reserve(ElementToClone.ListSize());
   // add a clone of the list
   for (const auto& e : ElementToClone.ElementList)
