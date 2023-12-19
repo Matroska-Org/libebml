@@ -21,8 +21,8 @@ namespace libebml {
 */
 class EBML_DLL_API EbmlString : public EbmlElement {
   public:
-    EbmlString();
-    explicit EbmlString(const std::string & aDefaultValue);
+    EbmlString(const EbmlCallbacks &);
+    explicit EbmlString(const EbmlCallbacks &, const std::string & aDefaultValue);
 
     bool ValidateSize() const override {return IsFiniteSize() && GetSize() < 0x7FFFFFFF;} // any size is possible
     filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;

@@ -161,14 +161,14 @@ bool UTFstring::wcscmp_internal(const wchar_t *str1, const wchar_t *str2)
 
 // ===================== EbmlUnicodeString class ===================
 
-EbmlUnicodeString::EbmlUnicodeString()
-  :EbmlElement(0, false)
+EbmlUnicodeString::EbmlUnicodeString(const EbmlCallbacks & classInfo)
+  :EbmlElement(classInfo, 0, false)
 {
   SetDefaultSize(0);
 }
 
-EbmlUnicodeString::EbmlUnicodeString(const UTFstring & aDefaultValue)
-  :EbmlElement(0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
+EbmlUnicodeString::EbmlUnicodeString(const EbmlCallbacks & classInfo, const UTFstring & aDefaultValue)
+  :EbmlElement(classInfo, 0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
 {
   SetDefaultSize(0);
   SetDefaultIsSet();

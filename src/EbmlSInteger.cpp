@@ -31,12 +31,12 @@ ToSigned(std::uint64_t u) {
 
 namespace libebml {
 
-EbmlSInteger::EbmlSInteger()
-  :EbmlElement(DEFAULT_INT_SIZE, false)
+EbmlSInteger::EbmlSInteger(const EbmlCallbacks & classInfo)
+  :EbmlElement(classInfo, DEFAULT_INT_SIZE, false)
 {}
 
-EbmlSInteger::EbmlSInteger(std::int64_t aDefaultValue)
-  :EbmlElement(DEFAULT_INT_SIZE, true), Value(aDefaultValue)
+EbmlSInteger::EbmlSInteger(const EbmlCallbacks & classInfo, std::int64_t aDefaultValue)
+  :EbmlElement(classInfo, DEFAULT_INT_SIZE, true), Value(aDefaultValue)
 {
   SetDefaultIsSet();
 }

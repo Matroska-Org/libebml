@@ -24,8 +24,8 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
       ,FLOAT_64
     };
 
-    EbmlFloat(Precision prec = FLOAT_32);
-    EbmlFloat(double DefaultValue, Precision prec = FLOAT_32);
+    EbmlFloat(const EbmlCallbacks &, Precision prec = FLOAT_32);
+    EbmlFloat(const EbmlCallbacks &, double DefaultValue, Precision prec = FLOAT_32);
 
     bool ValidateSize() const override
     {

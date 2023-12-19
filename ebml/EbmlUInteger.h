@@ -23,8 +23,8 @@ const int DEFAULT_UINT_SIZE = 0; ///< optimal size stored
 */
 class EBML_DLL_API EbmlUInteger : public EbmlElement {
   public:
-    EbmlUInteger();
-    explicit EbmlUInteger(std::uint64_t DefaultValue);
+    EbmlUInteger(const EbmlCallbacks &);
+    explicit EbmlUInteger(const EbmlCallbacks &, std::uint64_t DefaultValue);
 
     EbmlUInteger & operator=(std::uint64_t NewValue) {Value = NewValue; SetValueIsSet(); return *this;}
 

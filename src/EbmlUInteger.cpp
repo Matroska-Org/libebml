@@ -13,12 +13,12 @@
 
 namespace libebml {
 
-EbmlUInteger::EbmlUInteger()
-  :EbmlElement(DEFAULT_UINT_SIZE, false)
+EbmlUInteger::EbmlUInteger(const EbmlCallbacks & classInfo)
+  :EbmlElement(classInfo, DEFAULT_UINT_SIZE, false)
 {}
 
-EbmlUInteger::EbmlUInteger(std::uint64_t aDefaultValue)
-  :EbmlElement(DEFAULT_UINT_SIZE, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
+EbmlUInteger::EbmlUInteger(const EbmlCallbacks & classInfo, std::uint64_t aDefaultValue)
+  :EbmlElement(classInfo, DEFAULT_UINT_SIZE, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
 {
   SetDefaultIsSet();
 }

@@ -13,6 +13,7 @@ namespace libebml {
 DEFINE_EBML_CLASS_GLOBAL(EbmlVoid, 0xEC, 1, "EBMLVoid")
 
 EbmlVoid::EbmlVoid()
+  :EbmlBinary(EbmlVoid::ClassInfos)
 {
   SetValueIsSet();
 }

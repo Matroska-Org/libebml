@@ -12,14 +12,14 @@
 
 namespace libebml {
 
-EbmlFloat::EbmlFloat(const EbmlFloat::Precision prec)
-  :EbmlElement(0, false)
+EbmlFloat::EbmlFloat(const EbmlCallbacks & classInfo, const EbmlFloat::Precision prec)
+  :EbmlElement(classInfo, 0, false)
 {
   SetPrecision(prec);
 }
 
-EbmlFloat::EbmlFloat(const double aDefaultValue, const EbmlFloat::Precision prec)
-  :EbmlElement(0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
+EbmlFloat::EbmlFloat(const EbmlCallbacks & classInfo, const double aDefaultValue, const EbmlFloat::Precision prec)
+  :EbmlElement(classInfo, 0, true), Value(aDefaultValue), DefaultValue(aDefaultValue)
 {
   SetDefaultIsSet();
   SetPrecision(prec);

@@ -15,8 +15,8 @@
 
 namespace libebml {
 
-EbmlBinary::EbmlBinary()
-  :EbmlElement(0, false)
+EbmlBinary::EbmlBinary(const EbmlCallbacks & classInfo)
+  :EbmlElement(classInfo, 0, false)
 {}
 
 EbmlBinary::EbmlBinary(const EbmlBinary & ElementToClone)

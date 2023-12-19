@@ -19,7 +19,7 @@ namespace libebml {
 */
 class EBML_DLL_API EbmlDate : public EbmlElement {
   public:
-    EbmlDate() :EbmlElement(8, false) {}
+    EbmlDate(const EbmlCallbacks & classInfo) :EbmlElement(classInfo, 8, false) {}
 
     /*!
       \brief set the date with a UNIX/C/EPOCH form
