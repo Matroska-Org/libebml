@@ -14,13 +14,13 @@ jobs:
       matrix:
         arch:   [x86_64, arm64]
     env:
-      CMAKE_OPTIONS: -DCMAKE_CXX_EXTENSIONS=OFF
+      CMAKE_OPTIONS: -DCMAKE_CXX_EXTENSIONS=OFF -DBUILD_TESTING=ON
     steps:
       - uses: lukka/get-cmake@latest
 
       - name: Get pushed code
         uses: actions/checkout@v3
-      
+
       - name: Configure
         run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -DCMAKE_OSX_ARCHITECTURES="${{ matrix.arch }}"
 
@@ -29,3 +29,9 @@ jobs:
 
       - name: Test installation
         run: cmake --install _build --prefix ${GITHUB_WORKSPACE}/_built
+
+      - name: Run tests
+        run: |
+          if [ $(uname -m) = "${{ matrix.arch }}" ]; then
+            ctest --test-dir _build;
+          fi

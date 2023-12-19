@@ -10,7 +10,7 @@ jobs:
     name: libebml with gcc13
     runs-on: ubuntu-latest
     env:
-      CMAKE_OPTIONS: -DCMAKE_CXX_EXTENSIONS=OFF
+      CMAKE_OPTIONS: -DCMAKE_CXX_EXTENSIONS=OFF -DBUILD_TESTING=ON
     steps:
       - uses: lukka/get-cmake@latest
 
@@ -28,3 +28,6 @@ jobs:
 
       - name: Test installation
         run: cmake --install _build --prefix ${GITHUB_WORKSPACE}/_built
+
+      - name: Run tests
+        run: ctest --test-dir _build
