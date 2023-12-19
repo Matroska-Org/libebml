@@ -18,18 +18,18 @@ jobs:
           { "name": "Static",  "option": "OFF"}
         ]
         arch: [
-          { "name": "x64",   "option": "x64"},
-          { "name": "x86",   "option": "win32"},
-          { "name": "arm64", "option": "arm64"},
+          { "name": "x64",   "option": "x64",   "env": "AMD64"},
+          { "name": "x86",   "option": "win32", "env": "X86"},
+          { "name": "arm64", "option": "arm64", "env": "ARM64"},
         ]
     env:
-      CMAKE_OPTIONS: -DENABLE_WIN32_IO=ON -DCMAKE_CXX_EXTENSIONS=OFF -DCMAKE_CXX_FLAGS_INIT="-DWINVER=0x0501"
+      CMAKE_OPTIONS: -DENABLE_WIN32_IO=ON -DCMAKE_CXX_EXTENSIONS=OFF -DCMAKE_CXX_FLAGS_INIT="-DWINVER=0x0501" -DBUILD_TESTING=ON
     steps:
       - uses: lukka/get-cmake@latest
 
       - name: Get pushed code
         uses: actions/checkout@v3
-      
+
       - name: Configure ${{ matrix.shared.name }} library
         run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -A ${{ matrix.arch.option }} -DBUILD_SHARED_LIBS=${{ matrix.shared.option }}
 
@@ -38,3 +38,9 @@ jobs:
 
       - name: Test installation
         run: cmake --install _build --config ${{ matrix.config }} --prefix ${GITHUB_WORKSPACE}/_built
+
+      - name: Run tests
+        run: |
+          if ($env:PROCESSOR_ARCHITECTURE -match "${{ matrix.arch.env }}") {
+            ctest --test-dir _build
+          }
