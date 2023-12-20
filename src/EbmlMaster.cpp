@@ -20,7 +20,7 @@ namespace libebml {
 EbmlMaster::EbmlMaster(const EbmlCallbacks & classInfo, const EbmlSemanticContext & aContext, bool bSizeIsknown)
  :EbmlElement(classInfo, 0), MasterContext(aContext), bChecksumUsed(bChecksumUsedByDefault)
 {
-  SetSizeIsFinite(bSizeIsknown);
+  SetSizeInfinite(!bSizeIsknown);
   SetValueIsSet();
   ProcessMandatory();
 }
@@ -31,7 +31,7 @@ EbmlMaster::EbmlMaster(const EbmlMaster & ElementToClone)
  ,bChecksumUsed(ElementToClone.bChecksumUsed)
  ,Checksum(ElementToClone.Checksum)
 {
-  SetSizeIsFinite(IsFiniteSize());
+  SetSizeInfinite(!IsFiniteSize());
   ElementList.reserve(ElementToClone.ListSize());
   // add a clone of the list
   for (const auto& e : ElementToClone.ElementList)

@@ -43,8 +43,6 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully) override;
     filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) override;
 
-    bool SetSizeInfinite(bool aIsInfinite = true) override {SetSizeIsFinite(!aIsInfinite); return aIsInfinite != IsFiniteSize();}
-
     bool PushElement(EbmlElement & element);
     std::uint64_t GetSize() const override {
       if (IsFiniteSize())
