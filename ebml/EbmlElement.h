@@ -328,9 +328,9 @@ class EBML_DLL_API EbmlElement {
      * \note by default only allow to set element as finite (override when needed)
      * The size is known in advance when writing, or infinite size is not known on writing.
      * Setting false always works.
-     * \return false on classes that can never be set to infinite
+     * \return true if setting the value worked
      */
-    virtual bool SetSizeInfinite(bool bIsInfinite = true) {return !bIsInfinite;}
+    virtual bool SetSizeInfinite(bool bIsInfinite = true) {return false;}
 
     virtual bool ValidateSize() const = 0;
 
