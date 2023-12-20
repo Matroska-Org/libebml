@@ -54,10 +54,10 @@ std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback &
     EbmlVoid aTmp;
     aTmp.SetSize_(HeadSize() + GetSize() - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() - 1); // 1 is the length of the Void ID
     const std::size_t HeadBefore = aTmp.HeadSize();
-    aTmp.SetSize_(aTmp.GetSize() - CodedSizeLength(aTmp.GetSize(), aTmp.GetSizeLength(), aTmp.IsFiniteSize()));
+    aTmp.SetSize_(aTmp.GetSize() - CodedSizeLength(aTmp.GetSize(), aTmp.GetSizeLength()));
     const std::size_t HeadAfter = aTmp.HeadSize();
     if (HeadBefore != HeadAfter) {
-      aTmp.SetSizeLength(CodedSizeLength(aTmp.GetSize(), aTmp.GetSizeLength(), aTmp.IsFiniteSize()) - (HeadAfter - HeadBefore));
+      aTmp.SetSizeLength(CodedSizeLength(aTmp.GetSize(), aTmp.GetSizeLength()) - (HeadAfter - HeadBefore));
     }
     aTmp.RenderHead(output, false, bWithDefault); // the rest of the data is not rewritten
   }
@@ -87,13 +87,13 @@ std::uint64_t EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & ou
 
   // compute the size of the voided data based on the original one
   SetSize(EltToVoid.GetSize() + EltToVoid.HeadSize() - 1); // 1 for the ID
-  SetSize(GetSize() - CodedSizeLength(GetSize(), GetSizeLength(), IsFiniteSize()));
+  SetSize(GetSize() - CodedSizeLength(GetSize(), GetSizeLength()));
   // make sure we handle even the strange cases
   //std::uint32_t A1 = GetSize() + HeadSize();
   //std::uint32_t A2 = EltToVoid.GetSize() + EltToVoid.HeadSize();
   if (GetSize() + HeadSize() != EltToVoid.GetSize() + EltToVoid.HeadSize()) {
     SetSize(GetSize()-1);
-    SetSizeLength(CodedSizeLength(GetSize(), GetSizeLength(), IsFiniteSize()) + 1);
+    SetSizeLength(CodedSizeLength(GetSize(), GetSizeLength()) + 1);
   }
 
   if (GetSize() != 0) {
