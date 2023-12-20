@@ -330,7 +330,15 @@ class EBML_DLL_API EbmlElement {
      * Setting false always works.
      * \return true if setting the value worked
      */
-    virtual bool SetSizeInfinite(bool bIsInfinite = true) {return false;}
+    bool SetSizeInfinite(bool bIsInfinite = true) {
+        assert(!bIsInfinite || ClassInfo.CanHaveInfiniteSize());
+        if (ClassInfo.CanHaveInfiniteSize())
+        {
+          bSizeIsFinite = !bIsInfinite;
+          return true;
+        }
+        return false;
+    }
 
     virtual bool ValidateSize() const = 0;
 
@@ -416,12 +424,6 @@ class EBML_DLL_API EbmlElement {
         inline void SetSize_(std::uint64_t aSize) {Size = aSize;}
         inline void SetValueIsSet(bool Set = true) {bValueIsSet = Set;}
         inline void SetDefaultIsSet(bool Set = true) {DefaultIsSet = Set;}
-        /// Set whether the master element will have a finite or infinite/unknown size
-        inline void SetSizeIsFinite(bool Set = true) {
-          assert(Set || ClassInfo.CanHaveInfiniteSize());
-          if (ClassInfo.CanHaveInfiniteSize())
-            bSizeIsFinite = Set;
-        }
         inline std::uint64_t GetSizePosition() const {return SizePosition;}
 
   protected:
