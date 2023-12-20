@@ -35,7 +35,7 @@ class EBML_DLL_API EbmlDate : public EbmlElement {
     std::int64_t GetEpochDate() const {return static_cast<std::int64_t>(myDate/1'000'000'000 + UnixEpochDelay);}
     std::int64_t GetValue() const {return GetEpochDate();}
 
-    bool ValidateSize() const override {return IsFiniteSize() && ((GetSize() == 8) || (GetSize() == 0));}
+    bool ValidateSize() const override {return GetSize() == 8 || GetSize() == 0;}
 
     /*!
       \note no Default date handled
