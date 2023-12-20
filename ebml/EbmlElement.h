@@ -323,7 +323,13 @@ class EBML_DLL_API EbmlElement {
         virtual const EbmlSemanticContext &Context() const = 0;
         virtual EbmlElement & CreateElement() const = 0;
 
-    // by default only allow to set element as finite (override when needed)
+    /*!
+     * \brief Set whether the size is finite
+     * \note by default only allow to set element as finite (override when needed)
+     * The size is known in advance when writing, or infinite size is not known on writing.
+     * Setting false always works.
+     * \return false on classes that can never be set to infinite
+     */
     virtual bool SetSizeInfinite(bool bIsInfinite = true) {return !bIsInfinite;}
 
     virtual bool ValidateSize() const = 0;
