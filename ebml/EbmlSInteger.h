@@ -35,7 +35,7 @@ class EBML_DLL_API EbmlSInteger : public EbmlElement {
     */
         void SetDefaultSize(std::uint64_t nDefaultSize = DEFAULT_INT_SIZE) override {EbmlElement::SetDefaultSize(nDefaultSize); SetSize_(nDefaultSize);}
 
-    bool ValidateSize() const override {return IsFiniteSize() && (GetSize() <= 8);}
+    bool ValidateSize() const override {return GetSize() <= 8;}
     filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
     filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) override;

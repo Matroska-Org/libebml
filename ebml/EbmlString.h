@@ -24,7 +24,7 @@ class EBML_DLL_API EbmlString : public EbmlElement {
     EbmlString(const EbmlCallbacks &);
     explicit EbmlString(const EbmlCallbacks &, const std::string & aDefaultValue);
 
-    bool ValidateSize() const override {return IsFiniteSize() && GetSize() < 0x7FFFFFFF;} // any size is possible
+    bool ValidateSize() const override {return GetSize() < 0x7FFFFFFF;} // any size is possible
     filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
     filepos_t UpdateSize(bool bWithDefault = false, bool bForceRender = false) override;

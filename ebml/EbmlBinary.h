@@ -30,7 +30,7 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
     EbmlBinary& operator=(const EbmlBinary & ElementToClone);
     ~EbmlBinary() override;
 
-    bool ValidateSize() const override {return IsFiniteSize() && GetSize() < 0x7FFFFFFF;} // we don't mind about what's inside
+    bool ValidateSize() const override {return GetSize() < 0x7FFFFFFF;} // we don't mind about what's inside
 
     filepos_t RenderData(IOCallback & output, bool bForceRender, bool bWithDefault = false) override;
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
