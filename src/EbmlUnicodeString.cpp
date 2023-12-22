@@ -226,23 +226,15 @@ filepos_t EbmlUnicodeString::ReadData(IOCallback & input, ScopeMode ReadFully)
 
   if (GetSize() == 0) {
     Value = static_cast<UTFstring::value_type>(0);
-    SetValueIsSet();
-  } else {
-    auto Buffer = (GetSize() + 1 < std::numeric_limits<std::size_t>::max()) ? new (std::nothrow) char[GetSize()+1] : nullptr;
-    if (Buffer == nullptr) {
-      // impossible to read, skip it
-      input.setFilePointer(GetSize(), seek_current);
-    } else {
-      input.readFully(Buffer, GetSize());
-      if (Buffer[GetSize()-1] != 0) {
-        Buffer[GetSize()] = 0;
-      }
 
-      Value.SetUTF8(Buffer); // implicit conversion to std::string
-      delete [] Buffer;
-      SetValueIsSet();
-    }
+  } else {
+    std::string Buffer(static_cast<std::string::size_type>(GetSize()), static_cast<char>(0));
+    input.readFully(&Buffer[0], GetSize());
+
+    Value.SetUTF8(Buffer.c_str()); // Let conversion to std::string cut off at the first 0
   }
+
+  SetValueIsSet();
 
   return GetSize();
 }
