@@ -31,7 +31,7 @@ public:
   UTFstring(const UTFstring &);
   UTFstring(std::wstring const &);
 
-  virtual ~UTFstring();
+  virtual ~UTFstring() = default;
   bool operator==(const UTFstring&) const;
   inline bool operator!=(const UTFstring &cmp) const
   {
