@@ -28,10 +28,6 @@ UTFstring::UTFstring(std::wstring const &_aBuf)
   *this = _aBuf.c_str();
 }
 
-UTFstring::~UTFstring()
-{
-}
-
 UTFstring::UTFstring(const UTFstring & _aBuf)
 {
   *this = _aBuf.c_str();
