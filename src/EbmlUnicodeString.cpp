@@ -202,14 +202,9 @@ filepos_t EbmlUnicodeString::RenderData(IOCallback & output, bool /* bForceRende
 
   if (Result < GetDefaultSize()) {
     // pad the rest with 0
-    auto Pad = new (std::nothrow) binary[GetDefaultSize() - Result];
-    if (Pad != nullptr) {
-      memset(Pad, 0x00, GetDefaultSize() - Result);
-      output.writeFully(Pad, GetDefaultSize() - Result);
-
-      Result = GetDefaultSize();
-      delete [] Pad;
-    }
+    std::string Pad(static_cast<std::string::size_type>(GetDefaultSize() - Result), static_cast<char>(0));
+    output.writeFully(Pad.c_str(), Pad.size());
+    Result = GetDefaultSize();
   }
 
   return Result;
