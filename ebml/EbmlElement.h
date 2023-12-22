@@ -331,7 +331,6 @@ class EBML_DLL_API EbmlElement {
      * \return true if setting the value worked
      */
     bool SetSizeInfinite(bool bIsInfinite = true) {
-        assert(!bIsInfinite || ClassInfo.CanHaveInfiniteSize());
         if (ClassInfo.CanHaveInfiniteSize())
         {
           bSizeIsFinite = !bIsInfinite;
