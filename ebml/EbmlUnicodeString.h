@@ -42,19 +42,17 @@ public:
   UTFstring & operator=(wchar_t);
 
   /// Return length of string
-  std::size_t length() const {return _Length;}
+  std::size_t length() const {return WString.size();}
 
-  explicit operator const wchar_t*() const;
-  const wchar_t* c_str() const {return _Data;}
+  explicit operator const wchar_t*() const {return WString.c_str();};
+  const wchar_t* c_str() const {return WString.c_str();}
 
   const std::string & GetUTF8() const {return UTF8string;}
   void SetUTF8(const std::string &);
 
-    private:
-  std::size_t _Length{0}; ///< length of the UCS string excluding the \0
-  wchar_t* _Data{nullptr}; ///< internal UCS representation
+private:
+  std::wstring WString; ///< internal UCS representation
   std::string UTF8string;
-  static bool wcscmp_internal(const wchar_t *str1, const wchar_t *str2);
   void UpdateFromUTF8();
   void UpdateFromUCS2();
 };
