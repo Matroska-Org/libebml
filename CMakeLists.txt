@@ -110,6 +110,10 @@ if (BUILD_TESTING)
   target_link_libraries(test_infinite PUBLIC ebml)
   add_test(test_infinite test_infinite)
 
+  add_executable(test_utfstring test/test_utfstring.cxx)
+  target_link_libraries(test_utfstring PUBLIC ebml)
+  add_test(test_utfstring test_utfstring)
+
 endif(BUILD_TESTING)
 
 
