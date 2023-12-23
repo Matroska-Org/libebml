@@ -109,23 +109,19 @@ filepos_t EbmlString::ReadData(IOCallback & input, ScopeMode ReadFully)
     return GetSize();
 
   if (GetSize() == 0) {
-    Value = "";
-    SetValueIsSet();
+    Value.clear();
+
   } else {
-    auto Buffer = (GetSize() + 1 < std::numeric_limits<std::size_t>::max()) ? new (std::nothrow) char[GetSize() + 1] : nullptr;
-    if (Buffer == nullptr) {
-      // unable to store the data, skip it
-      input.setFilePointer(GetSize(), seek_current);
-    } else {
-      input.readFully(Buffer, GetSize());
-      if (Buffer[GetSize()-1] != '\0') {
-        Buffer[GetSize()] = '\0';
-      }
-      Value = Buffer;
-      delete [] Buffer;
-      SetValueIsSet();
-    }
+    Value.resize(GetSize());
+    std::memset(&Value[0], 0, GetSize());
+    input.readFully(&Value[0], GetSize());
+
+    auto PosNull = Value.find('\0');
+    if (PosNull != std::string::npos)
+      Value.resize(PosNull);
   }
+
+  SetValueIsSet();
 
   return GetSize();
 }
