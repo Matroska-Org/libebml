@@ -8,6 +8,7 @@
 */
 
 #include <cassert>
+#include <cstddef>
 #include <limits>
 
 #include "ebml/EbmlUnicodeString.h"
@@ -15,6 +16,16 @@
 #include "lib/utf8-cpp/source/utf8/checked.h"
 
 namespace libebml {
+
+namespace {
+
+std::size_t lengthToFirstNulll(std::wstring const &s)
+{
+  auto PosNull = s.find(L'\0');
+  return PosNull != std::wstring::npos ? PosNull : s.size();
+}
+
+}
 
 // ===================== UTFstring class ===================
 
@@ -60,8 +71,8 @@ UTFstring & UTFstring::operator=(wchar_t _aChar)
 bool UTFstring::operator==(const UTFstring& _aStr) const
 {
   // Only compare up to the first 0 char in both strings.
-  auto LengthThis  = std::distance(WString.begin(),       std::find(WString.begin(),       WString.end(),       L'\0'));
-  auto LengthOther = std::distance(_aStr.WString.begin(), std::find(_aStr.WString.begin(), _aStr.WString.end(), L'\0'));
+  auto LengthThis  = lengthToFirstNulll(WString);
+  auto LengthOther = lengthToFirstNulll(_aStr.WString);
 
   if (LengthThis != LengthOther)
     return false;
