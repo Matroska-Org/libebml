@@ -11,12 +11,10 @@
 
 #include "ebml/EbmlConfig.h"
 
+namespace libebml {
+
 using binary = std::uint8_t;
 using filepos_t = std::uint64_t;
-
-#include "EbmlEndian.h" // binary needs to be defined
-
-namespace libebml {
 
 enum ScopeMode {
   SCOPE_PARTIAL_DATA = 0,
@@ -25,5 +23,7 @@ enum ScopeMode {
 };
 
 } // namespace libebml
+
+#include "EbmlEndian.h" // binary needs to be defined
 
 #endif
