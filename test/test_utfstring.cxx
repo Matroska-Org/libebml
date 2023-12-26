@@ -6,6 +6,7 @@
 using namespace libebml;
 
 constexpr char emoji_8[] = "\xF0\x9F\x98\x80";
+constexpr char emoji_u8[] = u8"\xF0\x9F\x98\x80";
 constexpr wchar_t emoji_w[] = L"\U0001f600";
 
 int main(void)
@@ -17,6 +18,11 @@ int main(void)
 
     if (ascii.GetUTF8() != "latin1")
         return 1;
+
+    UTFstring u8;
+    u8.SetUTF8( emoji_u8 );
+
+    UTFstring u8construct{emoji_u8};
 
     UTFstring utf8;
     utf8.SetUTF8( emoji_8 );
