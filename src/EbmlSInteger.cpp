@@ -128,12 +128,4 @@ filepos_t EbmlSInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
   return GetSize();
 }
 
-bool EbmlSInteger::IsSmallerThan(const EbmlElement *Cmp) const
-{
-  if (EbmlId(*this) == EbmlId(*Cmp))
-    return this->Value < static_cast<const EbmlSInteger *>(Cmp)->Value;
-
-  return false;
-}
-
 } // namespace libebml

@@ -55,8 +55,6 @@ class EBML_DLL_API EbmlDate : public EbmlElementDefaultSameStorage<std::int64_t>
       return GetSize();
     }
 
-    bool IsSmallerThan(const EbmlElement *Cmp) const override;
-
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
 
     private:

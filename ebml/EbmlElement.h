@@ -596,6 +596,14 @@ class EBML_DLL_API EbmlElementDefaultSameStorage : public EbmlElementDefault<T> 
       return Value;
     }
 
+    bool IsSmallerThan(const EbmlElement *Cmp) const override
+    {
+      if (EbmlId(*this) != EbmlId(*Cmp))
+        return false;
+
+      return this->Value < static_cast<const EbmlElementDefaultSameStorage<T> *>(Cmp)->Value;
+    }
+
     explicit operator T() const { return Value; }
 
   protected:

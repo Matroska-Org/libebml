@@ -37,8 +37,6 @@ class EBML_DLL_API EbmlSInteger : public EbmlElementDefaultSameStorage<std::int6
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
     filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault, bool bForceRender = false) override;
 
-    bool IsSmallerThan(const EbmlElement *Cmp) const override;
-
     using EbmlElement::operator const EbmlId &;
     explicit operator std::int8_t() const;
     explicit operator std::int16_t() const;

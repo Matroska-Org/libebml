@@ -92,12 +92,4 @@ filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
   return GetSize();
 }
 
-bool EbmlFloat::IsSmallerThan(const EbmlElement *Cmp) const
-{
-  if (EbmlId(*this) == EbmlId(*Cmp))
-    return this->Value < static_cast<const EbmlFloat *>(Cmp)->Value;
-
-  return false;
-}
-
 } // namespace libebml

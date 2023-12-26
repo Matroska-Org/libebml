@@ -44,12 +44,4 @@ filepos_t EbmlDate::RenderData(IOCallback & output, bool /* bForceRender */, Sho
   return GetSize();
 }
 
-bool EbmlDate::IsSmallerThan(const EbmlElement *Cmp) const
-{
-  if (EbmlId(*this) == EbmlId(*Cmp))
-    return this->Value < static_cast<const EbmlDate *>(Cmp)->Value;
-
-  return false;
-}
-
 } // namespace libebml
