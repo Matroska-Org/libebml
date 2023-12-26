@@ -571,6 +571,21 @@ class EBML_DLL_API EbmlElementDefault : public EbmlElement {
     virtual EbmlElementDefault<T> & SetValue(const T &) = 0;
 };
 
+
+template<typename T>
+class EBML_DLL_API EbmlElementDefaultSameStorage : public EbmlElementDefault<T> {
+  public:
+    explicit EbmlElementDefaultSameStorage(const EbmlCallbacksDefault<T> &classInfo, std::uint64_t aDefaultSize)
+      :EbmlElementDefault<T>(classInfo, aDefaultSize)
+    {}
+
+    explicit operator T() const { return Value; }
+
+  protected:
+    T Value;
+};
+
+
 } // namespace libebml
 
 #define EBML_WRITE_FILTER 1

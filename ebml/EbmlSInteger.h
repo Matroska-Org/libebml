@@ -23,7 +23,7 @@ const int DEFAULT_INT_SIZE = 1; ///< optimal size stored
     \class EbmlSInteger
     \brief Handle all operations on a signed integer EBML element
 */
-class EBML_DLL_API EbmlSInteger : public EbmlElementDefault<std::int64_t> {
+class EBML_DLL_API EbmlSInteger : public EbmlElementDefaultSameStorage<std::int64_t> {
   public:
     EbmlSInteger(const EbmlCallbacksDefault<std::int64_t> &);
 
@@ -51,9 +51,6 @@ class EBML_DLL_API EbmlSInteger : public EbmlElementDefault<std::int64_t> {
     bool operator==(const std::int64_t & val) const override {
       return val == Value;
     }
-
-    private:
-    std::int64_t Value; /// The actual value of the element
 };
 
 } // namespace libebml

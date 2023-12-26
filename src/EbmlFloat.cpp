@@ -13,7 +13,7 @@
 namespace libebml {
 
 EbmlFloat::EbmlFloat(const EbmlCallbacksDefault<double> & classInfo, const EbmlFloat::Precision prec)
-  :EbmlElementDefault(classInfo, 0)
+  :EbmlElementDefaultSameStorage<double>(classInfo, 0)
 {
   SetPrecision(prec);
   if (classInfo.HasDefault())

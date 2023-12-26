@@ -17,7 +17,7 @@ namespace libebml {
     \class EbmlFloat
     \brief Handle all operations on a float EBML element
 */
-class EBML_DLL_API EbmlFloat : public EbmlElementDefault<double> {
+class EBML_DLL_API EbmlFloat : public EbmlElementDefaultSameStorage<double> {
   public:
     enum Precision {
        FLOAT_32
@@ -56,9 +56,6 @@ class EBML_DLL_API EbmlFloat : public EbmlElementDefault<double> {
     bool operator==(const double & val) const override {
       return val == Value;
     }
-
-    private:
-    double Value; /// The actual value of the element
 };
 
 } // namespace libebml

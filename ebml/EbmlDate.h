@@ -17,9 +17,9 @@ namespace libebml {
     \class EbmlDate
     \brief Handle all operations related to an EBML date
 */
-class EBML_DLL_API EbmlDate : public EbmlElementDefault<std::int64_t> {
+class EBML_DLL_API EbmlDate : public EbmlElementDefaultSameStorage<std::int64_t> {
   public:
-    EbmlDate(const EbmlCallbacksDefault<std::int64_t> & classInfo) :EbmlElementDefault<std::int64_t>(classInfo, 8)
+    EbmlDate(const EbmlCallbacksDefault<std::int64_t> & classInfo) :EbmlElementDefaultSameStorage<std::int64_t>(classInfo, 8)
     {
       if (classInfo.HasDefault())
       {
@@ -65,8 +65,6 @@ class EBML_DLL_API EbmlDate : public EbmlElementDefault<std::int64_t> {
 
     private:
     filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;
-
-    std::int64_t Value{0}; ///< internal format of the date
 
     static constexpr std::uint64_t UnixEpochDelay = 978'307'200; // 2001/01/01 00:00:00 UTC
 };

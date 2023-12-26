@@ -14,7 +14,7 @@
 namespace libebml {
 
 EbmlUInteger::EbmlUInteger(const EbmlCallbacksDefault<std::uint64_t> & classInfo)
-  :EbmlElementDefault(classInfo, DEFAULT_UINT_SIZE)
+  :EbmlElementDefaultSameStorage(classInfo, DEFAULT_UINT_SIZE)
 {
   if (classInfo.HasDefault())
   {

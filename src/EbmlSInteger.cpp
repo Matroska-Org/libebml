@@ -32,7 +32,7 @@ ToSigned(std::uint64_t u) {
 namespace libebml {
 
 EbmlSInteger::EbmlSInteger(const EbmlCallbacksDefault<std::int64_t> & classInfo)
-  :EbmlElementDefault(classInfo, DEFAULT_INT_SIZE)
+  :EbmlElementDefaultSameStorage(classInfo, DEFAULT_INT_SIZE)
 {
   if (classInfo.HasDefault())
   {
