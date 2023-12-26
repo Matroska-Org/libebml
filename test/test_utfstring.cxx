@@ -15,9 +15,6 @@ int main(void)
     if (ascii != L"latin1")
         return 1;
 
-    if (wcscmp(ascii.c_str(), L"latin1") != 0)
-        return 1;
-
     if (ascii.GetUTF8() != "latin1")
         return 1;
 
@@ -51,14 +48,8 @@ int main(void)
     if (copy != emoji_w)
         return 1;
 
-    if (copy.c_str() == utf8.c_str())
-        return 1;
-
     UTFstring copy2(utf8);
     if (copy2 != emoji_w)
-        return 1;
-
-    if (copy2.c_str() == utf8.c_str())
         return 1;
 
     return 0;

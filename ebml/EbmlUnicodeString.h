@@ -19,21 +19,28 @@ namespace libebml {
 
 /*!
   \class UTFstring
-  A class storing strings in a wchar_t (ie, in UCS-2 or UCS-4)
-  \note inspired by wstring which is not available everywhere
+  A class storing strings in a char that can receive wchar_t (ie, in UCS-2 or UCS-4)
 */
 class EBML_DLL_API UTFstring {
 public:
-  using value_type = wchar_t;
+  using value_type = char;
 
   UTFstring() = default;
-  UTFstring(const wchar_t *); // should be NULL terminated
+  UTFstring(const char *); // should be NULL terminated
   UTFstring(const UTFstring &) = default;
   UTFstring(std::wstring const &);
 
   virtual ~UTFstring() = default;
   bool operator==(const UTFstring&) const;
+  inline bool operator==(const wchar_t *cmp) const
+  {
+    return *this == UTFstring(std::wstring{cmp});
+  }
   inline bool operator!=(const UTFstring &cmp) const
+  {
+    return !(*this == cmp);
+  }
+  inline bool operator!=(const wchar_t *cmp) const
   {
     return !(*this == cmp);
   }
@@ -44,17 +51,12 @@ public:
   /// Return length of string in bytes not counting the trailing nul character
   std::size_t length() const {return UTF8string.length();}
 
-  explicit operator const wchar_t*() const {return WString.c_str();};
-  const wchar_t* c_str() const {return WString.c_str();}
-
   const std::string & GetUTF8() const {return UTF8string;}
   void SetUTF8(const std::string &);
 
 private:
-  std::wstring WString; ///< internal UCS representation
   std::string UTF8string;
-  void UpdateFromUTF8();
-  void UpdateFromUCS2();
+  void UpdateFromUCS2(const std::wstring &);
 };
 
 
