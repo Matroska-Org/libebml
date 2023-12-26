@@ -26,7 +26,7 @@ filepos_t EbmlDate::ReadData(IOCallback & input, ScopeMode ReadFully)
   binary Buffer[8];
   input.readFully(Buffer, GetSize());
 
-  myDate = endian::from_big64(Buffer);
+  Value = endian::from_big64(Buffer);
   SetValueIsSet();
   return GetSize();
 }
@@ -36,7 +36,7 @@ filepos_t EbmlDate::RenderData(IOCallback & output, bool /* bForceRender */, Sho
   assert(GetSize() == 8 || GetSize() == 0);
   if (GetSize() == 8) {
     binary b64[8];
-    endian::to_big64(myDate, b64);
+    endian::to_big64(Value, b64);
 
     output.writeFully(b64,8);
   }
@@ -47,7 +47,7 @@ filepos_t EbmlDate::RenderData(IOCallback & output, bool /* bForceRender */, Sho
 bool EbmlDate::IsSmallerThan(const EbmlElement *Cmp) const
 {
   if (EbmlId(*this) == EbmlId(*Cmp))
-    return this->myDate < static_cast<const EbmlDate *>(Cmp)->myDate;
+    return this->Value < static_cast<const EbmlDate *>(Cmp)->Value;
 
   return false;
 }
