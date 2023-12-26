@@ -53,9 +53,15 @@ UTFstring & UTFstring::operator=(const UTFstring & _aBuf)
 UTFstring & UTFstring::operator=(const wchar_t * _aBuf)
 {
   if (_aBuf != nullptr)
+  {
     WString = _aBuf;
+    UpdateFromUCS2();
+  }
   else
+  {
     WString.clear();
+    UTF8string.clear();
+  }
 
   UpdateFromUCS2();
   return *this;
