@@ -14,6 +14,13 @@
 
 namespace libebml {
 
+enum open_mode {
+    MODE_READ,
+    MODE_WRITE,
+    MODE_CREATE,
+    MODE_SAFE
+};
+
 class EBML_DLL_API CRTError:public std::runtime_error
 {
 // Variablen...

@@ -14,13 +14,6 @@
 using binary = std::uint8_t;
 using filepos_t = std::uint64_t;
 
-enum open_mode {
-    MODE_READ,
-    MODE_WRITE,
-    MODE_CREATE,
-    MODE_SAFE
-};
-
 #include "EbmlEndian.h" // binary needs to be defined
 
 namespace libebml {
