@@ -51,10 +51,6 @@ class EBML_DLL_API EbmlFloat : public EbmlElementDefaultSameStorage<double> {
     operator double() const;
 
     double GetValue() const;
-
-    bool operator==(const double & val) const override {
-      return val == Value;
-    }
 };
 
 } // namespace libebml

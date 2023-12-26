@@ -586,6 +586,11 @@ class EBML_DLL_API EbmlElementDefaultSameStorage : public EbmlElementDefault<T> 
       return *this;
     }
 
+    bool operator==(const T & test) const override
+    {
+      return Value == test;
+    }
+
     explicit operator T() const { return Value; }
 
   protected:

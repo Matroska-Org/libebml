@@ -44,10 +44,6 @@ class EBML_DLL_API EbmlUInteger : public EbmlElementDefaultSameStorage<std::uint
     explicit operator std::uint64_t() const;
 
     std::uint64_t GetValue() const;
-
-    bool operator==(const std::uint64_t & val) const override {
-      return val == Value;
-    }
 };
 
 } // namespace libebml
