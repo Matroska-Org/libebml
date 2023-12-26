@@ -19,19 +19,20 @@ namespace libebml {
 
 namespace {
 
-std::size_t lengthToFirstNulll(std::wstring const &s)
+std::size_t lengthToFirstNulll(std::string const &s)
 {
-  auto PosNull = s.find(L'\0');
-  return PosNull != std::wstring::npos ? PosNull : s.size();
+  auto PosNull = s.find('\0');
+  return PosNull != std::string::npos ? PosNull : s.size();
 }
 
 }
 
 // ===================== UTFstring class ===================
 
-UTFstring::UTFstring(const wchar_t * _aBuf)
+UTFstring::UTFstring(const char * _aBuf)
 {
-  *this = _aBuf;
+  if (_aBuf != nullptr)
+    UTF8string = _aBuf;
 }
 
 UTFstring::UTFstring(std::wstring const &_aBuf)
@@ -43,71 +44,43 @@ UTFstring & UTFstring::operator=(const wchar_t * _aBuf)
 {
   if (_aBuf != nullptr)
   {
-    WString = _aBuf;
-    UpdateFromUCS2();
+    UpdateFromUCS2(std::wstring{_aBuf});
   }
   else
   {
-    WString.clear();
     UTF8string.clear();
   }
 
-  UpdateFromUCS2();
   return *this;
 }
 
 UTFstring & UTFstring::operator=(wchar_t _aChar)
 {
-  WString = _aChar;
-  UpdateFromUCS2();
+  UpdateFromUCS2(std::wstring{_aChar});
   return *this;
 }
 
 bool UTFstring::operator==(const UTFstring& _aStr) const
 {
   // Only compare up to the first 0 char in both strings.
-  auto LengthThis  = lengthToFirstNulll(WString);
-  auto LengthOther = lengthToFirstNulll(_aStr.WString);
+  auto LengthThis  = lengthToFirstNulll(UTF8string);
+  auto LengthOther = lengthToFirstNulll(_aStr.UTF8string);
 
   if (LengthThis != LengthOther)
     return false;
 
-  return std::memcmp(WString.c_str(), _aStr.WString.c_str(), LengthThis * sizeof(wchar_t)) == 0;
+  return std::memcmp(UTF8string.c_str(), _aStr.UTF8string.c_str(), LengthThis) == 0;
 }
 
 void UTFstring::SetUTF8(const std::string & _aStr)
 {
   UTF8string = _aStr;
-  UpdateFromUTF8();
 }
 
-/*!
-  \see RFC 2279
-*/
-void UTFstring::UpdateFromUTF8()
+void UTFstring::UpdateFromUCS2(const std::wstring & WString)
 {
   // Only convert up to the first \0 character if present.
-  auto Current = std::find(UTF8string.begin(), UTF8string.end(), '\0');
-
-  WString.clear();
-  try {
-    // Even though the function names hint at UCS2, the internal
-    // representation must actually be compatible with the C++
-    // library's implementation. Implementations with sizeof(wchar_t)
-    // == 4 are using UCS4.
-    if (sizeof(wchar_t) == 2)
-      ::utf8::utf8to16(UTF8string.begin(), Current, std::back_inserter(WString));
-    else
-      ::utf8::utf8to32(UTF8string.begin(), Current, std::back_inserter(WString));
-  } catch (::utf8::invalid_code_point &) {
-  } catch (::utf8::invalid_utf8 &) {
-  }
-}
-
-void UTFstring::UpdateFromUCS2()
-{
-  // Only convert up to the first \0 character if present.
-  auto Current = std::find(WString.begin(), WString.end(), L'\0');
+  auto Current = std::find(WString.cbegin(), WString.cend(), L'\0');
 
   UTF8string.clear();
 
@@ -227,7 +200,7 @@ filepos_t EbmlUnicodeString::ReadData(IOCallback & input, ScopeMode ReadFully)
     return GetSize();
 
   if (GetSize() == 0) {
-    Value = static_cast<UTFstring::value_type>(0);
+    Value = UTFstring{};
 
   } else {
     std::string Buffer(static_cast<std::string::size_type>(GetSize()), static_cast<char>(0));
