@@ -33,7 +33,7 @@ class EBML_DLL_API EbmlDate : public EbmlElementDefault<std::int64_t> {
       \param NewDate UNIX/C date in UTC (no timezone)
     */
     void SetEpochDate(std::int64_t NewDate) {Value = (NewDate - UnixEpochDelay) * 1'000'000'000; SetValueIsSet();}
-    EbmlDate &SetValue(std::int64_t NewValue) {SetEpochDate(NewValue); return *this;}
+    EbmlElementDefault<std::int64_t> &SetValue(std::int64_t NewValue) {SetEpochDate(NewValue); return *this;}
 
     /*!
       \brief get the date with a UNIX/C/EPOCH form

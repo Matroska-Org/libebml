@@ -50,7 +50,7 @@ class EBML_DLL_API EbmlFloat : public EbmlElementDefault<double> {
     operator float() const;
     operator double() const;
 
-    EbmlFloat &SetValue(double NewValue);
+    EbmlElementDefault<double> &SetValue(double NewValue);
     double GetValue() const;
 
     bool operator==(const double & val) const override {

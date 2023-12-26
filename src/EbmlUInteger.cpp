@@ -30,7 +30,7 @@ EbmlUInteger::operator std::uint64_t() const {return Value;}
 
 std::uint64_t EbmlUInteger::GetValue() const {return Value;}
 
-EbmlUInteger & EbmlUInteger::SetValue(std::uint64_t NewValue) {
+EbmlElementDefault<std::uint64_t> & EbmlUInteger::SetValue(std::uint64_t NewValue) {
   Value = NewValue;
   SetValueIsSet();
   return *this;

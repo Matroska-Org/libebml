@@ -31,7 +31,7 @@ class EBML_DLL_API EbmlString : public EbmlElementDefault<const char *> {
     using EbmlElement::operator const EbmlId &;
     explicit operator const std::string &() const;
 
-    EbmlString &SetValue(std::string const &NewValue);
+    EbmlElementDefault<const char *> &SetValue(std::string const &NewValue);
     std::string GetValue() const;
 
     bool operator==(const char * const & val) const override {
