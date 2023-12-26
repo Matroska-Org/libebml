@@ -65,7 +65,7 @@ private:
     \brief Handle all operations on a Unicode string EBML element
   \note internally treated as a string made of wide characters (ie UCS-2 or UCS-4 depending on the machine)
 */
-class EBML_DLL_API EbmlUnicodeString : public EbmlElementDefault<const wchar_t *> {
+class EBML_DLL_API EbmlUnicodeString : public EbmlElementDefaultStorage<const wchar_t *, UTFstring> {
   public:
     EbmlUnicodeString(const EbmlCallbacksDefault<const wchar_t *> &);
 
@@ -86,9 +86,6 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElementDefault<const wchar_t *
     bool operator==(const wchar_t * const & val) const override {
       return static_cast<UTFstring>(val) == Value;
     }
-
-    private:
-    UTFstring Value; /// The actual value of the element
 };
 
 } // namespace libebml

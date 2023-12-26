@@ -101,7 +101,7 @@ void UTFstring::UpdateFromUCS2(const std::wstring & WString)
 // ===================== EbmlUnicodeString class ===================
 
 EbmlUnicodeString::EbmlUnicodeString(const EbmlCallbacksDefault<const wchar_t *> & classInfo)
-  :EbmlElementDefault(classInfo, 0)
+  :EbmlElementDefaultStorage<const wchar_t *, UTFstring>(classInfo, 0)
 {
   if (classInfo.HasDefault())
   {

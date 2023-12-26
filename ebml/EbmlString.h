@@ -19,7 +19,7 @@ namespace libebml {
     \class EbmlString
     \brief Handle all operations on a printable string EBML element
 */
-class EBML_DLL_API EbmlString : public EbmlElementDefault<const char *> {
+class EBML_DLL_API EbmlString : public EbmlElementDefaultStorage<const char *, std::string> {
   public:
     EbmlString(const EbmlCallbacksDefault<const char *> &);
 
@@ -38,9 +38,6 @@ class EBML_DLL_API EbmlString : public EbmlElementDefault<const char *> {
     bool operator==(const char * const & val) const override {
       return val == Value;
     }
-
-    private:
-    std::string Value;  /// The actual value of the element
 };
 
 } // namespace libebml

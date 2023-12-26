@@ -13,7 +13,7 @@
 namespace libebml {
 
 EbmlString::EbmlString(const EbmlCallbacksDefault<const char *> & classInfo)
-  :EbmlElementDefault(classInfo, 0)
+  :EbmlElementDefaultStorage<const char *, std::string>(classInfo, 0)
 {
   if (classInfo.HasDefault())
   {
