@@ -28,7 +28,7 @@ EbmlFloat::operator double() const {return (Value);}
 
 double EbmlFloat::GetValue() const {return Value;}
 
-EbmlElementDefault<double> & EbmlFloat::SetValue(double NewValue) {
+EbmlElementDefault<double> & EbmlFloat::SetValue(const double & NewValue) {
   Value = NewValue;
   SetValueIsSet();
   return *this;

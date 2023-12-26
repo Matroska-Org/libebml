@@ -568,6 +568,7 @@ class EBML_DLL_API EbmlElementDefault : public EbmlElement {
     }
 
     virtual bool operator==(const T &) const = 0;
+    virtual EbmlElementDefault<T> & SetValue(const T &) = 0;
 };
 
 } // namespace libebml

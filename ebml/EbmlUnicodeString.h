@@ -77,6 +77,7 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElementDefault<const wchar_t *
     using EbmlElement::operator const EbmlId &;
     explicit operator const UTFstring &() const;
 
+    EbmlElementDefault<const wchar_t *> &SetValue(const wchar_t * const & NewValue) override;
     EbmlElementDefault<const wchar_t *> &SetValue(UTFstring const &NewValue);
     EbmlUnicodeString &SetValueUTF8(std::string const &NewValue);
     UTFstring GetValue() const;

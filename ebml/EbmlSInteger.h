@@ -45,7 +45,7 @@ class EBML_DLL_API EbmlSInteger : public EbmlElementDefault<std::int64_t> {
     explicit operator std::int32_t() const;
     explicit operator std::int64_t() const;
 
-    EbmlElementDefault<std::int64_t> &SetValue(std::int64_t NewValue);
+    EbmlElementDefault<std::int64_t> &SetValue(const std::int64_t & NewValue) override;
     std::int64_t GetValue() const;
 
     bool operator==(const std::int64_t & val) const override {
