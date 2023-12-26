@@ -24,7 +24,7 @@ int main(void)
     UTFstring utf8;
     utf8.SetUTF8( emoji_8 );
 
-    if (utf8.length() != (4 / sizeof(wchar_t)))
+    if (utf8.length() != 4)
         return 1;
 
     if (utf8 != emoji_w)
@@ -45,7 +45,7 @@ int main(void)
         return 1;
 
     UTFstring copy = utf8;
-    if (copy.length() != (4 / sizeof(wchar_t)))
+    if (copy.length() != 4)
         return 1;
 
     if (copy != emoji_w)

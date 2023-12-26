@@ -41,8 +41,8 @@ public:
   UTFstring & operator=(const wchar_t *);
   UTFstring & operator=(wchar_t);
 
-  /// Return length of string
-  std::size_t length() const {return WString.size();}
+  /// Return length of string in bytes not counting the trailing nul character
+  std::size_t length() const {return UTF8string.length();}
 
   explicit operator const wchar_t*() const {return WString.c_str();};
   const wchar_t* c_str() const {return WString.c_str();}
