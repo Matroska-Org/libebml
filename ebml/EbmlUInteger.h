@@ -42,8 +42,6 @@ class EBML_DLL_API EbmlUInteger : public EbmlElementDefaultSameStorage<std::uint
     explicit operator std::uint16_t() const;
     explicit operator std::uint32_t() const;
     explicit operator std::uint64_t() const;
-
-    std::uint64_t GetValue() const;
 };
 
 } // namespace libebml

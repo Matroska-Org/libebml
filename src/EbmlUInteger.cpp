@@ -28,8 +28,6 @@ EbmlUInteger::operator std::uint16_t() const {return static_cast<std::uint16_t>(
 EbmlUInteger::operator std::uint32_t() const {return static_cast<std::uint32_t>(Value);}
 EbmlUInteger::operator std::uint64_t() const {return Value;}
 
-std::uint64_t EbmlUInteger::GetValue() const {return Value;}
-
 /*!
   \todo handle exception on errors
 */

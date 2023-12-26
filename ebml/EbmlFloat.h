@@ -49,8 +49,6 @@ class EBML_DLL_API EbmlFloat : public EbmlElementDefaultSameStorage<double> {
     using EbmlElement::operator const EbmlId &;
     operator float() const;
     operator double() const;
-
-    double GetValue() const;
 };
 
 } // namespace libebml

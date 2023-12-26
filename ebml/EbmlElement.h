@@ -591,6 +591,11 @@ class EBML_DLL_API EbmlElementDefaultSameStorage : public EbmlElementDefault<T> 
       return Value == test;
     }
 
+    T GetValue() const
+    {
+      return Value;
+    }
+
     explicit operator T() const { return Value; }
 
   protected:

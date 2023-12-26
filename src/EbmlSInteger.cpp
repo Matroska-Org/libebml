@@ -46,8 +46,6 @@ EbmlSInteger::operator std::int16_t() const {return static_cast<std::int16_t>(Va
 EbmlSInteger::operator std::int32_t() const {return static_cast<std::int32_t>(Value);}
 EbmlSInteger::operator std::int64_t() const {return Value;}
 
-std::int64_t EbmlSInteger::GetValue() const {return Value;}
-
 /*!
   \todo handle exception on errors
 */

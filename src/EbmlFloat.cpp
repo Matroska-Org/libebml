@@ -26,8 +26,6 @@ EbmlFloat::EbmlFloat(const EbmlCallbacksDefault<double> & classInfo, const EbmlF
 EbmlFloat::operator float() const {return static_cast<float>(Value);}
 EbmlFloat::operator double() const {return (Value);}
 
-double EbmlFloat::GetValue() const {return Value;}
-
 /*!
   \todo handle exception on errors
   \todo handle 10 bits precision
