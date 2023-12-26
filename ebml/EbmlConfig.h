@@ -12,8 +12,4 @@
 
 #include "ebml_export.h"
 
-#define LIBEBML_NAMESPACE libebml
-#define START_LIBEBML_NAMESPACE namespace LIBEBML_NAMESPACE {
-#define END_LIBEBML_NAMESPACE   }
-
 #endif // LIBEBML_CONFIG_H
