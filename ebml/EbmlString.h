@@ -31,7 +31,6 @@ class EBML_DLL_API EbmlString : public EbmlElementDefaultStorage<const char *, s
     using EbmlElement::operator const EbmlId &;
     explicit operator const std::string &() const;
 
-    EbmlElementDefault<const char *> &SetValue(const char * const & NewValue) override;
     EbmlElementDefault<const char *> &SetValue(std::string const &NewValue);
     std::string GetValue() const;
 

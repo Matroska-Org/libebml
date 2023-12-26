@@ -43,7 +43,6 @@ class EBML_DLL_API EbmlUInteger : public EbmlElementDefaultSameStorage<std::uint
     explicit operator std::uint32_t() const;
     explicit operator std::uint64_t() const;
 
-    EbmlElementDefault<std::uint64_t> &SetValue(const std::uint64_t & NewValue) override;
     std::uint64_t GetValue() const;
 
     bool operator==(const std::uint64_t & val) const override {

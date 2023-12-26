@@ -28,12 +28,6 @@ EbmlFloat::operator double() const {return (Value);}
 
 double EbmlFloat::GetValue() const {return Value;}
 
-EbmlElementDefault<double> & EbmlFloat::SetValue(const double & NewValue) {
-  Value = NewValue;
-  SetValueIsSet();
-  return *this;
-}
-
 /*!
   \todo handle exception on errors
   \todo handle 10 bits precision

@@ -134,13 +134,6 @@ filepos_t EbmlUnicodeString::RenderData(IOCallback & output, bool /* bForceRende
 
 EbmlUnicodeString::operator const UTFstring &() const {return Value;}
 
-EbmlElementDefault<const wchar_t *> &EbmlUnicodeString::SetValue(const wchar_t * const & NewValue)
-{
-  Value = NewValue;
-  SetValueIsSet();
-  return *this;
-}
-
 EbmlElementDefault<const wchar_t *> &EbmlUnicodeString::SetValue(UTFstring const &NewValue) {
   Value = NewValue;
   SetValueIsSet();

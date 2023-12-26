@@ -579,6 +579,13 @@ class EBML_DLL_API EbmlElementDefaultSameStorage : public EbmlElementDefault<T> 
       :EbmlElementDefault<T>(classInfo, aDefaultSize)
     {}
 
+    EbmlElementDefaultSameStorage<T> & SetValue(const T & NewValue) override
+    {
+      Value = NewValue;
+      EbmlElement::SetValueIsSet();
+      return *this;
+    }
+
     explicit operator T() const { return Value; }
 
   protected:
@@ -592,6 +599,13 @@ class EBML_DLL_API EbmlElementDefaultStorage : public EbmlElementDefault<T> {
     explicit EbmlElementDefaultStorage(const EbmlCallbacksDefault<T> &classInfo, std::uint64_t aDefaultSize)
       :EbmlElementDefault<T>(classInfo, aDefaultSize)
     {}
+
+    EbmlElementDefaultStorage<T,S> & SetValue(const T & NewValue) override
+    {
+      Value = static_cast<S>(NewValue);
+      EbmlElement::SetValueIsSet();
+      return *this;
+    }
 
   protected:
     S Value;
