@@ -27,8 +27,8 @@ int main(void)
     if (utf8 != emoji_w)
         return 1;
 
-    // UTFstring invalid;
-    // FIXME don't crash invalid.SetUTF8( "\x1\xF6\x00" );
+    UTFstring invalid;
+    invalid.SetUTF8( "\x1\xF6\x00" );
 
     UTFstring empty{0};
     if (empty.length() != 0)
