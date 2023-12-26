@@ -31,8 +31,6 @@ class EBML_DLL_API EbmlString : public EbmlElementDefaultStorage<const char *, s
     using EbmlElement::operator const EbmlId &;
     explicit operator const std::string &() const;
 
-    std::string GetValue() const;
-
     bool operator==(const char * const & val) const override {
       return val == Value;
     }

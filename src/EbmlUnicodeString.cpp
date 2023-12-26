@@ -140,10 +140,6 @@ EbmlUnicodeString &EbmlUnicodeString::SetValueUTF8(std::string const &NewValue) 
   return *this;
 }
 
-UTFstring EbmlUnicodeString::GetValue() const {
-  return Value;
-}
-
 std::string EbmlUnicodeString::GetValueUTF8() const {
   return Value.GetUTF8();
 }

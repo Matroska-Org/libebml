@@ -624,6 +624,11 @@ class EBML_DLL_API EbmlElementDefaultStorage : public EbmlElementDefault<T> {
       return *this;
     }
 
+    const S & GetValue() const
+    {
+      return Value;
+    }
+
   protected:
     S Value;
 };

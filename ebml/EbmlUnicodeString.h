@@ -78,7 +78,6 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElementDefaultStorage<const wc
     explicit operator const UTFstring &() const;
 
     EbmlUnicodeString &SetValueUTF8(std::string const &NewValue);
-    UTFstring GetValue() const;
     std::string GetValueUTF8() const;
 
     bool operator==(const wchar_t * const & val) const override {
