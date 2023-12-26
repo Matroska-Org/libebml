@@ -607,6 +607,13 @@ class EBML_DLL_API EbmlElementDefaultStorage : public EbmlElementDefault<T> {
       return *this;
     }
 
+    EbmlElementDefaultStorage<T,S> & SetValue(const S & NewValue)
+    {
+      Value = NewValue;
+      EbmlElement::SetValueIsSet();
+      return *this;
+    }
+
   protected:
     S Value;
 };
