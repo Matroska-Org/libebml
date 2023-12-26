@@ -75,7 +75,6 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElementDefaultStorage<const wc
     filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault, bool bForceRender = false) override;
 
     using EbmlElement::operator const EbmlId &;
-    explicit operator const UTFstring &() const;
 
     EbmlUnicodeString &SetValueUTF8(std::string const &NewValue);
     std::string GetValueUTF8() const;

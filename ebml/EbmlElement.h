@@ -637,6 +637,8 @@ class EBML_DLL_API EbmlElementDefaultStorage : public EbmlElementDefault<T> {
       return Value;
     }
 
+    explicit operator const S &() const { return Value; }
+
   protected:
     S Value;
 };

@@ -132,8 +132,6 @@ filepos_t EbmlUnicodeString::RenderData(IOCallback & output, bool /* bForceRende
   return Result;
 }
 
-EbmlUnicodeString::operator const UTFstring &() const {return Value;}
-
 EbmlUnicodeString &EbmlUnicodeString::SetValueUTF8(std::string const &NewValue) {
   Value.SetUTF8(NewValue);
   SetValueIsSet();

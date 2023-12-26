@@ -41,8 +41,6 @@ filepos_t EbmlString::RenderData(IOCallback & output, bool /* bForceRender */, S
   return Result;
 }
 
-EbmlString::operator const std::string &() const {return Value;}
-
 std::uint64_t EbmlString::UpdateSize(ShouldWrite writeFilter, bool /* bForceRender */)
 {
   if (!writeFilter(*this))

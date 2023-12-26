@@ -29,7 +29,6 @@ class EBML_DLL_API EbmlString : public EbmlElementDefaultStorage<const char *, s
     filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault, bool bForceRender = false) override;
 
     using EbmlElement::operator const EbmlId &;
-    explicit operator const std::string &() const;
 
     bool operator==(const char * const & val) const override {
       return val == Value;
