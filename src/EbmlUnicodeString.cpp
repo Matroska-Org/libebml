@@ -39,17 +39,6 @@ UTFstring::UTFstring(std::wstring const &_aBuf)
   *this = _aBuf.c_str();
 }
 
-UTFstring::UTFstring(const UTFstring & _aBuf)
-{
-  *this = _aBuf.c_str();
-}
-
-UTFstring & UTFstring::operator=(const UTFstring & _aBuf)
-{
-  *this = _aBuf.c_str();
-  return *this;
-}
-
 UTFstring & UTFstring::operator=(const wchar_t * _aBuf)
 {
   if (_aBuf != nullptr)

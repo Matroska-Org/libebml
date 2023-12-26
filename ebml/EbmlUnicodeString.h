@@ -28,7 +28,7 @@ public:
 
   UTFstring() = default;
   UTFstring(const wchar_t *); // should be NULL terminated
-  UTFstring(const UTFstring &);
+  UTFstring(const UTFstring &) = default;
   UTFstring(std::wstring const &);
 
   virtual ~UTFstring() = default;
@@ -37,7 +37,7 @@ public:
   {
     return !(*this == cmp);
   }
-  UTFstring & operator=(const UTFstring &);
+  UTFstring & operator=(const UTFstring &) = default;
   UTFstring & operator=(const wchar_t *);
   UTFstring & operator=(wchar_t);
 
