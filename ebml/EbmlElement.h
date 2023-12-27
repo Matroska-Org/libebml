@@ -305,7 +305,7 @@ class EBML_DLL_API EbmlElement {
       return true;
     }
 
-    static bool WriteAll(const EbmlElement &elt) {
+    static bool WriteAll(const EbmlElement &) {
       return true;
     }
 
