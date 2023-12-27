@@ -13,6 +13,7 @@
 #include "IOCallback.h"
 
 #include <cassert>
+#include <functional>
 
 namespace libebml {
 
@@ -295,7 +296,7 @@ class EBML_DLL_API EbmlElement {
   public:
     // callback to tell if the element should be written or not
     // \return true if the element should be written
-    using ShouldWrite = bool (*)(const EbmlElement &);
+    using ShouldWrite = std::function<bool(const EbmlElement &)>;
 
     // write only elements that don't have their default value set
     static bool WriteSkipDefault(const EbmlElement &elt) {
