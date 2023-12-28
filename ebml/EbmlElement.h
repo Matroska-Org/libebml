@@ -215,7 +215,7 @@ class EBML_DLL_API EbmlCallbacks {
     }
 
         inline const EbmlId & ClassId() const { return GlobalId; }
-        inline const EbmlSemanticContext & GetContext() const { return Context; }
+        inline constexpr const EbmlSemanticContext & GetContext() const { return Context; }
         inline const char * GetName() const { return DebugName; }
         inline EbmlElement & NewElement() const { return Create(); }
         /// is infinite/unknown size allowed
