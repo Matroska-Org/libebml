@@ -2,10 +2,12 @@ cmake_minimum_required(VERSION 3.1.2)
 
 project(ebml VERSION 1.4.5)
 
+include(CMakeDependentOption)
+
 option(DISABLE_PKGCONFIG "Disable PkgConfig module generation" OFF)
 option(DISABLE_CMAKE_CONFIG "Disable CMake package config module generation" OFF)
 option(ENABLE_WIN32_IO "Build the Windows I/O helper class" OFF)
-option(BUILD_SHARED_LIBS "Build libebml as a shared library" OFF)
+cmake_dependent_option(BUILD_SHARED_LIBS "Build libebml as a shared library (except Windows)" OFF "NOT WIN32" OFF)
 
 include(GNUInstallDirs)
 
