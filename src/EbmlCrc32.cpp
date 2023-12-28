@@ -27,7 +27,7 @@ namespace libebml {
 
 DEFINE_EBML_CLASS_GLOBAL(EbmlCrc32, 0xBF, 1, "EBMLCrc32\0ratamadabapa")
 
-static constexpr std::array<std::uint32_t, 256> m_tab {
+static constexpr std::array<std::uint32_t, 256> s_tab {
 #ifdef WORDS_BIGENDIAN
   0x00000000L, 0x96300777L, 0x2c610eeeL, 0xba510999L, 0x19c46d07L,
   0x8ff46a70L, 0x35a563e9L, 0xa395649eL, 0x3288db0eL, 0xa4b8dc79L,
@@ -154,7 +154,7 @@ void EbmlCrc32::ResetCRC()
 
 void EbmlCrc32::UpdateByte(binary b)
 {
-  m_crc = m_tab.at(CRC32_INDEX(m_crc) ^ b) ^ CRC32_SHIFTED(m_crc);
+  m_crc = s_tab.at(CRC32_INDEX(m_crc) ^ b) ^ CRC32_SHIFTED(m_crc);
 }
 
 void EbmlCrc32::AddElementCRC32(EbmlElement &ElementToCRC)
@@ -228,20 +228,20 @@ bool EbmlCrc32::CheckCRC(std::uint32_t inputCRC, const binary *input, std::uint3
   std::uint32_t crc = CRC32_NEGL;
 
   for(; !IsAligned<std::uint32_t>(input) && length > 0; length--)
-    crc = m_tab.at(CRC32_INDEX(crc) ^ *input++) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc) ^ *input++) ^ CRC32_SHIFTED(crc);
 
   while (length >= 4) {
     crc ^= *reinterpret_cast<const std::uint32_t *>(input);
-    crc = m_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
-    crc = m_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
-    crc = m_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
-    crc = m_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
     length -= 4;
     input += 4;
   }
 
   while (length--)
-    crc = m_tab.at(CRC32_INDEX(crc) ^ *input++) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc) ^ *input++) ^ CRC32_SHIFTED(crc);
 
   //Now we finalize the CRC32
   crc ^= CRC32_NEGL;
@@ -258,21 +258,21 @@ void EbmlCrc32::FillCRC32(const binary *input, std::uint32_t length)
   /*std::uint32_t crc = CRC32_NEGL;
 
   for(; !IsAligned<std::uint32_t>(s) && n > 0; n--)
-    crc = m_tab.at(CRC32_INDEX(crc) ^ *s++) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc) ^ *s++) ^ CRC32_SHIFTED(crc);
 
   while (n >= 4)
   {
     crc ^= *(const std::uint32_t *)s;
-    crc = m_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
-    crc = m_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
-    crc = m_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
-    crc = m_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
     n -= 4;
     s += 4;
   }
 
   while (n--)
-    crc = m_tab.at(CRC32_INDEX(crc) ^ *s++) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc) ^ *s++) ^ CRC32_SHIFTED(crc);
 
   m_crc = crc;
 
@@ -288,20 +288,20 @@ void EbmlCrc32::Update(const binary *input, std::uint32_t length)
   std::uint32_t crc = m_crc;
 
   for(; !IsAligned<std::uint32_t>(input) && length > 0; length--)
-    crc = m_tab.at(CRC32_INDEX(crc) ^ *input++) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc) ^ *input++) ^ CRC32_SHIFTED(crc);
 
   while (length >= 4) {
     crc ^= *reinterpret_cast<const std::uint32_t *>(input);
-    crc = m_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
-    crc = m_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
-    crc = m_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
-    crc = m_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
     length -= 4;
     input += 4;
   }
 
   while (length--)
-    crc = m_tab.at(CRC32_INDEX(crc) ^ *input++) ^ CRC32_SHIFTED(crc);
+    crc = s_tab.at(CRC32_INDEX(crc) ^ *input++) ^ CRC32_SHIFTED(crc);
 
   m_crc = crc;
 }
