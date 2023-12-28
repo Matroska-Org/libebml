@@ -50,8 +50,6 @@ class EbmlStream;
 class EbmlSemanticContext;
 class EbmlElement;
 
-extern const EbmlSemanticContext Context_EbmlGlobal;
-
 #define DEFINE_xxx_CONTEXT(x,global) \
     const EbmlSemanticContext Context_##x = EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, nullptr, global, nullptr); \
 
@@ -109,7 +107,8 @@ extern const EbmlSemanticContext Context_EbmlGlobal;
 
 #define DEFINE_xxx_CLASS_GLOBAL(x,id,idl,name,global) \
     constexpr EbmlId Id_##x    (id, idl); \
-    constexpr EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, name, Context_EbmlGlobal); \
+    const EbmlSemanticContext EmptyContext_##x = EbmlSemanticContext(0, nullptr, nullptr, global, nullptr); \
+    constexpr EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, name, EmptyContext_##x); \
 
 #define DEFINE_xxx_CLASS_ORPHAN(x,id,idl,name,global) \
     constexpr EbmlId Id_##x    (id, idl); \
