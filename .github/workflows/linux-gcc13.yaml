@@ -7,8 +7,15 @@ on:
 
 jobs:
   build_libebml:
-    name: libebml with gcc13
+    name: libebml ${{ matrix.shared.name }} with gcc13
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shared: [
+          { "name": "Dynamic", "option": "ON"},
+          { "name": "Static",  "option": "OFF"}
+        ]
     env:
       CMAKE_OPTIONS: -DCMAKE_CXX_EXTENSIONS=OFF -DBUILD_TESTING=ON
     steps:
@@ -17,8 +24,8 @@ jobs:
       - name: Get pushed code
         uses: actions/checkout@v3
 
-      - name: Configure
-        run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
+      - name: Configure ${{ matrix.shared.name }} library
+        run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DBUILD_SHARED_LIBS=${{ matrix.shared.option }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
         env:
           CC:  gcc-13
           CXX: g++-13
