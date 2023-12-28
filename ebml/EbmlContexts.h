@@ -13,16 +13,7 @@
 
 namespace libebml {
 
-extern const EbmlSemanticContext EBML_DLL_API EbmlHead_Context;
-extern const EbmlSemanticContext EBML_DLL_API EVersion_Context;
-extern const EbmlSemanticContext EBML_DLL_API EReadVersion_Context;
-extern const EbmlSemanticContext EBML_DLL_API EMaxIdLength_Context;
-extern const EbmlSemanticContext EBML_DLL_API EMaxSizeLength_Context;
-extern const EbmlSemanticContext EBML_DLL_API EDocType_Context;
-extern const EbmlSemanticContext EBML_DLL_API EDocTypeVersion_Context;
-extern const EbmlSemanticContext EBML_DLL_API EDocTypeReadVersion_Context;
-
-#define Context_EbmlHead EbmlHead_Context
+extern const EbmlSemanticContext EBML_DLL_API Context_EbmlHead;
 
 // global elements
 extern const EbmlSemanticContext EBML_DLL_API & GetEbmlGlobal_Context();

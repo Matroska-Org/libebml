@@ -24,7 +24,7 @@ DEFINE_END_SEMANTIC(EbmlHead)
 DEFINE_EBML_MASTER_ORPHAN(EbmlHead, 0x1A45DFA3, 4, false, "EBMLHead\0ratamapaga")
 
 EbmlHead::EbmlHead()
-  :EbmlMaster(EbmlHead::ClassInfos, EbmlHead_Context)
+  :EbmlMaster(EbmlHead::ClassInfos, Context_EbmlHead)
 {}
 
 } // namespace libebml
