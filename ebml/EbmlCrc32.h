@@ -61,7 +61,6 @@ DECLARE_EBML_BINARY(EbmlCrc32)
     void ResetCRC();
     void UpdateByte(binary b);
 
-    static const std::array<std::uint32_t, 256> m_tab;
     std::uint32_t m_crc;
     std::uint32_t m_crc_final{0};
 
