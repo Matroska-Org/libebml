@@ -27,7 +27,7 @@ namespace libebml {
 
 DEFINE_EBML_CLASS_GLOBAL(EbmlCrc32, 0xBF, 1, "EBMLCrc32\0ratamadabapa")
 
-constexpr std::array<std::uint32_t, 256> EbmlCrc32::m_tab {
+static constexpr std::array<std::uint32_t, 256> m_tab {
 #ifdef WORDS_BIGENDIAN
   0x00000000L, 0x96300777L, 0x2c610eeeL, 0xba510999L, 0x19c46d07L,
   0x8ff46a70L, 0x35a563e9L, 0xa395649eL, 0x3288db0eL, 0xa4b8dc79L,
