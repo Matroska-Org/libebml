@@ -71,13 +71,7 @@ DECLARE_EBML_BINARY(EbmlCrc32)
 template <class T>
 inline unsigned int GetAlignment(T * /* dummy */=nullptr) // VC60 workaround
 {
-#if defined(_MSC_VER) && (_MSC_VER >= 1300)
-  return __alignof(T);
-#elif defined(__GNUC__)
-  return __alignof__(T);
-#else
-  return sizeof(T);
-#endif
+  return alignof(T);
 }
 
 template <class T>
