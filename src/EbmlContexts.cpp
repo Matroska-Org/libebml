@@ -11,17 +11,16 @@
 
 namespace libebml {
 
-static constexpr EbmlSemantic EbmlGlobal_ContextList[2] =
-{
-  EbmlSemantic(false, false, EBML_INFO(EbmlCrc32)),   ///< EbmlCrc32
-  EbmlSemantic(false, false, EBML_INFO(EbmlVoid)),    ///< EbmlVoid
-};
+DEFINE_START_SEMANTIC(EbmlGlobal)
+DEFINE_SEMANTIC_ITEM(false, false, EbmlCrc32)
+DEFINE_SEMANTIC_ITEM(false, false, EbmlVoid)
+DEFINE_END_SEMANTIC(EbmlGlobal)
 
-static const EbmlSemanticContext EbmlGlobal_Context = EbmlSemanticContext(countof(EbmlGlobal_ContextList), EbmlGlobal_ContextList, nullptr, GetEbmlGlobal_Context, nullptr);
+static DEFINE_xxx_CONTEXT(EbmlGlobal, GetEbmlGlobal_Context)
 
 const EbmlSemanticContext & GetEbmlGlobal_Context()
 {
-  return EbmlGlobal_Context;
+  return Context_EbmlGlobal;
 }
 
 } // namespace libebml
