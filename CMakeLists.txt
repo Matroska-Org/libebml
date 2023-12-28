@@ -27,7 +27,6 @@ set(libebml_SOURCES
   src/EbmlSInteger.cpp
   src/EbmlStream.cpp
   src/EbmlString.cpp
-  src/EbmlSubHead.cpp
   src/EbmlUInteger.cpp
   src/EbmlUnicodeString.cpp
   src/EbmlVersion.cpp
