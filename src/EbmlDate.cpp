@@ -26,8 +26,8 @@ filepos_t EbmlDate::ReadData(IOCallback & input, ScopeMode ReadFully)
   binary Buffer[8];
   input.readFully(Buffer, GetSize());
 
-  Value = endian::from_big64(Buffer);
-  SetValueIsSet();
+  std::int64_t NewValue = endian::from_big64(Buffer);
+  EbmlElementDefaultSameStorage<std::int64_t>::SetValue(NewValue);
   return GetSize();
 }
 

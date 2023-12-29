@@ -122,9 +122,7 @@ filepos_t EbmlSInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
     TempValue |= Buffer.at(i);
   }
 
-  Value = ToSigned(TempValue);
-
-  SetValueIsSet();
+  SetValue(ToSigned(TempValue));
   return GetSize();
 }
 
