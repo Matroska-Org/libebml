@@ -51,7 +51,7 @@ class EbmlSemanticContext;
 class EbmlElement;
 
 #define DEFINE_xxx_CONTEXT(x,global) \
-    constexpr EbmlSemanticContext Context_##x = EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, nullptr, global, nullptr); \
+    constexpr const EbmlSemanticContext Context_##x = EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, nullptr, global, nullptr); \
 
 #define DEFINE_xxx_MASTER(x,id,idl,parent,infinite,name,global) \
     constexpr EbmlId Id_##x    (id, idl); \
