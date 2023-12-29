@@ -57,7 +57,7 @@ filepos_t EbmlSInteger::RenderData(IOCallback & output, bool /* bForceRender */,
   if (GetSizeLength() > 8)
     return 0; // integer bigger coded on more than 64 bits are not supported
 
-  std::int64_t TempValue = Value;
+  std::int64_t TempValue = GetValue();
   for (i=0; i<GetSize();i++) {
     FinalData.at(GetSize()-i-1) = static_cast<binary>(TempValue & 0xFF);
     TempValue >>= 8;
