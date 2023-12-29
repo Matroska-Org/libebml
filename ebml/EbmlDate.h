@@ -32,14 +32,14 @@ class EBML_DLL_API EbmlDate : public EbmlElementDefaultSameStorage<std::int64_t>
       \brief set the date with a UNIX/C/EPOCH form
       \param NewDate UNIX/C date in UTC (no timezone)
     */
-    void SetEpochDate(std::int64_t NewDate) { Value = EpochToEbml(NewDate); }
+    void SetEpochDate(std::int64_t NewDate) { EbmlElementDefaultSameStorage<std::int64_t>::SetValue( EpochToEbml(NewDate) ); }
     EbmlElementDefaultSameStorage<std::int64_t> &SetValue(const std::int64_t & NewValue) override {SetEpochDate(NewValue); return *this;}
 
     /*!
       \brief get the date with a UNIX/C/EPOCH form
       \note the date is in UTC (no timezone)
     */
-    std::int64_t GetEpochDate() const {return EbmlToEpoch(Value);}
+    std::int64_t GetEpochDate() const {return EbmlToEpoch(EbmlElementDefaultSameStorage<std::int64_t>::GetValue());}
     std::int64_t GetValue() const {return GetEpochDate();}
 
     bool ValidateSize() const override {return GetSize() == 8 || GetSize() == 0;}
