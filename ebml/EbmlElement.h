@@ -118,12 +118,10 @@ class EbmlElement;
 #define DEFINE_EBML_CONTEXT(x)                             DEFINE_xxx_CONTEXT(x,GetEbmlGlobal_Context)
 #define DEFINE_EBML_MASTER(x,id,idl,parent,infinite,name)  DEFINE_xxx_MASTER(x,id,idl,parent,infinite,name,GetEbmlGlobal_Context)
 #define DEFINE_EBML_MASTER_ORPHAN(x,id,idl,infinite,name)  DEFINE_xxx_MASTER_ORPHAN(x,id,idl,infinite,name,GetEbmlGlobal_Context)
-#define DEFINE_EBML_CLASS(x,id,idl,parent,name)            DEFINE_xxx_CLASS(x,id,idl,parent,name,GetEbmlGlobal_Context)
 #define DEFINE_EBML_CLASS_GLOBAL(x,id,idl,name)            DEFINE_xxx_CLASS_GLOBAL(x,id,idl,name,GetEbmlGlobal_Context)
 #define DEFINE_EBML_CLASS_ORPHAN(x,id,idl,name)            DEFINE_xxx_CLASS_ORPHAN(x,id,idl,name,GetEbmlGlobal_Context)
 #define DEFINE_EBML_UINTEGER_DEF(x,id,idl,parent,name,val) DEFINE_xxx_UINTEGER_DEF(x,id,idl,parent,name,GetEbmlGlobal_Context,val)
 #define DEFINE_EBML_STRING_DEF(x,id,idl,parent,name,val)   DEFINE_xxx_STRING_DEF(x,id,idl,parent,name,GetEbmlGlobal_Context,val)
-#define DEFINE_EBML_BINARY_CONS(x,id,idl,parent,name)      DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,GetEbmlGlobal_Context)
 
 #define DEFINE_SEMANTIC_CONTEXT(x)
 #define DEFINE_START_SEMANTIC(x)     static const libebml::EbmlSemantic ContextList_##x[] = {
