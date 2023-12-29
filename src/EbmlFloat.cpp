@@ -44,7 +44,9 @@ EbmlFloat::operator double() const {return (Value);}
 double EbmlFloat::GetValue() const {return Value;}
 
 EbmlFloat & EbmlFloat::SetValue(double NewValue) {
-  return *this = NewValue;
+  Value = NewValue;
+  SetValueIsSet();
+  return *this;
 }
 
 /*!

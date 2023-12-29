@@ -26,8 +26,6 @@ class EBML_DLL_API EbmlUInteger : public EbmlElement {
     EbmlUInteger(const EbmlCallbacks &);
     explicit EbmlUInteger(const EbmlCallbacks &, std::uint64_t DefaultValue);
 
-    EbmlUInteger & operator=(std::uint64_t NewValue) {Value = NewValue; SetValueIsSet(); return *this;}
-
     /*!
       Set the default size of the integer (usually 1,2,4 or 8)
     */

@@ -29,7 +29,6 @@ class EBML_DLL_API EbmlString : public EbmlElement {
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
     filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault, bool bForceRender = false) override;
 
-    EbmlString & operator=(const std::string &);
     using EbmlElement::operator const EbmlId &;
     explicit operator const std::string &() const;
 
