@@ -606,7 +606,7 @@ class EBML_DLL_API EbmlElementDefaultSameStorage : public EbmlElementDefault<T> 
 
     explicit operator T() const { return Value; }
 
-  protected:
+  private:
     T Value;
 };
 

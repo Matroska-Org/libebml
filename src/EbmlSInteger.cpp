@@ -41,10 +41,10 @@ EbmlSInteger::EbmlSInteger(const EbmlCallbacksDefault<std::int64_t> & classInfo)
   }
 }
 
-EbmlSInteger::operator std::int8_t() const {return  static_cast<std::int8_t>(Value);}
-EbmlSInteger::operator std::int16_t() const {return static_cast<std::int16_t>(Value);}
-EbmlSInteger::operator std::int32_t() const {return static_cast<std::int32_t>(Value);}
-EbmlSInteger::operator std::int64_t() const {return Value;}
+EbmlSInteger::operator std::int8_t() const {return  static_cast<std::int8_t>(GetValue());}
+EbmlSInteger::operator std::int16_t() const {return static_cast<std::int16_t>(GetValue());}
+EbmlSInteger::operator std::int32_t() const {return static_cast<std::int32_t>(GetValue());}
+EbmlSInteger::operator std::int64_t() const {return GetValue();}
 
 /*!
   \todo handle exception on errors
@@ -73,6 +73,7 @@ std::uint64_t EbmlSInteger::UpdateSize(ShouldWrite writeFilter, bool /* bForceRe
   if (!writeFilter(*this))
     return 0;
 
+  const auto Value = GetValue();
   if (Value <= 0x7F && Value >= (-0x80)) {
     SetSize_(1);
   } else if (Value <= 0x7FFF && Value >= (-0x8000)) {
