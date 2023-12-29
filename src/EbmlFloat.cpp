@@ -78,16 +78,17 @@ filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
   binary Buffer[8];
   input.readFully(Buffer, GetSize());
 
+  double NewValue;
   if (GetSize() == 4) {
     auto tmpp = endian::from_big32(Buffer);
     float val;
     memcpy(&val, &tmpp, 4);
-    Value = static_cast<double>(val);
+    NewValue = static_cast<double>(val);
   } else {
     auto tmpp = endian::from_big64(Buffer);
-    memcpy(&Value, &tmpp, 8);
+    memcpy(&NewValue, &tmpp, 8);
   }
-  SetValueIsSet();
+  SetValue(NewValue);
 
   return GetSize();
 }

@@ -92,13 +92,13 @@ filepos_t EbmlUInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
 
   std::array<binary, 8> Buffer;
   input.readFully(Buffer.data(), GetSize());
-  Value = 0;
+  std::uint64_t Value = 0;
 
   for (unsigned int i=0; i<GetSize(); i++) {
     Value <<= 8;
     Value |= Buffer.at(i);
   }
-  SetValueIsSet();
+  SetValue(Value);
 
   return GetSize();
 }
