@@ -9,7 +9,7 @@
 
 #include <cstdint>
 
-#include "ebml/EbmlConfig.h"
+#include "EbmlConfig.h"
 
 namespace libebml {
 
