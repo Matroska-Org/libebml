@@ -57,6 +57,17 @@ class EBML_DLL_API EbmlDate : public EbmlElementDefaultSameStorage<std::int64_t>
 
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
 
+  protected:
+    static std::int64_t EpochToEbml(std::int64_t epoch)
+    {
+      return (epoch - UnixEpochDelay) * 1'000'000'000;
+    }
+
+    static std::int64_t EbmlToEpoch(std::int64_t ebml)
+    {
+      return ebml/1'000'000'000 + UnixEpochDelay;
+    }
+
     private:
     filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;
 
