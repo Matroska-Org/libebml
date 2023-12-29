@@ -36,7 +36,7 @@ filepos_t EbmlDate::RenderData(IOCallback & output, bool /* bForceRender */, Sho
   assert(GetSize() == 8 || GetSize() == 0);
   if (GetSize() == 8) {
     binary b64[8];
-    endian::to_big64(Value, b64);
+    endian::to_big64(EbmlElementDefaultSameStorage<std::int64_t>::GetValue(), b64);
 
     output.writeFully(b64,8);
   }

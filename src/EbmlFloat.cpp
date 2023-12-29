@@ -35,14 +35,14 @@ filepos_t EbmlFloat::RenderData(IOCallback & output, bool /* bForceRender */, Sh
   assert(GetSize() == 4 || GetSize() == 8);
 
   if (GetSize() == 4) {
-    auto val = static_cast<float>(Value);
+    auto val = static_cast<float>(GetValue());
     std::int32_t Tmp;
     memcpy(&Tmp, &val, 4);
     binary TmpToWrite[4];
     endian::to_big32(Tmp, TmpToWrite);
     output.writeFully(TmpToWrite, 4);
   } else if (GetSize() == 8) {
-    double val = Value;
+    double val = GetValue();
     std::int64_t Tmp;
     memcpy(&Tmp, &val, 8);
     binary TmpToWrite[8];
