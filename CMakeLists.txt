@@ -140,6 +140,10 @@ if (BUILD_TESTING)
   target_link_libraries(test_utfstring PUBLIC ebml)
   add_test(test_utfstring test_utfstring)
 
+  add_executable(test_macros test/test_macros.cxx)
+  target_link_libraries(test_macros PUBLIC ebml)
+  add_test(test_macros test_macros)
+
 endif(BUILD_TESTING)
 
 
