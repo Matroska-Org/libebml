@@ -45,9 +45,6 @@ class EBML_DLL_API EbmlFloat : public EbmlElement {
     }
 
 
-//    EbmlFloat & operator=(const float NewValue) { Value = NewValue; return *this;}
-    EbmlFloat & operator=(const double NewValue) { Value = NewValue; SetValueIsSet(); return *this;}
-
     bool IsSmallerThan(const EbmlElement *Cmp) const override;
 
     using EbmlElement::operator const EbmlId &;

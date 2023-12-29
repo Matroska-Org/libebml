@@ -151,21 +151,16 @@ filepos_t EbmlUnicodeString::RenderData(IOCallback & output, bool /* bForceRende
 
 EbmlUnicodeString::operator const UTFstring &() const {return Value;}
 
-EbmlUnicodeString & EbmlUnicodeString::operator=(const UTFstring & NewString)
-{
-  Value = NewString;
+EbmlUnicodeString &EbmlUnicodeString::SetValue(UTFstring const &NewValue) {
+  Value = NewValue;
   SetValueIsSet();
   return *this;
 }
 
-EbmlUnicodeString &EbmlUnicodeString::SetValue(UTFstring const &NewValue) {
-  return *this = NewValue;
-}
-
 EbmlUnicodeString &EbmlUnicodeString::SetValueUTF8(std::string const &NewValue) {
-  UTFstring NewValueUTFstring;
-  NewValueUTFstring.SetUTF8(NewValue);
-  return *this = NewValueUTFstring;
+  Value.SetUTF8(NewValue);
+  SetValueIsSet();
+  return *this;
 }
 
 UTFstring EbmlUnicodeString::GetValue() const {

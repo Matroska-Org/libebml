@@ -71,19 +71,10 @@ filepos_t EbmlString::RenderData(IOCallback & output, bool /* bForceRender */, S
 
 EbmlString::operator const std::string &() const {return Value;}
 
-EbmlString & EbmlString::operator=(const std::string & NewString)
-{
-  Value = NewString;
-  SetValueIsSet();
-/* done automatically
-  SetSize_(Value.length());
-  if (GetDefaultSize() > GetSize())
-    SetSize_(GetDefaultSize());*/
-  return *this;
-}
-
 EbmlString &EbmlString::SetValue(std::string const &NewValue) {
-  return *this = NewValue;
+  Value = NewValue;
+  SetValueIsSet();
+  return *this;
 }
 
 std::string EbmlString::GetValue() const {

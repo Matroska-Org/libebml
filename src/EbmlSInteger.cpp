@@ -49,7 +49,9 @@ EbmlSInteger::operator std::int64_t() const {return Value;}
 std::int64_t EbmlSInteger::GetValue() const {return Value;}
 
 EbmlSInteger & EbmlSInteger::SetValue(std::int64_t NewValue) {
-  return *this = NewValue;
+  Value = NewValue;
+  SetValueIsSet();
+  return *this;
 }
 
 /*!

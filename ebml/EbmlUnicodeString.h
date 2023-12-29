@@ -75,7 +75,6 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElement {
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
     filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault, bool bForceRender = false) override;
 
-    EbmlUnicodeString & operator=(const UTFstring &); ///< platform dependant code
     using EbmlElement::operator const EbmlId &;
     explicit operator const UTFstring &() const;
 
