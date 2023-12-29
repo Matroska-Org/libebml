@@ -23,10 +23,10 @@ EbmlUInteger::EbmlUInteger(const EbmlCallbacksDefault<std::uint64_t> & classInfo
   }
 }
 
-EbmlUInteger::operator std::uint8_t()  const {return static_cast<std::uint8_t>(Value); }
-EbmlUInteger::operator std::uint16_t() const {return static_cast<std::uint16_t>(Value);}
-EbmlUInteger::operator std::uint32_t() const {return static_cast<std::uint32_t>(Value);}
-EbmlUInteger::operator std::uint64_t() const {return Value;}
+EbmlUInteger::operator std::uint8_t()  const {return static_cast<std::uint8_t>(GetValue()); }
+EbmlUInteger::operator std::uint16_t() const {return static_cast<std::uint16_t>(GetValue());}
+EbmlUInteger::operator std::uint32_t() const {return static_cast<std::uint32_t>(GetValue());}
+EbmlUInteger::operator std::uint64_t() const {return GetValue();}
 
 /*!
   \todo handle exception on errors
@@ -54,6 +54,7 @@ std::uint64_t EbmlUInteger::UpdateSize(ShouldWrite writeFilter, bool /* bForceRe
   if (!writeFilter(*this))
     return 0;
 
+  const auto Value = GetValue();
   if (Value <= 0xFF) {
     SetSize_(1);
   } else if (Value <= 0xFFFF) {

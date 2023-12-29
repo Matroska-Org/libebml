@@ -23,8 +23,8 @@ EbmlFloat::EbmlFloat(const EbmlCallbacksDefault<double> & classInfo, const EbmlF
   }
 }
 
-EbmlFloat::operator float() const {return static_cast<float>(Value);}
-EbmlFloat::operator double() const {return (Value);}
+EbmlFloat::operator float() const {return static_cast<float>(GetValue());}
+EbmlFloat::operator double() const {return (GetValue());}
 
 /*!
   \todo handle exception on errors
