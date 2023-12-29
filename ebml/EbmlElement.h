@@ -140,30 +140,34 @@ class EbmlElement;
 #define DEFINE_END_SEMANTIC(x)       };
 #define DEFINE_SEMANTIC_ITEM(m,u,c)  libebml::EbmlSemantic(m, u, EBML_INFO(c)),
 
-#define DECLARE_xxx_MASTER(x,DllApi)  class DllApi x : public libebml::EbmlMaster { \
+#define DECLARE_xxx_BASE(x, DllApi, BaseClass) \
+class DllApi x : public BaseClass { \
   public: \
     x();
-#define DECLARE_xxx_UINTEGER(x,DllApi)  class DllApi x : public libebml::EbmlUInteger { \
-  public: \
-    x();
-#define DECLARE_xxx_SINTEGER(x,DllApi)  class DllApi x : public libebml::EbmlSInteger { \
-  public: \
-    x();
-#define DECLARE_xxx_STRING(x,DllApi)    class DllApi x : public libebml::EbmlString { \
-  public: \
-    x();
-#define DECLARE_xxx_UNISTRING(x,DllApi) class DllApi x : public libebml::EbmlUnicodeString { \
-  public: \
-    x();
-#define DECLARE_xxx_BINARY(x,DllApi)    class DllApi x : public libebml::EbmlBinary { \
-  public: \
-    x();
-#define DECLARE_xxx_DATE(x,DllApi)  class DllApi x : public libebml::EbmlDate { \
-  public: \
-    x();
-#define DECLARE_xxx_FLOAT(x,DllApi)  class DllApi x : public libebml::EbmlFloat { \
-  public: \
-    x();
+
+#define DECLARE_xxx_MASTER(x,DllApi)    \
+  DECLARE_xxx_BASE(x, DllApi, libebml::EbmlMaster)
+
+#define DECLARE_xxx_UINTEGER(x,DllApi)  \
+  DECLARE_xxx_BASE(x, DllApi, libebml::EbmlUInteger)
+
+#define DECLARE_xxx_SINTEGER(x,DllApi)  \
+  DECLARE_xxx_BASE(x, DllApi, libebml::EbmlSInteger)
+
+#define DECLARE_xxx_STRING(x,DllApi)    \
+  DECLARE_xxx_BASE(x, DllApi, libebml::EbmlString)
+
+#define DECLARE_xxx_UNISTRING(x,DllApi) \
+  DECLARE_xxx_BASE(x, DllApi, libebml::EbmlUnicodeString)
+
+#define DECLARE_xxx_BINARY(x,DllApi)    \
+  DECLARE_xxx_BASE(x, DllApi, libebml::EbmlBinary)
+
+#define DECLARE_xxx_DATE(x,DllApi)      \
+  DECLARE_xxx_BASE(x, DllApi, libebml::EbmlDate)
+
+#define DECLARE_xxx_FLOAT(x,DllApi)     \
+  DECLARE_xxx_BASE(x, DllApi, libebml::EbmlFloat)
 
 #define DECLARE_EBML_MASTER(x)    DECLARE_xxx_MASTER(  x,EBML_DLL_API)
 #define DECLARE_EBML_UINTEGER(x)  DECLARE_xxx_UINTEGER(x,EBML_DLL_API)
