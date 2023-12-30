@@ -12,6 +12,8 @@
 #include "EbmlTypes.h"
 #include "IOCallback.h"
 
+#include <memory>
+
 namespace libebml {
 
 class EBML_DLL_API SafeReadIOCallback : public std::exception {
@@ -23,15 +25,14 @@ public:
   };
 
 private:
-  IOCallback *mIO;
-  bool mDeleteIO;
+  std::shared_ptr<IOCallback> mIO;
   std::size_t mSize;
 
 public:
-  SafeReadIOCallback(IOCallback *IO, bool DeleteIO);
+  SafeReadIOCallback(std::shared_ptr<IOCallback> &IO);
   SafeReadIOCallback(void const *Mem, std::size_t Size);
   explicit SafeReadIOCallback(EbmlBinary const &Binary);
-  ~SafeReadIOCallback() override;
+  ~SafeReadIOCallback() override = default;
   SafeReadIOCallback(const SafeReadIOCallback&) = delete;
   SafeReadIOCallback& operator=(const SafeReadIOCallback&) = delete;
 
@@ -53,7 +54,7 @@ public:
   void Seek(std::size_t Position);
 
 protected:
-  void Init(IOCallback *IO, bool DeleteIO);
+  void Init(std::shared_ptr<IOCallback> &IO);
 };
 
 } // namespace libebml

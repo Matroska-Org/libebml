@@ -22,30 +22,24 @@ SafeReadIOCallback::EndOfStreamX::EndOfStreamX(std::size_t MissingBytes)
 
 // ----------------------------------------------------------------------
 
-SafeReadIOCallback::SafeReadIOCallback(IOCallback *IO,
-                                       bool DeleteIO) {
-  Init(IO, DeleteIO);
+SafeReadIOCallback::SafeReadIOCallback(std::shared_ptr<IOCallback> & IO) {
+  Init(IO);
 }
 
 SafeReadIOCallback::SafeReadIOCallback(void const *Mem,
                                        std::size_t Size) {
-  Init(new MemReadIOCallback(Mem, Size), true);
+  std::shared_ptr<IOCallback> t = std::make_shared<MemReadIOCallback>(Mem, Size);
+  Init(t);
 }
 
 SafeReadIOCallback::SafeReadIOCallback(EbmlBinary const &Binary) {
-  Init(new MemReadIOCallback(Binary), true);
-}
-
-SafeReadIOCallback::~SafeReadIOCallback() {
-  if (mDeleteIO)
-    delete mIO;
+  std::shared_ptr<IOCallback> t = std::make_shared<MemReadIOCallback>(Binary);
+  Init(t);
 }
 
 void
-SafeReadIOCallback::Init(IOCallback *IO,
-                         bool DeleteIO) {
+SafeReadIOCallback::Init(std::shared_ptr<IOCallback> & IO) {
   mIO                = IO;
-  mDeleteIO          = DeleteIO;
   const std::int64_t PrevPosition = IO->getFilePointer();
   IO->setFilePointer(0, seek_end);
   mSize              = IO->getFilePointer();
