@@ -17,13 +17,15 @@
 #define stringstream strstream
 #endif
 
+#include <vector>
+
 namespace libebml {
 
 class EBML_DLL_API MemIOCallback : public IOCallback
 {
 public:
   explicit MemIOCallback(std::uint64_t DefaultSize = 128);
-  ~MemIOCallback() override;
+  ~MemIOCallback() override = default;
 
   MemIOCallback(const MemIOCallback&) = delete;
   MemIOCallback& operator=(const MemIOCallback&) = delete;
@@ -61,7 +63,7 @@ public:
   */
   void close() override {}
 
-  const binary *GetDataBuffer() const {return dataBuffer;}
+  const binary *GetDataBuffer() const {return dataBuffer.data();}
   std::uint64_t GetDataBufferSize() const {return dataBufferTotalSize;}
   void SetDataBufferSize(std::uint64_t newDataBufferSize) {dataBufferTotalSize = newDataBufferSize;}
   /*!
@@ -75,7 +77,7 @@ protected:
   bool mOk;
   std::string mLastErrorStr;
 
-  binary *dataBuffer;
+  std::vector<binary> dataBuffer;
   /*!
     Postion where we start 'writing' to the dataBuffer
   */
