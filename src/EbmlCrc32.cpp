@@ -12,6 +12,7 @@
 #include "ebml/MemIOCallback.h"
 
 #include <limits>
+#include <memory>
 
 #ifdef WORDS_BIGENDIAN
 static constexpr uint32_t CRC32_INDEX(uint32_t c) { return c >> 24; }
@@ -193,13 +194,11 @@ filepos_t EbmlCrc32::RenderData(IOCallback & output, bool /* bForceRender */, Sh
 
   if (Result < GetDefaultSize()) {
     // pad the rest with 0
-    auto Pad = new (std::nothrow) binary[GetDefaultSize() - Result];
+    auto Pad = std::make_unique<binary>(GetDefaultSize() - Result);
     if (Pad != nullptr) {
-      memset(Pad, 0x00, GetDefaultSize() - Result);
-      output.writeFully(Pad, GetDefaultSize() - Result);
+      output.writeFully(Pad.get(), GetDefaultSize() - Result);
 
       Result = GetDefaultSize();
-      delete [] Pad;
     }
   }
 
