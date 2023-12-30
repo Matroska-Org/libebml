@@ -18,14 +18,14 @@ jobs:
           { "name": "arm64", "option": "arm64"},
         ]
     env:
-      CMAKE_OPTIONS: -DCMAKE_CXX_EXTENSIONS=OFF -DCMAKE_SYSTEM_NAME="WindowsStore" -DCMAKE_SYSTEM_VERSION="10.0" -DCMAKE_CXX_FLAGS_INIT="-DWINVER=0x0A00 -DWINAPI_FAMILY=WINAPI_FAMILY_PC_APP"
+      CMAKE_OPTIONS: -DDEV_MODE=ON -DCMAKE_SYSTEM_NAME="WindowsStore" -DCMAKE_SYSTEM_VERSION="10.0" -DCMAKE_CXX_FLAGS_INIT="-DWINVER=0x0A00 -DWINAPI_FAMILY=WINAPI_FAMILY_PC_APP"
       # TODO use CreateFile2 and add -DENABLE_WIN32_IO=ON
     steps:
       - uses: lukka/get-cmake@latest
 
       - name: Get pushed code
         uses: actions/checkout@v3
-      
+
       - name: Configure
         run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -A ${{ matrix.arch.option }} -DBUILD_SHARED_LIBS=OFF
 

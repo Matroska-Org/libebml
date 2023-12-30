@@ -10,7 +10,7 @@ jobs:
     name: libebml
     runs-on: ubuntu-latest
     env:
-      CMAKE_OPTIONS: -DCMAKE_CXX_EXTENSIONS=OFF -DBUILD_TESTING=ON
+      CMAKE_OPTIONS: -DDEV_MODE=ON -DBUILD_TESTING=ON
     steps:
       - uses: lukka/get-cmake@latest
 
