@@ -14,8 +14,9 @@ namespace libebml {
 MemIOCallback::MemIOCallback(std::uint64_t DefaultSize)
 {
   //The default size of the buffer is 128 bytes
-  dataBuffer = static_cast<binary *>(malloc(DefaultSize));
-  if (dataBuffer == nullptr) {
+  try {
+    dataBuffer.resize(DefaultSize);
+  } catch (...) {
     mOk = false;
     std::stringstream Msg;
     Msg << "Failed to alloc memory block of size ";
@@ -30,12 +31,6 @@ MemIOCallback::MemIOCallback(std::uint64_t DefaultSize)
   mOk = true;
 }
 
-MemIOCallback::~MemIOCallback()
-{
-  if (dataBuffer != nullptr)
-    free(dataBuffer);
-}
-
 std::size_t MemIOCallback::read(void *Buffer, std::size_t Size)
 {
   if (Buffer == nullptr || Size < 1)
@@ -44,14 +39,14 @@ std::size_t MemIOCallback::read(void *Buffer, std::size_t Size)
   if (Size + dataBufferPos < Size || // overflow, reading too much
       Size + dataBufferPos > dataBufferTotalSize) {
     //We will only return the remaining data
-    memcpy(Buffer, dataBuffer + dataBufferPos, dataBufferTotalSize - dataBufferPos);
+    memcpy(Buffer, dataBuffer.data() + dataBufferPos, dataBufferTotalSize - dataBufferPos);
     const std::uint64_t oldDataPos = dataBufferPos;
     dataBufferPos = dataBufferTotalSize;
     return dataBufferTotalSize - oldDataPos;
   }
 
   //Well... We made it here, so do a quick and simple copy
-  memcpy(Buffer, dataBuffer+dataBufferPos, Size);
+  memcpy(Buffer, dataBuffer.data()+dataBufferPos, Size);
   dataBufferPos += Size;
 
   return Size;
@@ -73,10 +68,10 @@ std::size_t MemIOCallback::write(const void *Buffer, std::size_t Size)
     return 0;
   if (dataBufferMemorySize < dataBufferPos + Size) {
     //We need more memory!
-    dataBuffer = static_cast<binary *>(realloc(static_cast<void *>(dataBuffer), dataBufferPos + Size));
+    dataBuffer.resize(dataBufferPos + Size);
     dataBufferMemorySize = dataBufferPos + Size;
   }
-  memcpy(dataBuffer+dataBufferPos, Buffer, Size);
+  memcpy(dataBuffer.data()+dataBufferPos, Buffer, Size);
   dataBufferPos += Size;
   if (dataBufferPos > dataBufferTotalSize)
     dataBufferTotalSize = dataBufferPos;
@@ -90,10 +85,10 @@ std::uint32_t MemIOCallback::write(IOCallback & IOToRead, std::size_t Size)
     return 0;
   if (dataBufferMemorySize < dataBufferPos + Size) {
     //We need more memory!
-    dataBuffer = static_cast<binary *>(realloc(static_cast<void *>(dataBuffer), dataBufferPos + Size));
+    dataBuffer.resize(dataBufferPos + Size);
     dataBufferMemorySize = dataBufferPos + Size;
   }
-  IOToRead.readFully(&dataBuffer[dataBufferPos], Size);
+  IOToRead.readFully(&dataBuffer.data()[dataBufferPos], Size);
   dataBufferTotalSize = Size;
   return Size;
 }
