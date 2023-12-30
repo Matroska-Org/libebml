@@ -61,7 +61,7 @@ public:
   */
   void close() override {}
 
-  binary *GetDataBuffer() const {return dataBuffer;}
+  const binary *GetDataBuffer() const {return dataBuffer;}
   std::uint64_t GetDataBufferSize() const {return dataBufferTotalSize;}
   void SetDataBufferSize(std::uint64_t newDataBufferSize) {dataBufferTotalSize = newDataBufferSize;}
   /*!
