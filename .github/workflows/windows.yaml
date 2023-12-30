@@ -19,7 +19,7 @@ jobs:
           { "name": "arm64", "option": "arm64", "env": "ARM64"},
         ]
     env:
-      CMAKE_OPTIONS: -DENABLE_WIN32_IO=ON -DDEV_MODE=ON -DCMAKE_CXX_FLAGS_INIT="-DWINVER=0x0501" -DBUILD_TESTING=ON
+      CMAKE_OPTIONS: -DDEV_MODE=ON -DCMAKE_CXX_FLAGS_INIT="-DWINVER=0x0501" -DBUILD_TESTING=ON
     steps:
       - uses: lukka/get-cmake@latest
 
