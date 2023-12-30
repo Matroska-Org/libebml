@@ -26,10 +26,27 @@ feature_info_on_off(DISABLE_CMAKE_CONFIG "won't generate CMake config file" "wil
 option(ENABLE_WIN32_IO "Build the Windows I/O helper class" OFF)
 feature_info_on_off(ENABLE_WIN32_IO "will build Windows I/O code" "will not build Windows I/O code")
 
+option(DEV_MODE "Developer mode with extra compilation checks" OFF)
+feature_info_on_off(DEV_MODE "added developer mode extra compilation checks" "default build mode")
+
 include(GNUInstallDirs)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include(CheckCXXCompilerFlag)
+include(CMakeParseArguments)
+function(add_cxx_flag_if_supported)
+  foreach(flagname ${ARGN})
+    string(REPLACE "-" "_" TEST_RESULT ${flagname})
+    check_cxx_compiler_flag(${flagname} HAVE_FLAG_${TEST_RESULT})
+    # message(STATUS "supported ${flagname}: ${HAVE_FLAG_${TEST_RESULT}}")
+
+    if (HAVE_FLAG_${TEST_RESULT})
+      add_compile_options(${flagname})
+    endif()
+  endforeach()
+endfunction()
 
 find_package(utf8cpp 3.2.0)
 if(NOT utf8cpp_FOUND)
@@ -43,6 +60,16 @@ if(NOT utf8cpp_FOUND)
         OVERRIDE_FIND_PACKAGE
     )
     FetchContent_MakeAvailable(utf8cpp)
+endif()
+
+if(DEV_MODE)
+  message(STATUS "Using developer mode for ${CMAKE_CXX_COMPILER_ID}")
+  set(CMAKE_CXX_EXTENSIONS OFF)
+  add_cxx_flag_if_supported(-Wall -Wno-comment -Wfatal-errors -fstack-protector-strong -Wnon-virtual-dtor -Wextra
+                            -Wunused -Wpedantic -Woverloaded-virtual -Wshadow
+                            -Wno-self-assign -Wno-mismatched-tags -Wno-inconsistent-missing-override
+                            -Wno-potentially-evaluated-expression -Wno-extra-semi -Wno-gnu-zero-variadic-macro-arguments)
+  add_cxx_flag_if_supported(-Qunused-arguments)
 endif()
 
 set(libebml_SOURCES
