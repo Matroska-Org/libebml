@@ -57,7 +57,7 @@ class EbmlElement;
     constexpr libebml::EbmlId Id_##x    (id, idl); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
     constexpr libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, name, Context_##x); \
-    x::x() :EbmlMaster(x::ClassInfos, Context_##x) {}
+    x::x() :libebml::EbmlMaster(x::ClassInfos, Context_##x) {}
 
 #define DEFINE_xxx_MASTER_CONS(x,id,idl,parent,infinite,name,global) \
     constexpr libebml::EbmlId Id_##x    (id, idl); \
@@ -85,25 +85,25 @@ class EbmlElement;
     constexpr libebml::EbmlId Id_##x    (id, idl); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
     constexpr libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, name, Context_##x); \
-    x::x() :EbmlUInteger(x::ClassInfos, defval) {}
+    x::x() :libebml::EbmlUInteger(x::ClassInfos, defval) {}
 
 #define DEFINE_xxx_SINTEGER_DEF(x,id,idl,parent,name,global,defval) \
     constexpr libebml::EbmlId Id_##x    (id, idl); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
     constexpr libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, name, Context_##x); \
-    x::x() :EbmlSInteger(x::ClassInfos, defval) {}
+    x::x() :libebml::EbmlSInteger(x::ClassInfos, defval) {}
 
 #define DEFINE_xxx_STRING_DEF(x,id,idl,parent,name,global,defval) \
     constexpr libebml::EbmlId Id_##x    (id, idl); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
     constexpr libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, name, Context_##x); \
-    x::x() :EbmlString(x::ClassInfos, defval) {}
+    x::x() :libebml::EbmlString(x::ClassInfos, defval) {}
 
 #define DEFINE_xxx_FLOAT_DEF(x,id,idl,parent,name,global,defval) \
     constexpr libebml::EbmlId Id_##x    (id, idl); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
     constexpr libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, name, Context_##x); \
-    x::x() :EbmlFloat(x::ClassInfos, defval) {}
+    x::x() :libebml::EbmlFloat(x::ClassInfos, defval) {}
 
 #define DEFINE_xxx_CLASS_GLOBAL(x,id,idl,name,global) \
     constexpr libebml::EbmlId Id_##x    (id, idl); \
