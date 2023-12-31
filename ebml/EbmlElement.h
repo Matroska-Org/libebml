@@ -184,15 +184,15 @@ class EbmlElement;
 #define EBML_INFO_NAME(cb)    (cb).GetName()
 #define EBML_INFO_CREATE(cb)  (cb).NewElement()
 
-#define EBML_SEM_CONTEXT(s) ((const EbmlCallbacks &)(s)).GetContext()
+#define EBML_SEM_CONTEXT(s) ((const libebml::EbmlCallbacks &)(s)).GetContext()
 #define EBML_SEM_CREATE(s)  (s).Create()
 
 #define EBML_CTX_SIZE(c)       (c).GetSize()
 #define EBML_CTX_MASTER(c)     (c).GetMaster()
 #define EBML_CTX_PARENT(c)     (c).Parent()
 #define EBML_CTX_IDX(c,i)      (c).GetSemantic(i)
-#define EBML_CTX_IDX_INFO(c,i) (const EbmlCallbacks &)((c).GetSemantic(i))
-#define EBML_CTX_IDX_ID(c,i)   ((const EbmlCallbacks &)((c).GetSemantic(i))).ClassId()
+#define EBML_CTX_IDX_INFO(c,i) (const libebml::EbmlCallbacks &)((c).GetSemantic(i))
+#define EBML_CTX_IDX_ID(c,i)   ((const libebml::EbmlCallbacks &)((c).GetSemantic(i))).ClassId()
 
 #if !defined(INVALID_FILEPOS_T)
 #define INVALID_FILEPOS_T 0
