@@ -75,53 +75,49 @@ class EbmlElement;
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
     constexpr libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, name, Context_##x);
 
-#define DEFINE_xxx_UINTEGER(x,id,idl,parent,name,global) \
+#define DEFINE_xxx_CLASS_BASE(x,BaseClass,id,idl,parent,name,global) \
     DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
-    x::x() :libebml::EbmlUInteger(x::ClassInfos) {}
+    x::x() :libebml::BaseClass(x::ClassInfos) {}
+
+#define DEFINE_xxx_CLASS_BASE_DEFAULT(x,BaseClass,id,idl,parent,name,global,defval) \
+    DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
+    x::x() :libebml::BaseClass(x::ClassInfos, defval) {}
+
+#define DEFINE_xxx_UINTEGER(x,id,idl,parent,name,global) \
+    DEFINE_xxx_CLASS_BASE(x,EbmlUInteger,id,idl,parent,name,global)
 
 #define DEFINE_xxx_SINTEGER(x,id,idl,parent,name,global) \
-    DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
-    x::x() :libebml::EbmlSInteger(x::ClassInfos) {}
+    DEFINE_xxx_CLASS_BASE(x,EbmlSInteger,id,idl,parent,name,global)
 
 #define DEFINE_xxx_STRING(x,id,idl,parent,name,global) \
-    DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
-    x::x() :libebml::EbmlString(x::ClassInfos) {}
+    DEFINE_xxx_CLASS_BASE(x,EbmlString,id,idl,parent,name,global)
 
 #define DEFINE_xxx_UNISTRING(x,id,idl,parent,name,global) \
-    DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
-    x::x() :libebml::EbmlUnicodeString(x::ClassInfos) {}
+    DEFINE_xxx_CLASS_BASE(x,EbmlUnicodeString,id,idl,parent,name,global)
 
 #define DEFINE_xxx_FLOAT(x,id,idl,parent,name,global) \
-    DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
-    x::x() :libebml::EbmlFloat(x::ClassInfos) {}
+    DEFINE_xxx_CLASS_BASE(x,EbmlFloat,id,idl,parent,name,global)
 
 #define DEFINE_xxx_DATE(x,id,idl,parent,name,global) \
-    DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
-    x::x() :libebml::EbmlDate(x::ClassInfos) {}
+    DEFINE_xxx_CLASS_BASE(x,EbmlDate,id,idl,parent,name,global)
 
 #define DEFINE_xxx_BINARY(x,id,idl,parent,name,global) \
-    DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
-    x::x() :libebml::EbmlBinary(x::ClassInfos) {}
+    DEFINE_xxx_CLASS_BASE(x,EbmlBinary,id,idl,parent,name,global)
 
 #define DEFINE_xxx_UINTEGER_DEF(x,id,idl,parent,name,global,defval) \
-    DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
-    x::x() :libebml::EbmlUInteger(x::ClassInfos, defval) {}
+    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlUInteger,id,idl,parent,name,global,defval)
 
 #define DEFINE_xxx_SINTEGER_DEF(x,id,idl,parent,name,global,defval) \
-    DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
-    x::x() :libebml::EbmlSInteger(x::ClassInfos, defval) {}
+    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlSInteger,id,idl,parent,name,global,defval)
 
 #define DEFINE_xxx_STRING_DEF(x,id,idl,parent,name,global,defval) \
-    DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
-    x::x() :libebml::EbmlString(x::ClassInfos, defval) {}
+    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlString,id,idl,parent,name,global,defval)
 
 #define DEFINE_xxx_UNISTRING_DEF(x,id,idl,parent,name,global,defval) \
-    DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
-    x::x() :libebml::EbmlUnicodeString(x::ClassInfos) {}
+    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlUnicodeString,id,idl,parent,name,global,defval)
 
 #define DEFINE_xxx_FLOAT_DEF(x,id,idl,parent,name,global,defval) \
-    DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
-    x::x() :libebml::EbmlFloat(x::ClassInfos, defval) {}
+    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlFloat,id,idl,parent,name,global,defval)
 
 #define DEFINE_xxx_CLASS_ORPHAN(x,id,idl,name,global) \
     constexpr const libebml::EbmlId Id_##x    (id, idl); \
