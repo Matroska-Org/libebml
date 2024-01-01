@@ -331,8 +331,8 @@ class EBML_DLL_API EbmlElement {
 
     virtual EbmlId const &GetClassId() const {return ClassInfo.ClassId();}
     virtual explicit operator const EbmlId &() const { return GetClassId(); }
-        virtual const char *DebugName() const {return ClassInfo.GetName();}
-        virtual const EbmlSemanticContext &Context() const {return ClassInfo.GetContext();}
+    const char *DebugName() const {return ClassInfo.GetName();}
+    const EbmlSemanticContext &Context() const {return ClassInfo.GetContext();}
         virtual EbmlElement & CreateElement() const = 0;
 
     /*!
