@@ -119,6 +119,9 @@ class EbmlElement;
 #define DEFINE_xxx_FLOAT_DEF(x,id,idl,parent,name,global,defval) \
     DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlFloat,id,idl,parent,name,global,defval)
 
+#define DEFINE_xxx_DATE_DEF(x,id,idl,parent,name,global,defval) \
+    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlDate,id,idl,parent,name,global,defval)
+
 #define DEFINE_xxx_CLASS_ORPHAN(x,id,idl,name,global) \
     constexpr const libebml::EbmlId Id_##x    (id, idl); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, nullptr, global, nullptr); \
