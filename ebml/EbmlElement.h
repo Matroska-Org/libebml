@@ -162,9 +162,6 @@ class EbmlElement;
 
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
-        const libebml::EbmlSemanticContext &Context() const override {return ClassInfos.GetContext();} \
-        const char *DebugName() const override {return ClassInfos.GetName();} \
-        libebml::EbmlId const &GetClassId() const override {return ClassInfos.ClassId();} \
         libebml::EbmlElement & CreateElement() const override {return Create();} \
         libebml::EbmlElement * Clone() const override { return new Type(*this); } \
     static libebml::EbmlElement & Create() {return *(new Type);} \
@@ -332,10 +329,10 @@ class EBML_DLL_API EbmlElement {
     */
     virtual EbmlElement * Clone() const = 0;
 
-    virtual EbmlId const &GetClassId() const = 0;
+    virtual EbmlId const &GetClassId() const {return ClassInfo.ClassId();}
     virtual explicit operator const EbmlId &() const { return GetClassId(); }
-        virtual const char *DebugName() const = 0;
-        virtual const EbmlSemanticContext &Context() const = 0;
+        virtual const char *DebugName() const {return ClassInfo.GetName();}
+        virtual const EbmlSemanticContext &Context() const {return ClassInfo.GetContext();}
         virtual EbmlElement & CreateElement() const = 0;
 
     /*!
