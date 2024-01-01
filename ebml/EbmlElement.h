@@ -325,6 +325,8 @@ class EBML_DLL_API EbmlElement {
     virtual ~EbmlElement() = default;
     EbmlElement& operator=(const EbmlElement&) = delete;
 
+    const EbmlCallbacks & ElementSpec() const { return ClassInfo; }
+
     /// Set the minimum length that will be used to write the element size (-1 = optimal)
     void SetSizeLength(int NewSizeLength) {SizeLength = NewSizeLength;}
     int GetSizeLength() const {return SizeLength;}
