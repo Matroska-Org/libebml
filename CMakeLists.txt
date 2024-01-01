@@ -132,6 +132,10 @@ if (BUILD_TESTING)
   target_link_libraries(test_id PUBLIC ebml)
   add_test(test_id test_id)
 
+  add_executable(test_header test/test_header.cxx)
+  target_link_libraries(test_header PUBLIC ebml)
+  add_test(test_header test_header)
+
   add_executable(test_infinite test/test_infinite.cxx)
   target_link_libraries(test_infinite PUBLIC ebml)
   add_test(test_infinite test_infinite)
