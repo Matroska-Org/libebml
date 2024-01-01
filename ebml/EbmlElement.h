@@ -70,12 +70,6 @@ class EbmlElement;
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, nullptr, global, &EBML_INFO(x)); \
     constexpr libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, name, Context_##x); \
 
-#define DEFINE_xxx_CLASS(x,id,idl,parent,name,global) \
-    constexpr const libebml::EbmlId Id_##x    (id, idl); \
-    const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
-    constexpr libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, name, Context_##x); \
-    x::x() {}
-
 #define DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
     constexpr const libebml::EbmlId Id_##x    (id, idl); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x)); \
