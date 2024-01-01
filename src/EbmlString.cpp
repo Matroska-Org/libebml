@@ -13,7 +13,7 @@
 namespace libebml {
 
 EbmlString::EbmlString(const EbmlCallbacksDefault<const char *> & classInfo)
-  :EbmlElementDefault(classInfo, 0)
+  :EbmlElementDefaultStorage<const char *, std::string>(classInfo, 0)
 {
   if (classInfo.HasDefault())
   {
@@ -39,18 +39,6 @@ filepos_t EbmlString::RenderData(IOCallback & output, bool /* bForceRender */, S
   }
 
   return Result;
-}
-
-EbmlString::operator const std::string &() const {return Value;}
-
-EbmlString &EbmlString::SetValue(std::string const &NewValue) {
-  Value = NewValue;
-  SetValueIsSet();
-  return *this;
-}
-
-std::string EbmlString::GetValue() const {
-  return Value;
 }
 
 std::uint64_t EbmlString::UpdateSize(ShouldWrite writeFilter, bool /* bForceRender */)

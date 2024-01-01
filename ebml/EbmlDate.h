@@ -17,9 +17,9 @@ namespace libebml {
     \class EbmlDate
     \brief Handle all operations related to an EBML date
 */
-class EBML_DLL_API EbmlDate : public EbmlElementDefault<std::int64_t> {
+class EBML_DLL_API EbmlDate : public EbmlElementDefaultSameStorage<std::int64_t> {
   public:
-    EbmlDate(const EbmlCallbacksDefault<std::int64_t> & classInfo) :EbmlElementDefault<std::int64_t>(classInfo, 8)
+    EbmlDate(const EbmlCallbacksDefault<std::int64_t> & classInfo) :EbmlElementDefaultSameStorage<std::int64_t>(classInfo, 8)
     {
       if (classInfo.HasDefault())
       {
@@ -33,7 +33,7 @@ class EBML_DLL_API EbmlDate : public EbmlElementDefault<std::int64_t> {
       \param NewDate UNIX/C date in UTC (no timezone)
     */
     void SetEpochDate(std::int64_t NewDate) {Value = (NewDate - UnixEpochDelay) * 1'000'000'000; SetValueIsSet();}
-    EbmlDate &SetValue(std::int64_t NewValue) {SetEpochDate(NewValue); return *this;}
+    EbmlElementDefaultSameStorage<std::int64_t> &SetValue(const std::int64_t & NewValue) override {SetEpochDate(NewValue); return *this;}
 
     /*!
       \brief get the date with a UNIX/C/EPOCH form
@@ -55,18 +55,10 @@ class EBML_DLL_API EbmlDate : public EbmlElementDefault<std::int64_t> {
       return GetSize();
     }
 
-    bool IsSmallerThan(const EbmlElement *Cmp) const override;
-
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
-
-    bool operator==(const std::int64_t & val) const override {
-      return val == Value;
-    }
 
     private:
     filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;
-
-    std::int64_t Value{0}; ///< internal format of the date
 
     static constexpr std::uint64_t UnixEpochDelay = 978'307'200; // 2001/01/01 00:00:00 UTC
 };

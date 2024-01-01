@@ -13,7 +13,7 @@
 namespace libebml {
 
 EbmlFloat::EbmlFloat(const EbmlCallbacksDefault<double> & classInfo, const EbmlFloat::Precision prec)
-  :EbmlElementDefault(classInfo, 0)
+  :EbmlElementDefaultSameStorage<double>(classInfo, 0)
 {
   SetPrecision(prec);
   if (classInfo.HasDefault())
@@ -25,14 +25,6 @@ EbmlFloat::EbmlFloat(const EbmlCallbacksDefault<double> & classInfo, const EbmlF
 
 EbmlFloat::operator float() const {return static_cast<float>(Value);}
 EbmlFloat::operator double() const {return (Value);}
-
-double EbmlFloat::GetValue() const {return Value;}
-
-EbmlFloat & EbmlFloat::SetValue(double NewValue) {
-  Value = NewValue;
-  SetValueIsSet();
-  return *this;
-}
 
 /*!
   \todo handle exception on errors
@@ -98,14 +90,6 @@ filepos_t EbmlFloat::ReadData(IOCallback & input, ScopeMode ReadFully)
   SetValueIsSet();
 
   return GetSize();
-}
-
-bool EbmlFloat::IsSmallerThan(const EbmlElement *Cmp) const
-{
-  if (EbmlId(*this) == EbmlId(*Cmp))
-    return this->Value < static_cast<const EbmlFloat *>(Cmp)->Value;
-
-  return false;
 }
 
 } // namespace libebml

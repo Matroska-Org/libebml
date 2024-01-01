@@ -101,7 +101,7 @@ void UTFstring::UpdateFromUCS2(const std::wstring & WString)
 // ===================== EbmlUnicodeString class ===================
 
 EbmlUnicodeString::EbmlUnicodeString(const EbmlCallbacksDefault<const wchar_t *> & classInfo)
-  :EbmlElementDefault(classInfo, 0)
+  :EbmlElementDefaultStorage<const wchar_t *, UTFstring>(classInfo, 0)
 {
   if (classInfo.HasDefault())
   {
@@ -132,22 +132,10 @@ filepos_t EbmlUnicodeString::RenderData(IOCallback & output, bool /* bForceRende
   return Result;
 }
 
-EbmlUnicodeString::operator const UTFstring &() const {return Value;}
-
-EbmlUnicodeString &EbmlUnicodeString::SetValue(UTFstring const &NewValue) {
-  Value = NewValue;
-  SetValueIsSet();
-  return *this;
-}
-
 EbmlUnicodeString &EbmlUnicodeString::SetValueUTF8(std::string const &NewValue) {
   Value.SetUTF8(NewValue);
   SetValueIsSet();
   return *this;
-}
-
-UTFstring EbmlUnicodeString::GetValue() const {
-  return Value;
 }
 
 std::string EbmlUnicodeString::GetValueUTF8() const {

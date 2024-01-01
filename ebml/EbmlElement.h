@@ -568,6 +568,79 @@ class EBML_DLL_API EbmlElementDefault : public EbmlElement {
     }
 
     virtual bool operator==(const T &) const = 0;
+    virtual EbmlElementDefault<T> & SetValue(const T &) = 0;
+};
+
+
+template<typename T>
+class EBML_DLL_API EbmlElementDefaultSameStorage : public EbmlElementDefault<T> {
+  public:
+    explicit EbmlElementDefaultSameStorage(const EbmlCallbacksDefault<T> &classInfo, std::uint64_t aDefaultSize)
+      :EbmlElementDefault<T>(classInfo, aDefaultSize)
+    {}
+
+    EbmlElementDefaultSameStorage<T> & SetValue(const T & NewValue) override
+    {
+      Value = NewValue;
+      EbmlElement::SetValueIsSet();
+      return *this;
+    }
+
+    bool operator==(const T & test) const override
+    {
+      return Value == test;
+    }
+
+    T GetValue() const
+    {
+      return Value;
+    }
+
+    bool IsSmallerThan(const EbmlElement *Cmp) const override
+    {
+      if (EbmlId(*this) != EbmlId(*Cmp))
+        return false;
+
+      return this->Value < static_cast<const EbmlElementDefaultSameStorage<T> *>(Cmp)->Value;
+    }
+
+    explicit operator T() const { return Value; }
+
+  protected:
+    T Value;
+};
+
+
+template<typename T, typename S>
+class EBML_DLL_API EbmlElementDefaultStorage : public EbmlElementDefault<T> {
+  public:
+    explicit EbmlElementDefaultStorage(const EbmlCallbacksDefault<T> &classInfo, std::uint64_t aDefaultSize)
+      :EbmlElementDefault<T>(classInfo, aDefaultSize)
+    {}
+
+    EbmlElementDefaultStorage<T,S> & SetValue(const T & NewValue) override
+    {
+      Value = static_cast<S>(NewValue);
+      EbmlElement::SetValueIsSet();
+      return *this;
+    }
+
+    EbmlElementDefaultStorage<T,S> & SetValue(const S & NewValue)
+    {
+      Value = NewValue;
+      EbmlElement::SetValueIsSet();
+      return *this;
+    }
+
+    const S & GetValue() const
+    {
+      return Value;
+    }
+
+    explicit operator const S &() const { return Value; }
+
+  protected:
+    S Value;
 };
 
 } // namespace libebml

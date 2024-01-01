@@ -14,7 +14,7 @@
 namespace libebml {
 
 EbmlUInteger::EbmlUInteger(const EbmlCallbacksDefault<std::uint64_t> & classInfo)
-  :EbmlElementDefault(classInfo, DEFAULT_UINT_SIZE)
+  :EbmlElementDefaultSameStorage(classInfo, DEFAULT_UINT_SIZE)
 {
   if (classInfo.HasDefault())
   {
@@ -27,14 +27,6 @@ EbmlUInteger::operator std::uint8_t()  const {return static_cast<std::uint8_t>(V
 EbmlUInteger::operator std::uint16_t() const {return static_cast<std::uint16_t>(Value);}
 EbmlUInteger::operator std::uint32_t() const {return static_cast<std::uint32_t>(Value);}
 EbmlUInteger::operator std::uint64_t() const {return Value;}
-
-std::uint64_t EbmlUInteger::GetValue() const {return Value;}
-
-EbmlUInteger & EbmlUInteger::SetValue(std::uint64_t NewValue) {
-  Value = NewValue;
-  SetValueIsSet();
-  return *this;
-}
 
 /*!
   \todo handle exception on errors
@@ -109,14 +101,6 @@ filepos_t EbmlUInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
   SetValueIsSet();
 
   return GetSize();
-}
-
-bool EbmlUInteger::IsSmallerThan(const EbmlElement *Cmp) const
-{
-  if (EbmlId(*this) == EbmlId(*Cmp))
-    return this->Value < static_cast<const EbmlUInteger *>(Cmp)->Value;
-
-  return false;
 }
 
 } // namespace libebml

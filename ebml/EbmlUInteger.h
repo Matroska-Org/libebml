@@ -21,7 +21,7 @@ const int DEFAULT_UINT_SIZE = 0; ///< optimal size stored
     \class EbmlUInteger
     \brief Handle all operations on an unsigned integer EBML element
 */
-class EBML_DLL_API EbmlUInteger : public EbmlElementDefault<std::uint64_t> {
+class EBML_DLL_API EbmlUInteger : public EbmlElementDefaultSameStorage<std::uint64_t> {
   public:
     EbmlUInteger(const EbmlCallbacksDefault<std::uint64_t> &);
 
@@ -35,23 +35,11 @@ class EBML_DLL_API EbmlUInteger : public EbmlElementDefault<std::uint64_t> {
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
     filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault, bool bForceRender = false) override;
 
-    bool IsSmallerThan(const EbmlElement *Cmp) const override;
-
     using EbmlElement::operator const EbmlId &;
     explicit operator std::uint8_t()  const;
     explicit operator std::uint16_t() const;
     explicit operator std::uint32_t() const;
     explicit operator std::uint64_t() const;
-
-    EbmlUInteger &SetValue(std::uint64_t NewValue);
-    std::uint64_t GetValue() const;
-
-    bool operator==(const std::uint64_t & val) const override {
-      return val == Value;
-    }
-
-    private:
-    std::uint64_t Value; /// The actual value of the element
 };
 
 } // namespace libebml
