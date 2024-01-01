@@ -23,8 +23,6 @@ class EBML_DLL_API EbmlDummy : public EbmlBinary {
       return DummyId;
     }
 
-    const EbmlSemanticContext &Context() const override;
-    const char *DebugName() const override { return "DummyElement"; }
     EbmlElement & CreateElement() const override { return Create(); }
     EbmlElement * Clone() const override { return new EbmlDummy(DummyId); }
 
