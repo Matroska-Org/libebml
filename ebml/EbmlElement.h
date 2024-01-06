@@ -15,6 +15,7 @@
 #include <cassert>
 #include <functional>
 #include <string>
+#include <limits>
 
 namespace libebml {
 
@@ -263,16 +264,23 @@ class DllApi x : public BaseClass { \
 #define INVALID_FILEPOS_T 0
 #endif
 
+using support_version = unsigned char;
+/// @brief constant value to indicate the maximum version matches all versions or the minimum version matches no version
+constexpr const support_version ANY_VERSION = std::numeric_limits<support_version>::max();
+
 // functions for generic handling of data (should be static to all classes)
 /*!
   \todo Handle default value
 */
 class EBML_DLL_API EbmlCallbacks {
   public:
-    constexpr EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, bool aCanInfinite, const char * aDebugName, const EbmlSemanticContext & aContext)
+    constexpr EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, bool aCanInfinite, const char * aDebugName, const EbmlSemanticContext & aContext,
+                            support_version aMinver = 0, support_version aMaxver = ANY_VERSION)
       :Create(Creator)
       ,GlobalId(aGlobalId)
       ,CanInfinite(aCanInfinite)
+      ,minver(aMinver)
+      ,maxver(aMaxver)
       ,DebugName(aDebugName)
       ,Context(aContext)
     {
@@ -288,11 +296,19 @@ class EBML_DLL_API EbmlCallbacks {
         /// is infinite/unknown size allowed
         inline bool CanHaveInfiniteSize() const { return CanInfinite; }
         virtual bool HasDefault() const { return false; }
+        // get the minimum DocType version this element is allowed in
+        // \return ANY_VERSION if the element is never supported
+        inline support_version GetMinVer() const { return minver; }
+        // get the maximum DocType version this element is allowed in
+        // \return ANY_VERSION if the element is supported in all (known) version
+        inline support_version GetMaxVer() const { return maxver; }
 
     private:
     EbmlElement & (* const Create)();
     const EbmlId & GlobalId;
     const bool CanInfinite;
+    const support_version minver;
+    const support_version maxver;
     const char * DebugName;
     const EbmlSemanticContext & Context;
 };
@@ -300,8 +316,9 @@ class EBML_DLL_API EbmlCallbacks {
 template<typename T>
 class EBML_DLL_API EbmlCallbacksDefault : public EbmlCallbacks {
   public:
-    constexpr EbmlCallbacksDefault(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, const char * aDebugName, const EbmlSemanticContext & aContext)
-      :EbmlCallbacks(Creator, aGlobalId, false, aDebugName, aContext)
+    constexpr EbmlCallbacksDefault(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, const char * aDebugName, const EbmlSemanticContext & aContext,
+                                   support_version aMinver = 0, support_version aMaxver = ANY_VERSION)
+      :EbmlCallbacks(Creator, aGlobalId, false, aDebugName, aContext, aMinver, aMaxver)
     {
     }
 
@@ -311,8 +328,9 @@ class EBML_DLL_API EbmlCallbacksDefault : public EbmlCallbacks {
 template<typename T>
 class EBML_DLL_API EbmlCallbacksWithDefault : public EbmlCallbacksDefault<T> {
   public:
-    constexpr EbmlCallbacksWithDefault(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, const T &def, const char * aDebugName, const EbmlSemanticContext & aContext)
-      :EbmlCallbacksDefault<T>(Creator, aGlobalId, aDebugName, aContext)
+    constexpr EbmlCallbacksWithDefault(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, const T &def, const char * aDebugName, const EbmlSemanticContext & aContext,
+                                       support_version aMinver = 0, support_version aMaxver = ANY_VERSION)
+      :EbmlCallbacksDefault<T>(Creator, aGlobalId, aDebugName, aContext, aMinver, aMaxver)
       ,defaultValue(def)
     {
     }

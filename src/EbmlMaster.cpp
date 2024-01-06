@@ -8,7 +8,6 @@
 
 #include <cassert>
 #include <algorithm>
-#include <limits>
 
 #include "ebml/EbmlMaster.h"
 #include "ebml/EbmlStream.h"

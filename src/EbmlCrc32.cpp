@@ -12,7 +12,6 @@
 #include "ebml/MemIOCallback.h"
 
 #include <array>
-#include <limits>
 #include <memory>
 
 #ifdef WORDS_BIGENDIAN
