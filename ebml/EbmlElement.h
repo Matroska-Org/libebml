@@ -55,93 +55,94 @@ class EbmlElement;
 #define DEFINE_xxx_CONTEXT(x,global) \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, nullptr, global, nullptr); \
 
-#define DEFINE_xxx_MASTER(x,id,idl,parent,infinite,name,global) \
+#define DEFINE_xxx_MASTER(x,id,idl,parent,infinite,name,versions,global) \
     constexpr const libebml::EbmlId Id_##x    (id, idl); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
-    const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, name, Context_##x); \
+    const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, name, Context_##x, versions); \
     x::x() :libebml::EbmlMaster(x::ClassInfos, Context_##x) {}
 
 // define a master class with a custom constructor
-#define DEFINE_xxx_MASTER_CONS(x,id,idl,parent,infinite,name,global) \
+#define DEFINE_xxx_MASTER_CONS(x,id,idl,parent,infinite,name,versions,global) \
     constexpr const libebml::EbmlId Id_##x    (id, idl); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
-    const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, name, Context_##x);
+    const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, name, Context_##x, versions);
 
 // define a master class with no parent class
-#define DEFINE_xxx_MASTER_ORPHAN(x,id,idl,infinite,name,global) \
+#define DEFINE_xxx_MASTER_ORPHAN(x,id,idl,infinite,name,versions,global) \
     constexpr const libebml::EbmlId Id_##x    (id, idl); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, nullptr, global, &EBML_INFO(x)); \
-    const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, name, Context_##x); \
+    const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, name, Context_##x, versions); \
 
 #define DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
     constexpr const libebml::EbmlId Id_##x    (id, idl); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x));
 
-#define DEFINE_xxx_CLASS_BASE(x,BaseClass,id,idl,parent,name,global) \
+#define DEFINE_xxx_CLASS_BASE(x,BaseClass,id,idl,parent,name,versions,global) \
     DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
-    const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, name, Context_##x); \
+    const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, name, Context_##x, versions); \
     x::x() :libebml::BaseClass(x::ClassInfos) {}
 
-#define DEFINE_xxx_CLASS_BASE_DEFAULT(x,BaseClass,id,idl,parent,name,global,StorageType,defval) \
+#define DEFINE_xxx_CLASS_BASE_DEFAULT(x,BaseClass,id,idl,parent,name,global,StorageType,defval,versions) \
     DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
-    const libebml::EbmlCallbacksWithDefault<StorageType> x::ClassInfos(x::Create, Id_##x, defval, name, Context_##x); \
+    const libebml::EbmlCallbacksWithDefault<StorageType> x::ClassInfos(x::Create, Id_##x, defval, name, Context_##x, versions); \
     x::x() :libebml::BaseClass(x::ClassInfos) {}
 
-#define DEFINE_xxx_CLASS_BASE_NODEFAULT(x,BaseClass,id,idl,parent,name,global,StorageType) \
+#define DEFINE_xxx_CLASS_BASE_NODEFAULT(x,BaseClass,id,idl,parent,name,global,StorageType,versions) \
     DEFINE_xxx_CLASS_CONS(x,id,idl,parent,name,global) \
-    const libebml::EbmlCallbacksDefault<StorageType> x::ClassInfos(x::Create, Id_##x, name, Context_##x); \
+    const libebml::EbmlCallbacksDefault<StorageType> x::ClassInfos(x::Create, Id_##x, name, Context_##x, versions); \
     x::x() :libebml::BaseClass(x::ClassInfos) {}
 
-#define DEFINE_xxx_UINTEGER(x,id,idl,parent,name,global) \
-    DEFINE_xxx_CLASS_BASE_NODEFAULT(x,EbmlUInteger,id,idl,parent,name,global,std::uint64_t)
+#define DEFINE_xxx_UINTEGER(x,id,idl,parent,name,versions,global) \
+    DEFINE_xxx_CLASS_BASE_NODEFAULT(x,EbmlUInteger,id,idl,parent,name,global,std::uint64_t,versions)
 
-#define DEFINE_xxx_SINTEGER(x,id,idl,parent,name,global) \
-    DEFINE_xxx_CLASS_BASE_NODEFAULT(x,EbmlSInteger,id,idl,parent,name,global,std::int64_t)
+#define DEFINE_xxx_SINTEGER(x,id,idl,parent,name,versions,global) \
+    DEFINE_xxx_CLASS_BASE_NODEFAULT(x,EbmlSInteger,id,idl,parent,name,global,std::int64_t,versions)
 
-#define DEFINE_xxx_STRING(x,id,idl,parent,name,global) \
-    DEFINE_xxx_CLASS_BASE_NODEFAULT(x,EbmlString,id,idl,parent,name,global,const char *)
+#define DEFINE_xxx_STRING(x,id,idl,parent,name,versions,global) \
+    DEFINE_xxx_CLASS_BASE_NODEFAULT(x,EbmlString,id,idl,parent,name,global,const char *,versions)
 
-#define DEFINE_xxx_UNISTRING(x,id,idl,parent,name,global) \
-    DEFINE_xxx_CLASS_BASE_NODEFAULT(x,EbmlUnicodeString,id,idl,parent,name,global, const wchar_t *)
+#define DEFINE_xxx_UNISTRING(x,id,idl,parent,name,versions,global) \
+    DEFINE_xxx_CLASS_BASE_NODEFAULT(x,EbmlUnicodeString,id,idl,parent,name,global, const wchar_t *,versions)
 
-#define DEFINE_xxx_FLOAT(x,id,idl,parent,name,global) \
-    DEFINE_xxx_CLASS_BASE_NODEFAULT(x,EbmlFloat,id,idl,parent,name,global,double)
+#define DEFINE_xxx_FLOAT(x,id,idl,parent,name,versions,global) \
+    DEFINE_xxx_CLASS_BASE_NODEFAULT(x,EbmlFloat,id,idl,parent,name,global,double,versions)
 
-#define DEFINE_xxx_DATE(x,id,idl,parent,name,global) \
-    DEFINE_xxx_CLASS_BASE_NODEFAULT(x,EbmlDate,id,idl,parent,name,global,std::int64_t)
+#define DEFINE_xxx_DATE(x,id,idl,parent,name,versions,global) \
+    DEFINE_xxx_CLASS_BASE_NODEFAULT(x,EbmlDate,id,idl,parent,name,global,std::int64_t,versions)
 
-#define DEFINE_xxx_BINARY(x,id,idl,parent,name,global) \
-    DEFINE_xxx_CLASS_BASE(x,EbmlBinary,id,idl,parent,name,global)
+#define DEFINE_xxx_BINARY(x,id,idl,parent,name,versions,global) \
+    DEFINE_xxx_CLASS_BASE(x,EbmlBinary,id,idl,parent,name,versions,global)
 
-#define DEFINE_xxx_UINTEGER_DEF(x,id,idl,parent,name,global,defval) \
-    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlUInteger,id,idl,parent,name,global,std::uint64_t,defval)
+#define DEFINE_xxx_UINTEGER_DEF(x,id,idl,parent,name,versions,global,defval) \
+    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlUInteger,id,idl,parent,name,global,std::uint64_t,defval, versions)
 
-#define DEFINE_xxx_SINTEGER_DEF(x,id,idl,parent,name,global,defval) \
-    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlSInteger,id,idl,parent,name,global,std::int64_t,defval)
+#define DEFINE_xxx_SINTEGER_DEF(x,id,idl,parent,name,versions,global,defval) \
+    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlSInteger,id,idl,parent,name,global,std::int64_t,defval, versions)
 
-#define DEFINE_xxx_STRING_DEF(x,id,idl,parent,name,global,defval) \
-    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlString,id,idl,parent,name,global,const char *,defval)
+#define DEFINE_xxx_STRING_DEF(x,id,idl,parent,name,versions,global,defval) \
+    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlString,id,idl,parent,name,global,const char *,defval, versions)
 
-#define DEFINE_xxx_UNISTRING_DEF(x,id,idl,parent,name,global,defval) \
-    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlUnicodeString,id,idl,parent,name,global,const wchar_t*,defval)
+#define DEFINE_xxx_UNISTRING_DEF(x,id,idl,parent,name,versions,global,defval) \
+    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlUnicodeString,id,idl,parent,name,global,const wchar_t*,defval, versions)
 
-#define DEFINE_xxx_FLOAT_DEF(x,id,idl,parent,name,global,defval) \
-    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlFloat,id,idl,parent,name,global,double,defval)
+#define DEFINE_xxx_FLOAT_DEF(x,id,idl,parent,name,versions,global,defval) \
+    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlFloat,id,idl,parent,name,global,double,defval, versions)
 
-#define DEFINE_xxx_DATE_DEF(x,id,idl,parent,name,global,defval) \
-    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlDate,id,idl,parent,name,global,defval)
+#define DEFINE_xxx_DATE_DEF(x,id,idl,parent,name,versions,global,defval) \
+    DEFINE_xxx_CLASS_BASE_DEFAULT(x,EbmlDate,id,idl,parent,name,versions,global,defval, versions)
 
-#define DEFINE_xxx_CLASS_ORPHAN(x,id,idl,name,global) \
+#define DEFINE_xxx_CLASS_ORPHAN(x,id,idl,name,versions,global) \
     constexpr const libebml::EbmlId Id_##x    (id, idl); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, nullptr, global, nullptr); \
-    const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, name, Context_##x); \
+    const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, name, Context_##x, versions); \
 
 #define DEFINE_EBML_CONTEXT(x)                             DEFINE_xxx_CONTEXT(x,GetEbmlGlobal_Context)
-#define DEFINE_EBML_MASTER(x,id,idl,parent,infinite,name)  DEFINE_xxx_MASTER(x,id,idl,parent,infinite,name,GetEbmlGlobal_Context)
-#define DEFINE_EBML_MASTER_ORPHAN(x,id,idl,infinite,name)  DEFINE_xxx_MASTER_ORPHAN(x,id,idl,infinite,name,GetEbmlGlobal_Context)
-#define DEFINE_EBML_CLASS_ORPHAN(x,id,idl,name)            DEFINE_xxx_CLASS_ORPHAN(x,id,idl,name,GetEbmlGlobal_Context)
-#define DEFINE_EBML_UINTEGER_DEF(x,id,idl,parent,name,val) DEFINE_xxx_UINTEGER_DEF(x,id,idl,parent,name,GetEbmlGlobal_Context,val)
-#define DEFINE_EBML_STRING_DEF(x,id,idl,parent,name,val)   DEFINE_xxx_STRING_DEF(x,id,idl,parent,name,GetEbmlGlobal_Context,val)
+
+#define DEFINE_EBML_MASTER(x,id,idl,parent,infinite,name,versions)  DEFINE_xxx_MASTER(x,id,idl,parent,infinite,name,versions,GetEbmlGlobal_Context)
+#define DEFINE_EBML_MASTER_ORPHAN(x,id,idl,infinite,name,versions)  DEFINE_xxx_MASTER_ORPHAN(x,id,idl,infinite,name,versions,GetEbmlGlobal_Context)
+#define DEFINE_EBML_CLASS_ORPHAN(x,id,idl,name,versions)            DEFINE_xxx_CLASS_ORPHAN(x,id,idl,name,versions,GetEbmlGlobal_Context)
+#define DEFINE_EBML_UINTEGER_DEF(x,id,idl,parent,name,val,versions) DEFINE_xxx_UINTEGER_DEF(x,id,idl,parent,name,versions,GetEbmlGlobal_Context,val)
+#define DEFINE_EBML_STRING_DEF(x,id,idl,parent,name,val,versions)   DEFINE_xxx_STRING_DEF(x,id,idl,parent,name,versions,GetEbmlGlobal_Context,val)
 
 #define DEFINE_SEMANTIC_CONTEXT(x)
 #define DEFINE_START_SEMANTIC(x)     static const libebml::EbmlSemantic ContextList_##x[] = {
@@ -295,7 +296,7 @@ class EBML_DLL_API EbmlDocVersion {
 class EBML_DLL_API EbmlCallbacks {
   public:
     constexpr EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, bool aCanInfinite, const char * aDebugName, const EbmlSemanticContext & aContext,
-                            const EbmlDocVersion & aVersion = {})
+                            const EbmlDocVersion & aVersion)
       :Create(Creator)
       ,GlobalId(aGlobalId)
       ,CanInfinite(aCanInfinite)
@@ -331,7 +332,7 @@ template<typename T>
 class EBML_DLL_API EbmlCallbacksDefault : public EbmlCallbacks {
   public:
     constexpr EbmlCallbacksDefault(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, const char * aDebugName, const EbmlSemanticContext & aContext,
-                                   const EbmlDocVersion & aVersion = {})
+                                   const EbmlDocVersion & aVersion)
       :EbmlCallbacks(Creator, aGlobalId, false, aDebugName, aContext, aVersion)
     {
     }
@@ -343,7 +344,7 @@ template<typename T>
 class EBML_DLL_API EbmlCallbacksWithDefault : public EbmlCallbacksDefault<T> {
   public:
     constexpr EbmlCallbacksWithDefault(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, const T &def, const char * aDebugName, const EbmlSemanticContext & aContext,
-                                       const EbmlDocVersion & aVersion = {})
+                                       const EbmlDocVersion & aVersion)
       :EbmlCallbacksDefault<T>(Creator, aGlobalId, aDebugName, aContext, aVersion)
       ,defaultValue(def)
     {
