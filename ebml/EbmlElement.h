@@ -278,9 +278,32 @@ class EBML_DLL_API EbmlDocVersion {
       , maxver(max)
     {}
 
+    // the element with this EbmlDocVersion should never be used if this methods return true
+    bool IsAlwaysDeprecated() const {
+      return minver == ANY_VERSION;
+    }
+
+    // return true if the element with this EbmlDocVersion can be used with the given doctype_version
+    bool IsValidInVersion(version_type doctype_version) const {
+      if (minver == ANY_VERSION)
+        return false;
+      if (doctype_version < minver)
+        return false;
+      return doctype_version <= maxver;
+    }
+
+    // the minimum DocType version the element with this EbmlDocVersion is allowed in,
+    // ANY_VERSION if the element is never supported
+    version_type GetMinVersion() const { return minver; }
+
+    // the maximum DocType version the element with this EbmlDocVersion is allowed in,
+    // ANY_VERSION if the element is supported in all (known) version
+    version_type GetMaxVersion() const { return maxver; }
+
     /// @brief constant value to indicate the maximum version matches all versions or the minimum version matches no version
     static const version_type ANY_VERSION = std::numeric_limits<version_type>::max();
 
+  private:
     // the minimum DocType version this element is allowed in
     // ANY_VERSION if the element is never supported
     const version_type minver;
