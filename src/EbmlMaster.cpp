@@ -59,14 +59,14 @@ filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, ShouldW
 
   if (!bChecksumUsed) { // old school
     for (auto Element : ElementList) {
-      if (!writeFilter(*Element))
+      if (!Element->CanWrite(writeFilter))
         continue;
       Result += Element->Render(output, writeFilter, false ,bForceRender);
     }
   } else { // new school
     MemIOCallback TmpBuf(GetSize() - 6);
     for (auto Element : ElementList) {
-      if (!writeFilter(*Element))
+      if (!Element->CanWrite(writeFilter))
         continue;
       Element->Render(TmpBuf, writeFilter, false ,bForceRender);
     }
@@ -107,7 +107,7 @@ std::uint64_t EbmlMaster::UpdateSize(ShouldWrite writeFilter, bool bForceRender)
     }
 
   for (auto Element : ElementList) {
-    if (!writeFilter(*Element))
+    if (!Element->CanWrite(writeFilter))
       continue;
     Element->UpdateSize(writeFilter, bForceRender);
     const std::uint64_t SizeToAdd = Element->ElementSize(writeFilter);

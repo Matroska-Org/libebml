@@ -477,9 +477,9 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 */
 filepos_t EbmlElement::Render(IOCallback & output, ShouldWrite writeFilter, bool bKeepPosition, bool bForceRender)
 {
-  assert(bValueIsSet || writeFilter(*this)); // an element is been rendered without a value set !!!
+  assert(bValueIsSet || CanWrite(writeFilter)); // an element is been rendered without a value set !!!
   // it may be a mandatory element without a default value
-  if (!writeFilter(*this)) {
+  if (!CanWrite(writeFilter)) {
     return 0;
   }
 #if !defined(NDEBUG)
@@ -533,7 +533,7 @@ filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
 
 std::uint64_t EbmlElement::ElementSize(ShouldWrite writeFilter) const
 {
-  if (!writeFilter(*this))
+  if (!CanWrite(writeFilter))
     return 0; // won't be saved
   return Size + EBML_ID_LENGTH((const EbmlId&)*this) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
 }
