@@ -51,7 +51,7 @@ filepos_t EbmlUInteger::RenderData(IOCallback & output, bool /* bForceRender */,
 
 std::uint64_t EbmlUInteger::UpdateSize(ShouldWrite writeFilter, bool /* bForceRender */)
 {
-  if (!writeFilter(*this))
+  if (!CanWrite(writeFilter))
     return 0;
 
   const auto Value = GetValue();

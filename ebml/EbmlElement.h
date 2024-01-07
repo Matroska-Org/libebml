@@ -506,6 +506,10 @@ class EBML_DLL_API EbmlElement {
       return SizePosition + CodedSizeLength(Size, SizeLength, bSizeIsFinite) + Size;
     }
 
+    virtual bool CanWrite(ShouldWrite & writeFilter) const {
+      return writeFilter(*this);
+    }
+
   protected:
     /*!
       \brief find any element in the stream
