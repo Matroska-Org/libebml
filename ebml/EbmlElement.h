@@ -457,6 +457,7 @@ class EBML_DLL_API EbmlElement {
       return true;
     }
 
+    // write all elements except deprecated ones
     static bool WriteAll(const EbmlElement &) {
       return true;
     }
@@ -569,6 +570,8 @@ class EBML_DLL_API EbmlElement {
     }
 
     virtual bool CanWrite(const ShouldWrite & writeFilter) const {
+      if (ElementSpec().GetVersions().IsAlwaysDeprecated())
+        return false;
       return writeFilter(*this);
     }
 
