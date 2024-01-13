@@ -18,7 +18,7 @@
 namespace libebml {
 
 EbmlMaster::EbmlMaster(const EbmlCallbacks & classInfo, const EbmlSemanticContext & aContext, bool bSizeIsknown)
- :EbmlElement(classInfo, 0), MasterContext(aContext), bChecksumUsed(bChecksumUsedByDefault)
+ :EbmlElement(classInfo, 0), MasterContext(aContext)
 {
   SetSizeInfinite(!bSizeIsknown);
   SetValueIsSet();
