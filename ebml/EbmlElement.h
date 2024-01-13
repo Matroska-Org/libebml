@@ -520,7 +520,9 @@ class EBML_DLL_API EbmlElement {
       \brief find any element in the stream
       \return a DummyRawElement if the element is unknown or nullptr if the element dummy is not allowed
     */
-    static EbmlElement *CreateElementUsingContext(const EbmlId & aID, const EbmlSemanticContext & Context, int & LowLevel, bool IsGlobalContext, bool bAllowDummy = false, unsigned int MaxLowerLevel = 1);
+    static EbmlElement *CreateElementUsingContext(const EbmlId & aID, const EbmlSemanticContext & Context, int & LowLevel, bool IsGlobalContext,
+                                                  bool AsInfiniteSize,
+                                                  bool bAllowDummy = false, unsigned int MaxLowerLevel = 1);
 
     filepos_t RenderHead(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault, bool bKeepPosition = false);
     filepos_t MakeRenderHead(IOCallback & output, bool bKeepPosition);
