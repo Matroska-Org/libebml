@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: ISC
 
 #include <ebml/EbmlHead.h>
-#include <ebml/EbmlSubHead.h>
 #include <ebml/EbmlMaster.h>
 #include <ebml/EbmlStream.h>
 #include <ebml/MemIOCallback.h>

@@ -8,7 +8,6 @@
 #ifndef LIBEBML_STREAM_H
 #define LIBEBML_STREAM_H
 
-#include "EbmlTypes.h"
 #include "IOCallback.h"
 #include "EbmlElement.h"
 

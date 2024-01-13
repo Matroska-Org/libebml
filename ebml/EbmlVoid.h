@@ -8,7 +8,6 @@
 #ifndef LIBEBML_VOID_H
 #define LIBEBML_VOID_H
 
-#include "EbmlTypes.h"
 #include "EbmlBinary.h"
 
 namespace libebml {

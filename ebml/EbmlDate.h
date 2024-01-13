@@ -8,7 +8,6 @@
 #ifndef LIBEBML_DATE_H
 #define LIBEBML_DATE_H
 
-#include "EbmlTypes.h"
 #include "EbmlElement.h"
 
 namespace libebml {
