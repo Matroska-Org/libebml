@@ -148,6 +148,10 @@ if (BUILD_TESTING)
   target_link_libraries(test_macros PUBLIC ebml)
   add_test(test_macros test_macros)
 
+  add_executable(test_crc test/test_crc.cxx)
+  target_link_libraries(test_crc PUBLIC ebml)
+  add_test(test_crc test_crc)
+
 endif(BUILD_TESTING)
 
 
