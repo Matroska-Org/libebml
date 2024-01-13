@@ -228,6 +228,7 @@ class DllApi x : public BaseClass { \
 #define DECLARE_EBML_UINTEGER_DEF(x)  DECLARE_xxx_UINTEGER_DEF(x,EBML_DLL_API)
 #define DECLARE_EBML_STRING_DEF(x)    DECLARE_xxx_STRING_DEF(  x,EBML_DLL_API)
 #define DECLARE_EBML_BINARY(x)    DECLARE_xxx_BINARY(  x,EBML_DLL_API)
+#define DECLARE_EBML_BINARY_LENGTH(x,len)    DECLARE_xxx_BINARY_LENGTH(x,len,EBML_DLL_API)
 
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
