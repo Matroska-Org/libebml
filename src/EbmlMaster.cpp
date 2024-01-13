@@ -130,12 +130,16 @@ filepos_t EbmlMaster::WriteHead(IOCallback & output, int nSizeLength, ShouldWrit
   return RenderHead(output, false, writeFilter);
 }
 
-/*!
-  \todo this code is very suspicious !
-*/
-filepos_t EbmlMaster::ReadData(IOCallback & input, ScopeMode /* ReadFully */)
+filepos_t EbmlMaster::ReadData(IOCallback & input, ScopeMode scope)
 {
-  input.setFilePointer(GetSize(), seek_current);
+  int upper = 0;
+  EbmlStream aStream(input);
+  EbmlElement *Parent = nullptr;
+  Read(aStream, Context(), upper, Parent, false, scope);
+  assert(Parent == nullptr);
+  assert(upper == 0);
+
+  input.setFilePointer(GetEndPosition(), seek_beginning);
   return GetSize();
 }
 
