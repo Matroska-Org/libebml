@@ -190,48 +190,6 @@ bool EbmlMaster::CheckMandatory() const
   return true;
 }
 
-std::vector<std::string> EbmlMaster::FindAllMissingElements() const
-{
-  assert(MasterContext.GetSize() != 0);
-
-  std::vector<std::string> missingElements;
-
-  for (auto childElement : ElementList) {
-    if (!childElement->ValueIsSet()) {
-      std::string missingValue;
-      missingValue = "The Child Element \"";
-      missingValue.append(EBML_NAME(childElement));
-      missingValue.append("\" of EbmlMaster \"");
-      missingValue.append(EBML_NAME(this));
-      missingValue.append("\", does not have a value set.");
-      missingElements.push_back(std::move(missingValue));
-    }
-
-    if (childElement->IsMaster()) {
-      const auto childMaster = static_cast<const EbmlMaster*>(childElement);
-
-      std::vector<std::string> childMissingElements = childMaster->FindAllMissingElements();
-      std::copy(childMissingElements.begin(), childMissingElements.end(), std::back_inserter(missingElements));
-    }
-  }
-  unsigned int EltIdx;
-  for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
-    if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory()) {
-      if (FindElt(EBML_CTX_IDX_INFO(MasterContext,EltIdx)) == nullptr) {
-        std::string missingElement;
-        missingElement = "Missing element \"";
-        missingElement.append(EBML_INFO_NAME(EBML_CTX_IDX_INFO(MasterContext,EltIdx)));
-        missingElement.append("\" in EbmlMaster \"");
-        missingElement.append(EBML_INFO_NAME(*EBML_CTX_MASTER(MasterContext)));
-        missingElement.append("\"");
-        missingElements.push_back(std::move(missingElement));
-      }
-    }
-  }
-
-  return missingElements;
-}
-
 EbmlElement *EbmlMaster::FindElt(const EbmlCallbacks & Callbacks) const
 {
   auto it = std::find_if(ElementList.begin(), ElementList.end(), [&](const EbmlElement *Element)
