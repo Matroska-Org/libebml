@@ -33,11 +33,11 @@ DEFINE_EBML_MASTER_ORPHAN(NoInfinite, 0xF0, 1, false, "NoInfinite", EbmlDocVersi
 DEFINE_EBML_UINTEGER_DEF(DummyChild, 0x42F7, 2, CanInfinite, "DummyChild", 0, EbmlDocVersion{})
 
 CanInfinite::CanInfinite()
-    :EbmlMaster(CanInfinite::ClassInfos, Context_CanInfinite)
+    :EbmlMaster(CanInfinite::ClassInfos)
 {}
 
 NoInfinite::NoInfinite()
-    :EbmlMaster(NoInfinite::ClassInfos, Context_NoInfinite)
+    :EbmlMaster(NoInfinite::ClassInfos)
 {}
 
 int main(void)

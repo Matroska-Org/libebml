@@ -59,7 +59,7 @@ class EbmlElement;
     constexpr const libebml::EbmlId Id_##x    (id, idl); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
     const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, name, Context_##x, versions); \
-    x::x() :libebml::EbmlMaster(x::ClassInfos, Context_##x) {}
+    x::x() :libebml::EbmlMaster(x::ClassInfos) {}
 
 // define a master class with a custom constructor
 #define DEFINE_xxx_MASTER_CONS(x,id,idl,parent,infinite,name,versions,global) \

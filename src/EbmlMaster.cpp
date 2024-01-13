@@ -16,8 +16,8 @@
 
 namespace libebml {
 
-EbmlMaster::EbmlMaster(const EbmlCallbacks & classInfo, const EbmlSemanticContext & aContext, bool bSizeIsknown)
- :EbmlElement(classInfo, 0), MasterContext(aContext)
+EbmlMaster::EbmlMaster(const EbmlCallbacks & classInfo, bool bSizeIsknown)
+ :EbmlElement(classInfo, 0)
 {
   SetSizeInfinite(!bSizeIsknown);
   SetValueIsSet();
@@ -26,7 +26,6 @@ EbmlMaster::EbmlMaster(const EbmlCallbacks & classInfo, const EbmlSemanticContex
 
 EbmlMaster::EbmlMaster(const EbmlMaster & ElementToClone)
  :EbmlElement(ElementToClone)
- ,MasterContext(ElementToClone.MasterContext)
  ,bChecksumUsed(ElementToClone.bChecksumUsed)
  ,Checksum(ElementToClone.Checksum)
 {
@@ -148,6 +147,7 @@ filepos_t EbmlMaster::ReadData(IOCallback & input, ScopeMode scope)
 */
 bool EbmlMaster::ProcessMandatory()
 {
+  const EbmlSemanticContext & MasterContext = EBML_CONTEXT(this);
   if (EBML_CTX_SIZE(MasterContext) == 0)
   {
     return true;
@@ -167,6 +167,7 @@ bool EbmlMaster::ProcessMandatory()
 
 bool EbmlMaster::CheckMandatory() const
 {
+  const EbmlSemanticContext & MasterContext = EBML_CONTEXT(this);
   assert(MasterContext.GetSize() != 0);
 
   unsigned int EltIdx;
