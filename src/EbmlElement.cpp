@@ -142,7 +142,6 @@ EbmlElement::EbmlElement(const EbmlCallbacks & classInfo, std::uint64_t aDefault
 }
 
 /*!
-  \todo this method is deprecated and should be called FindThisID
   \todo replace the new RawElement with the appropriate class (when known)
 */
 EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbacks & ClassInfos, std::uint64_t MaxDataSize)
