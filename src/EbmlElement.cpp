@@ -203,8 +203,15 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
   const auto PossibleID = EbmlId(PossibleId.data(), PossibleID_Length);
   auto Result = [=] {
     if (PossibleID != EBML_INFO_ID(ClassInfos))
+    {
+      if (SizeFound == SizeUnknown)
+        return static_cast<EbmlElement *>(nullptr);
       return static_cast<EbmlElement *>(new EbmlDummy(PossibleID));
+    }
     if (SizeFound != SizeUnknown && MaxDataSize < SizeFound)
+      return static_cast<EbmlElement *>(nullptr);
+    // check if the size is not all 1s
+    if (SizeFound == SizeUnknown && !ClassInfos.CanHaveInfiniteSize())
       return static_cast<EbmlElement *>(nullptr);
     return &EBML_INFO_CREATE(ClassInfos);
   }();
@@ -221,16 +228,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
     return nullptr;
   }
 
-  // check if the size is not all 1s
-  if (SizeFound == SizeUnknown) {
-    // Size of this element is unknown
-    // only possible for Master elements
-    if (!Result->SetSizeInfinite()) {
-      /// \todo the element is not allowed to be infinite
-      delete Result;
-      return nullptr;
-    }
-  } else Result->SetSizeInfinite(false);
+  Result->SetSizeInfinite(SizeFound == SizeUnknown);
   Result->ElementPosition = aElementPosition;
   Result->SizePosition = aSizePosition;
 
