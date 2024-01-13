@@ -219,14 +219,14 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
   if (Result == nullptr)
     return nullptr;
 
-  Result->SetSizeLength(PossibleSizeLength);
-
-  Result->Size = SizeFound;
-
   if (!Result->ValidateSize()) {
     delete Result;
     return nullptr;
   }
+
+  Result->SetSizeLength(PossibleSizeLength);
+
+  Result->Size = SizeFound;
 
   Result->SetSizeInfinite(SizeFound == SizeUnknown);
   Result->ElementPosition = aElementPosition;
