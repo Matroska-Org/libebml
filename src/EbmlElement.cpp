@@ -219,7 +219,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
   if (Result == nullptr)
     return nullptr;
 
-  if (!Result->ValidateSize()) {
+  if (!Result->SizeIsValid(SizeFound)) {
     delete Result;
     return nullptr;
   }
@@ -340,7 +340,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
           //  0 : child
           //  1 : same level
           //  + : further parent
-          if (Result->ValidateSize() && (SizeFound == SizeUnknown || UpperLevel > 0 || MaxDataSize == 0 ||
+          if (Result->SizeIsValid(SizeFound) && (SizeFound == SizeUnknown || UpperLevel > 0 || MaxDataSize == 0 ||
                                          MaxDataSize >= (IdStart + PossibleID_Length + _SizeLength + SizeFound))) {
             Result->ElementPosition = ParseStart + IdStart;
             Result->SizePosition = Result->ElementPosition + PossibleID_Length;

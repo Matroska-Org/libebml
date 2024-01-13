@@ -29,7 +29,7 @@ class EBML_DLL_API EbmlUInteger : public EbmlElementDefaultSameStorage<std::uint
     */
     void SetDefaultSize(std::uint64_t nDefaultSize = DEFAULT_UINT_SIZE) override {EbmlElement::SetDefaultSize(nDefaultSize); SetSize_(nDefaultSize);}
 
-    bool ValidateSize() const override {return GetSize() <= 8;}
+    bool SizeIsValid(std::uint64_t size) const override {return size <= 8;}
     filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
     filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault, bool bForceRender = false) override;
