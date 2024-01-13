@@ -202,15 +202,21 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
 
   const auto PossibleID = EbmlId(PossibleId.data(), PossibleID_Length);
   auto Result = [=] {
-    if (PossibleID == EBML_INFO_ID(ClassInfos))
-      return &EBML_INFO_CREATE(ClassInfos);
-    return static_cast<EbmlElement *>(new EbmlDummy(PossibleID));
+    if (PossibleID != EBML_INFO_ID(ClassInfos))
+      return static_cast<EbmlElement *>(new EbmlDummy(PossibleID));
+    if (SizeFound != SizeUnknown && MaxDataSize < SizeFound)
+      return static_cast<EbmlElement *>(nullptr);
+    return &EBML_INFO_CREATE(ClassInfos);
   }();
+
+  if (Result == nullptr)
+    return nullptr;
+
   Result->SetSizeLength(PossibleSizeLength);
 
   Result->Size = SizeFound;
 
-  if (!Result->ValidateSize() || (SizeFound != SizeUnknown && MaxDataSize < Result->Size)) {
+  if (!Result->ValidateSize()) {
     delete Result;
     return nullptr;
   }
