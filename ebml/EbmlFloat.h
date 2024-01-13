@@ -25,9 +25,9 @@ class EBML_DLL_API EbmlFloat : public EbmlElementDefaultSameStorage<double> {
 
     EbmlFloat(const EbmlCallbacksDefault<double> &, Precision prec = FLOAT_32);
 
-    bool ValidateSize() const override
+    bool SizeIsValid(std::uint64_t size) const override
     {
-      return (GetSize() == 4 || GetSize() == 8);
+      return (size == 4 || size == 8);
     }
 
     filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;

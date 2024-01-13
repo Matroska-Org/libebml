@@ -31,7 +31,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     explicit EbmlMaster(const EbmlCallbacks &, const EbmlSemanticContext & aContext, bool bSizeIsKnown = true);
     EbmlMaster(const EbmlMaster & ElementToClone);
     EbmlMaster& operator=(const EbmlMaster&) = delete;
-    bool ValidateSize() const override {return true;}
+    bool SizeIsValid(std::uint64_t /*size*/) const override {return true;}
     /*!
       \warning be carefull to clear the memory allocated in the ElementList elsewhere
     */
