@@ -184,6 +184,10 @@ class DllApi x : public BaseClass { \
 #define DECLARE_xxx_BINARY(x,DllApi)    \
   DECLARE_xxx_BASE(x, DllApi, libebml::EbmlBinary)
 
+#define DECLARE_xxx_BINARY_LENGTH(x,len,DllApi)    \
+  DECLARE_xxx_BASE(x, DllApi, libebml::EbmlBinary) \
+  bool ValidateSize() const override {return GetSize() == len;}
+
 #define DECLARE_xxx_UINTEGER(x,DllApi)  \
   DECLARE_xxx_BASE_NODEFAULT(x, DllApi, libebml::EbmlUInteger, std::uint64_t)
 
