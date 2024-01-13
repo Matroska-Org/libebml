@@ -49,6 +49,9 @@ int main(int /*argc*/, char** /*argv*/)
     if (upper != 0)
         return 1;
 
+    if (!ReadHead.VerifyChecksum())
+        return 1;
+
     libebml::EDocType & ReadDocType = libebml::GetChild<libebml::EDocType>(ReadHead);
     const std::string & DocTypeStr = static_cast<const std::string &>(ReadDocType);
     if (DocTypeStr != "webm")
