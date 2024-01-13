@@ -78,7 +78,6 @@ set(libebml_PUBLIC_HEADERS
   ebml/EbmlSInteger.h
   ebml/EbmlStream.h
   ebml/EbmlString.h
-  ebml/EbmlSubHead.h
   ebml/EbmlTypes.h
   ebml/EbmlUInteger.h
   ebml/EbmlUnicodeString.h

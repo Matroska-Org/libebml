@@ -6,7 +6,6 @@
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 #include "ebml/EbmlHead.h"
-#include "ebml/EbmlSubHead.h"
 #include "ebml/EbmlContexts.h"
 
 namespace libebml {
