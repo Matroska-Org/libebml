@@ -22,7 +22,7 @@
 
 namespace libebml {
 
-const bool bChecksumUsedByDefault = false;
+constexpr const bool bChecksumUsedByDefault = false;
 
 /*!
     \class EbmlMaster
@@ -150,7 +150,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
 
     const EbmlSemanticContext & MasterContext;
 
-    bool      bChecksumUsed;
+    bool      bChecksumUsed = bChecksumUsedByDefault;
     EbmlCrc32 Checksum;
 
   private:
