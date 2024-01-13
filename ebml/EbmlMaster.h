@@ -8,7 +8,6 @@
 #ifndef LIBEBML_MASTER_H
 #define LIBEBML_MASTER_H
 
-#include <string>
 #include <vector>
 
 #include "EbmlTypes.h"
@@ -139,11 +138,6 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
       Checksum.ForceCrc32(NewChecksum);
       bChecksumUsed = true;
     }
-
-    /*!
-      \brief drill down all sub-elements, finding any missing elements
-    */
-    std::vector<std::string> FindAllMissingElements() const;
 
     private:
     std::vector<EbmlElement *> ElementList;
