@@ -13,8 +13,7 @@ int main(int /*argc*/, char** /*argv*/)
     libebml::MemIOCallback Ebml_file;
     libebml::EbmlHead TestHead;
 
-    libebml::EDocType & MyDocType = libebml::GetChild<libebml::EDocType>(TestHead);
-    MyDocType.SetValue("webm");
+    TestHead.EnableChecksum();
 
     libebml::EDocTypeVersion & MyDocTypeVer = libebml::GetChild<libebml::EDocTypeVersion>(TestHead);
     MyDocTypeVer.SetValue(1);
@@ -22,7 +21,7 @@ int main(int /*argc*/, char** /*argv*/)
     libebml::GetChild<libebml::EMaxSizeLength>(TestHead).SetValue(7);
 
     auto length = TestHead.Render(Ebml_file, libebml::EbmlElement::WriteAll);
-    if (length != 36)
+    if (length != 46)
         return 1;
 
     ///// Reading test
@@ -40,21 +39,14 @@ int main(int /*argc*/, char** /*argv*/)
 
     libebml::EbmlHead &ReadHead = static_cast<libebml::EbmlHead &>(*ElementLevel0);
 
-    int upper = 0;
-    ElementLevel0 = nullptr;
-    ReadHead.Read(aStream, EBML_CONTEXT(&ReadHead), upper, ElementLevel0, false);
-    if (ElementLevel0 != nullptr)
-        return 1;
-
-    if (upper != 0)
-        return 1;
+    ReadHead.ReadData(aStream, libebml::SCOPE_ALL_DATA);
 
     if (!ReadHead.VerifyChecksum())
         return 1;
 
     libebml::EDocType & ReadDocType = libebml::GetChild<libebml::EDocType>(ReadHead);
     const std::string & DocTypeStr = static_cast<const std::string &>(ReadDocType);
-    if (DocTypeStr != "webm")
+    if (DocTypeStr != "matroska")
         return 1;
 
     auto & ReadReadVersion = libebml::GetChild<const libebml::EDocTypeReadVersion>(ReadHead);
