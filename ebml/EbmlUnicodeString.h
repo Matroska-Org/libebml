@@ -12,7 +12,6 @@
 
 #include <string>
 
-#include "EbmlTypes.h"
 #include "EbmlElement.h"
 
 namespace libebml {

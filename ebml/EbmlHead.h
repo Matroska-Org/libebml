@@ -8,7 +8,6 @@
 #ifndef LIBEBML_HEAD_H
 #define LIBEBML_HEAD_H
 
-#include "EbmlTypes.h"
 #include "EbmlMaster.h"
 #include "EbmlUInteger.h"
 #include "EbmlString.h"

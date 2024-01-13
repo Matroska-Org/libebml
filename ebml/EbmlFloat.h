@@ -8,7 +8,6 @@
 #ifndef LIBEBML_FLOAT_H
 #define LIBEBML_FLOAT_H
 
-#include "EbmlTypes.h"
 #include "EbmlElement.h"
 
 namespace libebml {

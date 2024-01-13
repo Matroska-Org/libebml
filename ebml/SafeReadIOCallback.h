@@ -9,7 +9,6 @@
 #define LIBEBML_SAFEREADIOCALLBACK_H
 
 #include "EbmlBinary.h"
-#include "EbmlTypes.h"
 #include "IOCallback.h"
 
 #include <memory>

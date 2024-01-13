@@ -12,7 +12,6 @@
 #include <array>
 #include <cassert>
 
-#include "EbmlTypes.h"
 #include "EbmlBinary.h"
 
 namespace libebml {

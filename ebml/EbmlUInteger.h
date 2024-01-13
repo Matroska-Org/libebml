@@ -10,7 +10,6 @@
 #ifndef LIBEBML_UINTEGER_H
 #define LIBEBML_UINTEGER_H
 
-#include "EbmlTypes.h"
 #include "EbmlElement.h"
 
 namespace libebml {

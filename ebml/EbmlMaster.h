@@ -10,7 +10,6 @@
 
 #include <vector>
 
-#include "EbmlTypes.h"
 #include "EbmlElement.h"
 #include "EbmlCrc32.h"
 
