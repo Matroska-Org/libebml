@@ -328,7 +328,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
     if (bFound) {
       // find the element in the context and use the correct creator
       const auto PossibleID = EbmlId(PossibleIdNSize.data(), PossibleID_Length);
-      EbmlElement * Result = CreateElementUsingContext(PossibleID, Context, UpperLevel, false, AllowDummyElt, MaxLowerLevel);
+      EbmlElement * Result = CreateElementUsingContext(PossibleID, Context, UpperLevel, false, SizeFound == SizeUnknown, AllowDummyElt, MaxLowerLevel);
       ///< \todo continue is misplaced
       if (Result != nullptr) {
         if (AllowDummyElt || !Result->IsDummy()) {
@@ -342,13 +342,11 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
           //  + : further parent
           if (Result->ValidateSize() && (SizeFound == SizeUnknown || UpperLevel > 0 || MaxDataSize == 0 ||
                                          MaxDataSize >= (IdStart + PossibleID_Length + _SizeLength + SizeFound))) {
-            if (SizeFound != SizeUnknown || Result->SetSizeInfinite()) {
-              Result->ElementPosition = ParseStart + IdStart;
-              Result->SizePosition = Result->ElementPosition + PossibleID_Length;
-              // place the file at the beggining of the data
-              DataStream.setFilePointer(Result->SizePosition + _SizeLength);
-              return Result;
-            }
+            Result->ElementPosition = ParseStart + IdStart;
+            Result->SizePosition = Result->ElementPosition + PossibleID_Length;
+            // place the file at the beggining of the data
+            DataStream.setFilePointer(Result->SizePosition + _SizeLength);
+            return Result;
           }
         }
         delete Result;
@@ -425,7 +423,9 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
 }
 
 EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const EbmlSemanticContext & Context,
-                                                    int & LowLevel, bool IsGlobalContext, bool bAllowDummy, unsigned int MaxLowerLevel)
+                                                    int & LowLevel, bool IsGlobalContext,
+                                                    bool AsInfiniteSize,
+                                                    bool bAllowDummy, unsigned int MaxLowerLevel)
 {
   unsigned int ContextIndex;
   EbmlElement *Result = nullptr;
@@ -433,7 +433,12 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
   // elements at the current level
   for (ContextIndex = 0; ContextIndex < EBML_CTX_SIZE(Context); ContextIndex++) {
     if (aID == EBML_CTX_IDX_ID(Context,ContextIndex)) {
-      return &EBML_SEM_CREATE(EBML_CTX_IDX(Context,ContextIndex));
+      auto ClassInfos = EBML_CTX_IDX(Context,ContextIndex);
+      if (AsInfiniteSize && !ClassInfos.GetCallbacks().CanHaveInfiniteSize())
+        return nullptr;
+      Result = &EBML_SEM_CREATE(ClassInfos);
+      Result->SetSizeInfinite(AsInfiniteSize);
+      return Result;
     }
   }
 
@@ -444,7 +449,7 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
     LowLevel--;
     MaxLowerLevel--;
     // recursive is good, but be carefull...
-    Result = CreateElementUsingContext(aID, tstContext, LowLevel, true, bAllowDummy, MaxLowerLevel);
+    Result = CreateElementUsingContext(aID, tstContext, LowLevel, true, AsInfiniteSize, bAllowDummy, MaxLowerLevel);
     if (Result != nullptr) {
       return Result;
     }
@@ -456,18 +461,23 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 
   // parent elements
   if (EBML_CTX_MASTER(Context) != nullptr && aID == EBML_INFO_ID(*EBML_CTX_MASTER(Context))) {
+    auto Callbacks = *EBML_CTX_MASTER(Context);
+    if (AsInfiniteSize && !Callbacks.CanHaveInfiniteSize())
+      return nullptr;
     LowLevel++; // already one level up (same as context)
-    return &EBML_INFO_CREATE(*EBML_CTX_MASTER(Context));
+    Result = &EBML_INFO_CREATE(Callbacks);
+    Result->SetSizeInfinite(AsInfiniteSize);
+    return Result;
   }
 
   // check wether it's not part of an upper context
   if (EBML_CTX_PARENT(Context) != nullptr) {
     LowLevel++;
     MaxLowerLevel++;
-    return CreateElementUsingContext(aID, *EBML_CTX_PARENT(Context), LowLevel, IsGlobalContext, bAllowDummy, MaxLowerLevel);
+    return CreateElementUsingContext(aID, *EBML_CTX_PARENT(Context), LowLevel, IsGlobalContext, AsInfiniteSize, bAllowDummy, MaxLowerLevel);
   }
 
-  if (!IsGlobalContext && bAllowDummy) {
+  if (!IsGlobalContext && bAllowDummy && !AsInfiniteSize) {
     LowLevel = 0;
     Result = new (std::nothrow) EbmlDummy(aID);
   }
