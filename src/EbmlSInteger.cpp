@@ -8,7 +8,6 @@
 */
 #include <array>
 #include <cassert>
-#include <limits>
 #include <cstdint>
 
 #include "ebml/EbmlSInteger.h"

@@ -7,7 +7,6 @@
   \author Julien Coloos  <suiryc @ users.sf.net>
 */
 #include <cassert>
-#include <limits>
 #include <string>
 
 #include "ebml/EbmlBinary.h"
