@@ -11,6 +11,7 @@
 #include "ebml/EbmlContexts.h"
 #include "ebml/MemIOCallback.h"
 
+#include <array>
 #include <limits>
 #include <memory>
 
