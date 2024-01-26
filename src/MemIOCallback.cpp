@@ -88,7 +88,7 @@ std::uint32_t MemIOCallback::write(IOCallback & IOToRead, std::size_t Size)
     dataBuffer.resize(dataBufferPos + Size);
     dataBufferMemorySize = dataBufferPos + Size;
   }
-  IOToRead.readFully(&dataBuffer.data()[dataBufferPos], Size);
+  IOToRead.readFully(&dataBuffer[dataBufferPos], Size);
   dataBufferTotalSize = Size;
   return Size;
 }
