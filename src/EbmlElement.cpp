@@ -488,7 +488,7 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 /*!
   \todo verify that the size written is the same as the data written
 */
-filepos_t EbmlElement::Render(IOCallback & output, ShouldWrite writeFilter, bool bKeepPosition, bool bForceRender)
+filepos_t EbmlElement::Render(IOCallback & output, const ShouldWrite& writeFilter, bool bKeepPosition, bool bForceRender)
 {
   assert(bValueIsSet || CanWrite(writeFilter)); // an element is been rendered without a value set !!!
   // it may be a mandatory element without a default value
@@ -513,7 +513,7 @@ filepos_t EbmlElement::Render(IOCallback & output, ShouldWrite writeFilter, bool
   \todo handle exceptions on errors
   \todo handle CodeSize bigger than 5 bytes
 */
-filepos_t EbmlElement::RenderHead(IOCallback & output, bool bForceRender, ShouldWrite writeFilter, bool bKeepPosition)
+filepos_t EbmlElement::RenderHead(IOCallback & output, bool bForceRender, const ShouldWrite& writeFilter, bool bKeepPosition)
 {
   if (EBML_ID_LENGTH((const EbmlId&)*this) <= 0 || EBML_ID_LENGTH((const EbmlId&)*this) > 4)
     return 0;
@@ -544,7 +544,7 @@ filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
   return FinalHeadSize;
 }
 
-std::uint64_t EbmlElement::ElementSize(ShouldWrite writeFilter) const
+std::uint64_t EbmlElement::ElementSize(const ShouldWrite& writeFilter) const
 {
   if (!CanWrite(writeFilter))
     return 0; // won't be saved
@@ -622,7 +622,7 @@ filepos_t EbmlElement::OverwriteData(IOCallback & output, bool bKeepPosition)
 }
 
 
-std::uint64_t EbmlElement::VoidMe(IOCallback & output, ShouldWrite writeFilter) const
+std::uint64_t EbmlElement::VoidMe(IOCallback & output, const ShouldWrite& writeFilter) const
 {
   if (ElementPosition == 0) {
     return 0; // the element has not been written

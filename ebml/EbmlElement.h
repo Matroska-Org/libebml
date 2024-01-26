@@ -516,9 +516,9 @@ class EBML_DLL_API EbmlElement {
       return ElementPosition;
     }
 
-    std::uint64_t ElementSize(ShouldWrite writeFilter = WriteSkipDefault) const; /// return the size of the header+data, before writing
+    std::uint64_t ElementSize(const ShouldWrite& writeFilter = WriteSkipDefault) const; /// return the size of the header+data, before writing
 
-    filepos_t Render(IOCallback & output, ShouldWrite writeFilter = WriteSkipDefault, bool bKeepPosition = false, bool bForceRender = false);
+    filepos_t Render(IOCallback & output, const ShouldWrite& writeFilter = WriteSkipDefault, bool bKeepPosition = false, bool bForceRender = false);
 
     virtual filepos_t UpdateSize(const ShouldWrite & writeFilter = WriteSkipDefault, bool bForceRender = false) = 0; /// update the Size of the Data stored
     virtual filepos_t GetSize() const {return Size;} /// return the size of the data stored in the element, on reading
@@ -551,7 +551,7 @@ class EBML_DLL_API EbmlElement {
     /*!
       \brief void the content of the element (replace by EbmlVoid)
     */
-    std::uint64_t VoidMe(IOCallback & output, ShouldWrite writeFilter = WriteSkipDefault) const;
+    std::uint64_t VoidMe(IOCallback & output, const ShouldWrite& writeFilter = WriteSkipDefault) const;
 
     virtual bool IsDefaultValue() const = 0;
     bool IsFiniteSize() const {return bSizeIsFinite;}
@@ -581,7 +581,7 @@ class EBML_DLL_API EbmlElement {
                                                   bool AsInfiniteSize,
                                                   bool bAllowDummy = false, unsigned int MaxLowerLevel = 1);
 
-    filepos_t RenderHead(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault, bool bKeepPosition = false);
+    filepos_t RenderHead(IOCallback & output, bool bForceRender, const ShouldWrite& writeFilter = WriteSkipDefault, bool bKeepPosition = false);
     filepos_t MakeRenderHead(IOCallback & output, bool bKeepPosition);
 
     /*!

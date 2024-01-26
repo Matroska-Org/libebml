@@ -27,12 +27,12 @@ DECLARE_EBML_BINARY(EbmlVoid)
     /*!
       \brief Replace the void element content (written) with this one
     */
-    std::uint64_t ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output, bool ComeBackAfterward = true, ShouldWrite writeFilter = WriteSkipDefault);
+    std::uint64_t ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output, bool ComeBackAfterward = true, const ShouldWrite& writeFilter = WriteSkipDefault);
 
     /*!
       \brief Void the content of an element
     */
-    std::uint64_t Overwrite(const EbmlElement & EltToVoid, IOCallback & output, bool ComeBackAfterward = true, ShouldWrite writeFilter = WriteSkipDefault);
+    std::uint64_t Overwrite(const EbmlElement & EltToVoid, IOCallback & output, bool ComeBackAfterward = true, const ShouldWrite& writeFilter = WriteSkipDefault);
 
         EBML_CONCRETE_CLASS(EbmlVoid)
 };
