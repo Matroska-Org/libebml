@@ -538,7 +538,7 @@ filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
   output.writeFully(FinalHead.data(), FinalHeadSize);
   if (!bKeepPosition) {
     ElementPosition = output.getFilePointer() - FinalHeadSize;
-    SizePosition = ElementPosition + EBML_ID_LENGTH((const EbmlId&)*this);
+    SizePosition = ElementPosition + FinalHeadSize;
   }
 
   return FinalHeadSize;
