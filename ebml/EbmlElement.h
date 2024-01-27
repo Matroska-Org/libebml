@@ -58,20 +58,20 @@ class EbmlElement;
 #define DEFINE_xxx_MASTER(x,id,parent,infinite,name,versions,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
-    const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, name, Context_##x, versions); \
+    constexpr const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, false, name, Context_##x, versions); \
     x::x() :libebml::EbmlMaster(x::ClassInfos) {}
 
 // define a master class with a custom constructor
 #define DEFINE_xxx_MASTER_CONS(x,id,parent,infinite,name,versions,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
-    const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, name, Context_##x, versions);
+    constexpr const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, false, name, Context_##x, versions);
 
 // define a master class with no parent class
 #define DEFINE_xxx_MASTER_ORPHAN(x,id,infinite,name,versions,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, nullptr, global, &EBML_INFO(x)); \
-    const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, name, Context_##x, versions); \
+    constexpr const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, false, name, Context_##x, versions); \
 
 #define DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
@@ -79,17 +79,17 @@ class EbmlElement;
 
 #define DEFINE_xxx_CLASS_BASE(x,BaseClass,id,parent,name,versions,global) \
     DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
-    const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, name, Context_##x, versions); \
+    constexpr const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, false, name, Context_##x, versions); \
     x::x() :libebml::BaseClass(x::ClassInfos) {}
 
 #define DEFINE_xxx_CLASS_BASE_DEFAULT(x,BaseClass,id,parent,name,global,StorageType,defval,versions) \
     DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
-    const libebml::EbmlCallbacksWithDefault<StorageType> x::ClassInfos(x::Create, Id_##x, defval, name, Context_##x, versions); \
+    constexpr const libebml::EbmlCallbacksWithDefault<StorageType> x::ClassInfos(x::Create, Id_##x, defval, name, Context_##x, versions); \
     x::x() :libebml::BaseClass(x::ClassInfos) {}
 
 #define DEFINE_xxx_CLASS_BASE_NODEFAULT(x,BaseClass,id,parent,name,global,StorageType,versions) \
     DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
-    const libebml::EbmlCallbacksDefault<StorageType> x::ClassInfos(x::Create, Id_##x, name, Context_##x, versions); \
+    constexpr const libebml::EbmlCallbacksDefault<StorageType> x::ClassInfos(x::Create, Id_##x, name, Context_##x, versions); \
     x::x() :libebml::BaseClass(x::ClassInfos) {}
 
 #define DEFINE_xxx_UINTEGER(x,id,parent,name,versions,global) \
@@ -134,7 +134,7 @@ class EbmlElement;
 #define DEFINE_xxx_CLASS_ORPHAN(x,id,name,versions,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, nullptr, global, nullptr); \
-    const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, name, Context_##x, versions); \
+    constexpr const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, false, name, Context_##x, versions); \
 
 #define DEFINE_EBML_CONTEXT(x)                             DEFINE_xxx_CONTEXT(x,GetEbmlGlobal_Context)
 
@@ -318,11 +318,12 @@ class EBML_DLL_API EbmlDocVersion {
 */
 class EBML_DLL_API EbmlCallbacks {
   public:
-    constexpr EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, bool aCanInfinite, const char * aDebugName, const EbmlSemanticContext & aContext,
+    constexpr EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, bool aCanInfinite, bool aHasDefault, const char * aDebugName, const EbmlSemanticContext & aContext,
                             const EbmlDocVersion & aVersion)
       :Create(Creator)
       ,GlobalId(aGlobalId)
       ,CanInfinite(aCanInfinite)
+      ,hasDefault(aHasDefault)
       ,Version(aVersion)
       ,DebugName(aDebugName)
       ,Context(aContext)
@@ -330,15 +331,13 @@ class EBML_DLL_API EbmlCallbacks {
       assert(Creator!=nullptr);
     }
 
-    virtual ~EbmlCallbacks() = default;
-
         inline const EbmlId & ClassId() const { return GlobalId; }
         inline constexpr const EbmlSemanticContext & GetContext() const { return Context; }
         inline const char * GetName() const { return DebugName; }
         inline EbmlElement & NewElement() const { return Create(); }
         /// is infinite/unknown size allowed
         inline bool CanHaveInfiniteSize() const { return CanInfinite; }
-        virtual bool HasDefault() const { return false; }
+        bool HasDefault() const { return hasDefault; }
         // get information about supported version for this element
         inline const EbmlDocVersion & GetVersions() const { return Version; }
 
@@ -346,6 +345,7 @@ class EBML_DLL_API EbmlCallbacks {
     EbmlElement & (* const Create)();
     const EbmlId & GlobalId;
     const bool CanInfinite;
+    const bool hasDefault;
     const EbmlDocVersion &Version;
     const char * DebugName;
     const EbmlSemanticContext & Context;
@@ -355,12 +355,10 @@ template<typename T>
 class EBML_DLL_API EbmlCallbacksDefault : public EbmlCallbacks {
   public:
     constexpr EbmlCallbacksDefault(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, const char * aDebugName, const EbmlSemanticContext & aContext,
-                                   const EbmlDocVersion & aVersion)
-      :EbmlCallbacks(Creator, aGlobalId, false, aDebugName, aContext, aVersion)
+                                   const EbmlDocVersion & aVersion, bool hasDefault = false)
+      :EbmlCallbacks(Creator, aGlobalId, false, hasDefault, aDebugName, aContext, aVersion)
     {
     }
-
-    virtual ~EbmlCallbacksDefault() = default;
 };
 
 template<typename T>
@@ -368,15 +366,12 @@ class EBML_DLL_API EbmlCallbacksWithDefault : public EbmlCallbacksDefault<T> {
   public:
     constexpr EbmlCallbacksWithDefault(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, const T &def, const char * aDebugName, const EbmlSemanticContext & aContext,
                                        const EbmlDocVersion & aVersion)
-      :EbmlCallbacksDefault<T>(Creator, aGlobalId, aDebugName, aContext, aVersion)
+      :EbmlCallbacksDefault<T>(Creator, aGlobalId, aDebugName, aContext, aVersion, true)
       ,defaultValue(def)
     {
     }
 
-    virtual ~EbmlCallbacksWithDefault() = default;
-
     inline const T & DefaultValue() const { return defaultValue; }
-    bool HasDefault() const override { return true; }
 
     private:
     const T defaultValue;
