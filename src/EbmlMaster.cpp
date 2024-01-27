@@ -89,8 +89,12 @@ filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, ShouldW
 */
 bool EbmlMaster::PushElement(EbmlElement & element)
 {
-  ElementList.push_back(&element);
-  return true;
+  try {
+    ElementList.push_back(&element);
+    return true;
+  } catch(...) {
+  }
+  return false;
 }
 
 std::uint64_t EbmlMaster::UpdateSize(ShouldWrite writeFilter, bool bForceRender)
@@ -159,7 +163,20 @@ bool EbmlMaster::ProcessMandatory()
   for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
     if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory() && EBML_CTX_IDX(MasterContext,EltIdx).IsUnique()) {
 //      assert(EBML_CTX_IDX(MasterContext,EltIdx).Create != NULL);
-            PushElement(EBML_SEM_CREATE(EBML_CTX_IDX(MasterContext,EltIdx)));
+      if (PushElement(EBML_SEM_CREATE(EBML_CTX_IDX(MasterContext,EltIdx))))
+        continue;
+
+      while (EltIdx-- != 0)
+      {
+        if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory() && EBML_CTX_IDX(MasterContext,EltIdx).IsUnique())
+        {
+          // element that have been pushed should be removed
+          auto *todelete = ElementList.back();
+          ElementList.pop_back();
+          delete todelete;
+        }
+      }
+      return false;
     }
   }
   return true;
