@@ -10,7 +10,9 @@
 
 namespace libebml {
 
-DEFINE_EBML_CLASS_ORPHAN(EbmlVoid, 0xEC, "EBMLVoid", EbmlDocVersion{})
+static constexpr EbmlDocVersion AllEbmlVersions{};
+
+DEFINE_EBML_CLASS_ORPHAN(EbmlVoid, 0xEC, "EBMLVoid", AllEbmlVersions)
 
 EbmlVoid::EbmlVoid()
   :EbmlBinary(EbmlVoid::ClassInfos)

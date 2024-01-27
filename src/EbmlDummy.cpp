@@ -10,7 +10,9 @@
 
 namespace libebml {
 
-DEFINE_EBML_CLASS_ORPHAN(EbmlDummy, 0xFF, "DummyElement", EbmlDocVersion{} )
+static constexpr EbmlDocVersion AllEbmlVersions{};
+
+DEFINE_EBML_CLASS_ORPHAN(EbmlDummy, 0xFF, "DummyElement", AllEbmlVersions )
 
 const EbmlId EbmlDummy::DummyRawId = Id_EbmlDummy;
 

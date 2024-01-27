@@ -26,7 +26,9 @@ static constexpr std::uint32_t CRC32_NEGL = 0xffffffffL;
 
 namespace libebml {
 
-DEFINE_EBML_CLASS_ORPHAN(EbmlCrc32, 0xBF, "EBMLCrc32\0ratamadabapa", EbmlDocVersion{})
+static constexpr EbmlDocVersion AllEbmlVersions{};
+
+DEFINE_EBML_CLASS_ORPHAN(EbmlCrc32, 0xBF, "EBMLCrc32\0ratamadabapa", AllEbmlVersions)
 
 static constexpr std::array<std::uint32_t, 256> s_tab {
 #ifdef WORDS_BIGENDIAN

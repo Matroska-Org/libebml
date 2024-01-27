@@ -7,6 +7,8 @@
 
 using namespace libebml;
 
+static constexpr EbmlDocVersion AllVersions{};
+
 DECLARE_xxx_UINTEGER_DEF(DummyChild,)
 EBML_CONCRETE_CLASS(DummyChild)
 };
@@ -27,10 +29,10 @@ DECLARE_xxx_MASTER(NoInfinite,)
 EBML_CONCRETE_CLASS(NoInfinite)
 };
 
-DEFINE_EBML_MASTER_ORPHAN(CanInfinite, 0xF0, true, "CanInfinite", EbmlDocVersion{})
-DEFINE_EBML_MASTER_ORPHAN(NoInfinite, 0xF0, false, "NoInfinite", EbmlDocVersion{})
+DEFINE_EBML_MASTER_ORPHAN(CanInfinite, 0xF0, true, "CanInfinite", AllVersions)
+DEFINE_EBML_MASTER_ORPHAN(NoInfinite, 0xF0, false, "NoInfinite", AllVersions)
 
-DEFINE_EBML_UINTEGER_DEF(DummyChild, 0x42F7, CanInfinite, "DummyChild", 0, EbmlDocVersion{})
+DEFINE_EBML_UINTEGER_DEF(DummyChild, 0x42F7, CanInfinite, "DummyChild", 0, AllVersions)
 
 CanInfinite::CanInfinite()
     :EbmlMaster(CanInfinite::ClassInfos)

@@ -5,35 +5,37 @@
 
 using namespace libebml;
 
+static constexpr EbmlDocVersion AllVersions{};
+
 DECLARE_EBML_STRING_DEF(StringWithDefault)
     EBML_CONCRETE_CLASS(StringWithDefault)
 };
-DEFINE_EBML_STRING_DEF(StringWithDefault, 0x4321, EbmlHead, "StringWithDefault", "Default Value", EbmlDocVersion{})
+DEFINE_EBML_STRING_DEF(StringWithDefault, 0x4321, EbmlHead, "StringWithDefault", "Default Value", AllVersions)
 
 DECLARE_xxx_STRING(StringWithoutDefault,)
     EBML_CONCRETE_CLASS(StringWithoutDefault)
 };
-DEFINE_xxx_STRING(StringWithoutDefault, 0x4123, EbmlHead, "StringWithoutDefault", EbmlDocVersion{}, GetEbmlGlobal_Context)
+DEFINE_xxx_STRING(StringWithoutDefault, 0x4123, EbmlHead, "StringWithoutDefault", AllVersions, GetEbmlGlobal_Context)
 
 DECLARE_xxx_UNISTRING_DEF(UniStringWithDefault,)
     EBML_CONCRETE_CLASS(UniStringWithDefault)
 };
-DEFINE_xxx_UNISTRING_DEF(UniStringWithDefault, 0x4321, EbmlHead, "UniStringWithDefault", EbmlDocVersion{}, GetEbmlGlobal_Context, L"Default Value")
+DEFINE_xxx_UNISTRING_DEF(UniStringWithDefault, 0x4321, EbmlHead, "UniStringWithDefault", AllVersions, GetEbmlGlobal_Context, L"Default Value")
 
 DECLARE_xxx_UNISTRING(UniStringWithoutDefault,)
     EBML_CONCRETE_CLASS(UniStringWithoutDefault)
 };
-DEFINE_xxx_UNISTRING(UniStringWithoutDefault, 0x4123, EbmlHead, "UniStringWithoutDefault", EbmlDocVersion{}, GetEbmlGlobal_Context)
+DEFINE_xxx_UNISTRING(UniStringWithoutDefault, 0x4123, EbmlHead, "UniStringWithoutDefault", AllVersions, GetEbmlGlobal_Context)
 
 DECLARE_EBML_UINTEGER_DEF(UIntWithDefault)
     EBML_CONCRETE_CLASS(UIntWithDefault)
 };
-DEFINE_EBML_UINTEGER_DEF(UIntWithDefault, 0x654321, EbmlHead, "UIntWithDefault", 42, EbmlDocVersion{})
+DEFINE_EBML_UINTEGER_DEF(UIntWithDefault, 0x654321, EbmlHead, "UIntWithDefault", 42, AllVersions)
 
 DECLARE_xxx_UINTEGER(UIntWithoutDefault,)
     EBML_CONCRETE_CLASS(UIntWithoutDefault)
 };
-DEFINE_xxx_UINTEGER(UIntWithoutDefault, 0x612345, EbmlHead, "UIntWithoutDefault", EbmlDocVersion{}, GetEbmlGlobal_Context)
+DEFINE_xxx_UINTEGER(UIntWithoutDefault, 0x612345, EbmlHead, "UIntWithoutDefault", AllVersions, GetEbmlGlobal_Context)
 
 int main(void)
 {
