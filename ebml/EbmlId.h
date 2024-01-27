@@ -27,7 +27,7 @@ class EBML_DLL_API EbmlId {
     {
     }
 
-    constexpr EbmlId(const std::uint32_t aValue, const unsigned int /*aLength*/)
+    constexpr EbmlId(const std::uint32_t aValue)
       :Value(aValue), Length(LengthFromValue(aValue)) {}
 
     inline bool operator==(const EbmlId & TestId) const
