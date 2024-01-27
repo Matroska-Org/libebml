@@ -49,6 +49,17 @@ class EBML_DLL_API EbmlId {
     constexpr std::size_t GetLength() const { return Length; }
     constexpr std::uint32_t GetValue() const { return Value; }
 
+    static constexpr bool IsValid(std::uint32_t Value)
+    {
+      if (Value < 0x100)
+        return Value >= 0x80;
+      if (Value < 0x10000)
+        return Value >= 0x4000;
+      if (Value < 0x1000000)
+        return Value >= 0x200000;
+      return Value >= 0x10000000;
+    }
+
   private:
     std::uint32_t Value;
     std::size_t Length;
