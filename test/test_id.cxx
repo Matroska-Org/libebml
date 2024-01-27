@@ -39,5 +39,14 @@ int main(void)
     if (id.GetLength() != 3)
         return 1;
 
+    constexpr EbmlId test1{0xA3, 1};
+    static_assert(test1.GetLength() == 1, "nope");
+    constexpr EbmlId test2{0x5854, 2};
+    static_assert(test2.GetLength() == 2, "nope");
+    constexpr EbmlId test3{0x654000, 3};
+    static_assert(test3.GetLength() == 3, "nope");
+    constexpr EbmlId test4{0x1A45DFA3, 4};
+    static_assert(test4.GetLength() == 4, "nope");
+
     return 0;
 }
