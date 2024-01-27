@@ -200,7 +200,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
     } while (_SizeLength == 0);
   }
 
-  const auto PossibleID = EbmlId(PossibleId.data(), PossibleID_Length);
+  const auto PossibleID = EbmlId(EbmlId::FromBuffer(PossibleId.data(), PossibleID_Length));
   auto Result = [=] {
     if (PossibleID != EBML_INFO_ID(ClassInfos))
     {
@@ -327,7 +327,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
 
     if (bFound) {
       // find the element in the context and use the correct creator
-      const auto PossibleID = EbmlId(PossibleIdNSize.data(), PossibleID_Length);
+      const auto PossibleID = EbmlId(EbmlId::FromBuffer(PossibleIdNSize.data(), PossibleID_Length));
       EbmlElement * Result = CreateElementUsingContext(PossibleID, Context, UpperLevel, false, SizeFound == SizeUnknown, AllowDummyElt, MaxLowerLevel);
       ///< \todo continue is misplaced
       if (Result != nullptr) {

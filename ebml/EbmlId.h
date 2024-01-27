@@ -21,12 +21,6 @@ namespace libebml {
 */
 class EBML_DLL_API EbmlId {
   public:
-    constexpr EbmlId(const binary aValue[4], const unsigned int aLength)
-      :Value(FromBuffer(aValue, aLength))
-      ,Length(LengthFromValue(Value))
-    {
-    }
-
     constexpr EbmlId(const std::uint32_t aValue)
       :Value(aValue), Length(LengthFromValue(aValue)) {}
 
@@ -60,6 +54,16 @@ class EBML_DLL_API EbmlId {
       return Value >= 0x10000000;
     }
 
+    static constexpr std::uint32_t FromBuffer(const binary aValue[4], const unsigned int aLength)
+    {
+      std::uint32_t Value = 0;
+      for (unsigned int i=0; i<aLength; i++) {
+        Value <<= 8;
+        Value += aValue[i];
+      }
+      return Value;
+    }
+
   private:
     std::uint32_t Value;
     std::size_t Length;
@@ -72,16 +76,6 @@ class EBML_DLL_API EbmlId {
       if (Value < 0x1000000)
         return 3;
       return 4;
-    }
-
-    static constexpr std::uint32_t FromBuffer(const binary aValue[4], const unsigned int aLength)
-    {
-      std::uint32_t Value = 0;
-      for (unsigned int i=0; i<aLength; i++) {
-        Value <<= 8;
-        Value += aValue[i];
-      }
-      return Value;
     }
 };
 
