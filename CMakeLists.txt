@@ -155,6 +155,10 @@ if (BUILD_TESTING)
   target_link_libraries(test_missing PUBLIC ebml)
   add_test(test_missing test_missing)
 
+  add_executable(test_versioning test/test_versioning.cxx)
+  target_link_libraries(test_versioning PUBLIC ebml)
+  add_test(test_versioning test_versioning)
+
 endif(BUILD_TESTING)
 
 
