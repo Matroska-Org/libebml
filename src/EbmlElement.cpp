@@ -515,9 +515,6 @@ filepos_t EbmlElement::Render(IOCallback & output, const ShouldWrite& writeFilte
 */
 filepos_t EbmlElement::RenderHead(IOCallback & output, bool bForceRender, const ShouldWrite& writeFilter, bool bKeepPosition)
 {
-  if (EBML_ID_LENGTH((const EbmlId&)*this) <= 0 || EBML_ID_LENGTH((const EbmlId&)*this) > 4)
-    return 0;
-
   UpdateSize(writeFilter, bForceRender);
 
   return MakeRenderHead(output, bKeepPosition);
