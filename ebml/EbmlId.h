@@ -46,8 +46,8 @@ class EBML_DLL_API EbmlId {
       }
     }
 
-        inline std::size_t GetLength() const { return Length; }
-        inline std::uint32_t GetValue() const { return Value; }
+    constexpr std::size_t GetLength() const { return Length; }
+    constexpr std::uint32_t GetValue() const { return Value; }
 
   private:
     std::uint32_t Value;
