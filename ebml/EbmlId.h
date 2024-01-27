@@ -23,12 +23,12 @@ class EBML_DLL_API EbmlId {
   public:
     constexpr EbmlId(const binary aValue[4], const unsigned int aLength)
       :Value(FromBuffer(aValue, aLength))
-      ,Length(aLength)
+      ,Length(LengthFromValue(Value))
     {
     }
 
-    constexpr EbmlId(const std::uint32_t aValue, const unsigned int aLength)
-      :Value(aValue), Length(aLength) {}
+    constexpr EbmlId(const std::uint32_t aValue, const unsigned int /*aLength*/)
+      :Value(aValue), Length(LengthFromValue(aValue)) {}
 
     inline bool operator==(const EbmlId & TestId) const
     {
@@ -52,6 +52,16 @@ class EBML_DLL_API EbmlId {
   private:
     std::uint32_t Value;
     std::size_t Length;
+
+    static constexpr unsigned int LengthFromValue(std::uint32_t Value) {
+      if (Value < 0x100)
+        return 1;
+      if (Value < 0x10000)
+        return 2;
+      if (Value < 0x1000000)
+        return 3;
+      return 4;
+    }
 
     static constexpr std::uint32_t FromBuffer(const binary aValue[4], const unsigned int aLength)
     {
