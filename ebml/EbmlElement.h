@@ -161,7 +161,7 @@ class DllApi x : public BaseClass { \
     static const libebml::EbmlCallbacksWithDefault<StorageType> ClassInfos; \
   public: \
     const libebml::EbmlCallbacksWithDefault<StorageType> & ElementSpec() const override { return ClassInfos; } \
-    static const libebml::EbmlCallbacksWithDefault<StorageType> & GetElementSpec() { return ClassInfos; } \
+    static constexpr const libebml::EbmlCallbacksWithDefault<StorageType> & GetElementSpec() { return ClassInfos; } \
     x();
 
 #define DECLARE_xxx_BASE_NODEFAULT(x, DllApi, BaseClass, StorageType) \
@@ -170,7 +170,7 @@ class DllApi x : public BaseClass { \
     static const libebml::EbmlCallbacksDefault<StorageType> ClassInfos; \
   public: \
     const libebml::EbmlCallbacksDefault<StorageType> & ElementSpec() const override { return ClassInfos; } \
-    static const libebml::EbmlCallbacksDefault<StorageType> & GetElementSpec() { return ClassInfos; } \
+    static constexpr const libebml::EbmlCallbacksDefault<StorageType> & GetElementSpec() { return ClassInfos; } \
     x();
 
 #define DECLARE_xxx_BASE(x, DllApi, BaseClass) \
