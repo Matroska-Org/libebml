@@ -328,7 +328,6 @@ class EBML_DLL_API EbmlCallbacks {
       ,DebugName(aDebugName)
       ,Context(aContext)
     {
-      assert(Creator!=nullptr);
     }
 
         inline const EbmlId & ClassId() const { return GlobalId; }
