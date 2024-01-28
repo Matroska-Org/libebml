@@ -6,13 +6,18 @@ on:
     # branches: [ master ]
 
 jobs:
-  build_libebml:
-    name: libebml
-    runs-on: ubuntu-latest
+  Linux-GCC:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        cxx: ['7', '13']
     env:
       CMAKE_OPTIONS: -DDEV_MODE=ON -DBUILD_TESTING=ON
     steps:
       - uses: lukka/get-cmake@latest
+      - uses: egor-tensin/setup-gcc@v1
+        with:
+          version: ${{matrix.cxx}}
 
       - name: Get pushed code
         uses: actions/checkout@v4
