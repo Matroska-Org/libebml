@@ -64,3 +64,35 @@ jobs:
 
       - name: Run tests
         run: ctest --test-dir _build
+  Alpine:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        platform: ['armhf']
+    env:
+      CMAKE_OPTIONS: -DDEV_MODE=ON -DBUILD_TESTING=ON
+    defaults:
+      run:
+        shell: alpine.sh {0}
+    steps:
+      - name: Get pushed code
+        uses: actions/checkout@v3
+
+      - uses: jirutka/setup-alpine@v1
+        with:
+          branch: edge
+          arch: ${{matrix.platform}}
+          packages: >
+            build-base cmake
+
+      - name: Configure
+        run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
+
+      - name: Build
+        run: cmake --build _build --parallel --verbose
+
+      - name: Test installation
+        run: cmake --install _build --prefix ${GITHUB_WORKSPACE}/_built
+
+      - name: Run tests
+        run: ctest --test-dir _build
