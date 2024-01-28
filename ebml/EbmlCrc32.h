@@ -15,9 +15,9 @@ namespace libebml {
 
 DECLARE_EBML_BINARY_LENGTH(EbmlCrc32, 4)
   public:
-    filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;
+    filepos_t RenderData(IOCallback & output, bool bForceRender, const ShouldWrite & writeFilter = WriteSkipDefault) override;
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
-//    filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault);
+//    filepos_t UpdateSize(const ShouldWrite & writeFilter = WriteSkipDefault) override;
 
     bool IsDefaultValue() const override {
       return false;

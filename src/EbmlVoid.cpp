@@ -18,7 +18,7 @@ EbmlVoid::EbmlVoid()
   SetValueIsSet();
 }
 
-filepos_t EbmlVoid::RenderData(IOCallback & output, bool /* bForceRender */, ShouldWrite /* writeFilter */)
+filepos_t EbmlVoid::RenderData(IOCallback & output, bool /* bForceRender */, const ShouldWrite & /* writeFilter */)
 {
   // write dummy data by 4KB chunks
   static binary DummyBuf[4*1024];
@@ -32,7 +32,7 @@ filepos_t EbmlVoid::RenderData(IOCallback & output, bool /* bForceRender */, Sho
   return GetSize();
 }
 
-std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output, bool ComeBackAfterward, ShouldWrite writeFilter)
+std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output, bool ComeBackAfterward, const ShouldWrite& writeFilter)
 {
   EltToReplaceWith.UpdateSize(writeFilter);
   if (HeadSize() + GetSize() < EltToReplaceWith.GetSize() + EltToReplaceWith.HeadSize()) {
@@ -69,7 +69,7 @@ std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback &
   return GetSize() + HeadSize();
 }
 
-std::uint64_t EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & output, bool ComeBackAfterward, ShouldWrite writeFilter)
+std::uint64_t EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & output, bool ComeBackAfterward, const ShouldWrite& writeFilter)
 {
   //  EltToVoid.UpdateSize(bWithDefault);
   if (EltToVoid.GetElementPosition() == 0) {

@@ -46,7 +46,7 @@ class EBML_DLL_API EbmlDate : public EbmlElementDefaultSameStorage<std::int64_t>
     /*!
       \note no Default date handled
     */
-    filepos_t UpdateSize(ShouldWrite /* writeFilter */, bool /* bForceRender = false */) override {
+    filepos_t UpdateSize(const ShouldWrite & /* writeFilter */, bool /* bForceRender = false */) override {
       if(!ValueIsSet())
         SetSize_(0);
       else
@@ -68,7 +68,7 @@ class EBML_DLL_API EbmlDate : public EbmlElementDefaultSameStorage<std::int64_t>
     }
 
     private:
-    filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;
+    filepos_t RenderData(IOCallback & output, bool bForceRender, const ShouldWrite & writeFilter = WriteSkipDefault) override;
 
     static constexpr std::uint64_t UnixEpochDelay = 978'307'200; // 2001/01/01 00:00:00 UTC
 };

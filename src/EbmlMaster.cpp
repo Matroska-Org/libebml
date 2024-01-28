@@ -47,7 +47,7 @@ EbmlMaster::~EbmlMaster()
   \todo handle exception on errors
   \todo write all the Mandatory elements in the Context, otherwise assert
 */
-filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter)
+filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, const ShouldWrite & writeFilter)
 {
   filepos_t Result = 0;
 
@@ -97,7 +97,7 @@ bool EbmlMaster::PushElement(EbmlElement & element)
   return false;
 }
 
-std::uint64_t EbmlMaster::UpdateSize(ShouldWrite writeFilter, bool bForceRender)
+std::uint64_t EbmlMaster::UpdateSize(const ShouldWrite & writeFilter, bool bForceRender)
 {
   SetSize_(0);
 
@@ -126,7 +126,7 @@ std::uint64_t EbmlMaster::UpdateSize(ShouldWrite writeFilter, bool bForceRender)
   return GetSize();
 }
 
-filepos_t EbmlMaster::WriteHead(IOCallback & output, int nSizeLength, ShouldWrite writeFilter)
+filepos_t EbmlMaster::WriteHead(IOCallback & output, int nSizeLength, const ShouldWrite& writeFilter)
 {
   SetSizeLength(nSizeLength);
   return RenderHead(output, false, writeFilter);
