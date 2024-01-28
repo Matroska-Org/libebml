@@ -49,7 +49,7 @@ EbmlBinary::~EbmlBinary() {
 EbmlBinary::operator const binary &() const {return *Data;}
 
 
-filepos_t EbmlBinary::RenderData(IOCallback & output, bool /* bForceRender */, ShouldWrite /* writeFilter */)
+filepos_t EbmlBinary::RenderData(IOCallback & output, bool /* bForceRender */, const ShouldWrite & /* writeFilter */)
 {
   output.writeFully(Data,GetSize());
 

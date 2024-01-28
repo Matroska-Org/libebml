@@ -587,7 +587,7 @@ class EBML_DLL_API EbmlElement {
     /*!
       \brief prepare the data before writing them (in case it's not already done by default)
     */
-    virtual filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) = 0;
+    virtual filepos_t RenderData(IOCallback & output, bool bForceRender, const ShouldWrite & writeFilter = WriteSkipDefault) = 0;
 
     /*!
       \brief special constructor for cloning

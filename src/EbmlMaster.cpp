@@ -47,7 +47,7 @@ EbmlMaster::~EbmlMaster()
   \todo handle exception on errors
   \todo write all the Mandatory elements in the Context, otherwise assert
 */
-filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter)
+filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, const ShouldWrite & writeFilter)
 {
   filepos_t Result = 0;
 

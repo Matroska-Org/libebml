@@ -184,7 +184,7 @@ bool EbmlCrc32::CheckElementCRC32(EbmlElement &ElementToCRC) const
   return CheckCRC(m_crc_final, memoryBuffer.GetDataBuffer(), static_cast<std::uint32_t>(memSize));
 }
 
-filepos_t EbmlCrc32::RenderData(IOCallback & output, bool /* bForceRender */, ShouldWrite /* writeFilter */)
+filepos_t EbmlCrc32::RenderData(IOCallback & output, bool /* bForceRender */, const ShouldWrite & /* writeFilter */)
 {
   filepos_t Result = 4;
 

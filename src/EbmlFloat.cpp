@@ -30,7 +30,7 @@ EbmlFloat::operator double() const {return (GetValue());}
   \todo handle exception on errors
   \todo handle 10 bits precision
 */
-filepos_t EbmlFloat::RenderData(IOCallback & output, bool /* bForceRender */, ShouldWrite /* writeFilter */)
+filepos_t EbmlFloat::RenderData(IOCallback & output, bool /* bForceRender */, const ShouldWrite & /* writeFilter */)
 {
   assert(GetSize() == 4 || GetSize() == 8);
 

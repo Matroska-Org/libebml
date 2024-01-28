@@ -113,7 +113,7 @@ EbmlUnicodeString::EbmlUnicodeString(const EbmlCallbacksDefault<const wchar_t *>
 \note limited to UCS-2
 \todo handle exception on errors
 */
-filepos_t EbmlUnicodeString::RenderData(IOCallback & output, bool /* bForceRender */, ShouldWrite /* writeFilter */)
+filepos_t EbmlUnicodeString::RenderData(IOCallback & output, bool /* bForceRender */, const ShouldWrite & /* writeFilter */)
 {
   std::size_t Result = Value.GetUTF8().length();
 
