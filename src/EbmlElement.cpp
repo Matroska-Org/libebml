@@ -538,7 +538,7 @@ filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
   output.writeFully(FinalHead.data(), FinalHeadSize);
   if (!bKeepPosition) {
     ElementPosition = output.getFilePointer() - FinalHeadSize;
-    SizePosition = ElementPosition + EBML_ID_LENGTH((const EbmlId&)*this);
+    SizePosition = ElementPosition + FinalHeadSize;
   }
 
   return FinalHeadSize;
@@ -548,7 +548,7 @@ std::uint64_t EbmlElement::ElementSize(ShouldWrite writeFilter) const
 {
   if (!CanWrite(writeFilter))
     return 0; // won't be saved
-  return Size + EBML_ID_LENGTH((const EbmlId&)*this) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+  return Size + HeadSize();
 }
 
 bool EbmlElement::IsSmallerThan(const EbmlElement *Cmp) const
@@ -608,7 +608,7 @@ filepos_t EbmlElement::OverwriteData(IOCallback & output, bool bKeepPosition)
     return 0; // the element has not been written
   }
 
-  auto HeaderSize = EbmlId(*this).GetLength() + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+  auto HeaderSize = HeadSize();
 #if !defined(NDEBUG)
   auto DataSize   = GetSize();
 #endif
