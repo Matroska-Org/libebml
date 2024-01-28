@@ -447,9 +447,7 @@ class EBML_DLL_API EbmlElement {
 
     // write only elements that don't have their default value set
     static bool WriteSkipDefault(const EbmlElement &elt) {
-      if (elt.IsDefaultValue())
-        return false;
-      return true;
+      return !elt.IsDefaultValue();
     }
 
     static bool WriteAll(const EbmlElement &) {
