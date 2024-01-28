@@ -169,7 +169,7 @@ filepos_t EbmlUnicodeString::ReadData(IOCallback & input, ScopeMode ReadFully)
 
   } else {
     std::string Buffer(static_cast<std::string::size_type>(GetSize()), static_cast<char>(0));
-    input.readFully(&Buffer[0], GetSize());
+    input.readFully(Buffer.data(), GetSize());
 
     Value.SetUTF8(Buffer.c_str()); // Let conversion to std::string cut off at the first 0
   }
