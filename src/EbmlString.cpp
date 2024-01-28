@@ -63,7 +63,6 @@ filepos_t EbmlString::ReadData(IOCallback & input, ScopeMode ReadFully)
 
   } else {
     Value.resize(GetSize());
-    std::memset(&Value[0], 0, GetSize());
     input.readFully(&Value[0], GetSize());
 
     auto PosNull = Value.find('\0');
