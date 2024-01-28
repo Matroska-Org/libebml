@@ -32,7 +32,7 @@ class EBML_DLL_API EbmlUInteger : public EbmlElementDefaultSameStorage<std::uint
     bool SizeIsValid(std::uint64_t size) const override {return size <= 8;}
     filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
-    filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault, bool bForceRender = false) override;
+    filepos_t UpdateSize(const ShouldWrite & writeFilter = WriteSkipDefault, bool bForceRender = false) override;
 
     using EbmlElement::operator const EbmlId &;
     explicit operator std::uint8_t()  const;

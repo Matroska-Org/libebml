@@ -32,7 +32,7 @@ class EBML_DLL_API EbmlFloat : public EbmlElementDefaultSameStorage<double> {
 
     filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
-    filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault, bool bForceRender = false) override;
+    filepos_t UpdateSize(const ShouldWrite & writeFilter = WriteSkipDefault, bool bForceRender = false) override;
 
     void SetPrecision(const EbmlFloat::Precision prec = FLOAT_32)
     {

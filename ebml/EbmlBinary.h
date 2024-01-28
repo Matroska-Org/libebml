@@ -34,7 +34,7 @@ class EBML_DLL_API EbmlBinary : public EbmlElement {
 
     filepos_t RenderData(IOCallback & output, bool bForceRender, ShouldWrite writeFilter = WriteSkipDefault) override;
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
-    filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault, bool bForceRender = false) override;
+    filepos_t UpdateSize(const ShouldWrite & writeFilter = WriteSkipDefault, bool bForceRender = false) override;
 
     void SetBuffer(const binary *Buffer, const std::uint32_t BufferSize) {
       Data = const_cast<binary *>(Buffer);

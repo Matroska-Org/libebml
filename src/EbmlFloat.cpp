@@ -53,7 +53,7 @@ filepos_t EbmlFloat::RenderData(IOCallback & output, bool /* bForceRender */, Sh
   return GetSize();
 }
 
-std::uint64_t EbmlFloat::UpdateSize(ShouldWrite writeFilter, bool /* bForceRender */)
+std::uint64_t EbmlFloat::UpdateSize(const ShouldWrite & writeFilter, bool /* bForceRender */)
 {
   if (!CanWrite(writeFilter))
     return 0;

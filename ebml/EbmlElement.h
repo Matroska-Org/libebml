@@ -520,7 +520,7 @@ class EBML_DLL_API EbmlElement {
 
     filepos_t Render(IOCallback & output, ShouldWrite writeFilter = WriteSkipDefault, bool bKeepPosition = false, bool bForceRender = false);
 
-    virtual filepos_t UpdateSize(ShouldWrite writeFilter = WriteSkipDefault, bool bForceRender = false) = 0; /// update the Size of the Data stored
+    virtual filepos_t UpdateSize(const ShouldWrite & writeFilter = WriteSkipDefault, bool bForceRender = false) = 0; /// update the Size of the Data stored
     virtual filepos_t GetSize() const {return Size;} /// return the size of the data stored in the element, on reading
 
     virtual filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) = 0;
@@ -568,7 +568,7 @@ class EBML_DLL_API EbmlElement {
       return SizePosition + CodedSizeLength(Size, SizeLength, bSizeIsFinite) + Size;
     }
 
-    virtual bool CanWrite(ShouldWrite & writeFilter) const {
+    virtual bool CanWrite(const ShouldWrite & writeFilter) const {
       return writeFilter(*this);
     }
 

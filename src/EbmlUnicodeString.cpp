@@ -144,7 +144,7 @@ std::string EbmlUnicodeString::GetValueUTF8() const {
 /*!
 \note limited to UCS-2
 */
-std::uint64_t EbmlUnicodeString::UpdateSize(ShouldWrite writeFilter, bool /* bForceRender */)
+std::uint64_t EbmlUnicodeString::UpdateSize(const ShouldWrite & writeFilter, bool /* bForceRender */)
 {
   if (!CanWrite(writeFilter))
     return 0;
