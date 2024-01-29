@@ -18,10 +18,10 @@ namespace libebml {
 
 namespace {
 
-std::size_t lengthToFirstNulll(std::string const &s)
+std::size_t lengthToFirstNulll(std::string_view s)
 {
   auto PosNull = s.find('\0');
-  return PosNull != std::string::npos ? PosNull : s.size();
+  return PosNull != std::string_view::npos ? PosNull : s.size();
 }
 
 }
