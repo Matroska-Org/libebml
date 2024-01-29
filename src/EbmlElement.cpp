@@ -76,11 +76,11 @@ std::uint64_t ReadCodedSizeValue(const binary * InBuffer, std::uint32_t & Buffer
 {
   binary SizeBitMask = 1 << 7;
   std::uint64_t Result = 0x7F;
-  unsigned int SizeIdx, PossibleSizeLength = 0;
+  unsigned int PossibleSizeLength = 0;
   std::array<binary, 8> PossibleSize = {};
 
   SizeUnknown = 0x7F; // the last bit is discarded when computing the size
-  for (SizeIdx = 0; SizeIdx < BufferSize && SizeIdx < 8; SizeIdx++) {
+  for (unsigned int SizeIdx = 0; SizeIdx < BufferSize && SizeIdx < 8; SizeIdx++) {
     if (InBuffer[0] & (SizeBitMask >> SizeIdx)) {
       // ID found
       PossibleSizeLength = SizeIdx + 1;
@@ -424,11 +424,10 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
                                                     bool AsInfiniteSize,
                                                     bool bAllowDummy, unsigned int MaxLowerLevel)
 {
-  unsigned int ContextIndex;
   EbmlElement *Result = nullptr;
 
   // elements at the current level
-  for (ContextIndex = 0; ContextIndex < EBML_CTX_SIZE(Context); ContextIndex++) {
+  for (unsigned int ContextIndex = 0; ContextIndex < EBML_CTX_SIZE(Context); ContextIndex++) {
     if (aID == EBML_CTX_IDX_ID(Context,ContextIndex)) {
       auto ClassInfos = EBML_CTX_IDX(Context,ContextIndex);
       if (AsInfiniteSize && !ClassInfos.GetCallbacks().CanHaveInfiniteSize())

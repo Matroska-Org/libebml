@@ -158,8 +158,7 @@ bool EbmlMaster::ProcessMandatory()
 
   assert(MasterContext.GetSize() != 0);
 
-  unsigned int EltIdx;
-  for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
+  for (unsigned int EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
     if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory() && EBML_CTX_IDX(MasterContext,EltIdx).IsUnique()) {
 //      assert(EBML_CTX_IDX(MasterContext,EltIdx).Create != NULL);
       if (PushElement(EBML_SEM_CREATE(EBML_CTX_IDX(MasterContext,EltIdx))))
@@ -186,8 +185,7 @@ bool EbmlMaster::CheckMandatory() const
   const EbmlSemanticContext & MasterContext = EBML_CONTEXT(this);
   assert(MasterContext.GetSize() != 0);
 
-  unsigned int EltIdx;
-  for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
+  for (unsigned int EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
     if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory()) {
       if (FindElt(EBML_CTX_IDX_INFO(MasterContext,EltIdx)) == nullptr) {
         const auto & semcb = EBML_CTX_IDX(MasterContext,EltIdx).GetCallbacks();
