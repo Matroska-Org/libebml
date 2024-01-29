@@ -24,11 +24,11 @@ public:
   };
 
 private:
-  std::shared_ptr<IOCallback> mIO;
+  std::unique_ptr<IOCallback> mIO;
   std::size_t mSize;
 
 public:
-  SafeReadIOCallback(std::shared_ptr<IOCallback> &IO);
+  SafeReadIOCallback(std::unique_ptr<IOCallback> IO);
   SafeReadIOCallback(void const *Mem, std::size_t Size);
   explicit SafeReadIOCallback(EbmlBinary const &Binary);
   ~SafeReadIOCallback() override = default;
@@ -53,7 +53,7 @@ public:
   void Seek(std::size_t Position);
 
 protected:
-  void Init(std::shared_ptr<IOCallback> &IO);
+  void Init(std::unique_ptr<IOCallback> IO);
 };
 
 } // namespace libebml

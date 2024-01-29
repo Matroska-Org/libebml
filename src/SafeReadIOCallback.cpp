@@ -22,28 +22,28 @@ SafeReadIOCallback::EndOfStreamX::EndOfStreamX(std::size_t MissingBytes)
 
 // ----------------------------------------------------------------------
 
-SafeReadIOCallback::SafeReadIOCallback(std::shared_ptr<IOCallback> & IO) {
-  Init(IO);
+SafeReadIOCallback::SafeReadIOCallback(std::unique_ptr<IOCallback> IO) {
+  Init(std::move(IO));
 }
 
 SafeReadIOCallback::SafeReadIOCallback(void const *Mem,
                                        std::size_t Size) {
-  std::shared_ptr<IOCallback> t = std::make_shared<MemReadIOCallback>(Mem, Size);
-  Init(t);
+  auto t = std::make_unique<MemReadIOCallback>(Mem, Size);
+  Init(std::move(t));
 }
 
 SafeReadIOCallback::SafeReadIOCallback(EbmlBinary const &Binary) {
-  std::shared_ptr<IOCallback> t = std::make_shared<MemReadIOCallback>(Binary);
-  Init(t);
+  auto t = std::make_unique<MemReadIOCallback>(Binary);
+  Init(std::move(t));
 }
 
 void
-SafeReadIOCallback::Init(std::shared_ptr<IOCallback> & IO) {
-  mIO                = IO;
-  const std::int64_t PrevPosition = IO->getFilePointer();
-  IO->setFilePointer(0, seek_end);
-  mSize              = IO->getFilePointer();
-  IO->setFilePointer(PrevPosition);
+SafeReadIOCallback::Init(std::unique_ptr<IOCallback> IO) {
+  mIO                = std::move(IO);
+  const auto PrevPosition = mIO->getFilePointer();
+  mIO->setFilePointer(0, seek_end);
+  mSize              = mIO->getFilePointer();
+  mIO->setFilePointer(PrevPosition);
 }
 
 std::size_t
