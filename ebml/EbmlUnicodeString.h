@@ -55,7 +55,7 @@ public:
 
 private:
   std::string UTF8string;
-  void UpdateFromUCS2(const std::wstring &);
+  void UpdateFromUCS2(std::wstring_view);
 };
 
 

@@ -43,7 +43,7 @@ UTFstring & UTFstring::operator=(const wchar_t * _aBuf)
 {
   if (_aBuf != nullptr)
   {
-    UpdateFromUCS2(std::wstring{_aBuf});
+    UpdateFromUCS2(_aBuf);
   }
   else
   {
@@ -76,7 +76,7 @@ void UTFstring::SetUTF8(std::string_view _aStr)
   UTF8string = _aStr;
 }
 
-void UTFstring::UpdateFromUCS2(const std::wstring & WString)
+void UTFstring::UpdateFromUCS2(std::wstring_view WString)
 {
   // Only convert up to the first \0 character if present.
   auto Current = std::find(WString.cbegin(), WString.cend(), L'\0');
