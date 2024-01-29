@@ -8,18 +8,15 @@
 
 #include <array>
 #include <cassert>
-#include <cstdlib>
 #include <cstring>
 #include <iostream>
 #include <stdexcept>
 #include <sstream>
 
 #include "ebml/EbmlElement.h"
-#include "ebml/EbmlMaster.h"
 #include "ebml/EbmlStream.h"
 #include "ebml/EbmlVoid.h"
 #include "ebml/EbmlDummy.h"
-#include "ebml/EbmlContexts.h"
 
 namespace libebml {
 

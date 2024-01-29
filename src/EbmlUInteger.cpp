@@ -7,7 +7,6 @@
   \author Moritz Bunkus <moritz @ bunkus.org>
 */
 #include <array>
-#include <cassert>
 
 #include "ebml/EbmlUInteger.h"
 

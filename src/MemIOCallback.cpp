@@ -7,7 +7,6 @@
 */
 
 #include "ebml/MemIOCallback.h"
-#include "ebml/EbmlConfig.h"
 
 namespace libebml {
 

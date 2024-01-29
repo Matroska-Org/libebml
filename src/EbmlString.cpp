@@ -5,7 +5,6 @@
   \file
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
-#include <cassert>
 
 #include "ebml/EbmlString.h"
 

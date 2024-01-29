@@ -7,8 +7,6 @@
   \author Jory Stone       <jcsston @ toughguy.net>
 */
 
-#include <cassert>
-#include <cstddef>
 
 #include "ebml/EbmlUnicodeString.h"
 

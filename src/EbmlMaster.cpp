@@ -11,7 +11,6 @@
 
 #include "ebml/EbmlMaster.h"
 #include "ebml/EbmlStream.h"
-#include "ebml/EbmlContexts.h"
 #include "ebml/MemIOCallback.h"
 
 namespace libebml {

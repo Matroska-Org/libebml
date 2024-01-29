@@ -6,7 +6,6 @@
   \author Moritz Bunkus <moritz@bunkus.org>
 */
 
-#include <cstring>
 #include <algorithm>
 
 #include "ebml/EbmlBinary.h"
