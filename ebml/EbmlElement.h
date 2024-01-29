@@ -470,8 +470,6 @@ class EBML_DLL_API EbmlElement {
     /*!
       \brief find the next element with the same ID
     */
-    EbmlElement * FindNext(IOCallback & DataStream, std::uint64_t MaxDataSize);
-
     EbmlElement * SkipData(EbmlStream & DataStream, const EbmlSemanticContext & Context, EbmlElement * TestReadElt = nullptr, bool AllowDummyElt = false);
 
     /*!
