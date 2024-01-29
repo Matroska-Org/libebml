@@ -70,7 +70,7 @@ filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, const S
     std::uint64_t memSize = TmpBuf.GetDataBufferSize();
     const binary *memStart = TmpBuf.GetDataBuffer();
     while (memSize != 0) {
-      const std::uint32_t fillSize = static_cast<std::uint32_t>(std::min<std::uint64_t>(std::numeric_limits<std::uint32_t>::max(), memSize));
+      const auto fillSize = static_cast<std::uint32_t>(std::min<std::uint64_t>(std::numeric_limits<std::uint32_t>::max(), memSize));
       Checksum.FillCRC32(memStart, fillSize);
       memStart += fillSize;
       memSize -= fillSize;
@@ -462,7 +462,7 @@ bool EbmlMaster::VerifyChecksum() const
   std::uint64_t memSize = TmpBuf.GetDataBufferSize();
   const binary *memStart = TmpBuf.GetDataBuffer();
   while (memSize != 0) {
-    const std::uint32_t fillSize = static_cast<std::uint32_t>(std::min<std::uint64_t>(std::numeric_limits<std::uint32_t>::max(), memSize));
+    const auto fillSize = static_cast<std::uint32_t>(std::min<std::uint64_t>(std::numeric_limits<std::uint32_t>::max(), memSize));
     aChecksum.FillCRC32(memStart, fillSize);
     memStart += fillSize;
     memSize -= fillSize;
