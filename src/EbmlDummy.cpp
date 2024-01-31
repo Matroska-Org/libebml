@@ -14,6 +14,8 @@ static constexpr EbmlDocVersion AllEbmlVersions{};
 
 DEFINE_EBML_CLASS_ORPHAN(EbmlDummy, 0xFF, "DummyElement", AllEbmlVersions )
 
+EbmlDummy::EbmlDummy(const EbmlId & aId) : EbmlBinary(EbmlDummy::ClassInfos), DummyId(aId) {}
+
 const EbmlId EbmlDummy::DummyRawId = Id_EbmlDummy;
 
 } // namespace libebml

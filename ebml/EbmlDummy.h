@@ -14,7 +14,7 @@ namespace libebml {
 
 class EBML_DLL_API EbmlDummy : public EbmlBinary {
   public:
-    EbmlDummy(const EbmlId & aId) : EbmlBinary(EbmlDummy::ClassInfos), DummyId(aId) {}
+    EbmlDummy(const EbmlId & aId);
 
     bool IsDummy() const override {return true;}
     bool IsDefaultValue() const override {return true;}
