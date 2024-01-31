@@ -5,7 +5,6 @@
   \file
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
-#include <cassert>
 
 #include "ebml/EbmlString.h"
 
@@ -63,8 +62,7 @@ filepos_t EbmlString::ReadData(IOCallback & input, ScopeMode ReadFully)
 
   } else {
     Value.resize(GetSize());
-    std::memset(&Value[0], 0, GetSize());
-    input.readFully(&Value[0], GetSize());
+    input.readFully(Value.data(), GetSize());
 
     auto PosNull = Value.find('\0');
     if (PosNull != std::string::npos)

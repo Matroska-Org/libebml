@@ -416,7 +416,7 @@ class EBML_DLL_API EbmlSemanticContext {
 
     bool operator!=(const EbmlSemanticContext & aElt) const {
       return ((Size != aElt.Size) || (MyTable != aElt.MyTable) ||
-        (UpTable != aElt.UpTable) || (GetGlobalContext != aElt.GetGlobalContext) |
+        (UpTable != aElt.UpTable) || (GetGlobalContext != aElt.GetGlobalContext) ||
         (MasterElt != aElt.MasterElt));
     }
 
@@ -473,8 +473,6 @@ class EBML_DLL_API EbmlElement {
     /*!
       \brief find the next element with the same ID
     */
-    EbmlElement * FindNext(IOCallback & DataStream, std::uint64_t MaxDataSize);
-
     EbmlElement * SkipData(EbmlStream & DataStream, const EbmlSemanticContext & Context, EbmlElement * TestReadElt = nullptr, bool AllowDummyElt = false);
 
     /*!

@@ -7,7 +7,6 @@
   \author Jory Stone       <jcsston @ toughguy.net>
 */
 #include "ebml/EbmlCrc32.h"
-#include "ebml/EbmlEndian.h"
 #include "ebml/EbmlContexts.h"
 #include "ebml/MemIOCallback.h"
 

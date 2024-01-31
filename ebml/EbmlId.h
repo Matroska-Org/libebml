@@ -34,8 +34,7 @@ class EBML_DLL_API EbmlId {
     }
 
     inline void Fill(binary * Buffer) const {
-      unsigned int i;
-      for (i = 0; i<Length; i++) {
+      for (size_t i = 0; i<Length; i++) {
         Buffer[i] = (Value >> (8*(Length-i-1))) & 0xFF;
       }
     }

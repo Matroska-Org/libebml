@@ -11,7 +11,6 @@
 
 #include "ebml/EbmlMaster.h"
 #include "ebml/EbmlStream.h"
-#include "ebml/EbmlContexts.h"
 #include "ebml/MemIOCallback.h"
 
 namespace libebml {
@@ -71,7 +70,7 @@ filepos_t EbmlMaster::RenderData(IOCallback & output, bool bForceRender, const S
     std::uint64_t memSize = TmpBuf.GetDataBufferSize();
     const binary *memStart = TmpBuf.GetDataBuffer();
     while (memSize != 0) {
-      const std::uint32_t fillSize = static_cast<std::uint32_t>(std::min<std::uint64_t>(std::numeric_limits<std::uint32_t>::max(), memSize));
+      const auto fillSize = static_cast<std::uint32_t>(std::min<std::uint64_t>(std::numeric_limits<std::uint32_t>::max(), memSize));
       Checksum.FillCRC32(memStart, fillSize);
       memStart += fillSize;
       memSize -= fillSize;
@@ -159,8 +158,7 @@ bool EbmlMaster::ProcessMandatory()
 
   assert(MasterContext.GetSize() != 0);
 
-  unsigned int EltIdx;
-  for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
+  for (unsigned int EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
     if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory() && EBML_CTX_IDX(MasterContext,EltIdx).IsUnique()) {
 //      assert(EBML_CTX_IDX(MasterContext,EltIdx).Create != NULL);
       if (PushElement(EBML_SEM_CREATE(EBML_CTX_IDX(MasterContext,EltIdx))))
@@ -187,8 +185,7 @@ bool EbmlMaster::CheckMandatory() const
   const EbmlSemanticContext & MasterContext = EBML_CONTEXT(this);
   assert(MasterContext.GetSize() != 0);
 
-  unsigned int EltIdx;
-  for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
+  for (unsigned int EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
     if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory()) {
       if (FindElt(EBML_CTX_IDX_INFO(MasterContext,EltIdx)) == nullptr) {
         const auto & semcb = EBML_CTX_IDX(MasterContext,EltIdx).GetCallbacks();
@@ -463,7 +460,7 @@ bool EbmlMaster::VerifyChecksum() const
   std::uint64_t memSize = TmpBuf.GetDataBufferSize();
   const binary *memStart = TmpBuf.GetDataBuffer();
   while (memSize != 0) {
-    const std::uint32_t fillSize = static_cast<std::uint32_t>(std::min<std::uint64_t>(std::numeric_limits<std::uint32_t>::max(), memSize));
+    const auto fillSize = static_cast<std::uint32_t>(std::min<std::uint64_t>(std::numeric_limits<std::uint32_t>::max(), memSize));
     aChecksum.FillCRC32(memStart, fillSize);
     memStart += fillSize;
     memSize -= fillSize;
