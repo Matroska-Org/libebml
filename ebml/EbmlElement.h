@@ -449,11 +449,12 @@ class EBML_DLL_API EbmlElement {
     static bool WriteSkipDefault(const EbmlElement &elt) {
       if (elt.IsDefaultValue())
         return false;
-      return true;
+      return !elt.ElementSpec().GetVersions().IsAlwaysDeprecated();
     }
 
-    static bool WriteAll(const EbmlElement &) {
-      return true;
+    // write all elements except deprecated ones
+    static bool WriteAll(const EbmlElement & elt) {
+      return !elt.ElementSpec().GetVersions().IsAlwaysDeprecated();
     }
 
     explicit EbmlElement(const EbmlCallbacks &, std::uint64_t aDefaultSize, bool bValueSet = false);
