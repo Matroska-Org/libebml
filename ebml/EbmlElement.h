@@ -634,6 +634,7 @@ class EBML_DLL_API EbmlElementDefault : public EbmlElement {
 template<typename T>
 class EBML_DLL_API EbmlElementDefaultSameStorage : public EbmlElementDefault<T> {
   public:
+    using EbmlElementDefault<T>::operator const EbmlId &;
     explicit EbmlElementDefaultSameStorage(const EbmlCallbacksDefault<T> &classInfo, std::uint64_t aDefaultSize)
       :EbmlElementDefault<T>(classInfo, aDefaultSize)
     {}
@@ -673,6 +674,7 @@ class EBML_DLL_API EbmlElementDefaultSameStorage : public EbmlElementDefault<T> 
 template<typename T, typename S>
 class EBML_DLL_API EbmlElementDefaultStorage : public EbmlElementDefault<T> {
   public:
+    using EbmlElementDefault<T>::operator const EbmlId &;
     explicit EbmlElementDefaultStorage(const EbmlCallbacksDefault<T> &classInfo, std::uint64_t aDefaultSize)
       :EbmlElementDefault<T>(classInfo, aDefaultSize)
     {}
