@@ -27,7 +27,7 @@ namespace libebml {
 
 static constexpr EbmlDocVersion AllEbmlVersions{};
 
-DEFINE_EBML_CLASS_ORPHAN(EbmlCrc32, 0xBF, "EBMLCrc32\0ratamadabapa", AllEbmlVersions)
+DEFINE_EBML_CLASS_ORPHAN(EbmlCrc32, 0xBF, "EBMLCrc32", AllEbmlVersions)
 
 static constexpr std::array<std::uint32_t, 256> s_tab {
 #ifdef WORDS_BIGENDIAN
