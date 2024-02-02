@@ -27,13 +27,11 @@ SafeReadIOCallback::SafeReadIOCallback(std::unique_ptr<IOCallback> IO) {
 
 SafeReadIOCallback::SafeReadIOCallback(void const *Mem,
                                        std::size_t Size) {
-  auto t = std::make_unique<MemReadIOCallback>(Mem, Size);
-  Init(std::move(t));
+  Init(std::make_unique<MemReadIOCallback>(Mem, Size));
 }
 
 SafeReadIOCallback::SafeReadIOCallback(EbmlBinary const &Binary) {
-  auto t = std::make_unique<MemReadIOCallback>(Binary);
-  Init(std::move(t));
+  Init(std::make_unique<MemReadIOCallback>(Binary));
 }
 
 void
