@@ -16,10 +16,10 @@ namespace libebml {
 
 namespace {
 
-std::size_t lengthToFirstNulll(std::string const &s)
+std::size_t lengthToFirstNulll(std::string_view s)
 {
   auto PosNull = s.find('\0');
-  return PosNull != std::string::npos ? PosNull : s.size();
+  return PosNull != std::string_view::npos ? PosNull : s.size();
 }
 
 }
@@ -41,7 +41,7 @@ UTFstring & UTFstring::operator=(const wchar_t * _aBuf)
 {
   if (_aBuf != nullptr)
   {
-    UpdateFromUCS2(std::wstring{_aBuf});
+    UpdateFromUCS2(_aBuf);
   }
   else
   {
@@ -69,12 +69,12 @@ bool UTFstring::operator==(const UTFstring& _aStr) const
   return std::memcmp(UTF8string.c_str(), _aStr.UTF8string.c_str(), LengthThis) == 0;
 }
 
-void UTFstring::SetUTF8(const std::string & _aStr)
+void UTFstring::SetUTF8(std::string_view _aStr)
 {
   UTF8string = _aStr;
 }
 
-void UTFstring::UpdateFromUCS2(const std::wstring & WString)
+void UTFstring::UpdateFromUCS2(std::wstring_view WString)
 {
   // Only convert up to the first \0 character if present.
   auto Current = std::find(WString.cbegin(), WString.cend(), L'\0');
@@ -169,7 +169,7 @@ filepos_t EbmlUnicodeString::ReadData(IOCallback & input, ScopeMode ReadFully)
     std::string Buffer(static_cast<std::string::size_type>(GetSize()), static_cast<char>(0));
     input.readFully(Buffer.data(), GetSize());
 
-    Value.SetUTF8(Buffer.c_str()); // Let conversion to std::string cut off at the first 0
+    Value.SetUTF8(Buffer); // Let conversion to std::string cut off at the first 0
   }
 
   SetValueIsSet();

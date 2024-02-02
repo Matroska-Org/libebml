@@ -51,11 +51,11 @@ public:
   std::size_t length() const {return UTF8string.length();}
 
   const std::string & GetUTF8() const {return UTF8string;}
-  void SetUTF8(const std::string &);
+  void SetUTF8(std::string_view);
 
 private:
   std::string UTF8string;
-  void UpdateFromUCS2(const std::wstring &);
+  void UpdateFromUCS2(std::wstring_view);
 };
 
 
