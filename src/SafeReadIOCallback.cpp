@@ -38,10 +38,10 @@ SafeReadIOCallback::SafeReadIOCallback(EbmlBinary const &Binary) {
 
 void
 SafeReadIOCallback::Init(std::unique_ptr<IOCallback> IO) {
-  mIO                = std::move(IO);
+  mIO                     = std::move(IO);
   const auto PrevPosition = mIO->getFilePointer();
   mIO->setFilePointer(0, seek_end);
-  mSize              = mIO->getFilePointer();
+  mSize = mIO->getFilePointer();
   mIO->setFilePointer(PrevPosition);
 }
 
