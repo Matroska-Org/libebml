@@ -71,7 +71,7 @@ bool UTFstring::operator==(const UTFstring& _aStr) const
 
 void UTFstring::SetUTF8(std::string_view _aStr)
 {
-  UTF8string = _aStr;
+  UTF8string = _aStr.substr(0, lengthToFirstNulll(_aStr));
 }
 
 void UTFstring::UpdateFromUCS2(std::wstring_view WString)
@@ -169,7 +169,7 @@ filepos_t EbmlUnicodeString::ReadData(IOCallback & input, ScopeMode ReadFully)
     std::string Buffer(static_cast<std::string::size_type>(GetSize()), static_cast<char>(0));
     input.readFully(Buffer.data(), GetSize());
 
-    Value.SetUTF8(Buffer); // Let conversion to std::string cut off at the first 0
+    Value.SetUTF8(Buffer); // SetUTF8 will cut off at the first 0
   }
 
   SetValueIsSet();
