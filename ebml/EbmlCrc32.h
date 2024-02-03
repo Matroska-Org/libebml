@@ -19,10 +19,6 @@ DECLARE_EBML_BINARY_LENGTH(EbmlCrc32, 4)
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
 //    filepos_t UpdateSize(const ShouldWrite & writeFilter = WriteSkipDefault) override;
 
-    bool IsDefaultValue() const override {
-      return false;
-    }
-
     void AddElementCRC32(EbmlElement &ElementToCRC);
     bool CheckElementCRC32(EbmlElement &ElementToCRC) const;
 
