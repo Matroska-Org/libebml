@@ -355,8 +355,8 @@ template<typename T>
 class EBML_DLL_API EbmlCallbacksDefault : public EbmlCallbacks {
   public:
     constexpr EbmlCallbacksDefault(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, const char * aDebugName, const EbmlSemanticContext & aContext,
-                                   const EbmlDocVersion & aVersion, bool hasDefault = false)
-      :EbmlCallbacks(Creator, aGlobalId, false, hasDefault, aDebugName, aContext, aVersion)
+                                   const EbmlDocVersion & aVersion, bool aHasDefault = false)
+      :EbmlCallbacks(Creator, aGlobalId, false, aHasDefault, aDebugName, aContext, aVersion)
     {
     }
 };
