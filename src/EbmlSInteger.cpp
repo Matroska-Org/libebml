@@ -70,23 +70,23 @@ std::uint64_t EbmlSInteger::UpdateSize(const ShouldWrite & writeFilter, bool /* 
   if (!CanWrite(writeFilter))
     return 0;
 
-  const auto Value = GetValue();
-  if (Value <= 0x7F && Value >= (-0x80)) {
+  const auto val = GetValue();
+  if (val <= 0x7F && val >= (-0x80)) {
     SetSize_(1);
-  } else if (Value <= 0x7FFF && Value >= (-0x8000)) {
+  } else if (val <= 0x7FFF && val >= (-0x8000)) {
     SetSize_(2);
-  } else if (Value <= 0x7FFFFF && Value >= (-0x800000)) {
+  } else if (val <= 0x7FFFFF && val >= (-0x800000)) {
     SetSize_(3);
-  } else if (Value <= INT64_C(0x7FFFFFFF) && Value >= (INT64_C(-0x80000000))) {
+  } else if (val <= INT64_C(0x7FFFFFFF) && val >= (INT64_C(-0x80000000))) {
     SetSize_(4);
-  } else if (Value <= INT64_C(0x7FFFFFFFFF) &&
-             Value >= INT64_C(-0x8000000000)) {
+  } else if (val <= INT64_C(0x7FFFFFFFFF) &&
+             val >= INT64_C(-0x8000000000)) {
     SetSize_(5);
-  } else if (Value <= INT64_C(0x7FFFFFFFFFFF) &&
-             Value >= INT64_C(-0x800000000000)) {
+  } else if (val <= INT64_C(0x7FFFFFFFFFFF) &&
+             val >= INT64_C(-0x800000000000)) {
     SetSize_(6);
-  } else if (Value <= INT64_C(0x7FFFFFFFFFFFFF) &&
-             Value >= INT64_C(-0x80000000000000)) {
+  } else if (val <= INT64_C(0x7FFFFFFFFFFFFF) &&
+             val >= INT64_C(-0x80000000000000)) {
     SetSize_(7);
   } else {
     SetSize_(8);

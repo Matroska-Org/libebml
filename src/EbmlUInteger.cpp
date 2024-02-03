@@ -53,20 +53,20 @@ std::uint64_t EbmlUInteger::UpdateSize(const ShouldWrite & writeFilter, bool /* 
   if (!CanWrite(writeFilter))
     return 0;
 
-  const auto Value = GetValue();
-  if (Value <= 0xFF) {
+  const auto val = GetValue();
+  if (val <= 0xFF) {
     SetSize_(1);
-  } else if (Value <= 0xFFFF) {
+  } else if (val <= 0xFFFF) {
     SetSize_(2);
-  } else if (Value <= 0xFFFFFF) {
+  } else if (val <= 0xFFFFFF) {
     SetSize_(3);
-  } else if (Value <= 0xFFFFFFFF) {
+  } else if (val <= 0xFFFFFFFF) {
     SetSize_(4);
-  } else if (Value <= 0xFFFFFFFFFFLL) {
+  } else if (val <= 0xFFFFFFFFFFLL) {
     SetSize_(5);
-  } else if (Value <= 0xFFFFFFFFFFFFLL) {
+  } else if (val <= 0xFFFFFFFFFFFFLL) {
     SetSize_(6);
-  } else if (Value <= 0xFFFFFFFFFFFFFFLL) {
+  } else if (val <= 0xFFFFFFFFFFFFFFLL) {
     SetSize_(7);
   } else {
     SetSize_(8);
@@ -92,13 +92,13 @@ filepos_t EbmlUInteger::ReadData(IOCallback & input, ScopeMode ReadFully)
 
   std::array<binary, 8> Buffer;
   input.readFully(Buffer.data(), GetSize());
-  std::uint64_t Value = 0;
+  std::uint64_t val = 0;
 
   for (unsigned int i=0; i<GetSize(); i++) {
-    Value <<= 8;
-    Value |= Buffer.at(i);
+    val <<= 8;
+    val |= Buffer.at(i);
   }
-  SetValue(Value);
+  SetValue(val);
 
   return GetSize();
 }
