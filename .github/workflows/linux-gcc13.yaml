@@ -22,7 +22,7 @@ jobs:
       - uses: lukka/get-cmake@latest
 
       - name: Get pushed code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configure ${{ matrix.shared.name }} library
         run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DBUILD_SHARED_LIBS=${{ matrix.shared.option }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
