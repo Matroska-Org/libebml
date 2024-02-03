@@ -32,10 +32,12 @@ endfunction()
 if(DEV_MODE)
   message(STATUS "Using developer mode for ${CMAKE_CXX_COMPILER_ID}")
   set(CMAKE_CXX_EXTENSIONS OFF)
-  add_cxx_flag_if_supported(-Wall -Wno-comment -Wfatal-errors -fstack-protector-strong -Wnon-virtual-dtor -Wextra
+  add_cxx_flag_if_supported(-Wno-error=unused-command-line-argument
+                            -Wall -Wno-comment -Wfatal-errors -fstack-protector-strong -Wnon-virtual-dtor -Wextra
                             -Wunused -Wpedantic -Woverloaded-virtual -Wshadow
                             -Wno-self-assign -Wno-mismatched-tags -Wno-inconsistent-missing-override
-                            -Wno-potentially-evaluated-expression -Wno-extra-semi -Wno-gnu-zero-variadic-macro-arguments)
+                            -Wno-potentially-evaluated-expression -Wno-extra-semi -Wno-gnu-zero-variadic-macro-arguments
+                            -Wcast-align)
   add_cxx_flag_if_supported(-Qunused-arguments)
 endif()
 
