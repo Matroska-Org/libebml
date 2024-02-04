@@ -239,10 +239,9 @@ class DllApi x : public BaseClass { \
         libebml::EbmlElement * Clone() const override { return new Type(*this); } \
     static libebml::EbmlElement & Create() {return *(new Type);} \
         static constexpr const libebml::EbmlCallbacks & ClassInfo() {return ClassInfos;} \
-        static const libebml::EbmlId & ClassId() {return ClassInfos.ClassId();} \
 
 #define EBML_INFO(ref)             ref::ClassInfo()
-#define EBML_ID(ref)               ref::ClassId()
+#define EBML_ID(ref)               EBML_INFO_ID(EBML_INFO(ref))
 #define EBML_CLASS_SEMCONTEXT(ref) Context_##ref
 #define EBML_CLASS_CONTEXT(ref)    EBML_INFO_CONTEXT(EBML_INFO(ref))
 #define EBML_CONTEXT(e) (e)->Context()
