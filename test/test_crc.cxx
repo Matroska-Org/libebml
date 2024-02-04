@@ -33,7 +33,7 @@ int main(int /*argc*/, char** /*argv*/)
     if (ElementLevel0 == nullptr)
         return 1;
 
-    if (ElementLevel0->GetClassId() != libebml::EbmlHead::ClassId())
+    if (ElementLevel0->GetClassId() != EBML_ID(libebml::EbmlHead))
         return 1;
 
     libebml::EbmlHead &ReadHead = static_cast<libebml::EbmlHead &>(*ElementLevel0);
