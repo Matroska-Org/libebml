@@ -31,7 +31,7 @@ class EBML_DLL_API EbmlDummy : public EbmlBinary {
 
   private:
     const EbmlId DummyId;
-    static const EbmlId DummyRawId;
+    static constexpr EbmlId DummyRawId{0xFF};
 };
 
 } // namespace libebml
