@@ -20,7 +20,11 @@ EbmlBinary::EbmlBinary(const EbmlCallbacks & classInfo)
 EbmlBinary::EbmlBinary(const EbmlBinary & ElementToClone)
   :EbmlElement(ElementToClone)
 {
-  *this = ElementToClone;
+  if (ElementToClone.Data) {
+    Data = static_cast<binary *>(malloc(GetSize()));
+    if(Data)
+      memcpy(Data, ElementToClone.Data, GetSize());
+  }
 }
 
 EbmlBinary &
