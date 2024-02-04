@@ -76,7 +76,7 @@ class EbmlElement;
 
 #define DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
-    constexpr const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x));
+    static constexpr const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x));
 
 #define DEFINE_xxx_CLASS_BASE(x,BaseClass,id,parent,name,versions,global) \
     DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
