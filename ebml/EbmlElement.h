@@ -483,7 +483,7 @@ class EBML_DLL_API EbmlElement {
     */
     virtual EbmlElement * Clone() const = 0;
 
-    virtual EbmlId const &GetClassId() const {return ClassInfo.ClassId();}
+    virtual EbmlId const &GetClassId() const {return EBML_INFO_ID(ClassInfo);}
     virtual explicit operator const EbmlId &() const { return GetClassId(); }
     constexpr const char *DebugName() const {return ClassInfo.GetName();}
     constexpr const EbmlSemanticContext &Context() const {return ClassInfo.GetContext();}
