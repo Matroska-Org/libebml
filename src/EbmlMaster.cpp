@@ -183,8 +183,8 @@ bool EbmlMaster::CheckMandatory() const
 
   for (unsigned int EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
     if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory()) {
-      if (FindElt(EBML_CTX_IDX_INFO(MasterContext,EltIdx)) == nullptr) {
-        const auto & semcb = EBML_CTX_IDX(MasterContext,EltIdx).GetCallbacks();
+      const auto & semcb = EBML_CTX_IDX_INFO(MasterContext,EltIdx);
+      if (FindElt(semcb) == nullptr) {
         const bool hasDefaultValue = semcb.HasDefault();
 
 #if !defined(NDEBUG)
