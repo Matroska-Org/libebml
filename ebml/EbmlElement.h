@@ -146,7 +146,7 @@ class EbmlElement;
 #define DEFINE_EBML_STRING_DEF(x,id,parent,name,val,versions)   DEFINE_xxx_STRING_DEF(x,id,parent,name,versions,GetEbmlGlobal_Context,val)
 
 #define DEFINE_SEMANTIC_CONTEXT(x)
-#define DEFINE_START_SEMANTIC(x)     static const libebml::EbmlSemantic ContextList_##x[] = {
+#define DEFINE_START_SEMANTIC(x)     static constexpr const libebml::EbmlSemantic ContextList_##x[] = {
 #define DEFINE_END_SEMANTIC(x)       };
 #define DEFINE_SEMANTIC_ITEM(m,u,c)  libebml::EbmlSemantic(m, u, EBML_INFO(c)),
 #define DEFINE_SEMANTIC_ITEM_UINT(m,u,d,c)      EbmlSemantic(m, u, static_cast<std::uint64_t>(d), EBML_INFO(c)),
