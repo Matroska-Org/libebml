@@ -320,7 +320,9 @@ class EBML_DLL_API EbmlDocVersion {
 */
 class EBML_DLL_API EbmlCallbacks {
   public:
-    constexpr EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, bool aCanInfinite, bool aHasDefault, const char * aDebugName, const EbmlSemanticContext & aContext,
+    using CreateOperator = EbmlElement & (*)(void);
+
+    constexpr EbmlCallbacks(const CreateOperator & Creator, const EbmlId & aGlobalId, bool aCanInfinite, bool aHasDefault, const char * aDebugName, const EbmlSemanticContext & aContext,
                             const EbmlDocVersion & aVersion)
       :Create(Creator)
       ,GlobalId(aGlobalId)
@@ -343,7 +345,7 @@ class EBML_DLL_API EbmlCallbacks {
         inline constexpr const EbmlDocVersion & GetVersions() const { return Version; }
 
     private:
-    EbmlElement & (* const Create)();
+    const CreateOperator Create;
     const EbmlId & GlobalId;
     const bool CanInfinite;
     const bool hasDefault;
