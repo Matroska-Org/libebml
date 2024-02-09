@@ -36,7 +36,7 @@ int main(void)
     UTFstring invalid;
     invalid.SetUTF8( "\x1\xF6\x00" );
 
-    UTFstring empty{0};
+    UTFstring empty{nullptr};
     if (empty.length() != 0)
         return 1;
 
