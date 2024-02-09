@@ -518,7 +518,7 @@ filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
   std::array<binary, 4 + 8> FinalHead; // Class D + 64 bits coded size
   std::size_t FinalHeadSize;
 
-  FinalHeadSize = EBML_ID_LENGTH((const EbmlId&)*this);
+  FinalHeadSize = EBML_ID_LENGTH(static_cast<const EbmlId&>(*this));
   EbmlId(*this).Fill(FinalHead.data());
 
   const unsigned int CodedSize = CodedSizeLength(Size, SizeLength, bSizeIsFinite);
