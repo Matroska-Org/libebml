@@ -19,7 +19,7 @@ EbmlFloat::EbmlFloat(const EbmlCallbacksDefault<double> & classInfo, const EbmlF
   SetPrecision(prec);
   if (classInfo.HasDefault())
   {
-    auto def = static_cast<const EbmlCallbacksWithDefault<double> &>(classInfo);
+    const auto& def = static_cast<const EbmlCallbacksWithDefault<double> &>(classInfo);
     SetValue(def.DefaultValue());
   }
 }

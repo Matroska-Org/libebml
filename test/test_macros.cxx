@@ -56,7 +56,7 @@ int main(void)
         return 1;
 
     UIntWithDefault test0;
-    auto ClassSpecWithDefault = test0.ElementSpec();
+    const auto& ClassSpecWithDefault = test0.ElementSpec();
     if (!ClassSpecWithDefault.HasDefault())
         return 1;
 
@@ -90,7 +90,7 @@ int main(void)
         return 1;
 
     UIntWithoutDefault testNoDefault0;
-    auto ClassSpecWithoutDefault = testNoDefault0.ElementSpec();
+    const auto& ClassSpecWithoutDefault = testNoDefault0.ElementSpec();
     if (ClassSpecWithoutDefault.HasDefault())
         return 1;
 #ifdef TEST_COMPILATION_ERRORS

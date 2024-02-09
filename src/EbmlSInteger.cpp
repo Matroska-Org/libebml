@@ -34,7 +34,7 @@ EbmlSInteger::EbmlSInteger(const EbmlCallbacksDefault<std::int64_t> & classInfo)
 {
   if (classInfo.HasDefault())
   {
-    auto def = static_cast<const EbmlCallbacksWithDefault<std::int64_t> &>(classInfo);
+    const auto& def = static_cast<const EbmlCallbacksWithDefault<std::int64_t> &>(classInfo);
     SetValue(def.DefaultValue());
   }
 }

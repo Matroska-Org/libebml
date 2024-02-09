@@ -15,7 +15,7 @@ EbmlString::EbmlString(const EbmlCallbacksDefault<const char *> & classInfo)
 {
   if (classInfo.HasDefault())
   {
-    auto def = static_cast<const EbmlCallbacksWithDefault<const char *> &>(classInfo);
+    const auto& def = static_cast<const EbmlCallbacksWithDefault<const char *> &>(classInfo);
     SetValue(def.DefaultValue());
   }
 }

@@ -17,7 +17,7 @@ EbmlUInteger::EbmlUInteger(const EbmlCallbacksDefault<std::uint64_t> & classInfo
 {
   if (classInfo.HasDefault())
   {
-    auto def = static_cast<const EbmlCallbacksWithDefault<std::uint64_t> &>(classInfo);
+    const auto& def = static_cast<const EbmlCallbacksWithDefault<std::uint64_t> &>(classInfo);
     SetValue(def.DefaultValue());
   }
 }
