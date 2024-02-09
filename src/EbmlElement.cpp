@@ -196,7 +196,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
   }
 
   const auto PossibleID = EbmlId(EbmlId::FromBuffer(PossibleId.data(), PossibleID_Length));
-  auto Result = [=] {
+  auto Result = [&] {
     if (PossibleID != EBML_INFO_ID(ClassInfos))
     {
       if (SizeFound == SizeUnknown)
@@ -454,7 +454,7 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 
   // parent elements
   if (EBML_CTX_MASTER(Context) != nullptr && aID == EBML_INFO_ID(*EBML_CTX_MASTER(Context))) {
-    auto Callbacks = *EBML_CTX_MASTER(Context);
+    const auto& Callbacks = *EBML_CTX_MASTER(Context);
     if (AsInfiniteSize && !Callbacks.CanHaveInfiniteSize())
       return nullptr;
     LowLevel++; // already one level up (same as context)
