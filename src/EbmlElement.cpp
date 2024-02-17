@@ -195,23 +195,22 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
     } while (_SizeLength == 0);
   }
 
-  const auto PossibleID = EbmlId(EbmlId::FromBuffer(PossibleId.data(), PossibleID_Length));
-  auto Result = [&] {
-    if (PossibleID != EBML_INFO_ID(ClassInfos))
-    {
+  auto Result = [&]() -> EbmlElement * {
+    auto pID = EbmlId(EbmlId::FromBuffer(PossibleId.data(), PossibleID_Length));
+    if (pID != EBML_INFO_ID(ClassInfos)) {
       if (SizeFound == SizeUnknown)
-        return static_cast<EbmlElement *>(nullptr);
-      return static_cast<EbmlElement *>(new EbmlDummy(PossibleID));
+        return nullptr;
+      return new EbmlDummy(pID);
     }
     if (SizeFound != SizeUnknown && MaxDataSize < SizeFound)
-      return static_cast<EbmlElement *>(nullptr);
+      return nullptr;
     // check if the size is not all 1s
     if (SizeFound == SizeUnknown && !ClassInfos.CanHaveInfiniteSize())
-      return static_cast<EbmlElement *>(nullptr);
+      return nullptr;
     return &EBML_INFO_CREATE(ClassInfos);
   }();
 
-  if (Result == nullptr)
+  if (!Result)
     return nullptr;
 
   if (!Result->SizeIsValid(SizeFound)) {
