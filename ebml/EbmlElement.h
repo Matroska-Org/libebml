@@ -430,7 +430,7 @@ static inline EbmlElement & tEBML_SEM_CREATE(const EbmlSemantic & s)
   return s.Create();
 }
 
-using _GetSemanticContext = const class EbmlSemanticContext &(*)();
+using _GetSemanticContext = const EbmlSemanticContext &(*)();
 
 /*!
   Context of the element
