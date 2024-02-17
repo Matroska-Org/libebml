@@ -33,7 +33,7 @@ if(DEV_MODE)
   message(STATUS "Using developer mode for ${CMAKE_CXX_COMPILER_ID}")
   set(CMAKE_CXX_EXTENSIONS OFF)
   add_cxx_flag_if_supported(-Wno-error=unused-command-line-argument
-                            -Wall -Wextra -Wpedantic -Wfatal-errors -fstack-protector-strong
+                            -Wall -Wextra -Wpedantic -Werror -fstack-protector-strong
                             -Wno-self-assign
                             -Wcast-align)
 endif()
