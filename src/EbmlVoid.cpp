@@ -82,7 +82,7 @@ std::uint64_t EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & ou
     // this element has never been written
     return 0;
   }
-  const auto EltSize = EltToVoid.GetSize() + EltToVoid.HeadSize();
+  const auto EltSize = EltToVoid.ElementSize([](const EbmlElement&){ return true; });
   if (EltSize <2) {
     // the element can't be written here !
     return 0;
