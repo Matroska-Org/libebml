@@ -41,7 +41,8 @@ std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback &
     // the element can't be written here !
     return INVALID_FILEPOS_T;
   }
-  if (HeadSize() + GetSize() - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() == 1) {
+  const std::size_t NewVoidSize = HeadSize() + GetSize() - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize();
+  if (NewVoidSize == 1) {
     // there is not enough space to put a filling element
     return INVALID_FILEPOS_T;
   }
@@ -51,10 +52,10 @@ std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback &
   output.setFilePointer(GetElementPosition());
   EltToReplaceWith.Render(output, writeFilter);
 
-  if (HeadSize() + GetSize() - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() > 1) {
+  if (NewVoidSize > 1) {
     // fill the rest with another void element
     EbmlVoid aTmp;
-    aTmp.SetSize_(HeadSize() + GetSize() - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() - 1); // 1 is the length of the Void ID
+    aTmp.SetSize_(NewVoidSize - 1); // 1 is the length of the Void ID
     const std::size_t HeadBefore = aTmp.HeadSize();
     aTmp.SetSize_(aTmp.GetSize() - CodedSizeLength(aTmp.GetSize(), aTmp.GetSizeLength()));
     const std::size_t HeadAfter = aTmp.HeadSize();
@@ -68,7 +69,7 @@ std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback &
     output.setFilePointer(CurrentPosition);
   }
 
-  return GetSize() + HeadSize();
+  return NewVoidSize;
 }
 
 std::uint64_t EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & output, bool ComeBackAfterward, const ShouldWrite& writeFilter)
