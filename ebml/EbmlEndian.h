@@ -68,7 +68,8 @@ static inline std::int64_t swap_big(std::int64_t value)
 #if defined(__GNUC__) || defined(__clang__)
     return __builtin_bswap64(value);
 #else // _MSC_VER
-    return _byteswap_uint64(value);
+    std::uint64_t res = _byteswap_uint64(*reinterpret_cast<std::uint64_t*>(&value));
+    return *reinterpret_cast<std::int64_t*>(&res);
 #endif
 }
 
@@ -77,7 +78,8 @@ static inline std::int32_t swap_big(std::int32_t value)
 #if defined(__GNUC__) || defined(__clang__)
     return __builtin_bswap32(value);
 #else // _MSC_VER
-    return _byteswap_ulong(value);
+    std::uint32_t res = _byteswap_ulong(*reinterpret_cast<std::uint32_t*>(&value));
+    return *reinterpret_cast<std::int16_t*>(&res);
 #endif
 }
 
@@ -86,7 +88,8 @@ static inline std::int16_t swap_big(std::int16_t value)
 #if defined(__GNUC__) || defined(__clang__)
     return __builtin_bswap16(value);
 #else // _MSC_VER
-    return _byteswap_ushort(value);
+    std::uint16_t res = _byteswap_ushort(*reinterpret_cast<std::uint16_t*>(&value));
+    return *reinterpret_cast<std::int16_t*>(&res);
 #endif
 }
 
