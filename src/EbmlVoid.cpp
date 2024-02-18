@@ -40,11 +40,12 @@ std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback &
   const auto EltSize = EltToReplaceWith.ElementSize(writeFilter);
   if (EltSize == 0)
     return INVALID_FILEPOS_T;
-  if (HeadSize() + GetSize() < EltSize) {
+  const auto CurrentVoidSize = ElementSize(writeFilter);
+  if (CurrentVoidSize < EltSize) {
     // the element can't be written here !
     return INVALID_FILEPOS_T;
   }
-  const std::size_t NewVoidSize = HeadSize() + GetSize() - EltSize;
+  const auto NewVoidSize = CurrentVoidSize - EltSize;
   if (NewVoidSize == EBML_ID_LENGTH(Id_EbmlVoid)) {
     // there is not enough space to put a filling element
     return INVALID_FILEPOS_T;
