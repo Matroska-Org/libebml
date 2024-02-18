@@ -9,6 +9,7 @@
 #define LIBEBML_ID_H
 
 #include <cstddef>
+#include "EbmlConfig.h"
 #include "EbmlTypes.h"
 
 namespace libebml {

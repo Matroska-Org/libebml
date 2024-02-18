@@ -7,6 +7,7 @@
 #ifndef MATROSKA_IOCALLBACK_H
 #define MATROSKA_IOCALLBACK_H
 
+#include "EbmlConfig.h"
 #include "EbmlTypes.h"
 
 #include <cassert>
