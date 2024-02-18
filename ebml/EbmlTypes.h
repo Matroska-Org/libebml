@@ -9,8 +9,6 @@
 
 #include <cstdint>
 
-#include "EbmlConfig.h"
-
 namespace libebml {
 
 using binary = std::uint8_t;
