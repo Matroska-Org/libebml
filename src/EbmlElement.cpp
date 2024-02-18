@@ -50,7 +50,7 @@ unsigned int CodedSizeLength(std::uint64_t Length, unsigned int SizeLength, bool
     else CodedSize = 5;
   }
 
-  if (SizeLength > 0 && CodedSize < SizeLength) {
+  if (CodedSize < SizeLength) {
     // defined size
     CodedSize = SizeLength;
   }

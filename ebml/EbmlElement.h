@@ -463,8 +463,8 @@ class EBML_DLL_API EbmlElement {
     virtual const EbmlCallbacks & ElementSpec() const { return ClassInfo; }
 
     /// Set the minimum length that will be used to write the element size (-1 = optimal)
-    void SetSizeLength(int NewSizeLength) {SizeLength = NewSizeLength;}
-    int GetSizeLength() const {return SizeLength;}
+    void SetSizeLength(unsigned int NewSizeLength) {SizeLength = NewSizeLength;}
+    unsigned int GetSizeLength() const {return SizeLength;}
 
     static EbmlElement * FindNextElement(IOCallback & DataStream, const EbmlSemanticContext & Context, int & UpperLevel, std::uint64_t MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel = 1);
     static EbmlElement * FindNextID(IOCallback & DataStream, const EbmlCallbacks & ClassInfos, std::uint64_t MaxDataSize);
@@ -598,7 +598,7 @@ class EBML_DLL_API EbmlElement {
   private:
     std::uint64_t Size;        ///< the size of the data to write
     std::uint64_t DefaultSize; ///< Minimum data size to fill on rendering (0 = optimal)
-    int SizeLength{0}; /// the minimum size on which the size will be written (0 = optimal)
+    unsigned int SizeLength{0}; /// the minimum size on which the size will be written (0 = optimal)
     bool bSizeIsFinite{true};
     std::uint64_t ElementPosition{0};
     std::uint64_t SizePosition{0};
