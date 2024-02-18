@@ -38,12 +38,14 @@ filepos_t EbmlVoid::RenderData(IOCallback & output, bool /* bForceRender */, con
 static void SetVoidSize(EbmlVoid & Elt, const std::uint64_t FullSize)
 {
   // compute the size of the voided data based on the original one
-  Elt.SetSize(FullSize - EBML_ID_LENGTH(Id_EbmlVoid));
-  Elt.SetSize(Elt.GetSize() - CodedSizeLength(Elt.GetSize(), Elt.GetSizeLength()));
+  const auto InitialSizeMinusID = FullSize - EBML_ID_LENGTH(Id_EbmlVoid);
+  const auto InitialSizeLength = Elt.GetSizeLength();
+  const auto DataSize = InitialSizeMinusID - CodedSizeLength(InitialSizeMinusID, InitialSizeLength);
+  Elt.SetSize(DataSize);
   // make sure we handle even the strange cases
-  if (Elt.GetSize() + Elt.HeadSize() != FullSize) {
-    Elt.SetSize(Elt.GetSize()-1);
-    Elt.SetSizeLength(CodedSizeLength(Elt.GetSize(), Elt.GetSizeLength()) + 1);
+  if (DataSize + EBML_ID_LENGTH(Id_EbmlVoid) + CodedSizeLength(DataSize, InitialSizeLength) != FullSize) {
+    Elt.SetSize(DataSize-1);
+    Elt.SetSizeLength(CodedSizeLength(DataSize, InitialSizeLength)  + 1);
   }
 }
 
