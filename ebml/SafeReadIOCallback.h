@@ -12,6 +12,7 @@
 #include "IOCallback.h"
 
 #include <memory>
+#include <exception>
 
 namespace libebml {
 

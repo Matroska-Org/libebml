@@ -10,11 +10,7 @@
 #include "EbmlConfig.h"
 #include "EbmlTypes.h"
 
-#include <cassert>
-#include <exception>
 #include <cstdio>
-#include <cstddef>
-// #include <iostream>
 
 
 namespace libebml {
