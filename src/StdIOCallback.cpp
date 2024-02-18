@@ -18,19 +18,6 @@ using namespace std;
 
 namespace libebml {
 
-CRTError::CRTError(int nError, const std::string & Description)
-  :std::runtime_error(Description+": "+strerror(nError))
-  ,Error(nError)
-{
-}
-
-CRTError::CRTError(const std::string & Description,int nError)
-  :std::runtime_error(Description+": "+strerror(nError))
-  ,Error(nError)
-{
-}
-
-
 StdIOCallback::StdIOCallback(const char*Path, const open_mode aMode)
 {
   assert(Path!=nullptr);
