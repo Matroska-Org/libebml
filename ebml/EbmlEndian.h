@@ -19,6 +19,7 @@
 
 #include <algorithm>
 #include <cstring>
+#include <cstddef>
 
 #include "EbmlConfig.h" // contains _ENDIANESS_
 
