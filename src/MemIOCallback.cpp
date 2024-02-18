@@ -78,7 +78,7 @@ std::size_t MemIOCallback::write(const void *Buffer, std::size_t Size)
   return Size;
 }
 
-std::uint32_t MemIOCallback::write(IOCallback & IOToRead, std::size_t Size)
+std::size_t MemIOCallback::write(IOCallback & IOToRead, std::size_t Size)
 {
   if (dataBufferPos + Size < Size) // overflow, we can't hold that much
     return 0;
