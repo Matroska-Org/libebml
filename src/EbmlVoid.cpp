@@ -37,7 +37,7 @@ filepos_t EbmlVoid::RenderData(IOCallback & output, bool /* bForceRender */, con
 std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output, bool ComeBackAfterward, const ShouldWrite& writeFilter)
 {
   EltToReplaceWith.UpdateSize(writeFilter);
-  const auto EltSize = EltToReplaceWith.GetSize() + EltToReplaceWith.HeadSize();
+  const auto EltSize = EltToReplaceWith.ElementSize(writeFilter);
   if (HeadSize() + GetSize() < EltSize) {
     // the element can't be written here !
     return INVALID_FILEPOS_T;
