@@ -72,13 +72,7 @@ std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback &
   if (NewVoidSize != 0) {
     // fill the rest with another void element
     EbmlVoid aTmp;
-    aTmp.SetSize_(NewVoidSize - EBML_ID_LENGTH(Id_EbmlVoid));
-    const std::size_t HeadBefore = aTmp.HeadSize();
-    aTmp.SetSize_(aTmp.GetSize() - CodedSizeLength(aTmp.GetSize(), aTmp.GetSizeLength()));
-    const std::size_t HeadAfter = aTmp.HeadSize();
-    if (HeadBefore != HeadAfter) {
-      aTmp.SetSizeLength(CodedSizeLength(aTmp.GetSize(), aTmp.GetSizeLength()) - (HeadAfter - HeadBefore));
-    }
+    SetVoidSize(aTmp, NewVoidSize);
     aTmp.RenderHead(output, false, writeFilter); // the rest of the data is not rewritten
   }
 
