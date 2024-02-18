@@ -231,7 +231,11 @@ bool EbmlCrc32::CheckCRC(std::uint32_t inputCRC, const binary *input, std::uint3
     crc = s_tab.at(CRC32_INDEX(crc) ^ *input++) ^ CRC32_SHIFTED(crc);
 
   while (length >= 4) {
-    crc ^= *reinterpret_cast<const std::uint32_t *>(input);
+    auto buf = reinterpret_cast<const std::uint8_t *>(input);
+    std::uint32_t chunk{};
+    for (int idx = 3; idx >= 0; --idx)
+      chunk = (chunk << 8) | buf[idx];
+    crc ^= chunk;
     crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
     crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
     crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
@@ -291,7 +295,11 @@ void EbmlCrc32::Update(const binary *input, std::uint32_t length)
     crc = s_tab.at(CRC32_INDEX(crc) ^ *input++) ^ CRC32_SHIFTED(crc);
 
   while (length >= 4) {
-    crc ^= *reinterpret_cast<const std::uint32_t *>(input);
+    auto buf = reinterpret_cast<const std::uint8_t *>(input);
+    std::uint32_t chunk{};
+    for (int idx = 3; idx >= 0; --idx)
+      chunk = (chunk << 8) | buf[idx];
+    crc ^= chunk;
     crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
     crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
     crc = s_tab.at(CRC32_INDEX(crc)) ^ CRC32_SHIFTED(crc);
