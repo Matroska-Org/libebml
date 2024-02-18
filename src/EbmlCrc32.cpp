@@ -187,23 +187,10 @@ bool EbmlCrc32::CheckElementCRC32(EbmlElement &ElementToCRC) const
 
 filepos_t EbmlCrc32::RenderData(IOCallback & output, bool /* bForceRender */, const ShouldWrite & /* writeFilter */)
 {
-  filepos_t Result = 4;
+  static_assert(sizeof(m_crc_final) == 4, "Bogus CRC internal size");
+  output.writeFully(&m_crc_final, 4);
 
-  if (Result != 0) {
-    output.writeFully(&m_crc_final, Result);
-  }
-
-  if (Result < GetDefaultSize()) {
-    // pad the rest with 0
-    auto Pad = std::make_unique<binary>(GetDefaultSize() - Result);
-    if (Pad != nullptr) {
-      output.writeFully(Pad.get(), GetDefaultSize() - Result);
-
-      Result = GetDefaultSize();
-    }
-  }
-
-  return Result;
+  return 4;
 }
 
 filepos_t EbmlCrc32::ReadData(IOCallback & input, ScopeMode ReadFully)
