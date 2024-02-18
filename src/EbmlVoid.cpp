@@ -38,15 +38,25 @@ filepos_t EbmlVoid::RenderData(IOCallback & output, bool /* bForceRender */, con
 static void SetVoidSize(EbmlVoid & Elt, const std::uint64_t FullSize)
 {
   // compute the size of the voided data based on the original one
-  const auto InitialSizeMinusID = FullSize - EBML_ID_LENGTH(Id_EbmlVoid);
-  const auto InitialSizeLength = Elt.GetSizeLength();
-  const auto DataSize = InitialSizeMinusID - CodedSizeLength(InitialSizeMinusID, InitialSizeLength);
-  Elt.SetSize(DataSize);
-  // make sure we handle even the strange cases
-  if (DataSize + EBML_ID_LENGTH(Id_EbmlVoid) + CodedSizeLength(DataSize, InitialSizeLength) != FullSize) {
-    Elt.SetSize(DataSize-1);
-    Elt.SetSizeLength(CodedSizeLength(DataSize, InitialSizeLength)  + 1);
+  // We don't know the Size length, assume it's the smallest one = 1
+  // and compute the optimum Size length
+  const unsigned int InitialSizeLength = CodedSizeLength(FullSize - EBML_ID_LENGTH(Id_EbmlVoid) - 1, 0);
+  std::uint64_t NewDataLength = FullSize - InitialSizeLength - EBML_ID_LENGTH(Id_EbmlVoid);
+  unsigned int NewSizeLength = CodedSizeLength(NewDataLength, 0);
+  if (EBML_ID_LENGTH(Id_EbmlVoid) + NewSizeLength + NewDataLength < FullSize)
+  {
+    // the computed size is too small,
+    // the Size length can be expanded, update the size Length which doesn't imply 
+    // recomputing the whole size again
+    NewSizeLength = static_cast<decltype(NewSizeLength)>(FullSize - (NewDataLength + EBML_ID_LENGTH(Id_EbmlVoid)));
   }
+  else if (EBML_ID_LENGTH(Id_EbmlVoid) + NewSizeLength + NewDataLength > FullSize)
+  {
+    // the computed size is too large, reduce it and keep the same Size length
+    NewDataLength = FullSize - (NewSizeLength + EBML_ID_LENGTH(Id_EbmlVoid));
+  }
+  Elt.SetSizeLength(NewSizeLength);
+  Elt.SetSize(NewDataLength);
 }
 
 std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output, bool ComeBackAfterward, const ShouldWrite& writeFilter)
