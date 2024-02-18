@@ -107,6 +107,10 @@ std::uint64_t EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & ou
     // the element can't be written here !
     return 0;
   }
+  if (!CanWrite(writeFilter)) {
+    // Void is filtered out, we can't write it
+    return 0;
+  }
 
   const std::uint64_t CurrentPosition = output.getFilePointer();
 
