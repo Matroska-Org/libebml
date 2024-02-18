@@ -8,6 +8,8 @@
 
 #include "ebml/MemIOCallback.h"
 
+#include <cstring>
+
 namespace libebml {
 
 MemIOCallback::MemIOCallback(std::uint64_t DefaultSize)

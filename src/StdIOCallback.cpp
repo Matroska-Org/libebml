@@ -10,6 +10,7 @@
 #include <cassert>
 #include <limits>
 #include <sstream>
+#include <cstring>
 
 #include "ebml/StdIOCallback.h"
 
