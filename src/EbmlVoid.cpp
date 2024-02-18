@@ -38,6 +38,8 @@ std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback &
 {
   EltToReplaceWith.UpdateSize(writeFilter);
   const auto EltSize = EltToReplaceWith.ElementSize(writeFilter);
+  if (EltSize == 0)
+    return INVALID_FILEPOS_T;
   if (HeadSize() + GetSize() < EltSize) {
     // the element can't be written here !
     return INVALID_FILEPOS_T;
