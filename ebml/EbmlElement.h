@@ -31,7 +31,7 @@ constexpr std::size_t countof(T const (&)[N]) noexcept
   \param MinSizeLength minimum size length to encode the value (0 for shortest size)
   \param bSizeIsFinite whether the size will be written as an infinite EBML size or not
 */
-int EBML_DLL_API CodedSizeLength(std::uint64_t Value, unsigned int MinSizeLength, bool bSizeIsFinite = true);
+unsigned int EBML_DLL_API CodedSizeLength(std::uint64_t Value, unsigned int MinSizeLength, bool bSizeIsFinite = true);
 
 /*!
   \brief The coded value of the EBML-coded integer

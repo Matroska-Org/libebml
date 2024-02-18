@@ -23,7 +23,7 @@ namespace libebml {
 /*!
   \todo handle more than CodedSize of 5
 */
-int CodedSizeLength(std::uint64_t Length, unsigned int SizeLength, bool bSizeIsFinite)
+unsigned int CodedSizeLength(std::uint64_t Length, unsigned int SizeLength, bool bSizeIsFinite)
 {
   unsigned int CodedSize;
   if (bSizeIsFinite) {
@@ -55,7 +55,7 @@ int CodedSizeLength(std::uint64_t Length, unsigned int SizeLength, bool bSizeIsF
     CodedSize = SizeLength;
   }
 
-  return static_cast<int>(CodedSize);
+  return CodedSize;
 }
 
 int CodedValueLength(std::uint64_t Length, int CodedSize, binary * OutBuffer)
@@ -524,7 +524,7 @@ filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
   FinalHeadSize = EBML_ID_LENGTH((const EbmlId&)*this);
   EbmlId(*this).Fill(FinalHead.data());
 
-  const int CodedSize = CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+  const unsigned int CodedSize = CodedSizeLength(Size, SizeLength, bSizeIsFinite);
   CodedValueLength(Size, CodedSize, &FinalHead.at(FinalHeadSize));
   FinalHeadSize += CodedSize;
 
@@ -568,7 +568,7 @@ bool EbmlElement::ForceSize(std::uint64_t NewSize)
     return false;
   }
 
-  const int OldSizeLen = CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+  const auto OldSizeLen = CodedSizeLength(Size, SizeLength, bSizeIsFinite);
   const std::uint64_t OldSize = Size;
 
   Size = NewSize;
