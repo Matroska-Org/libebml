@@ -532,10 +532,6 @@ class EBML_DLL_API EbmlElement {
     virtual bool IsDummy() const {return false;}
     virtual bool IsMaster() const {return false;}
 
-    std::size_t HeadSize() const {
-      return EBML_ID_LENGTH((const EbmlId&)*this) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
-    } /// return the size of the head, on reading/writing
-
     /*!
       \brief Force the size of an element
       \warning only possible if the size is "undefined"
@@ -600,6 +596,10 @@ class EBML_DLL_API EbmlElement {
     const EbmlCallbacks & ClassInfo;
 
   private:
+    std::size_t HeadSize() const {
+      return EBML_ID_LENGTH((const EbmlId&)*this) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+    } /// return the size of the head, on reading/writing
+
     std::uint64_t Size;        ///< the size of the data to write
     std::uint64_t DefaultSize; ///< Minimum data size to fill on rendering (0 = optimal)
     int SizeLength{0}; /// the minimum size on which the size will be written (0 = optimal)
