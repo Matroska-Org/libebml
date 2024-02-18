@@ -86,7 +86,7 @@ void UTFstring::UpdateFromUCS2(std::wstring_view WString)
     // representation must actually be compatible with the C++
     // library's implementation. Implementations with sizeof(wchar_t)
     // == 4 are using UCS4.
-    if (sizeof(wchar_t) == 2)
+    if constexpr (sizeof(wchar_t) == 2)
       ::utf8::utf16to8(WString.begin(), Current, std::back_inserter(UTF8string));
     else
       ::utf8::utf32to8(WString.begin(), Current, std::back_inserter(UTF8string));
