@@ -509,6 +509,10 @@ class EBML_DLL_API EbmlElement {
       return ElementPosition;
     }
 
+    std::uint64_t GetDataStart() const {
+      return GetElementPosition() + HeadSize();
+    }
+
     std::uint64_t ElementSize(const ShouldWrite& writeFilter = WriteSkipDefault) const; /// return the size of the header+data, before writing
 
     filepos_t Render(IOCallback & output, const ShouldWrite& writeFilter = WriteSkipDefault, bool bKeepPosition = false, bool bForceRender = false);
