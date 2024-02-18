@@ -34,6 +34,19 @@ filepos_t EbmlVoid::RenderData(IOCallback & output, bool /* bForceRender */, con
   return GetSize();
 }
 
+// compute the size of the voided data based on the original one
+static void SetVoidSize(EbmlVoid & Elt, const std::uint64_t FullSize)
+{
+  // compute the size of the voided data based on the original one
+  Elt.SetSize(FullSize - EBML_ID_LENGTH(Id_EbmlVoid));
+  Elt.SetSize(Elt.GetSize() - CodedSizeLength(Elt.GetSize(), Elt.GetSizeLength()));
+  // make sure we handle even the strange cases
+  if (Elt.GetSize() + Elt.HeadSize() != FullSize) {
+    Elt.SetSize(Elt.GetSize()-1);
+    Elt.SetSizeLength(CodedSizeLength(Elt.GetSize(), Elt.GetSizeLength()) + 1);
+  }
+}
+
 std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output, bool ComeBackAfterward, const ShouldWrite& writeFilter)
 {
   EltToReplaceWith.UpdateSize(writeFilter);
@@ -93,16 +106,7 @@ std::uint64_t EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & ou
 
   output.setFilePointer(EltToVoid.GetElementPosition());
 
-  // compute the size of the voided data based on the original one
-  SetSize(EltSize - EBML_ID_LENGTH(Id_EbmlVoid));
-  SetSize(GetSize() - CodedSizeLength(GetSize(), GetSizeLength()));
-  // make sure we handle even the strange cases
-  //std::uint32_t A1 = GetSize() + HeadSize();
-  //std::uint32_t A2 = EltToVoid.GetSize() + EltToVoid.HeadSize();
-  if (GetSize() + HeadSize() != EltSize) {
-    SetSize(GetSize()-1);
-    SetSizeLength(CodedSizeLength(GetSize(), GetSizeLength()) + 1);
-  }
+  SetVoidSize(*this, EltSize);
 
   if (GetSize() != 0) {
     RenderHead(output, false, writeFilter); // the rest of the data is not rewritten
