@@ -46,7 +46,10 @@ class EBML_DLL_API EbmlDate : public EbmlElementDefaultSameStorage<std::int64_t>
     /*!
       \note no Default date handled
     */
-    filepos_t UpdateSize(const ShouldWrite & /* writeFilter */, bool /* bForceRender = false */) override {
+    filepos_t UpdateSize(const ShouldWrite & writeFilter, bool /* bForceRender = false */) override {
+      if (!CanWrite(writeFilter))
+        return 0;
+
       if(!ValueIsSet())
         SetSize_(0);
       else
