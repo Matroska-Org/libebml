@@ -10,6 +10,7 @@
 #include <cassert>
 #include <limits>
 #include <sstream>
+#include <ios>
 
 #include "ebml/StdIOCallback.h"
 
@@ -56,7 +57,7 @@ StdIOCallback::StdIOCallback(const char*Path, const open_mode aMode)
   if(File==nullptr) {
     stringstream Msg;
     Msg<<"Can't open stdio file \""<<Path<<"\" in mode \""<<Mode<<"\"";
-    throw CRTError(Msg.str());
+    throw ios_base::failure(Msg.str(), error_code{errno, std::system_category()});
   }
   mCurrentPosition = 0;
 }
@@ -90,7 +91,7 @@ void StdIOCallback::setFilePointer(std::int64_t Offset,seek_mode Mode)
   if(fseek(File,Offset,Mode)!=0) {
     ostringstream Msg;
     Msg<<"Failed to seek file "<<File<<" to offset "<<Offset<<" in mode "<<Mode;
-    throw CRTError(Msg.str());
+    throw ios_base::failure(Msg.str(), error_code{errno, std::system_category()});
   }
 
   switch ( Mode ) {
@@ -123,7 +124,7 @@ std::uint64_t StdIOCallback::getFilePointer()
   if(Result<0) {
     stringstream Msg;
     Msg<<"Can't tell the current file pointer position for "<<File;
-    throw CRTError(Msg.str());
+    throw ios_base::failure(Msg.str(), error_code{errno, std::system_category()});
   }
 #endif
 
@@ -138,7 +139,7 @@ void StdIOCallback::close()
   if(fclose(File)!=0) {
     stringstream Msg;
     Msg<<"Can't close file "<<File;
-    throw CRTError(Msg.str());
+    throw ios_base::failure(Msg.str(), error_code{errno, std::system_category()});
   }
 
   File=nullptr;
