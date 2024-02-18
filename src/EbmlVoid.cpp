@@ -52,7 +52,7 @@ std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback &
   output.setFilePointer(GetElementPosition());
   EltToReplaceWith.Render(output, writeFilter);
 
-  if (NewVoidSize > EBML_ID_LENGTH(Id_EbmlVoid)) {
+  if (NewVoidSize != 0) {
     // fill the rest with another void element
     EbmlVoid aTmp;
     aTmp.SetSize_(NewVoidSize - EBML_ID_LENGTH(Id_EbmlVoid));
