@@ -24,6 +24,4 @@ enum ScopeMode {
 
 } // namespace libebml
 
-#include "EbmlEndian.h" // binary needs to be defined
-
 #endif
