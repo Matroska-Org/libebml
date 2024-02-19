@@ -104,7 +104,7 @@ std::uint64_t EbmlMaster::UpdateSize(const ShouldWrite & writeFilter, bool bForc
   SetSize_(0);
 
   if (!IsFiniteSize())
-    return (0-1);
+    return std::numeric_limits<std::uint64_t>::max();
 
   if (!bForceRender) {
     assert(CheckMandatory());
@@ -117,7 +117,7 @@ std::uint64_t EbmlMaster::UpdateSize(const ShouldWrite & writeFilter, bool bForc
     const std::uint64_t SizeToAdd = Element->ElementSize(writeFilter);
 #if !defined(NDEBUG)
     if (static_cast<std::int64_t>(SizeToAdd) == (0-1))
-      return (0-1);
+      return std::numeric_limits<std::uint64_t>::max();
 #endif // !NDEBUG
     SetSize_(GetSize() + SizeToAdd);
   }
