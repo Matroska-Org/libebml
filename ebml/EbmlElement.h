@@ -251,7 +251,9 @@ class DllApi x : public BaseClass { \
 #define EBML_INFO_ID(cb)      (cb).ClassId()
 #define EBML_INFO_NAME(cb)    (cb).GetName()
 #define EBML_INFO_CREATE(cb)  (cb).NewElement()
+#define EBML_INFO_CONTEXT(cb) (cb).GetContext()
 
+#define EBML_SEM_SPECS(s)   (s).GetCallbacks()
 #define EBML_SEM_CONTEXT(s) ((const libebml::EbmlCallbacks &)(s)).GetContext()
 #define EBML_SEM_CREATE(s)  (s).Create()
 
