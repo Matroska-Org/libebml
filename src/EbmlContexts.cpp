@@ -18,7 +18,7 @@ DEFINE_END_SEMANTIC(EbmlGlobal)
 
 static DEFINE_xxx_CONTEXT(EbmlGlobal, GetEbmlGlobal_Context)
 
-const EbmlSemanticContext & GetEbmlGlobal_Context()
+const EbmlSemanticContextMaster & GetEbmlGlobal_Context()
 {
   return Context_EbmlGlobal;
 }

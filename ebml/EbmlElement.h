@@ -51,6 +51,7 @@ std::uint64_t EBML_DLL_API ReadCodedSizeValue(const binary * InBuffer, std::uint
 
 class EbmlStream;
 class EbmlSemanticContext;
+class EbmlSemanticContextMaster;
 class EbmlElement;
 
 #define DEFINE_xxx_CONTEXT(x,global) \
@@ -442,7 +443,7 @@ static inline EbmlElement & tEBML_SEM_CREATE(const EbmlSemantic & s)
   return s.Create();
 }
 
-using _GetSemanticContext = const EbmlSemanticContext &(*)();
+using _GetSemanticContext = const EbmlSemanticContextMaster &(*)();
 
 /*!
   Context of the element
