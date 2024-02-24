@@ -48,10 +48,6 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
       return (0-1);
     }
 
-    std::uint64_t GetDataStart() const {
-      return GetElementPosition() + HeadSize();
-    }
-
     /*!
       \brief find the element corresponding to the ID of the element, NULL if not found
     */

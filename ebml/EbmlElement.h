@@ -510,6 +510,10 @@ class EBML_DLL_API EbmlElement {
       return ElementPosition;
     }
 
+    std::uint64_t GetDataStart() const {
+      return GetElementPosition() + HeadSize();
+    }
+
     std::uint64_t ElementSize(const ShouldWrite& writeFilter = WriteSkipDefault) const; /// return the size of the header+data, before writing
 
     filepos_t Render(IOCallback & output, const ShouldWrite& writeFilter = WriteSkipDefault, bool bKeepPosition = false, bool bForceRender = false);
@@ -528,10 +532,6 @@ class EBML_DLL_API EbmlElement {
 
     virtual bool IsDummy() const {return false;}
     virtual bool IsMaster() const {return false;}
-
-    std::size_t HeadSize() const {
-      return EBML_ID_LENGTH((const EbmlId&)*this) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
-    } /// return the size of the head, on reading/writing
 
     /*!
       \brief Force the size of an element
@@ -597,6 +597,10 @@ class EBML_DLL_API EbmlElement {
     const EbmlCallbacks & ClassInfo;
 
   private:
+    std::size_t HeadSize() const {
+      return EBML_ID_LENGTH((const EbmlId&)*this) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+    } /// return the size of the head, on reading/writing
+
     std::uint64_t Size;        ///< the size of the data to write
     std::uint64_t DefaultSize; ///< Minimum data size to fill on rendering (0 = optimal)
     unsigned int SizeLength{0}; /// the minimum size on which the size will be written (0 = optimal)
