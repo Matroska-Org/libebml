@@ -331,15 +331,15 @@ class EBML_DLL_API EbmlCallbacks {
     {
     }
 
-        inline const EbmlId & ClassId() const { return GlobalId; }
+        inline constexpr const EbmlId & ClassId() const { return GlobalId; }
         inline constexpr const EbmlSemanticContext & GetContext() const { return Context; }
-        inline const char * GetName() const { return DebugName; }
+        inline constexpr const char * GetName() const { return DebugName; }
         inline EbmlElement & NewElement() const { return Create(); }
         /// is infinite/unknown size allowed
-        inline bool CanHaveInfiniteSize() const { return CanInfinite; }
-        bool HasDefault() const { return hasDefault; }
+        inline constexpr bool CanHaveInfiniteSize() const { return CanInfinite; }
+        inline constexpr bool HasDefault() const { return hasDefault; }
         // get information about supported version for this element
-        inline const EbmlDocVersion & GetVersions() const { return Version; }
+        inline constexpr const EbmlDocVersion & GetVersions() const { return Version; }
 
     private:
     EbmlElement & (* const Create)();
@@ -386,11 +386,11 @@ class EBML_DLL_API EbmlSemantic {
     constexpr EbmlSemantic(bool aMandatory, bool aUnique, const EbmlCallbacks & aCallbacks)
       :Mandatory(aMandatory), Unique(aUnique), Callbacks(aCallbacks) {}
 
-        inline bool IsMandatory() const { return Mandatory; }
-        inline bool IsUnique() const { return Unique; }
+        inline constexpr bool IsMandatory() const { return Mandatory; }
+        inline constexpr bool IsUnique() const { return Unique; }
         inline EbmlElement & Create() const { return EBML_INFO_CREATE(Callbacks); }
         inline explicit operator const EbmlCallbacks &() const { return Callbacks; }
-        inline EbmlCallbacks const &GetCallbacks() const { return Callbacks; }
+        inline constexpr EbmlCallbacks const &GetCallbacks() const { return Callbacks; }
 
     private:
     const bool Mandatory; ///< whether the element is mandatory in the context or not
@@ -420,9 +420,9 @@ class EBML_DLL_API EbmlSemanticContext {
         (MasterElt != aElt.MasterElt));
     }
 
-        inline std::size_t GetSize() const { return Size; }
-        inline const EbmlCallbacks* GetMaster() const { return MasterElt; }
-        inline const EbmlSemanticContext* Parent() const { return UpTable; }
+        inline constexpr std::size_t GetSize() const { return Size; }
+        inline constexpr const EbmlCallbacks* GetMaster() const { return MasterElt; }
+        inline constexpr const EbmlSemanticContext* Parent() const { return UpTable; }
         const EbmlSemantic & GetSemantic(std::size_t i) const;
 
     const _GetSemanticContext GetGlobalContext; ///< global elements supported at this level
@@ -483,8 +483,8 @@ class EBML_DLL_API EbmlElement {
 
     virtual EbmlId const &GetClassId() const {return ClassInfo.ClassId();}
     virtual explicit operator const EbmlId &() const { return GetClassId(); }
-    const char *DebugName() const {return ClassInfo.GetName();}
-    const EbmlSemanticContext &Context() const {return ClassInfo.GetContext();}
+    constexpr const char *DebugName() const {return ClassInfo.GetName();}
+    constexpr const EbmlSemanticContext &Context() const {return ClassInfo.GetContext();}
         virtual EbmlElement & CreateElement() const = 0;
 
     /*!
