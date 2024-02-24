@@ -128,7 +128,7 @@ std::uint64_t EbmlMaster::UpdateSize(const ShouldWrite & writeFilter, bool bForc
   return GetSize();
 }
 
-filepos_t EbmlMaster::WriteHead(IOCallback & output, int nSizeLength, const ShouldWrite& writeFilter)
+filepos_t EbmlMaster::WriteHead(IOCallback & output, unsigned int nSizeLength, const ShouldWrite& writeFilter)
 {
   SetSizeLength(nSizeLength);
   return RenderHead(output, false, writeFilter);

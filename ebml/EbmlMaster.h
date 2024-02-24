@@ -127,7 +127,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     /*!
       \brief facility for Master elements to write only the head and force the size later
     */
-    filepos_t WriteHead(IOCallback & output, int SizeLength, const ShouldWrite& writeFilter = WriteSkipDefault);
+    filepos_t WriteHead(IOCallback & output, unsigned int SizeLength, const ShouldWrite& writeFilter = WriteSkipDefault);
 
     void EnableChecksum(bool bIsEnabled = true) { bChecksumUsed = bIsEnabled; }
     bool HasChecksum() const {return bChecksumUsed;}
