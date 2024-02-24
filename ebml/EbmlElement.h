@@ -539,7 +539,7 @@ class EBML_DLL_API EbmlSemanticContextMaster : public EbmlSemanticContext {
         const EbmlSemantic *MyTable; ///< First element in the table
 };
 
-static inline const EbmlSemantic & tEBML_CTX_IDX(const EbmlSemanticContextMaster & c, std::size_t i)
+static inline constexpr const EbmlSemantic & tEBML_CTX_IDX(const EbmlSemanticContextMaster & c, std::size_t i)
 {
   return c.GetSemantic(i);
 }
