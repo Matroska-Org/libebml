@@ -54,29 +54,29 @@ class EbmlSemanticContext;
 class EbmlElement;
 
 #define DEFINE_xxx_CONTEXT(x,global) \
-    const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, nullptr, global, nullptr); \
+    constexpr const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, nullptr, global, nullptr); \
 
 #define DEFINE_xxx_MASTER(x,id,parent,infinite,name,versions,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
-    const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
+    constexpr const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
     constexpr const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, false, name, Context_##x, versions); \
     x::x() :libebml::EbmlMaster(x::ClassInfos) {}
 
 // define a master class with a custom constructor
 #define DEFINE_xxx_MASTER_CONS(x,id,parent,infinite,name,versions,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
-    const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
+    constexpr const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
     constexpr const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, false, name, Context_##x, versions);
 
 // define a master class with no parent class
 #define DEFINE_xxx_MASTER_ORPHAN(x,id,infinite,name,versions,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
-    const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, nullptr, global, &EBML_INFO(x)); \
+    constexpr const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, nullptr, global, &EBML_INFO(x)); \
     constexpr const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, false, name, Context_##x, versions); \
 
 #define DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
-    const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x));
+    constexpr const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x));
 
 #define DEFINE_xxx_CLASS_BASE(x,BaseClass,id,parent,name,versions,global) \
     DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
@@ -134,7 +134,7 @@ class EbmlElement;
 
 #define DEFINE_xxx_CLASS_ORPHAN(x,id,name,versions,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
-    const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, nullptr, global, nullptr); \
+    static constexpr const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, nullptr, global, nullptr); \
     constexpr const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, false, name, Context_##x, versions); \
 
 #define DEFINE_EBML_CONTEXT(x)                             DEFINE_xxx_CONTEXT(x,GetEbmlGlobal_Context)
@@ -146,7 +146,7 @@ class EbmlElement;
 #define DEFINE_EBML_STRING_DEF(x,id,parent,name,val,versions)   DEFINE_xxx_STRING_DEF(x,id,parent,name,versions,GetEbmlGlobal_Context,val)
 
 #define DEFINE_SEMANTIC_CONTEXT(x)
-#define DEFINE_START_SEMANTIC(x)     static const libebml::EbmlSemantic ContextList_##x[] = {
+#define DEFINE_START_SEMANTIC(x)     static constexpr const libebml::EbmlSemantic ContextList_##x[] = {
 #define DEFINE_END_SEMANTIC(x)       };
 #define DEFINE_SEMANTIC_ITEM(m,u,c)  libebml::EbmlSemantic(m, u, EBML_INFO(c)),
 #define DEFINE_SEMANTIC_ITEM_UINT(m,u,d,c)      EbmlSemantic(m, u, static_cast<std::uint64_t>(d), EBML_INFO(c)),
@@ -239,28 +239,29 @@ class DllApi x : public BaseClass { \
         libebml::EbmlElement * Clone() const override { return new Type(*this); } \
     static libebml::EbmlElement & Create() {return *(new Type);} \
         static constexpr const libebml::EbmlCallbacks & ClassInfo() {return ClassInfos;} \
-        static const libebml::EbmlId & ClassId() {return ClassInfos.ClassId();} \
 
 #define EBML_INFO(ref)             ref::ClassInfo()
-#define EBML_ID(ref)               ref::ClassId()
+#define EBML_ID(ref)               EBML_INFO_ID(EBML_INFO(ref))
 #define EBML_CLASS_SEMCONTEXT(ref) Context_##ref
-#define EBML_CLASS_CONTEXT(ref)    ref::ClassInfo().GetContext()
+#define EBML_CLASS_CONTEXT(ref)    EBML_INFO_CONTEXT(EBML_INFO(ref))
 #define EBML_CONTEXT(e) (e)->Context()
 #define EBML_NAME(e)    (e)->DebugName()
 
 #define EBML_INFO_ID(cb)      (cb).ClassId()
 #define EBML_INFO_NAME(cb)    (cb).GetName()
 #define EBML_INFO_CREATE(cb)  (cb).NewElement()
+#define EBML_INFO_CONTEXT(cb) (cb).GetContext()
 
-#define EBML_SEM_CONTEXT(s) ((const libebml::EbmlCallbacks &)(s)).GetContext()
+#define EBML_SEM_SPECS(s)   (s).GetCallbacks()
+#define EBML_SEM_CONTEXT(s) EBML_INFO_CONTEXT(EBML_SEM_SPECS(s))
 #define EBML_SEM_CREATE(s)  (s).Create()
 
 #define EBML_CTX_SIZE(c)       (c).GetSize()
 #define EBML_CTX_MASTER(c)     (c).GetMaster()
 #define EBML_CTX_PARENT(c)     (c).Parent()
 #define EBML_CTX_IDX(c,i)      (c).GetSemantic(i)
-#define EBML_CTX_IDX_INFO(c,i) (const libebml::EbmlCallbacks &)((c).GetSemantic(i))
-#define EBML_CTX_IDX_ID(c,i)   ((const libebml::EbmlCallbacks &)((c).GetSemantic(i))).ClassId()
+#define EBML_CTX_IDX_INFO(c,i) EBML_SEM_SPECS(EBML_CTX_IDX(c,i))
+#define EBML_CTX_IDX_ID(c,i)   EBML_INFO_ID(EBML_CTX_IDX_INFO(c,i))
 
 #if !defined(INVALID_FILEPOS_T)
 #define INVALID_FILEPOS_T 0
@@ -319,7 +320,9 @@ class EBML_DLL_API EbmlDocVersion {
 */
 class EBML_DLL_API EbmlCallbacks {
   public:
-    constexpr EbmlCallbacks(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, bool aCanInfinite, bool aHasDefault, const char * aDebugName, const EbmlSemanticContext & aContext,
+    using CreateOperator = EbmlElement & (*)(void);
+
+    constexpr EbmlCallbacks(const CreateOperator & Creator, const EbmlId & aGlobalId, bool aCanInfinite, bool aHasDefault, const char * aDebugName, const EbmlSemanticContext & aContext,
                             const EbmlDocVersion & aVersion)
       :Create(Creator)
       ,GlobalId(aGlobalId)
@@ -342,7 +345,7 @@ class EBML_DLL_API EbmlCallbacks {
         inline constexpr const EbmlDocVersion & GetVersions() const { return Version; }
 
     private:
-    EbmlElement & (* const Create)();
+    const CreateOperator Create;
     const EbmlId & GlobalId;
     const bool CanInfinite;
     const bool hasDefault;
@@ -389,7 +392,6 @@ class EBML_DLL_API EbmlSemantic {
         inline constexpr bool IsMandatory() const { return Mandatory; }
         inline constexpr bool IsUnique() const { return Unique; }
         inline EbmlElement & Create() const { return EBML_INFO_CREATE(Callbacks); }
-        inline explicit operator const EbmlCallbacks &() const { return Callbacks; }
         inline constexpr EbmlCallbacks const &GetCallbacks() const { return Callbacks; }
 
     private:
@@ -481,7 +483,7 @@ class EBML_DLL_API EbmlElement {
     */
     virtual EbmlElement * Clone() const = 0;
 
-    virtual EbmlId const &GetClassId() const {return ClassInfo.ClassId();}
+    virtual EbmlId const &GetClassId() const {return EBML_INFO_ID(ClassInfo);}
     virtual explicit operator const EbmlId &() const { return GetClassId(); }
     constexpr const char *DebugName() const {return ClassInfo.GetName();}
     constexpr const EbmlSemanticContext &Context() const {return ClassInfo.GetContext();}

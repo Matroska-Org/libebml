@@ -15,6 +15,7 @@ namespace libebml {
 class EBML_DLL_API EbmlDummy : public EbmlBinary {
   public:
     EbmlDummy(const EbmlId & aId);
+    EbmlDummy() :EbmlDummy(DummyRawId) {}
 
     bool IsDummy() const override {return true;}
     bool IsDefaultValue() const override {return true;}
@@ -26,13 +27,12 @@ class EBML_DLL_API EbmlDummy : public EbmlBinary {
     EbmlElement & CreateElement() const override { return Create(); }
     EbmlElement * Clone() const override { return new EbmlDummy(DummyId); }
 
-    static EbmlElement & Create() { return *(new EbmlDummy(DummyRawId)); }
-    static const EbmlId & ClassId() { return DummyRawId; };
+    static EbmlElement & Create() { return *(new EbmlDummy()); }
     static const EbmlCallbacks ClassInfos;
 
   private:
     const EbmlId DummyId;
-    static const EbmlId DummyRawId;
+    static constexpr EbmlId DummyRawId{0xFF};
 };
 
 } // namespace libebml

@@ -427,10 +427,9 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
   // elements at the current level
   for (unsigned int ContextIndex = 0; ContextIndex < EBML_CTX_SIZE(Context); ContextIndex++) {
     if (aID == EBML_CTX_IDX_ID(Context,ContextIndex)) {
-      auto ClassInfos = EBML_CTX_IDX(Context,ContextIndex);
-      if (AsInfiniteSize && !ClassInfos.GetCallbacks().CanHaveInfiniteSize())
+      if (AsInfiniteSize && !EBML_CTX_IDX_INFO(Context,ContextIndex).CanHaveInfiniteSize())
         return nullptr;
-      Result = &EBML_SEM_CREATE(ClassInfos);
+      Result = &EBML_SEM_CREATE(EBML_CTX_IDX(Context,ContextIndex));
       Result->SetSizeInfinite(AsInfiniteSize);
       return Result;
     }
