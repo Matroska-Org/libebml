@@ -16,6 +16,7 @@
 #include <functional>
 #include <string>
 #include <limits>
+#include <cstddef>
 
 namespace libebml {
 

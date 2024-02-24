@@ -9,6 +9,7 @@
 #include <cassert>
 
 #include "ebml/EbmlFloat.h"
+#include "ebml/EbmlEndian.h"
 
 namespace libebml {
 

@@ -8,6 +8,7 @@
 #include <cassert>
 
 #include "ebml/EbmlDate.h"
+#include "ebml/EbmlEndian.h"
 
 namespace libebml {
 

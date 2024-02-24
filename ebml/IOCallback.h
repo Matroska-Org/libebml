@@ -7,12 +7,10 @@
 #ifndef MATROSKA_IOCALLBACK_H
 #define MATROSKA_IOCALLBACK_H
 
+#include "EbmlConfig.h"
 #include "EbmlTypes.h"
 
-#include <cassert>
-#include <exception>
 #include <cstdio>
-// #include <iostream>
 
 
 namespace libebml {

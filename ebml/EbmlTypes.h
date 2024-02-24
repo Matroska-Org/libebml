@@ -9,8 +9,6 @@
 
 #include <cstdint>
 
-#include "EbmlConfig.h"
-
 namespace libebml {
 
 using binary = std::uint8_t;
@@ -23,7 +21,5 @@ enum ScopeMode {
 };
 
 } // namespace libebml
-
-#include "EbmlEndian.h" // binary needs to be defined
 
 #endif
