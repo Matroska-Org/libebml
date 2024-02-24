@@ -10,10 +10,11 @@
 
 #include "EbmlTypes.h"
 #include "EbmlElement.h"
+#include "EbmlHead.h"
 
 namespace libebml {
 
-extern const EbmlSemanticContextMaster EBML_DLL_API Context_EbmlHead;
+#define Context_EbmlHead   EbmlHead::GetContextMaster()
 
 // global elements
 extern const EbmlSemanticContextMaster EBML_DLL_API & GetEbmlGlobal_Context();
