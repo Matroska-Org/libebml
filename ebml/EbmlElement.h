@@ -64,13 +64,13 @@ class EbmlElement;
 #define DEFINE_xxx_MASTER_CONS(x,id,parent,infinite,name,versions,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
-    constexpr const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, false, name, Context_##x, versions);
+    constexpr const libebml::EbmlCallbacksMaster x::ClassInfos(x::Create, Id_##x, infinite, name, Context_##x, versions); \
 
 // define a master class with no parent class
 #define DEFINE_xxx_MASTER_ORPHAN(x,id,infinite,name,versions,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
     const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(countof(ContextList_##x), ContextList_##x, nullptr, global, &EBML_INFO(x)); \
-    constexpr const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, infinite, false, name, Context_##x, versions); \
+    constexpr const libebml::EbmlCallbacksMaster x::ClassInfos(x::Create, Id_##x, infinite, name, Context_##x, versions); \
 
 #define DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
@@ -172,6 +172,15 @@ class DllApi x : public BaseClass { \
     static constexpr const libebml::EbmlCallbacksDefault<StorageType> & GetElementSpec() { return ClassInfos; } \
     x();
 
+#define DECLARE_xxx_BASE_MASTER(x, DllApi, BaseClass) \
+class DllApi x : public BaseClass { \
+  private: \
+    static const libebml::EbmlCallbacksMaster ClassInfos; \
+  public: \
+    const libebml::EbmlCallbacksMaster & ElementSpec() const override { return ClassInfos; } \
+    static constexpr const libebml::EbmlCallbacksMaster & GetElementSpec() { return ClassInfos; } \
+    x();
+
 #define DECLARE_xxx_BASE(x, DllApi, BaseClass) \
 class DllApi x : public BaseClass { \
   private: \
@@ -180,7 +189,7 @@ class DllApi x : public BaseClass { \
     x();
 
 #define DECLARE_xxx_MASTER(x,DllApi)    \
-  DECLARE_xxx_BASE(x, DllApi, libebml::EbmlMaster)
+  DECLARE_xxx_BASE_MASTER(x, DllApi, libebml::EbmlMaster)
 
 #define DECLARE_xxx_BINARY(x,DllApi)    \
   DECLARE_xxx_BASE(x, DllApi, libebml::EbmlBinary)
@@ -489,6 +498,16 @@ static inline const EbmlSemantic & tEBML_CTX_IDX(const EbmlSemanticContext & c, 
 {
   return c.GetSemantic(i);
 }
+
+class EBML_DLL_API EbmlCallbacksMaster : public EbmlCallbacks {
+  public:
+    constexpr EbmlCallbacksMaster(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, bool aCanInfinite,
+                                  const char * aDebugName, const EbmlSemanticContext & aContext,
+                                  const EbmlDocVersion & aVersion)
+      :EbmlCallbacks(Creator, aGlobalId, aCanInfinite, false, aDebugName, aContext, aVersion)
+    {
+    }
+};
 
 /*!
   \class EbmlElement

@@ -15,7 +15,7 @@
 
 namespace libebml {
 
-EbmlMaster::EbmlMaster(const EbmlCallbacks & classInfo, bool bSizeIsknown)
+EbmlMaster::EbmlMaster(const EbmlCallbacksMaster & classInfo, bool bSizeIsknown)
  :EbmlElement(classInfo, 0)
 {
   SetSizeInfinite(!bSizeIsknown);

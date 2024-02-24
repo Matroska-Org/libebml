@@ -28,7 +28,7 @@ constexpr const bool bChecksumUsedByDefault = false;
 */
 class EBML_DLL_API EbmlMaster : public EbmlElement {
   public:
-    explicit EbmlMaster(const EbmlCallbacks &, bool bSizeIsKnown = true);
+    explicit EbmlMaster(const EbmlCallbacksMaster &, bool bSizeIsKnown = true);
     EbmlMaster(const EbmlMaster & ElementToClone);
     EbmlMaster& operator=(const EbmlMaster&) = delete;
     bool SizeIsValid(std::uint64_t /*size*/) const override {return true;}
