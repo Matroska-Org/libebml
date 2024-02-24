@@ -146,7 +146,7 @@ int main(void)
         return 1;
 
     [[maybe_unused]] const EbmlSemanticContext &ctx = EBML_CLASS_CONTEXT(EbmlHead);
-    [[maybe_unused]] const EbmlSemanticContextMaster &ctxMaster =  EBML_MASTER_CLASS_CONTEXT(EbmlHead);
+    [[maybe_unused]] const EbmlSemanticContextMaster &ctxMaster = EBML_CLASS_CONTEXT(EbmlHead);
 
     return 0;
 }
