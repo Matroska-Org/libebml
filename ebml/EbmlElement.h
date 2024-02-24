@@ -330,15 +330,15 @@ class EBML_DLL_API EbmlCallbacks {
     {
     }
 
-        inline const EbmlId & ClassId() const { return GlobalId; }
+        inline constexpr const EbmlId & ClassId() const { return GlobalId; }
         inline constexpr const EbmlSemanticContext & GetContext() const { return Context; }
-        inline const char * GetName() const { return DebugName; }
+        inline constexpr const char * GetName() const { return DebugName; }
         inline EbmlElement & NewElement() const { return Create(); }
         /// is infinite/unknown size allowed
-        inline bool CanHaveInfiniteSize() const { return CanInfinite; }
-        bool HasDefault() const { return hasDefault; }
+        inline constexpr bool CanHaveInfiniteSize() const { return CanInfinite; }
+        inline constexpr bool HasDefault() const { return hasDefault; }
         // get information about supported version for this element
-        inline const EbmlDocVersion & GetVersions() const { return Version; }
+        inline constexpr const EbmlDocVersion & GetVersions() const { return Version; }
 
     private:
     EbmlElement & (* const Create)();
