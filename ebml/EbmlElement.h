@@ -275,6 +275,8 @@ class DllApi x : public BaseClass { \
 #define EBML_CTX_IDX_INFO(c,i) EBML_SEM_SPECS(EBML_CTX_IDX(c,i))
 #define EBML_CTX_IDX_ID(c,i)   EBML_INFO_ID(EBML_CTX_IDX_INFO(c,i))
 
+#define EBML_MASTER_CLASS_CONTEXT(ref)    (EBML_INFO(ref)).GetContextMaster()
+
 #if !defined(INVALID_FILEPOS_T)
 #define INVALID_FILEPOS_T 0
 #endif

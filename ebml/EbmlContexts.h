@@ -14,7 +14,7 @@
 
 namespace libebml {
 
-#define Context_EbmlHead   EbmlHead::GetContextMaster()
+#define Context_EbmlHead   EBML_MASTER_CLASS_CONTEXT(EbmlHead)
 
 // global elements
 extern const EbmlSemanticContextMaster EBML_DLL_API & GetEbmlGlobal_Context();
