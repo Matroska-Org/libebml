@@ -13,7 +13,7 @@
 
 namespace libebml {
 
-extern const EbmlSemanticContext EBML_DLL_API Context_EbmlHead;
+extern const EbmlSemanticContextMaster EBML_DLL_API Context_EbmlHead;
 
 // global elements
 extern const EbmlSemanticContext EBML_DLL_API & GetEbmlGlobal_Context();
