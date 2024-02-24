@@ -11,7 +11,6 @@
 #include <cstring>
 #include <iostream>
 #include <stdexcept>
-#include <sstream>
 
 #include "ebml/EbmlElement.h"
 #include "ebml/EbmlStream.h"
@@ -115,18 +114,6 @@ std::uint64_t ReadCodedSizeValue(const binary * InBuffer, std::uint32_t & Buffer
 
   BufferSize = 0;
   return 0;
-}
-
-
-const EbmlSemantic & EbmlSemanticContext::GetSemantic(std::size_t i) const
-{
-  assert(i<Size);
-  if (i<Size)
-    return MyTable[i];
-
-  std::stringstream ss;
-  ss << "EbmlSemanticContext::GetSemantic: programming error: index i outside of table size (" << i << " >= " << Size << ")";
-  throw std::logic_error(ss.str());
 }
 
 
@@ -386,14 +373,18 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
       }
 
       if (Result != nullptr) {
-        unsigned int EltIndex;
+        unsigned int EltIndex = EBML_CTX_SIZE(Context);
         // data known in this Master's context
-        for (EltIndex = 0; EltIndex < EBML_CTX_SIZE(Context); EltIndex++) {
-          if (EbmlId(*Result) == EBML_CTX_IDX_ID(Context,EltIndex)) {
+        if (EBML_CTX_SIZE(Context))
+        {
+        const auto & MasterContext = static_cast<const EbmlSemanticContextMaster &>(Context);
+        for (EltIndex = 0; EltIndex < EBML_CTX_SIZE(MasterContext); EltIndex++) {
+          if (EbmlId(*Result) == EBML_CTX_IDX_ID(MasterContext,EltIndex)) {
             // skip the data with its own context
-            Result = Result->SkipData(DataStream, EBML_SEM_CONTEXT(EBML_CTX_IDX(Context,EltIndex)), nullptr);
+            Result = Result->SkipData(DataStream, EBML_SEM_CONTEXT(EBML_CTX_IDX(MasterContext,EltIndex)), nullptr);
             break; // let's go to the next ID
           }
+        }
         }
 
         if (EltIndex >= EBML_CTX_SIZE(Context)) {
@@ -424,14 +415,18 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
   EbmlElement *Result = nullptr;
 
   // elements at the current level
-  for (unsigned int ContextIndex = 0; ContextIndex < EBML_CTX_SIZE(Context); ContextIndex++) {
-    if (aID == EBML_CTX_IDX_ID(Context,ContextIndex)) {
-      if (AsInfiniteSize && !EBML_CTX_IDX_INFO(Context,ContextIndex).CanHaveInfiniteSize())
+  if (EBML_CTX_SIZE(Context))
+  {
+  const auto & MasterContext = static_cast<const EbmlSemanticContextMaster &>(Context);
+  for (unsigned int ContextIndex = 0; ContextIndex < EBML_CTX_SIZE(MasterContext); ContextIndex++) {
+    if (aID == EBML_CTX_IDX_ID(MasterContext,ContextIndex)) {
+      if (AsInfiniteSize && !EBML_CTX_IDX_INFO(MasterContext,ContextIndex).CanHaveInfiniteSize())
         return nullptr;
-      Result = &EBML_SEM_CREATE(EBML_CTX_IDX(Context,ContextIndex));
+      Result = &EBML_SEM_CREATE(EBML_CTX_IDX(MasterContext,ContextIndex));
       Result->SetSizeInfinite(AsInfiniteSize);
       return Result;
     }
+  }
   }
 
   // global elements

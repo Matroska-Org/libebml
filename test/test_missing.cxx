@@ -10,7 +10,7 @@ using namespace libebml;
 
 static void FindAllMissingElements(const EbmlMaster *pThis, std::vector<std::string> & missingElements)
 {
-  const EbmlSemanticContext & MasterContext = EBML_CONTEXT(pThis);
+  const auto & MasterContext = pThis->ContextMaster();
   for (auto childElement : pThis->GetElementList()) {
     if (!childElement->ValueIsSet()) {
       std::string missingValue;
@@ -48,7 +48,7 @@ static void FindAllMissingElements(const EbmlMaster *pThis, std::vector<std::str
 int main(void)
 {
     EbmlHead TestHead;
-    const EbmlSemanticContext & MasterContext = EBML_CONTEXT(&TestHead);
+    const EbmlSemanticContextMaster & MasterContext = TestHead.ContextMaster();
 
     assert(MasterContext.GetSize() != 0);
 

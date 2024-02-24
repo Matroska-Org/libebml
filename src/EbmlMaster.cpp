@@ -6,12 +6,13 @@
   \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 
-#include <cassert>
-#include <algorithm>
-
 #include "ebml/EbmlMaster.h"
 #include "ebml/EbmlStream.h"
 #include "ebml/MemIOCallback.h"
+
+#include <cassert>
+#include <algorithm>
+#include <sstream>
 
 namespace libebml {
 
@@ -41,6 +42,18 @@ EbmlMaster::~EbmlMaster()
     delete Element;
   }
 }
+
+const EbmlSemantic & EbmlSemanticContextMaster::GetSemantic(std::size_t i) const
+{
+  assert(i<GetSize());
+  if (i<GetSize())
+    return MyTable[i];
+
+  std::stringstream ss;
+  ss << "EbmlSemanticContext::GetSemantic: programming error: index i outside of table size (" << i << " >= " << GetSize() << ")";
+  throw std::logic_error(ss.str());
+}
+
 
 /*!
   \todo handle exception on errors
@@ -153,7 +166,7 @@ filepos_t EbmlMaster::ReadData(IOCallback & input, ScopeMode scope)
 */
 bool EbmlMaster::ProcessMandatory()
 {
-  const EbmlSemanticContext & MasterContext = EBML_CONTEXT(this);
+  const auto & MasterContext = ContextMaster();
 
   for (unsigned int EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
     if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory() && EBML_CTX_IDX(MasterContext,EltIdx).IsUnique()) {
@@ -179,7 +192,7 @@ bool EbmlMaster::ProcessMandatory()
 
 bool EbmlMaster::CheckMandatory() const
 {
-  const EbmlSemanticContext & MasterContext = EBML_CONTEXT(this);
+  const auto & MasterContext = ContextMaster();
 
   for (unsigned int EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
     if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory()) {

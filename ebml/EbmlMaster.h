@@ -37,6 +37,11 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     */
     ~EbmlMaster() override;
 
+    constexpr const EbmlSemanticContextMaster & ContextMaster() const
+    {
+      return static_cast<const EbmlSemanticContextMaster &>(Context());
+    }
+
     filepos_t RenderData(IOCallback & output, bool bForceRender, const ShouldWrite & writeFilter = WriteSkipDefault) override;
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully) override;
     filepos_t UpdateSize(const ShouldWrite & writeFilter = WriteSkipDefault, bool bForceRender = false) override;

@@ -74,7 +74,7 @@ class EbmlElement;
 
 #define DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
-    static constexpr const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, &Context_##parent, global, &EBML_INFO(x));
+    static constexpr const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(&Context_##parent, global, &EBML_INFO(x));
 
 #define DEFINE_xxx_CLASS_BASE(x,BaseClass,id,parent,name,versions,global) \
     DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
@@ -132,7 +132,7 @@ class EbmlElement;
 
 #define DEFINE_xxx_CLASS_ORPHAN(x,id,name,versions,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
-    static constexpr const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(0, nullptr, nullptr, global, nullptr); \
+    static constexpr const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(nullptr, global, nullptr); \
     constexpr const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, false, name, Context_##x, versions); \
 
 #define DEFINE_EBML_CONTEXT(x)                             DEFINE_xxx_CONTEXT(x,GetEbmlGlobal_Context)
@@ -449,17 +449,24 @@ using _GetSemanticContext = const EbmlSemanticContext &(*)();
   \todo allow more than one parent ?
 */
 class EBML_DLL_API EbmlSemanticContext {
-  public:
+  protected:
     constexpr EbmlSemanticContext(std::size_t aSize,
-      const EbmlSemantic *aMyTable,
       const EbmlSemanticContext *aUpTable,
       const _GetSemanticContext aGetGlobalContext,
       const EbmlCallbacks *aMasterElt)
-      : GetGlobalContext(aGetGlobalContext), MyTable(aMyTable), Size(aSize),
+      : GetGlobalContext(aGetGlobalContext), Size(aSize),
+        UpTable(aUpTable), MasterElt(aMasterElt) {}
+
+  public:
+    constexpr EbmlSemanticContext(
+      const EbmlSemanticContext *aUpTable,
+      const _GetSemanticContext aGetGlobalContext,
+      const EbmlCallbacks *aMasterElt)
+      : GetGlobalContext(aGetGlobalContext), Size(0),
         UpTable(aUpTable), MasterElt(aMasterElt) {}
 
     bool operator!=(const EbmlSemanticContext & aElt) const {
-      return ((Size != aElt.Size) || (MyTable != aElt.MyTable) ||
+      return ((Size != aElt.Size) ||
         (UpTable != aElt.UpTable) || (GetGlobalContext != aElt.GetGlobalContext) ||
         (MasterElt != aElt.MasterElt));
     }
@@ -467,12 +474,10 @@ class EBML_DLL_API EbmlSemanticContext {
         inline constexpr std::size_t GetSize() const { return Size; }
         inline constexpr const EbmlCallbacks* GetMaster() const { return MasterElt; }
         inline constexpr const EbmlSemanticContext* Parent() const { return UpTable; }
-        const EbmlSemantic & GetSemantic(std::size_t i) const;
 
     const _GetSemanticContext GetGlobalContext; ///< global elements supported at this level
 
     private:
-        const EbmlSemantic *MyTable; ///< First element in the table
     const std::size_t Size;          ///< number of elements in the table
     const EbmlSemanticContext *UpTable; ///< Parent element
     /// \todo replace with the global context directly
@@ -494,11 +499,6 @@ static inline constexpr const EbmlSemanticContext * tEBML_CTX_PARENT(const EbmlS
   return c.Parent();
 }
 
-static inline const EbmlSemantic & tEBML_CTX_IDX(const EbmlSemanticContext & c, std::size_t i)
-{
-  return c.GetSemantic(i);
-}
-
 class EBML_DLL_API EbmlSemanticContextMaster : public EbmlSemanticContext {
   public:
     constexpr EbmlSemanticContextMaster(std::size_t aSize,
@@ -506,9 +506,30 @@ class EBML_DLL_API EbmlSemanticContextMaster : public EbmlSemanticContext {
       const EbmlSemanticContext *aUpTable,
       const _GetSemanticContext aGetGlobalContext,
       const EbmlCallbacks *aMasterElt)
-      : EbmlSemanticContext(aSize, aMyTable, aUpTable, aGetGlobalContext, aMasterElt)
+      : EbmlSemanticContext(aSize, aUpTable, aGetGlobalContext, aMasterElt)
+      , MyTable(aMyTable)
     {}
+
+    bool operator!=(const EbmlSemanticContext & aElt) const {
+      if (EbmlSemanticContext::operator!=(aElt))
+        return true;
+
+      if (MyTable != reinterpret_cast<const EbmlSemanticContextMaster &>(aElt).MyTable)
+        return true;
+
+      return false;
+    }
+
+        const EbmlSemantic & GetSemantic(std::size_t i) const;
+
+    private:
+        const EbmlSemantic *MyTable; ///< First element in the table
 };
+
+static inline const EbmlSemantic & tEBML_CTX_IDX(const EbmlSemanticContextMaster & c, std::size_t i)
+{
+  return c.GetSemantic(i);
+}
 
 class EBML_DLL_API EbmlCallbacksMaster : public EbmlCallbacks {
   public:
