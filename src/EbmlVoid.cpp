@@ -34,14 +34,44 @@ filepos_t EbmlVoid::RenderData(IOCallback & output, bool /* bForceRender */, con
   return GetSize();
 }
 
+// compute the size of the voided data based on the original one
+static void SetVoidSize(EbmlVoid & Elt, const std::uint64_t FullSize)
+{
+  // compute the size of the voided data based on the original one
+  // We don't know the Size length, assume it's the smallest one = 1
+  // and compute the optimum Size length
+  const unsigned int InitialSizeLength = CodedSizeLength(FullSize - EBML_ID_LENGTH(Id_EbmlVoid) - 1, 0);
+  std::uint64_t NewDataLength = FullSize - InitialSizeLength - EBML_ID_LENGTH(Id_EbmlVoid);
+  unsigned int NewSizeLength = CodedSizeLength(NewDataLength, 0);
+  if (EBML_ID_LENGTH(Id_EbmlVoid) + NewSizeLength + NewDataLength < FullSize)
+  {
+    // the computed size is too small,
+    // the Size length can be expanded, update the size Length which doesn't imply 
+    // recomputing the whole size again
+    NewSizeLength = static_cast<decltype(NewSizeLength)>(FullSize - (NewDataLength + EBML_ID_LENGTH(Id_EbmlVoid)));
+  }
+  else if (EBML_ID_LENGTH(Id_EbmlVoid) + NewSizeLength + NewDataLength > FullSize)
+  {
+    // the computed size is too large, reduce it and keep the same Size length
+    NewDataLength = FullSize - (NewSizeLength + EBML_ID_LENGTH(Id_EbmlVoid));
+  }
+  Elt.SetSizeLength(NewSizeLength);
+  Elt.SetSize(NewDataLength);
+}
+
 std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback & output, bool ComeBackAfterward, const ShouldWrite& writeFilter)
 {
   EltToReplaceWith.UpdateSize(writeFilter);
-  if (HeadSize() + GetSize() < EltToReplaceWith.GetSize() + EltToReplaceWith.HeadSize()) {
+  const auto EltSize = EltToReplaceWith.ElementSize(writeFilter);
+  if (EltSize == 0)
+    return INVALID_FILEPOS_T;
+  const auto CurrentVoidSize = ElementSize(writeFilter);
+  if (CurrentVoidSize < EltSize) {
     // the element can't be written here !
     return INVALID_FILEPOS_T;
   }
-  if (HeadSize() + GetSize() - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() == 1) {
+  const auto NewVoidSize = CurrentVoidSize - EltSize;
+  if (NewVoidSize == EBML_ID_LENGTH(Id_EbmlVoid)) {
     // there is not enough space to put a filling element
     return INVALID_FILEPOS_T;
   }
@@ -51,16 +81,10 @@ std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback &
   output.setFilePointer(GetElementPosition());
   EltToReplaceWith.Render(output, writeFilter);
 
-  if (HeadSize() + GetSize() - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() > 1) {
+  if (NewVoidSize != 0) {
     // fill the rest with another void element
     EbmlVoid aTmp;
-    aTmp.SetSize_(HeadSize() + GetSize() - EltToReplaceWith.GetSize() - EltToReplaceWith.HeadSize() - 1); // 1 is the length of the Void ID
-    const std::size_t HeadBefore = aTmp.HeadSize();
-    aTmp.SetSize_(aTmp.GetSize() - CodedSizeLength(aTmp.GetSize(), aTmp.GetSizeLength()));
-    const std::size_t HeadAfter = aTmp.HeadSize();
-    if (HeadBefore != HeadAfter) {
-      aTmp.SetSizeLength(CodedSizeLength(aTmp.GetSize(), aTmp.GetSizeLength()) - (HeadAfter - HeadBefore));
-    }
+    SetVoidSize(aTmp, NewVoidSize);
     aTmp.RenderHead(output, false, writeFilter); // the rest of the data is not rewritten
   }
 
@@ -68,7 +92,7 @@ std::uint64_t EbmlVoid::ReplaceWith(EbmlElement & EltToReplaceWith, IOCallback &
     output.setFilePointer(CurrentPosition);
   }
 
-  return GetSize() + HeadSize();
+  return NewVoidSize;
 }
 
 std::uint64_t EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & output, bool ComeBackAfterward, const ShouldWrite& writeFilter)
@@ -78,8 +102,13 @@ std::uint64_t EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & ou
     // this element has never been written
     return 0;
   }
-  if (EltToVoid.GetSize() + EltToVoid.HeadSize() <2) {
+  const auto EltSize = EltToVoid.ElementSize([](const EbmlElement&){ return true; });
+  if (EltSize <2) {
     // the element can't be written here !
+    return 0;
+  }
+  if (!CanWrite(writeFilter)) {
+    // Void is filtered out, we can't write it
     return 0;
   }
 
@@ -87,16 +116,7 @@ std::uint64_t EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & ou
 
   output.setFilePointer(EltToVoid.GetElementPosition());
 
-  // compute the size of the voided data based on the original one
-  SetSize(EltToVoid.GetSize() + EltToVoid.HeadSize() - 1); // 1 for the ID
-  SetSize(GetSize() - CodedSizeLength(GetSize(), GetSizeLength()));
-  // make sure we handle even the strange cases
-  //std::uint32_t A1 = GetSize() + HeadSize();
-  //std::uint32_t A2 = EltToVoid.GetSize() + EltToVoid.HeadSize();
-  if (GetSize() + HeadSize() != EltToVoid.GetSize() + EltToVoid.HeadSize()) {
-    SetSize(GetSize()-1);
-    SetSizeLength(CodedSizeLength(GetSize(), GetSizeLength()) + 1);
-  }
+  SetVoidSize(*this, EltSize);
 
   if (GetSize() != 0) {
     RenderHead(output, false, writeFilter); // the rest of the data is not rewritten
@@ -106,7 +126,7 @@ std::uint64_t EbmlVoid::Overwrite(const EbmlElement & EltToVoid, IOCallback & ou
     output.setFilePointer(CurrentPosition);
   }
 
-  return EltToVoid.GetSize() + EltToVoid.HeadSize();
+  return EltSize;
 }
 
 } // namespace libebml
