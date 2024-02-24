@@ -98,6 +98,9 @@ bool EbmlMaster::PushElement(EbmlElement & element)
 
 std::uint64_t EbmlMaster::UpdateSize(const ShouldWrite & writeFilter, bool bForceRender)
 {
+  if (!CanWrite(writeFilter))
+    return 0;
+
   SetSize_(0);
 
   if (!IsFiniteSize())
