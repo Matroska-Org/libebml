@@ -21,6 +21,8 @@
 #include <cstring>
 #include <cstddef>
 
+#include <ebml/EbmlTypes.h>
+
 #include "EbmlConfig.h" // contains _ENDIANESS_
 
 #if defined(__linux__)
