@@ -55,7 +55,7 @@ class EbmlSemanticContextMaster;
 class EbmlElement;
 
 #define DEFINE_xxx_CONTEXT(x,global) \
-    const libebml::EbmlSemanticContextMaster Context_##x = libebml::EbmlSemanticContextMaster(countof(ContextList_##x), ContextList_##x, nullptr, global, nullptr); \
+    constexpr const libebml::EbmlSemanticContextMaster Context_##x = libebml::EbmlSemanticContextMaster(countof(ContextList_##x), ContextList_##x, nullptr, global, nullptr); \
 
 #define DEFINE_xxx_MASTER(x,id,parent,infinite,name,versions,global) \
     DEFINE_xxx_MASTER_CONS(x,id,parent,infinite,name,versions,global) \
@@ -64,13 +64,13 @@ class EbmlElement;
 // define a master class with a custom constructor
 #define DEFINE_xxx_MASTER_CONS(x,id,parent,infinite,name,versions,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
-    const libebml::EbmlSemanticContextMaster x::SemanticContext = libebml::EbmlSemanticContextMaster(countof(ContextList_##x), ContextList_##x, &parent::SemanticContext, global, &EBML_INFO(x)); \
+    constexpr const libebml::EbmlSemanticContextMaster x::SemanticContext = libebml::EbmlSemanticContextMaster(countof(ContextList_##x), ContextList_##x, &parent::SemanticContext, global, &EBML_INFO(x)); \
     constexpr const libebml::EbmlCallbacksMaster x::ClassInfos(x::Create, Id_##x, infinite, name, x::SemanticContext, versions); \
 
 // define a master class with no parent class (can be used globally)
 #define DEFINE_xxx_MASTER_ORPHAN(x,id,infinite,name,versions,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
-    const libebml::EbmlSemanticContextMaster x::SemanticContext = libebml::EbmlSemanticContextMaster(countof(ContextList_##x), ContextList_##x, nullptr, global, &EBML_INFO(x)); \
+    constexpr const libebml::EbmlSemanticContextMaster x::SemanticContext = libebml::EbmlSemanticContextMaster(countof(ContextList_##x), ContextList_##x, nullptr, global, &EBML_INFO(x)); \
     constexpr const libebml::EbmlCallbacksMaster x::ClassInfos(x::Create, Id_##x, infinite, name, x::SemanticContext, versions); \
 
 #define DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
