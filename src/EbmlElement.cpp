@@ -377,14 +377,14 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
         // data known in this Master's context
         if (EBML_CTX_SIZE(Context))
         {
-        const auto & MasterContext = static_cast<const EbmlSemanticContextMaster &>(Context);
-        for (EltIndex = 0; EltIndex < EBML_CTX_SIZE(MasterContext); EltIndex++) {
-          if (EbmlId(*Result) == EBML_CTX_IDX_ID(MasterContext,EltIndex)) {
-            // skip the data with its own context
-            Result = Result->SkipData(DataStream, EBML_SEM_CONTEXT(EBML_CTX_IDX(MasterContext,EltIndex)), nullptr);
-            break; // let's go to the next ID
+          const auto & MasterContext = static_cast<const EbmlSemanticContextMaster &>(Context);
+          for (EltIndex = 0; EltIndex < EBML_CTX_SIZE(MasterContext); EltIndex++) {
+            if (EbmlId(*Result) == EBML_CTX_IDX_ID(MasterContext,EltIndex)) {
+              // skip the data with its own context
+              Result = Result->SkipData(DataStream, EBML_SEM_CONTEXT(EBML_CTX_IDX(MasterContext,EltIndex)), nullptr);
+              break; // let's go to the next ID
+            }
           }
-        }
         }
 
         if (EltIndex >= EBML_CTX_SIZE(Context)) {
@@ -417,16 +417,16 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
   // elements at the current level
   if (EBML_CTX_SIZE(Context))
   {
-  const auto & MasterContext = static_cast<const EbmlSemanticContextMaster &>(Context);
-  for (unsigned int ContextIndex = 0; ContextIndex < EBML_CTX_SIZE(MasterContext); ContextIndex++) {
-    if (aID == EBML_CTX_IDX_ID(MasterContext,ContextIndex)) {
-      if (AsInfiniteSize && !EBML_CTX_IDX_INFO(MasterContext,ContextIndex).CanHaveInfiniteSize())
-        return nullptr;
-      Result = &EBML_SEM_CREATE(EBML_CTX_IDX(MasterContext,ContextIndex));
-      Result->SetSizeInfinite(AsInfiniteSize);
-      return Result;
+    const auto & MasterContext = static_cast<const EbmlSemanticContextMaster &>(Context);
+    for (unsigned int ContextIndex = 0; ContextIndex < EBML_CTX_SIZE(MasterContext); ContextIndex++) {
+      if (aID == EBML_CTX_IDX_ID(MasterContext,ContextIndex)) {
+        if (AsInfiniteSize && !EBML_CTX_IDX_INFO(MasterContext,ContextIndex).CanHaveInfiniteSize())
+          return nullptr;
+        Result = &EBML_SEM_CREATE(EBML_CTX_IDX(MasterContext,ContextIndex));
+        Result->SetSizeInfinite(AsInfiniteSize);
+        return Result;
+      }
     }
-  }
   }
 
   // global elements
