@@ -244,7 +244,7 @@ class DllApi x : public BaseClass { \
 #define EBML_INFO(ref)             ref::ClassInfo()
 #define EBML_ID(ref)               ref::ClassId()
 #define EBML_CLASS_SEMCONTEXT(ref) Context_##ref
-#define EBML_CLASS_CONTEXT(ref)    ref::ClassInfo().GetContext()
+#define EBML_CLASS_CONTEXT(ref)    EBML_INFO_CONTEXT(EBML_INFO(ref))
 #define EBML_CONTEXT(e) (e)->Context()
 #define EBML_NAME(e)    (e)->DebugName()
 
@@ -254,15 +254,15 @@ class DllApi x : public BaseClass { \
 #define EBML_INFO_CONTEXT(cb) (cb).GetContext()
 
 #define EBML_SEM_SPECS(s)   (s).GetCallbacks()
-#define EBML_SEM_CONTEXT(s) ((const libebml::EbmlCallbacks &)(s)).GetContext()
+#define EBML_SEM_CONTEXT(s) EBML_INFO_CONTEXT(EBML_SEM_SPECS(s))
 #define EBML_SEM_CREATE(s)  (s).Create()
 
 #define EBML_CTX_SIZE(c)       (c).GetSize()
 #define EBML_CTX_MASTER(c)     (c).GetMaster()
 #define EBML_CTX_PARENT(c)     (c).Parent()
 #define EBML_CTX_IDX(c,i)      (c).GetSemantic(i)
-#define EBML_CTX_IDX_INFO(c,i) (const libebml::EbmlCallbacks &)((c).GetSemantic(i))
-#define EBML_CTX_IDX_ID(c,i)   ((const libebml::EbmlCallbacks &)((c).GetSemantic(i))).ClassId()
+#define EBML_CTX_IDX_INFO(c,i) EBML_SEM_SPECS(EBML_CTX_IDX(c,i))
+#define EBML_CTX_IDX_ID(c,i)   EBML_INFO_ID(EBML_CTX_IDX_INFO(c,i))
 
 #if !defined(INVALID_FILEPOS_T)
 #define INVALID_FILEPOS_T 0
