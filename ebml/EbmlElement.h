@@ -385,11 +385,11 @@ class EBML_DLL_API EbmlSemantic {
     constexpr EbmlSemantic(bool aMandatory, bool aUnique, const EbmlCallbacks & aCallbacks)
       :Mandatory(aMandatory), Unique(aUnique), Callbacks(aCallbacks) {}
 
-        inline bool IsMandatory() const { return Mandatory; }
-        inline bool IsUnique() const { return Unique; }
+        inline constexpr bool IsMandatory() const { return Mandatory; }
+        inline constexpr bool IsUnique() const { return Unique; }
         inline EbmlElement & Create() const { return EBML_INFO_CREATE(Callbacks); }
         inline explicit operator const EbmlCallbacks &() const { return Callbacks; }
-        inline EbmlCallbacks const &GetCallbacks() const { return Callbacks; }
+        inline constexpr EbmlCallbacks const &GetCallbacks() const { return Callbacks; }
 
     private:
     const bool Mandatory; ///< whether the element is mandatory in the context or not
