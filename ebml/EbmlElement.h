@@ -188,6 +188,7 @@ class DllApi x : public BaseClass { \
   private: \
     static const libebml::EbmlCallbacks ClassInfos; \
   public: \
+    static constexpr const libebml::EbmlCallbacks & GetElementSpec() { return ClassInfos; } \
     x();
 
 #define DECLARE_xxx_MASTER(x,DllApi)    \
@@ -251,7 +252,7 @@ class DllApi x : public BaseClass { \
     static libebml::EbmlElement & Create() {return *(new Type);} \
         static constexpr const libebml::EbmlCallbacks & ClassInfo() {return ClassInfos;} \
 
-#define EBML_INFO(ref)             ref::ClassInfo()
+#define EBML_INFO(ref)             ref::GetElementSpec()
 #define EBML_ID(ref)               EBML_INFO_ID(EBML_INFO(ref))
 #define EBML_CLASS_SEMCONTEXT(ref) Context_##ref
 #define EBML_CLASS_CONTEXT(ref)    EBML_INFO_CONTEXT(EBML_INFO(ref))
