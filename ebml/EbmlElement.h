@@ -419,9 +419,9 @@ class EBML_DLL_API EbmlSemanticContext {
         (MasterElt != aElt.MasterElt));
     }
 
-        inline std::size_t GetSize() const { return Size; }
-        inline const EbmlCallbacks* GetMaster() const { return MasterElt; }
-        inline const EbmlSemanticContext* Parent() const { return UpTable; }
+        inline constexpr std::size_t GetSize() const { return Size; }
+        inline constexpr const EbmlCallbacks* GetMaster() const { return MasterElt; }
+        inline constexpr const EbmlSemanticContext* Parent() const { return UpTable; }
         const EbmlSemantic & GetSemantic(std::size_t i) const;
 
     const _GetSemanticContext GetGlobalContext; ///< global elements supported at this level
