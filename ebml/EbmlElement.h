@@ -244,22 +244,22 @@ class DllApi x : public BaseClass { \
 #define EBML_ID(ref)               EBML_INFO_ID(EBML_INFO(ref))
 #define EBML_CLASS_SEMCONTEXT(ref) Context_##ref
 #define EBML_CLASS_CONTEXT(ref)    EBML_INFO_CONTEXT(EBML_INFO(ref))
-#define EBML_CONTEXT(e) (e)->Context()
-#define EBML_NAME(e)    (e)->DebugName()
+#define EBML_CONTEXT(e)            tEBML_CONTEXT(e)
+#define EBML_NAME(e)               tEBML_NAME(e)
 
-#define EBML_INFO_ID(cb)      (cb).ClassId()
-#define EBML_INFO_NAME(cb)    (cb).GetName()
-#define EBML_INFO_CREATE(cb)  (cb).NewElement()
-#define EBML_INFO_CONTEXT(cb) (cb).GetContext()
+#define EBML_INFO_ID(cb)      tEBML_INFO_ID(cb)
+#define EBML_INFO_NAME(cb)    tEBML_INFO_NAME(cb)
+#define EBML_INFO_CREATE(cb)  tEBML_INFO_CREATE(cb)
+#define EBML_INFO_CONTEXT(cb) tEBML_INFO_CONTEXT(cb)
 
-#define EBML_SEM_SPECS(s)   (s).GetCallbacks()
+#define EBML_SEM_SPECS(s)   tEBML_SEM_SPECS(s)
 #define EBML_SEM_CONTEXT(s) EBML_INFO_CONTEXT(EBML_SEM_SPECS(s))
-#define EBML_SEM_CREATE(s)  (s).Create()
+#define EBML_SEM_CREATE(s)  tEBML_SEM_CREATE(s)
 
-#define EBML_CTX_SIZE(c)       (c).GetSize()
-#define EBML_CTX_MASTER(c)     (c).GetMaster()
-#define EBML_CTX_PARENT(c)     (c).Parent()
-#define EBML_CTX_IDX(c,i)      (c).GetSemantic(i)
+#define EBML_CTX_SIZE(c)       tEBML_CTX_SIZE(c)
+#define EBML_CTX_MASTER(c)     tEBML_CTX_MASTER(c)
+#define EBML_CTX_PARENT(c)     tEBML_CTX_PARENT(c)
+#define EBML_CTX_IDX(c,i)      tEBML_CTX_IDX(c,i)
 #define EBML_CTX_IDX_INFO(c,i) EBML_SEM_SPECS(EBML_CTX_IDX(c,i))
 #define EBML_CTX_IDX_ID(c,i)   EBML_INFO_ID(EBML_CTX_IDX_INFO(c,i))
 
@@ -380,6 +380,26 @@ class EBML_DLL_API EbmlCallbacksWithDefault : public EbmlCallbacksDefault<T> {
     const T defaultValue;
 };
 
+static inline constexpr const EbmlId & tEBML_INFO_ID(const EbmlCallbacks & cb)
+{
+  return cb.ClassId();
+}
+
+static inline constexpr const char * tEBML_INFO_NAME(const EbmlCallbacks & cb)
+{
+  return cb.GetName();
+}
+
+static inline EbmlElement & tEBML_INFO_CREATE(const EbmlCallbacks & cb)
+{
+  return cb.NewElement();
+}
+
+static inline constexpr const EbmlSemanticContext & tEBML_INFO_CONTEXT(const EbmlCallbacks & cb)
+{
+  return cb.GetContext();
+}
+
 /*!
   \brief contains the semantic informations for a given level and all sublevels
   \todo move the ID in the element class
@@ -399,6 +419,16 @@ class EBML_DLL_API EbmlSemantic {
     const bool Unique;
     const EbmlCallbacks & Callbacks;
 };
+
+static inline constexpr const EbmlCallbacks & tEBML_SEM_SPECS(const EbmlSemantic & s)
+{
+  return s.GetCallbacks();
+}
+
+static inline EbmlElement & tEBML_SEM_CREATE(const EbmlSemantic & s)
+{
+  return s.Create();
+}
 
 using _GetSemanticContext = const class EbmlSemanticContext &(*)();
 
@@ -436,6 +466,26 @@ class EBML_DLL_API EbmlSemanticContext {
     /// \todo replace with the global context directly
     const EbmlCallbacks *MasterElt;
 };
+
+static inline constexpr size_t tEBML_CTX_SIZE(const EbmlSemanticContext & c)
+{
+  return c.GetSize();
+}
+
+static inline constexpr const EbmlCallbacks * tEBML_CTX_MASTER(const EbmlSemanticContext & c)
+{
+  return c.GetMaster();
+}
+
+static inline constexpr const EbmlSemanticContext * tEBML_CTX_PARENT(const EbmlSemanticContext & c)
+{
+  return c.Parent();
+}
+
+static inline const EbmlSemantic & tEBML_CTX_IDX(const EbmlSemanticContext & c, std::size_t i)
+{
+  return c.GetSemantic(i);
+}
 
 /*!
   \class EbmlElement
@@ -705,6 +755,18 @@ class EBML_DLL_API EbmlElementDefaultStorage : public EbmlElementDefault<T> {
   protected:
     S Value;
 };
+
+
+static inline constexpr const EbmlSemanticContext & tEBML_CONTEXT(const EbmlElement * e)
+{
+  return e->Context();
+}
+
+static inline constexpr const char * tEBML_NAME(const EbmlElement * e)
+{
+  return e->DebugName();
+}
+
 
 } // namespace libebml
 
