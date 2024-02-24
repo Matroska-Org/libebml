@@ -55,5 +55,8 @@ int main(void)
     std::vector<std::string> missingElements;
     FindAllMissingElements(&TestHead, missingElements);
 
+    const auto & tstStatic = EbmlHead::GetContextMaster();
+    assert(EBML_CTX_SIZE(tstStatic) != 0);
+
     return 0;
 }
