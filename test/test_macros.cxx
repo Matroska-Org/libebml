@@ -2,6 +2,7 @@
 #include <ebml/EbmlString.h>
 #include <ebml/EbmlUInteger.h>
 #include <ebml/EbmlUnicodeString.h>
+#include <ebml/EbmlHead.h>
 
 using namespace libebml;
 

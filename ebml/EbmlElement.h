@@ -64,20 +64,18 @@ class EbmlElement;
 // define a master class with a custom constructor
 #define DEFINE_xxx_MASTER_CONS(x,id,parent,infinite,name,versions,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
-    const libebml::EbmlSemanticContextMaster Context_##x = libebml::EbmlSemanticContextMaster(countof(ContextList_##x), ContextList_##x, &Context_##parent, global, &EBML_INFO(x)); \
-    const libebml::EbmlSemanticContextMaster & x::GetContextMaster() { return Context_##x; } \
-    constexpr const libebml::EbmlCallbacksMaster x::ClassInfos(x::Create, Id_##x, infinite, name, Context_##x, versions); \
+    const libebml::EbmlSemanticContextMaster x::SemanticContext = libebml::EbmlSemanticContextMaster(countof(ContextList_##x), ContextList_##x, &parent::SemanticContext, global, &EBML_INFO(x)); \
+    constexpr const libebml::EbmlCallbacksMaster x::ClassInfos(x::Create, Id_##x, infinite, name, x::SemanticContext, versions); \
 
 // define a master class with no parent class (can be used globally)
 #define DEFINE_xxx_MASTER_ORPHAN(x,id,infinite,name,versions,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
-    const libebml::EbmlSemanticContextMaster Context_##x = libebml::EbmlSemanticContextMaster(countof(ContextList_##x), ContextList_##x, nullptr, global, &EBML_INFO(x)); \
-    const libebml::EbmlSemanticContextMaster & x::GetContextMaster() { return Context_##x; } \
-    constexpr const libebml::EbmlCallbacksMaster x::ClassInfos(x::Create, Id_##x, infinite, name, Context_##x, versions); \
+    const libebml::EbmlSemanticContextMaster x::SemanticContext = libebml::EbmlSemanticContextMaster(countof(ContextList_##x), ContextList_##x, nullptr, global, &EBML_INFO(x)); \
+    constexpr const libebml::EbmlCallbacksMaster x::ClassInfos(x::Create, Id_##x, infinite, name, x::SemanticContext, versions); \
 
 #define DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
     static constexpr const libebml::EbmlId Id_##x    {id}; static_assert(libebml::EbmlId::IsValid(Id_##x .GetValue()), "invalid id for " name ); \
-    static constexpr const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext(&Context_##parent, global, &EBML_INFO(x));
+    static constexpr const libebml::EbmlSemanticContext Context_##x = libebml::EbmlSemanticContext( &parent::SemanticContext, global, &EBML_INFO(x));
 
 #define DEFINE_xxx_CLASS_BASE(x,BaseClass,id,parent,name,versions,global) \
     DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
@@ -194,7 +192,8 @@ class DllApi x : public BaseClass { \
 
 #define DECLARE_xxx_MASTER(x,DllApi)    \
   DECLARE_xxx_BASE_MASTER(x, DllApi, libebml::EbmlMaster) \
-  static const libebml::EbmlSemanticContextMaster & GetContextMaster();
+  static const libebml::EbmlSemanticContextMaster SemanticContext; \
+  static const libebml::EbmlSemanticContextMaster & GetContextMaster() { return SemanticContext; }
 
 #define DECLARE_xxx_BINARY(x,DllApi)    \
   DECLARE_xxx_BASE(x, DllApi, libebml::EbmlBinary)
