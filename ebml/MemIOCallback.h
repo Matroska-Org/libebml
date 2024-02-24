@@ -69,7 +69,7 @@ public:
   /*!
     Use this to write some data from another IOCallback
   */
-  std::uint32_t write(IOCallback & IOToRead, std::size_t Size);
+  std::size_t write(IOCallback & IOToRead, std::size_t Size);
 
   bool IsOk() const { return mOk; }
   const std::string &GetLastErrorStr() const { return mLastErrorStr; }
