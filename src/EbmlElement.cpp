@@ -156,13 +156,11 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
   while (!bElementFound) {
     // read ID
     aElementPosition = DataStream.getFilePointer();
-    std::uint32_t ReadSize = 0;
     BitMask = 1 << 7;
     while (PossibleID_Length < 4) {
       if (!DataStream.read(&PossibleId.at(PossibleID_Length), 1))
         return nullptr;            // no more data
 
-      ++ReadSize;
       ++PossibleID_Length;
 
       if (PossibleId[0] & BitMask) {
@@ -190,7 +188,7 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
         // Size is larger than 8 bytes
         return nullptr;
 
-      ReadSize += DataStream.read(&PossibleSize.at(PossibleSizeLength++), 1);
+      DataStream.read(&PossibleSize.at(PossibleSizeLength++), 1);
       _SizeLength = PossibleSizeLength;
       SizeFound =
           ReadCodedSizeValue(PossibleSize.data(), _SizeLength, SizeUnknown);
