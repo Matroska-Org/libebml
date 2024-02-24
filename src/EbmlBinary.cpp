@@ -7,9 +7,9 @@
   \author Julien Coloos  <suiryc @ users.sf.net>
 */
 #include <string>
+#include <stdexcept>
 
 #include "ebml/EbmlBinary.h"
-#include "ebml/StdIOCallback.h"
 
 namespace libebml {
 
@@ -85,7 +85,7 @@ filepos_t EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
 
   Data = (GetSize() < std::numeric_limits<std::size_t>::max()) ? static_cast<binary *>(malloc(GetSize())) : nullptr;
   if (Data == nullptr)
-    throw CRTError(std::string("Error allocating data"));
+    throw std::runtime_error("Error allocating data");
   SetValueIsSet();
   return input.read(Data, GetSize());
 }

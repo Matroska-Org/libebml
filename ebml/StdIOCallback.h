@@ -9,9 +9,6 @@
 
 #include "IOCallback.h"
 
-#include <stdexcept>
-#include <cerrno>
-
 namespace libebml {
 
 enum open_mode {
@@ -19,20 +16,6 @@ enum open_mode {
     MODE_WRITE,
     MODE_CREATE,
     MODE_SAFE
-};
-
-class EBML_DLL_API CRTError:public std::runtime_error
-{
-// Variablen...
-private:
-  int Error;
-
-// Methoden...
-public:
-  CRTError(int Error,const std::string&Description);
-  explicit CRTError(const std::string&Description,int Error=errno);
-
-  int getError() const noexcept { return Error; }
 };
 
 // This class is currently private to the library, so there's no MATROSKA_EXPORT.
