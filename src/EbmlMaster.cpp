@@ -154,12 +154,6 @@ filepos_t EbmlMaster::ReadData(IOCallback & input, ScopeMode scope)
 bool EbmlMaster::ProcessMandatory()
 {
   const EbmlSemanticContext & MasterContext = EBML_CONTEXT(this);
-  if (EBML_CTX_SIZE(MasterContext) == 0)
-  {
-    return true;
-  }
-
-  assert(MasterContext.GetSize() != 0);
 
   for (unsigned int EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
     if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory() && EBML_CTX_IDX(MasterContext,EltIdx).IsUnique()) {
@@ -186,7 +180,6 @@ bool EbmlMaster::ProcessMandatory()
 bool EbmlMaster::CheckMandatory() const
 {
   const EbmlSemanticContext & MasterContext = EBML_CONTEXT(this);
-  assert(MasterContext.GetSize() != 0);
 
   for (unsigned int EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
     if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory()) {
