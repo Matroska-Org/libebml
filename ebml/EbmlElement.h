@@ -682,7 +682,7 @@ class EBML_DLL_API EbmlElement {
       \return a DummyRawElement if the element is unknown or nullptr if the element dummy is not allowed
     */
     static EbmlElement *CreateElementUsingContext(const EbmlId & aID, const EbmlSemanticContext & Context, int & LowLevel, bool IsGlobalContext,
-                                                  bool AsInfiniteSize,
+                                                  std::uint64_t WithSize, bool AsInfiniteSize,
                                                   bool bAllowDummy = false, unsigned int MaxLowerLevel = 1);
 
     filepos_t RenderHead(IOCallback & output, bool bForceRender, const ShouldWrite& writeFilter = WriteSkipDefault, bool bKeepPosition = false);
