@@ -43,6 +43,8 @@ class EBML_DLL_API EbmlDate : public EbmlElementDefaultSameStorage<std::int64_t>
 
     bool SizeIsValid(std::uint64_t size) const override {return size == 8 || size == 0;}
 
+    static inline bool SizeIsValid(std::uint64_t size) {return size == 8 || size == 0;}
+
     /*!
       \note no Default date handled
     */

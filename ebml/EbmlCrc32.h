@@ -55,6 +55,11 @@ DECLARE_EBML_BINARY_LENGTH(EbmlCrc32, 4)
     std::uint32_t m_crc;
     std::uint32_t m_crc_final{0};
 
+    static inline bool ValidateSize(std::uint64_t Size)
+    {
+      return Size == 4;
+    }
+
     EBML_CONCRETE_CLASS(EbmlCrc32)
 };
 
