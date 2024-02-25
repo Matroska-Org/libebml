@@ -614,7 +614,7 @@ class EBML_DLL_API EbmlElement {
     }
 
     virtual bool SizeIsValid(std::uint64_t) const = 0;
-    bool ValidateSize() const { return SizeIsValid(GetSize()); }
+    bool ValidateSize() const { return ElementSpec().IsSizeValid(GetSize(), !IsFiniteSize()); }
 
     std::uint64_t GetElementPosition() const {
       return ElementPosition;
