@@ -191,19 +191,13 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
     }
     if (SizeFound != SizeUnknown && MaxDataSize < SizeFound)
       return nullptr;
-    // check if the size is not all 1s
-    if (SizeFound == SizeUnknown && !ClassInfos.CanHaveInfiniteSize())
+    if (!ClassInfos.IsSizeValid(SizeFound, SizeFound == SizeUnknown))
       return nullptr;
     return &EBML_INFO_CREATE(ClassInfos);
   }();
 
   if (!Result)
     return nullptr;
-
-  if (!Result->ElementSpec().IsSizeValid(SizeFound)) {
-    delete Result;
-    return nullptr;
-  }
 
   Result->SetSizeLength(PossibleSizeLength);
 
