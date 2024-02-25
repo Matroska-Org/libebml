@@ -307,6 +307,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
       ///< \todo continue is misplaced
       if (Result != nullptr) {
         if (AllowDummyElt || !Result->IsDummy()) {
+          assert(Result->ElementSpec().IsSizeValid(SizeFound, SizeFound == SizeUnknown));
           Result->SetSizeLength(_SizeLength);
 
           Result->Size = SizeFound;
@@ -315,7 +316,7 @@ EbmlElement * EbmlElement::FindNextElement(IOCallback & DataStream, const EbmlSe
           //  0 : child
           //  1 : same level
           //  + : further parent
-          if (Result->ElementSpec().IsSizeValid(SizeFound) && (SizeFound == SizeUnknown || UpperLevel > 0 || MaxDataSize == 0 ||
+          if ((SizeFound == SizeUnknown || UpperLevel > 0 || MaxDataSize == 0 ||
                                          MaxDataSize >= (IdStart + PossibleID_Length + _SizeLength + SizeFound))) {
             Result->ElementPosition = ParseStart + IdStart;
             Result->SizePosition = Result->ElementPosition + PossibleID_Length;
