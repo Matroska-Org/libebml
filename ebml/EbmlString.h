@@ -22,7 +22,6 @@ class EBML_DLL_API EbmlString : public EbmlElementDefaultStorage<const char *, s
   public:
     EbmlString(const EbmlCallbacksDefault<const char *> &);
 
-    bool SizeIsValid(std::uint64_t size) const override {return size < 0x7FFFFFFF;} // any size is possible
     static inline bool SizeIsValid(std::uint64_t size)  {return size < 0x7FFFFFFF;} // any size is possible
     filepos_t RenderData(IOCallback & output, bool bForceRender, const ShouldWrite & writeFilter = WriteSkipDefault) override;
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;

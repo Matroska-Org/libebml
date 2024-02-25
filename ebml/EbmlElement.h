@@ -199,10 +199,6 @@ class DllApi x : public BaseClass { \
 #define DECLARE_xxx_BINARY(x,DllApi)    \
   DECLARE_xxx_BASE(x, DllApi, libebml::EbmlBinary)
 
-#define DECLARE_xxx_BINARY_LENGTH(x,len,DllApi)    \
-  DECLARE_xxx_BASE(x, DllApi, libebml::EbmlBinary) \
-  bool SizeIsValid(std::uint64_t size) const override {return size == len;}
-
 #define DECLARE_xxx_UINTEGER(x,DllApi)  \
   DECLARE_xxx_BASE_NODEFAULT(x, DllApi, libebml::EbmlUInteger, std::uint64_t)
 
@@ -243,7 +239,6 @@ class DllApi x : public BaseClass { \
 #define DECLARE_EBML_UINTEGER_DEF(x)  DECLARE_xxx_UINTEGER_DEF(x,EBML_DLL_API)
 #define DECLARE_EBML_STRING_DEF(x)    DECLARE_xxx_STRING_DEF(  x,EBML_DLL_API)
 #define DECLARE_EBML_BINARY(x)    DECLARE_xxx_BINARY(  x,EBML_DLL_API)
-#define DECLARE_EBML_BINARY_LENGTH(x,len)    DECLARE_xxx_BINARY_LENGTH(x,len,EBML_DLL_API)
 
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
@@ -613,7 +608,6 @@ class EBML_DLL_API EbmlElement {
         return false;
     }
 
-    virtual bool SizeIsValid(std::uint64_t) const = 0;
     bool ValidateSize() const { return ElementSpec().IsSizeValid(GetSize(), !IsFiniteSize()); }
 
     std::uint64_t GetElementPosition() const {
