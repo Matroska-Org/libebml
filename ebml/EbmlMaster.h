@@ -151,6 +151,11 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     bool ProcessMandatory();
 };
 
+static inline constexpr const EbmlSemanticContextMaster & tEBML_CONTEXT(const EbmlMaster * e)
+{
+  return e->ContextMaster();
+}
+
 ///< \todo add a restriction to only elements legal in the context
 template <typename Type>
 Type & GetChild(EbmlMaster & Master)

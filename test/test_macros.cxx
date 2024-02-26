@@ -147,6 +147,10 @@ int main(void)
 
     [[maybe_unused]] const EbmlSemanticContext &ctx = EBML_CLASS_CONTEXT(EbmlHead);
     [[maybe_unused]] const EbmlSemanticContextMaster &ctxMaster = EBML_CLASS_CONTEXT(EbmlHead);
+    EbmlHead TestHead;
+    [[maybe_unused]] const EbmlSemanticContextMaster & MasterContext = EBML_CONTEXT(&TestHead);
+    [[maybe_unused]] const EbmlSemanticContext & BasicContext = EBML_CONTEXT(&TestHead);
+    [[maybe_unused]] const auto & AutoContext = EBML_CONTEXT(&TestHead);
 
     return 0;
 }
