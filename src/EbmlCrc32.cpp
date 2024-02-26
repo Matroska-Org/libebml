@@ -25,7 +25,7 @@ static constexpr std::uint32_t CRC32_NEGL = 0xffffffffL;
 
 namespace libebml {
 
-static constexpr EbmlDocVersion AllEbmlVersions{};
+static constexpr EbmlDocVersion AllEbmlVersions{"ebml"};
 
 DEFINE_EBML_CLASS_ORPHAN(EbmlCrc32, 0xBF, "EBMLCrc32", AllEbmlVersions)
 
