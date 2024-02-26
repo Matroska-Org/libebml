@@ -7,7 +7,9 @@
 
 using namespace libebml;
 
-static constexpr EbmlDocVersion AllVersions{};
+static constexpr const char * TEST_NS = {"test_versioning"};
+
+static constexpr EbmlDocVersion AllVersions{TEST_NS};
 
 DECLARE_xxx_STRING(StringClass,)
     EBML_CONCRETE_CLASS(StringClass)
@@ -15,7 +17,7 @@ DECLARE_xxx_STRING(StringClass,)
 DEFINE_xxx_STRING(StringClass, 0x4321, EbmlHead, "StringClass", AllVersions, GetEbmlGlobal_Context)
 
 
-static constexpr EbmlDocVersion Deprecated{EbmlDocVersion::ANY_VERSION};
+static constexpr EbmlDocVersion Deprecated{TEST_NS, EbmlDocVersion::ANY_VERSION};
 
 DECLARE_xxx_UINTEGER(DeprecatedClass,)
     EBML_CONCRETE_CLASS(DeprecatedClass)
@@ -23,7 +25,7 @@ DECLARE_xxx_UINTEGER(DeprecatedClass,)
 DEFINE_xxx_UINTEGER(DeprecatedClass, 0x4320, EbmlHead, "DeprecatedClass", Deprecated, GetEbmlGlobal_Context)
 
 
-static constexpr EbmlDocVersion FromThree{3};
+static constexpr EbmlDocVersion FromThree{TEST_NS, 3};
 
 DECLARE_xxx_UINTEGER(FromThreeClass,)
     EBML_CONCRETE_CLASS(FromThreeClass)
@@ -31,7 +33,7 @@ DECLARE_xxx_UINTEGER(FromThreeClass,)
 DEFINE_xxx_UINTEGER(FromThreeClass, 0x4323, EbmlHead, "FromThreeClass", FromThree, GetEbmlGlobal_Context)
 
 
-static constexpr EbmlDocVersion UpToTwo{0,2};
+static constexpr EbmlDocVersion UpToTwo{TEST_NS, 0,2};
 
 DECLARE_xxx_UINTEGER(UpToTwoClass,)
     EBML_CONCRETE_CLASS(UpToTwoClass)
@@ -43,10 +45,11 @@ class ExtraVersioning : public EbmlDocVersion
 {
 public:
     constexpr ExtraVersioning(bool webm, version_type min = 0, version_type max = ANY_VERSION)
-        :EbmlDocVersion(min, max)
+        :EbmlDocVersion(NS, min, max)
         ,InWebM(webm)
     {}
 
+    static constexpr std::string_view NS{"other NS"};
     const bool InWebM;
 };
 
@@ -132,7 +135,10 @@ int main(void)
 
 
     ExtraStringClass ExtraStringClass;
-    const auto & specAllExtra = static_cast<const ExtraVersioning &>(ExtraStringClass.ElementSpec().GetVersions());
+    const auto & ExtraVersions = ExtraStringClass.ElementSpec().GetVersions();
+    if (ExtraVersions.GetNameSpace() != "other NS")
+        return 1;
+    const auto & specAllExtra = static_cast<const ExtraVersioning &>(ExtraVersions);
     if (!specAllExtra.IsValidInVersion(1))
         return 1;
 
@@ -146,7 +152,9 @@ int main(void)
         return 1;
 
 
-    const auto * specDeprecatedExtra = static_cast<const ExtraVersioning *>(&ExtraDeprecatedClass::GetElementSpec().GetVersions());
+    constexpr const auto & specExtraVersion = ExtraDeprecatedClass::GetElementSpec().GetVersions();
+    static_assert(specExtraVersion.GetNameSpace() == ExtraVersioning::NS, "nope");
+    const auto * specDeprecatedExtra = static_cast<const ExtraVersioning *>(&specExtraVersion);
     if (specDeprecatedExtra->IsValidInVersion(1))
         return 1;
 
@@ -171,6 +179,8 @@ int main(void)
     if (specFromThreeExtra.GetVersions().IsAlwaysDeprecated())
         return 1;
 
+    if (specFromThreeExtra.GetVersions().GetNameSpace() != "other NS")
+        return 1;
     const ExtraVersioning * p_specFromThreeExtra = static_cast<const ExtraVersioning *>(&specFromThreeExtra.GetVersions());
     if (p_specFromThreeExtra->IsValidInVersion(1))
         return 1;

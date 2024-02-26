@@ -10,7 +10,7 @@
 
 namespace libebml {
 
-static constexpr EbmlDocVersion AllEbmlVersions{};
+static constexpr EbmlDocVersion AllEbmlVersions{"ebml"};
 
 DEFINE_EBML_CLASS_ORPHAN(EbmlVoid, 0xEC, "EBMLVoid", AllEbmlVersions)
 
@@ -46,7 +46,7 @@ static void SetVoidSize(EbmlVoid & Elt, const std::uint64_t FullSize)
   if (EBML_ID_LENGTH(Id_EbmlVoid) + NewSizeLength + NewDataLength < FullSize)
   {
     // the computed size is too small,
-    // the Size length can be expanded, update the size Length which doesn't imply 
+    // the Size length can be expanded, update the size Length which doesn't imply
     // recomputing the whole size again
     NewSizeLength = static_cast<decltype(NewSizeLength)>(FullSize - (NewDataLength + EBML_ID_LENGTH(Id_EbmlVoid)));
   }

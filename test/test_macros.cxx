@@ -5,7 +5,7 @@
 
 using namespace libebml;
 
-static constexpr EbmlDocVersion AllVersions{};
+static constexpr EbmlDocVersion AllVersions{"test_macros"};
 
 DECLARE_EBML_STRING_DEF(StringWithDefault)
     EBML_CONCRETE_CLASS(StringWithDefault)

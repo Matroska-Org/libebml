@@ -10,7 +10,7 @@
 
 namespace libebml {
 
-static constexpr EbmlDocVersion AllEbmlVersions{};
+static constexpr EbmlDocVersion AllEbmlVersions{"ebml"};
 
 DEFINE_EBML_UINTEGER_DEF(EVersion,            0x4286, EbmlHead, "EBMLVersion", 1, AllEbmlVersions)
 DEFINE_EBML_UINTEGER_DEF(EReadVersion,        0x42F7, EbmlHead, "EBMLReadVersion", 1, AllEbmlVersions)
