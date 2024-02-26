@@ -51,7 +51,7 @@ jobs:
           sudo apt install -y libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev
 
       - name: Get pushed code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configure
         run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
@@ -76,7 +76,7 @@ jobs:
         shell: alpine.sh {0}
     steps:
       - name: Get pushed code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - uses: jirutka/setup-alpine@v1
         with:
