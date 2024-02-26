@@ -406,7 +406,7 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
 processCrc:
 
   auto CrcItr =
-      std::find_if(ElementList.begin(), ElementList.end(), [=](auto &&element) {
+      std::find_if(ElementList.begin(), ElementList.end(), [](auto &&element) {
         return EbmlId(*element) == EBML_ID(EbmlCrc32);
       });
   if (CrcItr != ElementList.end()) {
