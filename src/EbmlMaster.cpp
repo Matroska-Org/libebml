@@ -96,7 +96,7 @@ bool EbmlMaster::PushElement(EbmlElement & element)
   return false;
 }
 
-std::uint64_t EbmlMaster::UpdateSize(const ShouldWrite & writeFilter, bool bForceRender)
+filepos_t EbmlMaster::UpdateSize(const ShouldWrite & writeFilter, bool bForceRender)
 {
   if (!CanWrite(writeFilter))
     return 0;
