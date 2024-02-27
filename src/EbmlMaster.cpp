@@ -216,15 +216,7 @@ EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks, bool bCre
 
   if (bCreateIfNull) {
     // add the element
-    EbmlElement *NewElt = &EBML_INFO_CREATE(Callbacks);
-    if (NewElt == nullptr)
-      return nullptr;
-
-    if (!PushElement(*NewElt)) {
-      delete NewElt;
-      NewElt = nullptr;
-    }
-    return NewElt;
+    return AddNewElt(Callbacks);
   }
 
   return nullptr;
