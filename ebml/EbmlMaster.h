@@ -13,10 +13,10 @@
 #include "EbmlElement.h"
 #include "EbmlCrc32.h"
 
-#define EBML_MASTER_ITERATOR  std::vector<EbmlElement *>::iterator
-#define EBML_MASTER_CONST_ITERATOR  std::vector<EbmlElement *>::const_iterator
-#define EBML_MASTER_RITERATOR std::vector<EbmlElement *>::reverse_iterator
-#define EBML_MASTER_CONST_RITERATOR std::vector<EbmlElement *>::const_reverse_iterator
+#define EBML_MASTER_ITERATOR        std::vector<libebml::EbmlElement *>::iterator
+#define EBML_MASTER_CONST_ITERATOR  std::vector<libebml::EbmlElement *>::const_iterator
+#define EBML_MASTER_RITERATOR       std::vector<libebml::EbmlElement *>::reverse_iterator
+#define EBML_MASTER_CONST_RITERATOR std::vector<libebml::EbmlElement *>::const_reverse_iterator
 
 namespace libebml {
 
