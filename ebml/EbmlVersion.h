@@ -17,7 +17,6 @@ namespace libebml {
 #define LIBEBML_VERSION 0x020000
 
 extern const EBML_DLL_API std::string EbmlCodeVersion;
-extern const EBML_DLL_API std::string EbmlCodeDate;
 
 /*!
   \todo Closer relation between an element and the context it comes from (context is an element attribute ?)
