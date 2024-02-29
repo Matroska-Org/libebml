@@ -81,17 +81,17 @@ class EbmlElement;
 #define DEFINE_xxx_CLASS_BASE(x,BaseClass,id,parent,name,versions,global) \
     DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
     constexpr const libebml::EbmlCallbacks x::ClassInfos(x::Create, Id_##x, false, false, name, Context_##x, versions); \
-    x::x() :libebml::BaseClass(x::ClassInfos) {}
+    x::x() : BaseClass(x::ClassInfos) {}
 
 #define DEFINE_xxx_CLASS_BASE_DEFAULT(x,BaseClass,id,parent,name,global,StorageType,defval,versions) \
     DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
     constexpr const libebml::EbmlCallbacksWithDefault<StorageType> x::ClassInfos(x::Create, Id_##x, defval, name, Context_##x, versions); \
-    x::x() :libebml::BaseClass(x::ClassInfos) {}
+    x::x() : BaseClass(x::ClassInfos) {}
 
 #define DEFINE_xxx_CLASS_BASE_NODEFAULT(x,BaseClass,id,parent,name,global,StorageType,versions) \
     DEFINE_xxx_CLASS_CONS(x,id,parent,name,global) \
     constexpr const libebml::EbmlCallbacksDefault<StorageType> x::ClassInfos(x::Create, Id_##x, name, Context_##x, versions); \
-    x::x() :libebml::BaseClass(x::ClassInfos) {}
+    x::x() : BaseClass(x::ClassInfos) {}
 
 #define DEFINE_xxx_UINTEGER(x,id,parent,name,versions,global) \
     DEFINE_xxx_CLASS_BASE_NODEFAULT(x,EbmlUInteger,id,parent,name,global,std::uint64_t,versions)
