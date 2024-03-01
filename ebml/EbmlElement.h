@@ -247,7 +247,6 @@ class DllApi x : public BaseClass { \
 
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
-        libebml::EbmlElement & CreateElement() const override {return Create();} \
         libebml::EbmlElement * Clone() const override { return new Type(*this); } \
     static libebml::EbmlElement & Create() {return *(new Type);} \
         static constexpr const libebml::EbmlCallbacks & ClassInfo() {return ClassInfos;} \
@@ -598,7 +597,7 @@ class EBML_DLL_API EbmlElement {
     virtual explicit operator const EbmlId &() const { return GetClassId(); }
     constexpr const char *DebugName() const {return ClassInfo.GetName();}
     constexpr const EbmlSemanticContext &Context() const {return ClassInfo.GetContext();}
-        virtual EbmlElement & CreateElement() const = 0;
+    EbmlElement & CreateElement() const { return EBML_INFO_CREATE(ClassInfo); }
 
     /*!
      * \brief Set whether the size is finite
