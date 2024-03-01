@@ -428,7 +428,6 @@ class EBML_DLL_API EbmlSemantic {
 
         inline constexpr bool IsMandatory() const { return Mandatory; }
         inline constexpr bool IsUnique() const { return Unique; }
-        inline EbmlElement & Create() const { return EBML_INFO_CREATE(Callbacks); }
         inline constexpr EbmlCallbacks const &GetCallbacks() const { return Callbacks; }
 
     private:
