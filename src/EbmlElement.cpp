@@ -405,12 +405,8 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
           // skip all its data as well (?!!!) until there's nothing to skip at that level
           Result = SkipData(DataStream, *EBML_CTX_PARENT(Context), Result);
         } else {
-          assert(Context.GetGlobalContext != nullptr);
-          if (Context != Context.GetGlobalContext()) {
-            Result = SkipData(DataStream, Context.GetGlobalContext(), Result);
-          } else {
-            break;
-          }
+          // we found a global element
+          Result = SkipData(DataStream, EBML_CONTEXT(Result), Result);
         }
       }
     }
