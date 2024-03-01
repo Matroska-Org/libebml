@@ -373,8 +373,7 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
     /////////////////////////////////////////////////
     // read elements until an upper element is found
     /////////////////////////////////////////////////
-    bool bEndFound = false;
-    while (!bEndFound && Result == nullptr) {
+    while (Result == nullptr) {
       // read an element
       /// \todo 0xFF... and true should be configurable
       //      EbmlElement * NewElt;
@@ -386,7 +385,9 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
         TestReadElt = nullptr;
       }
 
-      if (Result != nullptr) {
+      if (Result == nullptr)
+        break;
+
         unsigned int EltIndex;
         // data known in this Master's context
         for (EltIndex = 0; EltIndex < EBML_CTX_SIZE(Context); EltIndex++) {
@@ -406,13 +407,10 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
             if (Context != Context.GetGlobalContext()) {
               Result = SkipData(DataStream, Context.GetGlobalContext(), Result);
             } else {
-              bEndFound = true;
+              break;
             }
           }
         }
-      } else {
-        bEndFound = true;
-      }
     }
   }
   return Result;
