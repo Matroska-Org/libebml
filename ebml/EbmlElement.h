@@ -257,6 +257,7 @@ class DllApi x : public BaseClass { \
 #define EBML_CONTEXT(e)            tEBML_CONTEXT(e)
 #define EBML_NAME(e)               tEBML_NAME(e)
 #define EBML_SPEC(e)               tEBML_SPEC(e)
+#define EBML_CREATE(e)             EBML_INFO_CREATE(EBML_SPEC(e))
 
 #define EBML_INFO_ID(cb)      tEBML_INFO_ID(cb)
 #define EBML_INFO_NAME(cb)    tEBML_INFO_NAME(cb)
