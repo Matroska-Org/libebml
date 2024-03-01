@@ -156,9 +156,9 @@ Type & GetChild(EbmlMaster & Master)
 // MyDocType = GetChild<EDocType>(TestHead);
 
 template <typename Type>
-Type * FindChild(EbmlMaster & Master)
+Type * FindChild(const EbmlMaster & Master)
 {
-  return static_cast<Type *>(Master.FindFirstElt(EBML_INFO(Type), false));
+  return static_cast<Type *>(Master.FindFirstElt(EBML_INFO(Type)));
 }
 
 template <typename Type>
@@ -168,9 +168,9 @@ Type & GetNextChild(EbmlMaster & Master, const Type & PastElt)
 }
 
 template <typename Type>
-Type * FindNextChild(EbmlMaster & Master, const Type & PastElt)
+Type * FindNextChild(const EbmlMaster & Master, const Type & PastElt)
 {
-  return static_cast<Type *>(Master.FindNextElt(PastElt, false));
+  return static_cast<Type *>(Master.FindNextElt(PastElt));
 }
 
 template <typename Type>
