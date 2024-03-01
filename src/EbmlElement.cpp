@@ -432,8 +432,11 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
     }
   }
 
+  if (Context.GetGlobalContext == nullptr)
+    // this is a already the global EbmlSemanticContext, if it's the last one and we
+    // didn't find our global elements, we won't find anything anymore
+    return nullptr;
   // global elements
-  assert(Context.GetGlobalContext != nullptr); // global should always exist, at least the EBML ones
   const auto& tstContext = Context.GetGlobalContext();
   if (tstContext != Context) {
     LowLevel--;
