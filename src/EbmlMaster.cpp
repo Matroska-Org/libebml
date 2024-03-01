@@ -184,7 +184,7 @@ bool EbmlMaster::CheckMandatory() const
   for (unsigned int EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
     if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory()) {
       const auto & semcb = EBML_CTX_IDX_INFO(MasterContext,EltIdx);
-      if (FindElt(semcb) == nullptr) {
+      if (FindFirstElt(semcb) == nullptr) {
         const bool hasDefaultValue = semcb.HasDefault();
 
 #if !defined(NDEBUG)
@@ -200,7 +200,7 @@ bool EbmlMaster::CheckMandatory() const
   return true;
 }
 
-EbmlElement *EbmlMaster::FindElt(const EbmlCallbacks & Callbacks) const
+EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks) const
 {
   auto it = std::find_if(ElementList.begin(), ElementList.end(), [&](const EbmlElement *Element)
     { return EbmlId(*Element) == EBML_INFO_ID(Callbacks); });
@@ -210,7 +210,7 @@ EbmlElement *EbmlMaster::FindElt(const EbmlCallbacks & Callbacks) const
 
 EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks, bool bCreateIfNull)
 {
-  auto e = FindElt(Callbacks);
+  auto e = FindFirstElt(Callbacks);
   if (e)
     return e;
 
@@ -220,11 +220,6 @@ EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks, bool bCre
   }
 
   return nullptr;
-}
-
-EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks) const
-{
-  return FindElt(Callbacks);
 }
 
 /*!

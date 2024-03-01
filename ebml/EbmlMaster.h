@@ -49,14 +49,13 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     }
 
     /*!
-      \brief find the element corresponding to the ID of the element, NULL if not found
+      \brief find the first element corresponding to the EBML class of the element, NULL if not found
     */
-    EbmlElement *FindElt(const EbmlCallbacks & Callbacks) const;
+    EbmlElement *FindFirstElt(const EbmlCallbacks & Callbacks) const;
     /*!
-      \brief find the first element corresponding to the ID of the element
+      \brief find the first element corresponding to the EBML class of the element
     */
     EbmlElement *FindFirstElt(const EbmlCallbacks & Callbacks, bool bCreateIfNull);
-    EbmlElement *FindFirstElt(const EbmlCallbacks & Callbacks) const;
 
     /*!
       \brief find the element of the same type of PasElt following in the list of elements
