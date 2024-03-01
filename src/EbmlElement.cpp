@@ -388,29 +388,31 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
       if (Result == nullptr)
         break;
 
-        unsigned int EltIndex;
-        // data known in this Master's context
-        for (EltIndex = 0; EltIndex < EBML_CTX_SIZE(Context); EltIndex++) {
-          if (EbmlId(*Result) == EBML_CTX_IDX_ID(Context,EltIndex)) {
-            // skip the data with its own context
-            assert(&EBML_SEM_CONTEXT(EBML_CTX_IDX(Context,EltIndex)) == &EBML_CONTEXT(Result));
-            Result = Result->SkipData(DataStream, EBML_CONTEXT(Result), nullptr);
-            break; // let's go to the next ID
-          }
+      unsigned int EltIndex;
+      // data known in this Master's context
+      for (EltIndex = 0; EltIndex < EBML_CTX_SIZE(Context); EltIndex++) {
+        if (EbmlId(*Result) == EBML_CTX_IDX_ID(Context,EltIndex)) {
+          // skip the data with its own context
+          assert(&EBML_SEM_CONTEXT(EBML_CTX_IDX(Context,EltIndex)) == &EBML_CONTEXT(Result));
+          Result = Result->SkipData(DataStream, EBML_CONTEXT(Result), nullptr);
+          break; // let's go to the next ID
         }
+      }
 
-        if (EltIndex >= EBML_CTX_SIZE(Context)) {
-          if (EBML_CTX_PARENT(Context) != nullptr) {
-            Result = SkipData(DataStream, *EBML_CTX_PARENT(Context), Result);
+      if (EltIndex >= EBML_CTX_SIZE(Context)) {
+        if (EBML_CTX_PARENT(Context) != nullptr) {
+          // the element found is a parent of the original provided Context
+          // skip all its data as well (?!!!) until there's nothing to skip at that level
+          Result = SkipData(DataStream, *EBML_CTX_PARENT(Context), Result);
+        } else {
+          assert(Context.GetGlobalContext != nullptr);
+          if (Context != Context.GetGlobalContext()) {
+            Result = SkipData(DataStream, Context.GetGlobalContext(), Result);
           } else {
-            assert(Context.GetGlobalContext != nullptr);
-            if (Context != Context.GetGlobalContext()) {
-              Result = SkipData(DataStream, Context.GetGlobalContext(), Result);
-            } else {
-              break;
-            }
+            break;
           }
         }
+      }
     }
   }
   return Result;
