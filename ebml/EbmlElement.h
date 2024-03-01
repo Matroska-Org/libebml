@@ -264,7 +264,7 @@ class DllApi x : public BaseClass { \
 
 #define EBML_SEM_SPECS(s)   tEBML_SEM_SPECS(s)
 #define EBML_SEM_CONTEXT(s) EBML_INFO_CONTEXT(EBML_SEM_SPECS(s))
-#define EBML_SEM_CREATE(s)  tEBML_SEM_CREATE(s)
+#define EBML_SEM_CREATE(s)  EBML_INFO_CREATE(EBML_SEM_SPECS(s))
 
 #define EBML_CTX_SIZE(c)       tEBML_CTX_SIZE(c)
 #define EBML_CTX_MASTER(c)     tEBML_CTX_MASTER(c)
@@ -437,11 +437,6 @@ class EBML_DLL_API EbmlSemantic {
 static inline constexpr const EbmlCallbacks & tEBML_SEM_SPECS(const EbmlSemantic & s)
 {
   return s.GetCallbacks();
-}
-
-static inline EbmlElement & tEBML_SEM_CREATE(const EbmlSemantic & s)
-{
-  return s.Create();
 }
 
 using _GetSemanticContext = const EbmlSemanticContextMaster &(*)();
