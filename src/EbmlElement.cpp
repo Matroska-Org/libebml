@@ -392,7 +392,8 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
         for (EltIndex = 0; EltIndex < EBML_CTX_SIZE(Context); EltIndex++) {
           if (EbmlId(*Result) == EBML_CTX_IDX_ID(Context,EltIndex)) {
             // skip the data with its own context
-            Result = Result->SkipData(DataStream, EBML_SEM_CONTEXT(EBML_CTX_IDX(Context,EltIndex)), nullptr);
+            assert(&EBML_SEM_CONTEXT(EBML_CTX_IDX(Context,EltIndex)) == &EBML_CONTEXT(Result));
+            Result = Result->SkipData(DataStream, EBML_CONTEXT(Result), nullptr);
             break; // let's go to the next ID
           }
         }
