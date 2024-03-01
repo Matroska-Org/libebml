@@ -256,6 +256,7 @@ class DllApi x : public BaseClass { \
 #define EBML_CLASS_SEMCONTEXT(ref) Context_##ref
 #define EBML_CONTEXT(e)            tEBML_CONTEXT(e)
 #define EBML_NAME(e)               tEBML_NAME(e)
+#define EBML_SPEC(e)               tEBML_SPEC(e)
 
 #define EBML_INFO_ID(cb)      tEBML_INFO_ID(cb)
 #define EBML_INFO_NAME(cb)    tEBML_INFO_NAME(cb)
@@ -814,6 +815,11 @@ class EBML_DLL_API EbmlElementDefaultStorage : public EbmlElementDefault<T> {
 static inline constexpr const EbmlSemanticContext & tEBML_CONTEXT(const EbmlElement * e)
 {
   return e->Context();
+}
+
+static inline const EbmlCallbacks & tEBML_SPEC(const EbmlElement & e)
+{
+  return e.ElementSpec();
 }
 
 static inline constexpr const char * tEBML_NAME(const EbmlElement * e)
