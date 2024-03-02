@@ -184,7 +184,7 @@ bool EbmlMaster::CheckMandatory() const
   for (unsigned int EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
     if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory()) {
       const auto & semcb = EBML_CTX_IDX_INFO(MasterContext,EltIdx);
-      if (FindElt(semcb) == nullptr) {
+      if (FindFirstElt(semcb) == nullptr) {
         const bool hasDefaultValue = semcb.HasDefault();
 
 #if !defined(NDEBUG)
@@ -200,7 +200,7 @@ bool EbmlMaster::CheckMandatory() const
   return true;
 }
 
-EbmlElement *EbmlMaster::FindElt(const EbmlCallbacks & Callbacks) const
+EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks) const
 {
   auto it = std::find_if(ElementList.begin(), ElementList.end(), [&](const EbmlElement *Element)
     { return EbmlId(*Element) == EBML_INFO_ID(Callbacks); });
@@ -210,29 +210,16 @@ EbmlElement *EbmlMaster::FindElt(const EbmlCallbacks & Callbacks) const
 
 EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks, bool bCreateIfNull)
 {
-  auto e = FindElt(Callbacks);
+  auto e = FindFirstElt(Callbacks);
   if (e)
     return e;
 
   if (bCreateIfNull) {
     // add the element
-    EbmlElement *NewElt = &EBML_INFO_CREATE(Callbacks);
-    if (NewElt == nullptr)
-      return nullptr;
-
-    if (!PushElement(*NewElt)) {
-      delete NewElt;
-      NewElt = nullptr;
-    }
-    return NewElt;
+    return AddNewElt(Callbacks);
   }
 
   return nullptr;
-}
-
-EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks) const
-{
-  return FindElt(Callbacks);
 }
 
 /*!
@@ -241,25 +228,13 @@ EbmlElement *EbmlMaster::FindFirstElt(const EbmlCallbacks & Callbacks) const
 */
 EbmlElement *EbmlMaster::FindNextElt(const EbmlElement & PastElt, bool bCreateIfNull)
 {
-  auto it = std::find(ElementList.begin(), ElementList.end(), &PastElt);
-  if (it != ElementList.end()) {
-    it = std::find_if(it + 1, ElementList.end(), [&](auto &&element) {
-      return EbmlId(PastElt) == EbmlId(*element);
-    });
-
-    if (it != ElementList.end())
-      return *it;
-  }
+  EbmlElement *e = FindNextElt(PastElt);
+  if (e)
+    return e;
 
   if (bCreateIfNull) {
     // add the element
-    EbmlElement *NewElt = &(PastElt.CreateElement());
-
-    if (!PushElement(*NewElt)) {
-      delete NewElt;
-      NewElt = nullptr;
-    }
-    return NewElt;
+    return AddNewElt(PastElt.ElementSpec());
   }
 
   return nullptr;

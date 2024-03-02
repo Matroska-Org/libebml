@@ -27,6 +27,12 @@ class EBML_DLL_API EbmlStream {
     */
     EbmlElement * FindNextID(const EbmlCallbacks & ClassInfos, std::uint64_t MaxDataSize) const;
 
+    template <typename Type>
+    Type * FindNextID(std::uint64_t MaxDataSize)
+    {
+      return static_cast<Type *>(FindNextID(EBML_INFO(Type), MaxDataSize));
+    }
+
     EbmlElement * FindNextElement(const EbmlSemanticContext & Context, int & UpperLevel, std::uint64_t MaxDataSize, bool AllowDummyElt, unsigned int MaxLowerLevel = 1) const;
 
     inline IOCallback & I_O() {return Stream;}

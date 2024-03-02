@@ -49,14 +49,13 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     }
 
     /*!
-      \brief find the element corresponding to the ID of the element, NULL if not found
+      \brief find the first element corresponding to the EBML class of the element, NULL if not found
     */
-    EbmlElement *FindElt(const EbmlCallbacks & Callbacks) const;
+    EbmlElement *FindFirstElt(const EbmlCallbacks & Callbacks) const;
     /*!
-      \brief find the first element corresponding to the ID of the element
+      \brief find the first element corresponding to the EBML class of the element
     */
     EbmlElement *FindFirstElt(const EbmlCallbacks & Callbacks, bool bCreateIfNull);
-    EbmlElement *FindFirstElt(const EbmlCallbacks & Callbacks) const;
 
     /*!
       \brief find the element of the same type of PasElt following in the list of elements
@@ -157,9 +156,9 @@ Type & GetChild(EbmlMaster & Master)
 // MyDocType = GetChild<EDocType>(TestHead);
 
 template <typename Type>
-Type * FindChild(EbmlMaster & Master)
+Type * FindChild(const EbmlMaster & Master)
 {
-  return static_cast<Type *>(Master.FindFirstElt(EBML_INFO(Type), false));
+  return static_cast<Type *>(Master.FindFirstElt(EBML_INFO(Type)));
 }
 
 template <typename Type>
@@ -169,9 +168,9 @@ Type & GetNextChild(EbmlMaster & Master, const Type & PastElt)
 }
 
 template <typename Type>
-Type * FindNextChild(EbmlMaster & Master, const Type & PastElt)
+Type * FindNextChild(const EbmlMaster & Master, const Type & PastElt)
 {
-  return static_cast<Type *>(Master.FindNextElt(PastElt, false));
+  return static_cast<Type *>(Master.FindNextElt(PastElt));
 }
 
 template <typename Type>
