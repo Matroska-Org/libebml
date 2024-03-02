@@ -372,8 +372,7 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
     /////////////////////////////////////////////////
     // read elements until an upper element is found
     /////////////////////////////////////////////////
-    bool bEndFound = false;
-    while (!bEndFound && Result == nullptr) {
+    while (Result == nullptr) {
       // read an element
       /// \todo 0xFF... and true should be configurable
       //      EbmlElement * NewElt;
@@ -385,31 +384,29 @@ EbmlElement * EbmlElement::SkipData(EbmlStream & DataStream, const EbmlSemanticC
         TestReadElt = nullptr;
       }
 
-      if (Result != nullptr) {
-        unsigned int EltIndex;
-        // data known in this Master's context
-        for (EltIndex = 0; EltIndex < EBML_CTX_SIZE(Context); EltIndex++) {
-          if (EbmlId(*Result) == EBML_CTX_IDX_ID(Context,EltIndex)) {
-            // skip the data with its own context
-            Result = Result->SkipData(DataStream, EBML_SEM_CONTEXT(EBML_CTX_IDX(Context,EltIndex)), nullptr);
-            break; // let's go to the next ID
-          }
-        }
+      if (Result == nullptr)
+        break;
 
-        if (EltIndex >= EBML_CTX_SIZE(Context)) {
-          if (EBML_CTX_PARENT(Context) != nullptr) {
-            Result = SkipData(DataStream, *EBML_CTX_PARENT(Context), Result);
-          } else {
-            assert(Context.GetGlobalContext != nullptr);
-            if (Context != Context.GetGlobalContext()) {
-              Result = SkipData(DataStream, Context.GetGlobalContext(), Result);
-            } else {
-              bEndFound = true;
-            }
-          }
+      unsigned int EltIndex;
+      // data known in this Master's context
+      for (EltIndex = 0; EltIndex < EBML_CTX_SIZE(Context); EltIndex++) {
+        if (EbmlId(*Result) == EBML_CTX_IDX_ID(Context,EltIndex)) {
+          // skip the data with its own context
+          assert(&EBML_SEM_CONTEXT(EBML_CTX_IDX(Context,EltIndex)) == &EBML_CONTEXT(Result));
+          Result = Result->SkipData(DataStream, EBML_CONTEXT(Result), nullptr);
+          break; // let's go to the next ID
         }
-      } else {
-        bEndFound = true;
+      }
+
+      if (EltIndex >= EBML_CTX_SIZE(Context)) {
+        if (EBML_CTX_PARENT(Context) != nullptr) {
+          // the element found is a parent of the original provided Context
+          // skip all its data as well (?!!!) until there's nothing to skip at that level
+          Result = SkipData(DataStream, *EBML_CTX_PARENT(Context), Result);
+        } else {
+          // we found a global element
+          Result = SkipData(DataStream, EBML_CONTEXT(Result), Result);
+        }
       }
     }
   }
@@ -434,8 +431,11 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
     }
   }
 
+  if (Context.GetGlobalContext == nullptr)
+    // this is a already the global EbmlSemanticContext, if it's the last one and we
+    // didn't find our global elements, we won't find anything anymore
+    return nullptr;
   // global elements
-  assert(Context.GetGlobalContext != nullptr); // global should always exist, at least the EBML ones
   const auto& tstContext = Context.GetGlobalContext();
   if (tstContext != Context) {
     LowLevel--;
