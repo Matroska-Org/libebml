@@ -488,7 +488,7 @@ filepos_t EbmlElement::Render(IOCallback & output, const ShouldWrite& writeFilte
     return 0;
   }
 #if !defined(NDEBUG)
-  std::uint64_t SupposedSize = UpdateSize(writeFilter, bForceRender);
+  filepos_t SupposedSize = UpdateSize(writeFilter, bForceRender);
 #endif // !NDEBUG
   filepos_t result = RenderHead(output, bForceRender, writeFilter, bKeepPosition);
   const std::uint64_t WrittenSize = RenderData(output, bForceRender, writeFilter);

@@ -39,7 +39,7 @@ filepos_t EbmlString::RenderData(IOCallback & output, bool /* bForceRender */, c
   return Result;
 }
 
-std::uint64_t EbmlString::UpdateSize(const ShouldWrite & writeFilter, bool /* bForceRender */)
+filepos_t EbmlString::UpdateSize(const ShouldWrite & writeFilter, bool /* bForceRender */)
 {
   if (!CanWrite(writeFilter))
     return 0;
