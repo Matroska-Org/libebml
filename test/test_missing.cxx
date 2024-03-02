@@ -31,7 +31,7 @@ static void FindAllMissingElements(const EbmlMaster *pThis, std::vector<std::str
   unsigned int EltIdx;
   for (EltIdx = 0; EltIdx < EBML_CTX_SIZE(MasterContext); EltIdx++) {
     if (EBML_CTX_IDX(MasterContext,EltIdx).IsMandatory()) {
-      if (pThis->FindFirstElt(EBML_CTX_IDX_INFO(MasterContext,EltIdx)) == nullptr) {
+      if (pThis->FindElt(EBML_CTX_IDX_INFO(MasterContext,EltIdx)) == nullptr) {
         std::string missingElement;
         missingElement = "Missing element \"";
         missingElement.append(EBML_INFO_NAME(EBML_CTX_IDX_INFO(MasterContext,EltIdx)));
