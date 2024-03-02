@@ -275,9 +275,10 @@ class EBML_DLL_API EbmlDocVersion {
     //
     // \param min the minimum supported version, or ANY_VERSION to make the element never available
     // \param max the maximum supported version, 0 to make the element never available or ANY_VERSION to be supported on any known and unknown doctype version
-    constexpr EbmlDocVersion(version_type min = 0, version_type max = ANY_VERSION)
+    constexpr EbmlDocVersion(const std::string_view &name_space, version_type min = 0, version_type max = ANY_VERSION)
       : minver(min)
       , maxver(max)
+      , ns(name_space)
     {}
 
     // the element with this EbmlDocVersion should never be used if this methods return true
@@ -302,6 +303,8 @@ class EBML_DLL_API EbmlDocVersion {
     // ANY_VERSION if the element is supported in all (known) version
     version_type GetMaxVersion() const { return maxver; }
 
+    constexpr const std::string_view & GetNameSpace() const { return ns; }
+
     /// @brief constant value to indicate the maximum version matches all versions or the minimum version matches no version
     static const version_type ANY_VERSION = std::numeric_limits<version_type>::max();
 
@@ -312,6 +315,8 @@ class EBML_DLL_API EbmlDocVersion {
     // the maximum DocType version this element is allowed in
     // ANY_VERSION if the element is supported in all (known) version
     const version_type maxver;
+
+    const std::string_view ns;
 };
 
 // functions for generic handling of data (should be static to all classes)

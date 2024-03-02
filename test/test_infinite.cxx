@@ -7,7 +7,7 @@
 
 using namespace libebml;
 
-static constexpr EbmlDocVersion AllVersions{};
+static constexpr EbmlDocVersion AllVersions{"test_infinite"};
 
 DECLARE_xxx_UINTEGER_DEF(DummyChild,)
 EBML_CONCRETE_CLASS(DummyChild)
