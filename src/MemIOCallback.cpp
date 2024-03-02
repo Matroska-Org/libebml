@@ -91,7 +91,7 @@ std::size_t MemIOCallback::write(IOCallback & IOToRead, std::size_t Size)
   }
   IOToRead.readFully(&dataBuffer[dataBufferPos], Size);
   dataBufferTotalSize = Size;
-  return Size;
+  return static_cast<std::uint32_t>(Size);
 }
 
 } // namespace libebml

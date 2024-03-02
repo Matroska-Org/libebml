@@ -22,7 +22,7 @@ class EBML_DLL_API EbmlDate : public EbmlElementDefaultSameStorage<std::int64_t>
     {
       if (classInfo.HasDefault())
       {
-        auto def = static_cast<const EbmlCallbacksWithDefault<std::int64_t> &>(classInfo);
+        const auto& def = static_cast<const EbmlCallbacksWithDefault<std::int64_t> &>(classInfo);
         SetValue(def.DefaultValue());
       }
     }

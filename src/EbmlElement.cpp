@@ -195,23 +195,22 @@ EbmlElement * EbmlElement::FindNextID(IOCallback & DataStream, const EbmlCallbac
     } while (_SizeLength == 0);
   }
 
-  const auto PossibleID = EbmlId(EbmlId::FromBuffer(PossibleId.data(), PossibleID_Length));
-  auto Result = [=] {
-    if (PossibleID != EBML_INFO_ID(ClassInfos))
-    {
+  auto Result = [&]() -> EbmlElement * {
+    auto pID = EbmlId(EbmlId::FromBuffer(PossibleId.data(), PossibleID_Length));
+    if (pID != EBML_INFO_ID(ClassInfos)) {
       if (SizeFound == SizeUnknown)
-        return static_cast<EbmlElement *>(nullptr);
-      return static_cast<EbmlElement *>(new EbmlDummy(PossibleID));
+        return nullptr;
+      return new EbmlDummy(pID);
     }
     if (SizeFound != SizeUnknown && MaxDataSize < SizeFound)
-      return static_cast<EbmlElement *>(nullptr);
+      return nullptr;
     // check if the size is not all 1s
     if (SizeFound == SizeUnknown && !ClassInfos.CanHaveInfiniteSize())
-      return static_cast<EbmlElement *>(nullptr);
+      return nullptr;
     return &EBML_INFO_CREATE(ClassInfos);
   }();
 
-  if (Result == nullptr)
+  if (!Result)
     return nullptr;
 
   if (!Result->SizeIsValid(SizeFound)) {
@@ -454,7 +453,7 @@ EbmlElement *EbmlElement::CreateElementUsingContext(const EbmlId & aID, const Eb
 
   // parent elements
   if (EBML_CTX_MASTER(Context) != nullptr && aID == EBML_INFO_ID(*EBML_CTX_MASTER(Context))) {
-    auto Callbacks = *EBML_CTX_MASTER(Context);
+    const auto& Callbacks = *EBML_CTX_MASTER(Context);
     if (AsInfiniteSize && !Callbacks.CanHaveInfiniteSize())
       return nullptr;
     LowLevel++; // already one level up (same as context)
@@ -518,7 +517,7 @@ filepos_t EbmlElement::MakeRenderHead(IOCallback & output, bool bKeepPosition)
   std::array<binary, 4 + 8> FinalHead; // Class D + 64 bits coded size
   std::size_t FinalHeadSize;
 
-  FinalHeadSize = EBML_ID_LENGTH((const EbmlId&)*this);
+  FinalHeadSize = EBML_ID_LENGTH(static_cast<const EbmlId&>(*this));
   EbmlId(*this).Fill(FinalHead.data());
 
   const unsigned int CodedSize = CodedSizeLength(Size, SizeLength, bSizeIsFinite);

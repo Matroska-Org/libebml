@@ -98,7 +98,7 @@ void StdIOCallback::setFilePointer(std::int64_t Offset,seek_mode Mode)
 std::size_t StdIOCallback::write(const void*Buffer,std::size_t Size)
 {
   assert(File!=nullptr);
-  const std::uint32_t Result = fwrite(Buffer,1,Size,File);
+  const size_t Result = fwrite(Buffer,1,Size,File);
   mCurrentPosition += Result;
   return Result;
 }

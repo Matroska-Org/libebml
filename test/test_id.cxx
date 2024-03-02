@@ -9,13 +9,13 @@ static constexpr EbmlId MyId = EbmlId{0x654321};
 
 class KaxTracks {
 public:
-    static const EbmlId & ClassId() { return MyId; };
+    static const EbmlId & ClassId() { return MyId; }
 };
 
 int main(void)
 {
     constexpr binary buf[4] = { 0x12, 0x34, 0x56, 0x78 };
-    EbmlId frombuf(EbmlId::FromBuffer(buf, 4));
+    auto frombuf = EbmlId(EbmlId::FromBuffer(buf, 4));
 
     EbmlId fromint(0x12345678);
 

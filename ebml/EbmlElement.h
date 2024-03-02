@@ -430,7 +430,7 @@ static inline EbmlElement & tEBML_SEM_CREATE(const EbmlSemantic & s)
   return s.Create();
 }
 
-using _GetSemanticContext = const class EbmlSemanticContext &(*)();
+using _GetSemanticContext = const EbmlSemanticContext &(*)();
 
 /*!
   Context of the element
@@ -650,7 +650,7 @@ class EBML_DLL_API EbmlElement {
 
   private:
     std::size_t HeadSize() const {
-      return EBML_ID_LENGTH((const EbmlId&)*this) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
+      return EBML_ID_LENGTH(static_cast<const EbmlId&>(*this)) + CodedSizeLength(Size, SizeLength, bSizeIsFinite);
     } /// return the size of the head, on reading/writing
 
     std::uint64_t Size;        ///< the size of the data to write

@@ -104,7 +104,7 @@ EbmlUnicodeString::EbmlUnicodeString(const EbmlCallbacksDefault<const wchar_t *>
 {
   if (classInfo.HasDefault())
   {
-    auto def = static_cast<const EbmlCallbacksWithDefault<const wchar_t *> &>(classInfo);
+    const auto& def = static_cast<const EbmlCallbacksWithDefault<const wchar_t *> &>(classInfo);
     SetValue(UTFstring{def.DefaultValue()});
   }
 }
