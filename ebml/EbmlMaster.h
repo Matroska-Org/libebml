@@ -156,6 +156,11 @@ static inline constexpr const EbmlSemanticContextMaster & tEBML_CONTEXT(const Eb
   return e->ContextMaster();
 }
 
+static inline constexpr const EbmlSemanticContextMaster & tEBML_INFO_CONTEXT(const EbmlCallbacksMaster & cb)
+{
+  return cb.GetContextMaster();
+}
+
 ///< \todo add a restriction to only elements legal in the context
 template <typename Type>
 Type & GetChild(EbmlMaster & Master)
