@@ -16,7 +16,7 @@ DEFINE_SEMANTIC_ITEM(false, false, EbmlCrc32)
 DEFINE_SEMANTIC_ITEM(false, false, EbmlVoid)
 DEFINE_END_SEMANTIC(EbmlGlobal)
 
-static DEFINE_xxx_CONTEXT(EbmlGlobal, GetEbmlGlobal_Context)
+static constexpr DEFINE_xxx_CONTEXT(EbmlGlobal, GetEbmlGlobal_Context)
 
 const EbmlSemanticContextMaster & GetEbmlGlobal_Context()
 {
