@@ -55,7 +55,7 @@ class EbmlSemanticContextMaster;
 class EbmlElement;
 
 #define DEFINE_xxx_CONTEXT(x,global) \
-    constexpr const libebml::EbmlSemanticContextMaster Context_##x = libebml::EbmlSemanticContextMaster(countof(ContextList_##x), ContextList_##x, nullptr, global, nullptr); \
+    const libebml::EbmlSemanticContextMaster Context_##x = libebml::EbmlSemanticContextMaster(countof(ContextList_##x), ContextList_##x, nullptr, global, nullptr); \
 
 #define DEFINE_xxx_MASTER(x,id,parent,infinite,name,versions,global) \
     DEFINE_xxx_MASTER_CONS(x,id,parent,infinite,name,versions,global) \
