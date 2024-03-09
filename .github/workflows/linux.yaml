@@ -65,7 +65,7 @@ jobs:
       - name: Run tests
         run: ctest --test-dir _build
   Alpine:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         platform: ['armhf']
