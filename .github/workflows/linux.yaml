@@ -57,7 +57,7 @@ jobs:
         run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
 
       - name: Build
-        run: cmake --build _build --parallel --verbose
+        run: cmake --build _build --parallel
 
       - name: Test installation
         run: cmake --install _build --prefix ${GITHUB_WORKSPACE}/_built
@@ -89,7 +89,7 @@ jobs:
         run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
 
       - name: Build
-        run: cmake --build _build --parallel --verbose
+        run: cmake --build _build --parallel
 
       - name: Test installation
         run: cmake --install _build --prefix ${GITHUB_WORKSPACE}/_built
