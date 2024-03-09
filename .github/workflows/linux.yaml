@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        cxx: ['7', '17']
+        cxx: ['7', '18']
     env:
       CMAKE_OPTIONS: -DDEV_MODE=ON -DBUILD_TESTING=ON -DCMAKE_CXX_FLAGS="-stdlib=libc++"
     steps:
