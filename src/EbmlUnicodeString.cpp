@@ -12,6 +12,7 @@
 
 #include "lib/utf8-cpp/source/utf8/checked.h"
 
+#include <algorithm>
 #include <cstring>
 
 namespace libebml {
