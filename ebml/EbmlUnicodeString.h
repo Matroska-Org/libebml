@@ -68,7 +68,7 @@ class EBML_DLL_API EbmlUnicodeString : public EbmlElementDefaultStorage<const wc
   public:
     EbmlUnicodeString(const EbmlCallbacksDefault<const wchar_t *> &);
 
-    bool SizeIsValid(std::uint64_t /*size*/) const override {return true;} // any size is possible
+    static inline bool SizeIsValid(std::uint64_t /*size*/)  {return true;} // any size is possible
     filepos_t RenderData(IOCallback & output, bool bForceRender, const ShouldWrite & writeFilter = WriteSkipDefault) override;
     filepos_t ReadData(IOCallback & input, ScopeMode ReadFully = SCOPE_ALL_DATA) override;
     filepos_t UpdateSize(const ShouldWrite & writeFilter = WriteSkipDefault, bool bForceRender = false) override;
