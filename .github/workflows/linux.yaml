@@ -42,12 +42,12 @@ jobs:
       CMAKE_OPTIONS: -DDEV_MODE=ON -DBUILD_TESTING=ON -G Ninja -DCMAKE_CXX_FLAGS="-stdlib=libc++"
     steps:
       - uses: lukka/get-cmake@latest
-      - uses: egor-tensin/setup-clang@v1
-        with:
-          version: ${{matrix.cxx}}
 
       - name: Install libc++
         run: |
+          wget -qO - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo add-apt-repository --yes --update deb http://apt.llvm.org/focal/ llvm-toolchain-focal main
+          sudo apt-get update
           sudo apt install -y libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev
 
       - name: Get pushed code
