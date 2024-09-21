@@ -34,7 +34,7 @@ jobs:
       - name: Run tests
         run: ctest --test-dir _build
   Linux-Clang:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         cxx: ['7', '18']
@@ -46,7 +46,7 @@ jobs:
       - name: Install libc++
         run: |
           wget -qO - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo add-apt-repository --yes --update deb http://apt.llvm.org/focal/ llvm-toolchain-focal main
+          sudo add-apt-repository --yes --update deb http://apt.llvm.org/noble/ llvm-toolchain-noble-${{matrix.cxx}} main
           sudo apt-get update
           sudo apt install -y libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev
 
