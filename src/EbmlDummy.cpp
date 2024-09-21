@@ -12,7 +12,8 @@ namespace libebml {
 
 static constexpr EbmlDocVersion AllEbmlVersions{"ebml"};
 
-DEFINE_EBML_CLASS_ORPHAN(EbmlDummy, 0xFF, "DummyElement", AllEbmlVersions )
+static constexpr const EbmlSemanticContext Context_EbmlDummy = EbmlSemanticContext(nullptr, GetEbmlGlobal_Context, nullptr);
+constexpr const EbmlCallbacks EbmlDummy::ClassInfos(EbmlDummy::Create, EbmlDummy::DummyRawId, false, false, "DummyElement", Context_EbmlDummy, AllEbmlVersions);
 
 EbmlDummy::EbmlDummy(const EbmlId & aId) : EbmlBinary(EbmlDummy::ClassInfos), DummyId(aId) {}
 
