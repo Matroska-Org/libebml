@@ -28,9 +28,9 @@ class EBML_DLL_API EbmlDummy : public EbmlBinary {
     EbmlElement * Clone() const override { return new EbmlDummy(DummyId); }
 
     static EbmlElement & Create() { return *(new EbmlDummy()); }
-    static const EbmlCallbacks ClassInfos;
 
   private:
+    static const EbmlCallbacks ClassInfos;
     const EbmlId DummyId;
     static constexpr EbmlId DummyRawId{0xFF};
 };
