@@ -333,9 +333,6 @@ class EBML_DLL_API EbmlDocVersion {
 };
 
 // functions for generic handling of data (should be static to all classes)
-/*!
-  \todo Handle default value
-*/
 class EBML_DLL_API EbmlCallbacks {
   public:
     using CreateOperator = EbmlElement & (*)(void);
