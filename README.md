@@ -50,3 +50,7 @@ UTF-8 with C++ in a Portable Way
   * License: BOOST (see `src/lib/utf8-cpp/source/utf8.h`)
   * URL: http://utfcpp.sourceforge.net/
   * Corresponding files: `src/lib/utf8-cpp/*`
+
+# Packaging status
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/libebml.svg?columns=3&header=libebml&exclude_unsupported=1)](https://repology.org/project/libebml/versions)
