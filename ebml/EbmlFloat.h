@@ -25,7 +25,7 @@ class EBML_DLL_API EbmlFloat : public EbmlElementDefaultSameStorage<double> {
 
     EbmlFloat(const EbmlCallbacksDefault<double> &, Precision prec = FLOAT_32);
 
-    bool SizeIsValid(std::uint64_t size) const override
+    static inline bool SizeIsValid(std::uint64_t size)
     {
       return (size == 4 || size == 8);
     }
