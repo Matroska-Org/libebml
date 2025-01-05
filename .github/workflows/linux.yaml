@@ -18,6 +18,9 @@ jobs:
         with:
           version: ${{matrix.cxx}}
 
+      - name: list compilers
+        run: dpkg --list | grep compiler
+
       - name: Get pushed code
         uses: actions/checkout@v4
 
@@ -43,6 +46,9 @@ jobs:
       - uses: egor-tensin/setup-clang@v1
         with:
           version: ${{matrix.cxx}}
+
+      - name: list compilers
+        run: dpkg --list | grep compiler
 
       - name: Install libc++
         run: |
