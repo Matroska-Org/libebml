@@ -6,6 +6,33 @@ on:
     # branches: [ master ]
 
 jobs:
+  Latest:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        cxx: ['g++-14', 'clang++-18']
+    env:
+      CMAKE_OPTIONS: -DDEV_MODE=ON -DBUILD_TESTING=ON
+      CXX: ${{matrix.cxx}}
+    steps:
+      - name: list compilers
+        run: dpkg --list | grep compiler
+
+      - name: Get pushed code
+        uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
+
+      - name: Build
+        run: cmake --build _build --parallel
+
+      - name: Test installation
+        run: cmake --install _build --prefix ${GITHUB_WORKSPACE}/_built
+
+      - name: Run tests
+        run: ctest --test-dir _build
+
   Linux-GCC:
     runs-on: ubuntu-20.04
     strategy:
