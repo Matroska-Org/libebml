@@ -4,11 +4,30 @@ project(ebml VERSION 2.0.0)
 
 include(CMakeDependentOption)
 
+include( FeatureSummary )
+function(feature_info_on_off)
+  set(option_name ${ARGV0})
+  if(${option_name})
+    add_feature_info(${option_name} ${option_name} ${ARGV1})
+  else()
+    add_feature_info(${option_name} $<NOT:${option_name}> ${ARGV2})
+  endif()
+endfunction(feature_info_on_off)
+
 cmake_dependent_option(BUILD_SHARED_LIBS "Build libebml as a shared library (except Windows)" OFF "NOT WIN32" OFF)
+feature_info_on_off(BUILD_SHARED_LIBS "will build as a dynamic library" "will build as a static library")
+
 option(DISABLE_PKGCONFIG "Disable PkgConfig module generation" OFF)
+feature_info_on_off(DISABLE_PKGCONFIG "won't generate pkgconfig config file" "will generate pkgconfig config file")
+
 option(DISABLE_CMAKE_CONFIG "Disable CMake package config module generation" OFF)
+feature_info_on_off(DISABLE_CMAKE_CONFIG "won't generate CMake config file" "will generate CMake config file")
+
 option(BUILD_TESTING "Build tests" OFF)
+feature_info_on_off(BUILD_TESTING "will build test code" "will build without test code")
+
 option(DEV_MODE "Developer mode with extra compilation checks" OFF)
+feature_info_on_off(DEV_MODE "added developer mode extra compilation checks" "default build mode")
 
 include(GNUInstallDirs)
 
@@ -207,3 +226,7 @@ if(NOT DISABLE_CMAKE_CONFIG)
     ${CMAKE_CURRENT_BINARY_DIR}/EBMLConfigVersion.cmake
       DESTINATION ${CMAKE_INSTALL_PACKAGEDIR})
 endif()
+
+feature_summary(DESCRIPTION "libebml options:" WHAT ENABLED_FEATURES)
+feature_summary(DESCRIPTION "libebml disabled options:" WHAT DISABLED_FEATURES)
+# feature_summary(DESCRIPTION "libebml packages used:" WHAT PACKAGES_FOUND)
