@@ -22,6 +22,8 @@ namespace libebml {
 
 constexpr const bool bChecksumUsedByDefault = false;
 
+class EbmlCallbacksMaster;
+
 /*!
     \class EbmlMaster
     \brief Handle all operations on an EBML element that contains other EBML elements
@@ -31,7 +33,7 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
     explicit EbmlMaster(const EbmlCallbacksMaster &, bool bSizeIsKnown = true);
     EbmlMaster(const EbmlMaster & ElementToClone);
     EbmlMaster& operator=(const EbmlMaster&) = delete;
-    bool SizeIsValid(std::uint64_t /*size*/) const override {return true;}
+    static inline bool SizeIsValid(std::uint64_t /*size*/) {return true;}
     /*!
       \warning be carefull to clear the memory allocated in the ElementList elsewhere
     */
@@ -149,6 +151,20 @@ class EBML_DLL_API EbmlMaster : public EbmlElement {
       \brief Add all the mandatory elements to the list
     */
     bool ProcessMandatory();
+};
+
+class EBML_DLL_API EbmlCallbacksMaster : public EbmlCallbacks {
+  public:
+    constexpr EbmlCallbacksMaster(EbmlElement & (*Creator)(), const EbmlId & aGlobalId, bool aCanInfinite,
+                                  const char * aDebugName, const EbmlSemanticContextMaster & aContext,
+                                  const EbmlDocVersion & aVersion)
+      :EbmlCallbacks(Creator, aGlobalId, aCanInfinite, false, aDebugName, aContext, aVersion, libebml::EbmlMaster::SizeIsValid)
+    {
+    }
+
+    inline constexpr const EbmlSemanticContextMaster & GetContextMaster() const {
+      return static_cast<const EbmlSemanticContextMaster &>(GetContext());
+    }
 };
 
 static inline constexpr const EbmlSemanticContextMaster & tEBML_CONTEXT(const EbmlMaster * e)

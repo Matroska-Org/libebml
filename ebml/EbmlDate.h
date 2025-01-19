@@ -41,7 +41,7 @@ class EBML_DLL_API EbmlDate : public EbmlElementDefaultSameStorage<std::int64_t>
     std::int64_t GetEpochDate() const {return EbmlToEpoch(EbmlElementDefaultSameStorage<std::int64_t>::GetValue());}
     std::int64_t GetValue() const {return GetEpochDate();}
 
-    bool SizeIsValid(std::uint64_t size) const override {return size == 8 || size == 0;}
+    static inline bool SizeIsValid(std::uint64_t size) {return size == 8 || size == 0;}
 
     /*!
       \note no Default date handled
