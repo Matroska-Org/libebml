@@ -11,6 +11,7 @@
 *.pc
 Makefile
 .dirstamp
+.DS_Store
 
 [Dd]ebug/
 [Dd]ebugPublic/
