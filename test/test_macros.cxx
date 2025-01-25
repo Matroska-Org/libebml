@@ -31,12 +31,12 @@ DEFINE_xxx_UNISTRING(UniStringWithoutDefault, 0x4123, EbmlHead, "UniStringWithou
 DECLARE_EBML_UINTEGER_DEF(UIntWithDefault)
     EBML_CONCRETE_CLASS(UIntWithDefault)
 };
-DEFINE_EBML_UINTEGER_DEF(UIntWithDefault, 0x654321, EbmlHead, "UIntWithDefault", 42, AllVersions)
+DEFINE_EBML_UINTEGER_DEF(UIntWithDefault, 0x354321, EbmlHead, "UIntWithDefault", 42, AllVersions)
 
 DECLARE_xxx_UINTEGER(UIntWithoutDefault,)
     EBML_CONCRETE_CLASS(UIntWithoutDefault)
 };
-DEFINE_xxx_UINTEGER(UIntWithoutDefault, 0x612345, EbmlHead, "UIntWithoutDefault", AllVersions, GetEbmlGlobal_Context)
+DEFINE_xxx_UINTEGER(UIntWithoutDefault, 0x312345, EbmlHead, "UIntWithoutDefault", AllVersions, GetEbmlGlobal_Context)
 
 int main(void)
 {
