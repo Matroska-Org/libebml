@@ -43,18 +43,6 @@ EbmlMaster::~EbmlMaster()
   }
 }
 
-const EbmlSemantic & EbmlSemanticContextMaster::GetSemantic(std::size_t i) const
-{
-  assert(i<GetSize());
-  if (i<GetSize())
-    return MyTable[i];
-
-  std::stringstream ss;
-  ss << "EbmlSemanticContext::GetSemantic: programming error: index i outside of table size (" << i << " >= " << GetSize() << ")";
-  throw std::logic_error(ss.str());
-}
-
-
 /*!
   \todo handle exception on errors
   \todo write all the Mandatory elements in the Context, otherwise assert
