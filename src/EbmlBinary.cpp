@@ -72,25 +72,26 @@ filepos_t EbmlBinary::UpdateSize(const ShouldWrite & writeFilter, bool /* bForce
 
 filepos_t EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
 {
+  const auto SizeToRead = GetSize();
   if (Data != nullptr) {
     free(Data);
     Data = nullptr;
   }
 
   if (ReadFully == SCOPE_NO_DATA) {
-    return GetSize();
+    return SizeToRead;
   }
 
-  if (!GetSize()) {
+  if (!SizeToRead) {
     SetValueIsSet();
     return 0;
   }
 
-  Data = (GetSize() < std::numeric_limits<std::size_t>::max()) ? static_cast<binary *>(malloc(GetSize())) : nullptr;
+  Data = (SizeToRead < std::numeric_limits<std::size_t>::max()) ? static_cast<binary *>(malloc(SizeToRead)) : nullptr;
   if (Data == nullptr)
     throw std::runtime_error("Error allocating data");
-  filepos_t read = input.read(Data, GetSize());
-  SetValueIsSet(read == GetSize());
+  filepos_t read = input.read(Data, SizeToRead);
+  SetValueIsSet(read == SizeToRead);
   return read;
 }
 
