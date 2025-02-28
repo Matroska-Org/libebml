@@ -89,8 +89,9 @@ filepos_t EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
   Data = (GetSize() < std::numeric_limits<std::size_t>::max()) ? static_cast<binary *>(malloc(GetSize())) : nullptr;
   if (Data == nullptr)
     throw std::runtime_error("Error allocating data");
-  SetValueIsSet();
-  return input.read(Data, GetSize());
+  filepos_t read = input.read(Data, GetSize());
+  SetValueIsSet(read == GetSize());
+  return read;
 }
 
 bool EbmlBinary::operator==(const EbmlBinary & ElementToCompare) const
