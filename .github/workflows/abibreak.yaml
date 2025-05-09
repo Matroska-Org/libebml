@@ -13,9 +13,9 @@ jobs:
 
       - name: Get pushed code
         uses: actions/checkout@v3
-      
+
       - name: Configure
-        run: cmake -S . -B _build -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
+        run: cmake -S . -B _build -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -G Ninja
 
       - name: Build
         run: cmake --build _build --parallel
@@ -25,12 +25,12 @@ jobs:
 
       - name: Get v1.x code
         uses: actions/checkout@v3
-        with: 
+        with:
           path: libebml-1
           ref: v1.x
-      
+
       - name: Configure v1.x
-        run: cmake -S libebml-1 -B _build_1 -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built_1
+        run: cmake -S libebml-1 -B _build_1 -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built_1 -G Ninja
 
       - name: Build v1.x
         run: cmake --build _build_1 --parallel
@@ -45,4 +45,3 @@ jobs:
 
       - name: Check ABI differences
         run: abidiff ${GITHUB_WORKSPACE}/_built/lib/libebml.so ${GITHUB_WORKSPACE}/_built_1/lib/libebml.so
-
