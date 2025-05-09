@@ -12,9 +12,9 @@ jobs:
     steps:
       - name: Get pushed code
         uses: actions/checkout@v3
-      
-      - name: Configure CMake 
-        run: cmake -S . -B _build -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
+
+      - name: Configure CMake
+        run: cmake -S . -B _build -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -G Ninja
 
       - name: Build with CMake
         run: cmake --build _build --parallel
