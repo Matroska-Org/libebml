@@ -97,3 +97,31 @@ jobs:
 
       - name: Run tests
         run: ctest --test-dir _build
+
+  s390X-BigEndian:
+    runs-on: ubuntu-latest
+    env:
+      CMAKE_OPTIONS: -DDEV_MODE=ON -DBUILD_TESTING=ON -DCMAKE_SYSTEM_PROCESSOR=s390x -DCMAKE_CROSSCOMPILING_EMULATOR="qemu-s390x;-L;/usr/s390x-linux-gnu/" -DCMAKE_CXX_COMPILER=s390x-linux-gnu-g++ -G Ninja
+    steps:
+      - name: install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends qemu-user crossbuild-essential-s390x qemu-system-s390x
+
+      - name: list compilers
+        run: dpkg --list | grep compiler
+
+      - name: Get pushed code
+        uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
+
+      - name: Build
+        run: cmake --build _build --parallel
+
+      - name: Test installation
+        run: cmake --install _build --prefix ${GITHUB_WORKSPACE}/_built
+
+      - name: Run tests
+        run: ctest --test-dir _build
