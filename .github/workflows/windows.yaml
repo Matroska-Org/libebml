@@ -36,5 +36,5 @@ jobs:
       - name: Run tests
         run: |
           if ($env:PROCESSOR_ARCHITECTURE -match "${{ matrix.arch.env }}") {
-            ctest --test-dir _build
+            ctest --test-dir _build --build-config ${{ matrix.config }}
           }
