@@ -247,7 +247,6 @@ class DllApi x : public BaseClass { \
 
 #define EBML_CONCRETE_CLASS(Type) \
     public: \
-        libebml::EbmlElement & CreateElement() const override {return Create();} \
         libebml::EbmlElement * Clone() const override { return new Type(*this); } \
     static libebml::EbmlElement & Create() {return *(new Type);} \
         static constexpr const libebml::EbmlCallbacks & ClassInfo() {return ClassInfos;} \
@@ -257,6 +256,8 @@ class DllApi x : public BaseClass { \
 #define EBML_CLASS_SEMCONTEXT(ref) Context_##ref
 #define EBML_CONTEXT(e)            tEBML_CONTEXT(e)
 #define EBML_NAME(e)               tEBML_NAME(e)
+#define EBML_SPEC(e)               tEBML_SPEC(e)
+#define EBML_CREATE(e)             EBML_INFO_CREATE(EBML_SPEC(e))
 
 #define EBML_INFO_ID(cb)      tEBML_INFO_ID(cb)
 #define EBML_INFO_NAME(cb)    tEBML_INFO_NAME(cb)
@@ -265,7 +266,7 @@ class DllApi x : public BaseClass { \
 
 #define EBML_SEM_SPECS(s)   tEBML_SEM_SPECS(s)
 #define EBML_SEM_CONTEXT(s) EBML_INFO_CONTEXT(EBML_SEM_SPECS(s))
-#define EBML_SEM_CREATE(s)  tEBML_SEM_CREATE(s)
+#define EBML_SEM_CREATE(s)  EBML_INFO_CREATE(EBML_SEM_SPECS(s))
 
 #define EBML_CTX_SIZE(c)       tEBML_CTX_SIZE(c)
 #define EBML_CTX_MASTER(c)     tEBML_CTX_MASTER(c)
@@ -426,7 +427,6 @@ class EBML_DLL_API EbmlSemantic {
 
         inline constexpr bool IsMandatory() const { return Mandatory; }
         inline constexpr bool IsUnique() const { return Unique; }
-        inline EbmlElement & Create() const { return EBML_INFO_CREATE(Callbacks); }
         inline constexpr EbmlCallbacks const &GetCallbacks() const { return Callbacks; }
 
     private:
@@ -438,11 +438,6 @@ class EBML_DLL_API EbmlSemantic {
 static inline constexpr const EbmlCallbacks & tEBML_SEM_SPECS(const EbmlSemantic & s)
 {
   return s.GetCallbacks();
-}
-
-static inline EbmlElement & tEBML_SEM_CREATE(const EbmlSemantic & s)
-{
-  return s.Create();
 }
 
 using _GetSemanticContext = const EbmlSemanticContextMaster &(*)();
@@ -598,7 +593,7 @@ class EBML_DLL_API EbmlElement {
     virtual explicit operator const EbmlId &() const { return GetClassId(); }
     constexpr const char *DebugName() const {return ClassInfo.GetName();}
     constexpr const EbmlSemanticContext &Context() const {return ClassInfo.GetContext();}
-        virtual EbmlElement & CreateElement() const = 0;
+    EbmlElement & CreateElement() const { return EBML_INFO_CREATE(ClassInfo); }
 
     /*!
      * \brief Set whether the size is finite
@@ -821,6 +816,11 @@ class EBML_DLL_API EbmlElementDefaultStorage : public EbmlElementDefault<T> {
 static inline constexpr const EbmlSemanticContext & tEBML_CONTEXT(const EbmlElement * e)
 {
   return e->Context();
+}
+
+static inline const EbmlCallbacks & tEBML_SPEC(const EbmlElement & e)
+{
+  return e.ElementSpec();
 }
 
 static inline constexpr const char * tEBML_NAME(const EbmlElement * e)
