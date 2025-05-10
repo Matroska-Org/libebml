@@ -15,7 +15,7 @@ jobs:
         config: [Debug, Release]
         arch: [
           { "name": "x64",   "option": "x64",   "env": "AMD64"},
-          { "name": "x86",   "option": "win32", "env": "X86"},
+          { "name": "x86",   "option": "win32", "env": "AMD64"},
           { "name": "arm64", "option": "arm64", "env": "ARM64"},
         ]
     env:
