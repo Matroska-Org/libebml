@@ -155,35 +155,35 @@ if (BUILD_TESTING)
 
   add_executable(test_id test/test_id.cxx)
   target_link_libraries(test_id PUBLIC ebml)
-  add_test(test_id test_id)
+  add_test(NAME test_id COMMAND test_id)
 
   add_executable(test_header test/test_header.cxx)
   target_link_libraries(test_header PUBLIC ebml)
-  add_test(test_header test_header)
+  add_test(NAME test_header COMMAND test_header)
 
   add_executable(test_infinite test/test_infinite.cxx)
   target_link_libraries(test_infinite PUBLIC ebml)
-  add_test(test_infinite test_infinite)
+  add_test(NAME test_infinite COMMAND test_infinite)
 
   add_executable(test_utfstring test/test_utfstring.cxx)
   target_link_libraries(test_utfstring PUBLIC ebml)
-  add_test(test_utfstring test_utfstring)
+  add_test(NAME test_utfstring COMMAND test_utfstring)
 
   add_executable(test_macros test/test_macros.cxx)
   target_link_libraries(test_macros PUBLIC ebml)
-  add_test(test_macros test_macros)
+  add_test(NAME test_macros COMMAND test_macros)
 
   add_executable(test_crc test/test_crc.cxx)
   target_link_libraries(test_crc PUBLIC ebml)
-  add_test(test_crc test_crc)
+  add_test(NAME test_crc COMMAND test_crc)
 
   add_executable(test_missing test/test_missing.cxx)
   target_link_libraries(test_missing PUBLIC ebml)
-  add_test(test_missing test_missing)
+  add_test(NAME test_missing COMMAND test_missing)
 
   add_executable(test_versioning test/test_versioning.cxx)
   target_link_libraries(test_versioning PUBLIC ebml)
-  add_test(test_versioning test_versioning)
+  add_test(NAME test_versioning COMMAND test_versioning)
 
 endif(BUILD_TESTING)
 
