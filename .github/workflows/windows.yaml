@@ -8,15 +8,15 @@ on:
 jobs:
   build_libebml:
     name: libebml ${{ matrix.arch.name }} ${{ matrix.config }}
-    runs-on: windows-latest
+    runs-on: ${{ matrix.arch.runner }}
     strategy:
       fail-fast: false
       matrix:
         config: [Debug, Release]
         arch: [
-          { "name": "x64",   "option": "x64",   "env": "AMD64"},
-          { "name": "x86",   "option": "win32", "env": "AMD64"},
-          { "name": "arm64", "option": "arm64", "env": "ARM64"},
+          { "name": "x64",   "option": "x64",   "runner": "windows-latest"},
+          { "name": "x86",   "option": "win32", "runner": "windows-latest"},
+          { "name": "arm64", "option": "arm64", "runner": "windows-11-arm"},
         ]
     env:
       CMAKE_OPTIONS: -DDEV_MODE=ON -DCMAKE_CXX_FLAGS_INIT="-DWINVER=0x0501" -DBUILD_TESTING=ON
@@ -34,7 +34,4 @@ jobs:
         run: cmake --install _build --config ${{ matrix.config }} --prefix ${GITHUB_WORKSPACE}/_built
 
       - name: Run tests
-        run: |
-          if ($env:PROCESSOR_ARCHITECTURE -match "${{ matrix.arch.env }}") {
-            ctest --test-dir _build --build-config ${{ matrix.config }}
-          }
+        run: ctest --test-dir _build --build-config ${{ matrix.config }}
