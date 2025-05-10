@@ -1,4 +1,4 @@
-name: "Linux gcc13 Build"
+name: "Linux Latest Build"
 on:
   push:
     branches: [ v1.x ]
@@ -7,17 +7,22 @@ on:
 
 jobs:
   build_libebml:
-    name: libebml for Linux gcc13
+    name: libebml for Linux ${{ matrix.cxx }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        cxx: ['g++-14', 'clang++-18']
+    env:
+      CXX: ${{matrix.cxx}}
     steps:
+      - name: list compilers
+        run: dpkg --list | grep compiler
+
       - name: Get pushed code
         uses: actions/checkout@v4
 
       - name: Configure CMake
         run: cmake -S . -B _build -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -G Ninja
-        env:
-          CC:  gcc-13
-          CXX: g++-13
 
       - name: Build with CMake
         run: cmake --build _build --parallel
