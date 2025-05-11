@@ -79,7 +79,7 @@ jobs:
           branch: edge
           arch: ${{matrix.platform}}
           packages: >
-            build-base cmake
+            build-base cmake git
 
       - name: Configure
         run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
