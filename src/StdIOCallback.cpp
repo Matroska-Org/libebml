@@ -63,6 +63,8 @@ std::size_t StdIOCallback::read(void*Buffer,std::size_t Size)
   assert(File!=nullptr);
 
   const std::size_t result = fread(Buffer, 1, Size, File);
+  if (feof(File) || ferror(File))
+    return 0;
   mCurrentPosition += result;
   return result;
 }
@@ -99,6 +101,8 @@ std::size_t StdIOCallback::write(const void*Buffer,std::size_t Size)
 {
   assert(File!=nullptr);
   const size_t Result = fwrite(Buffer,1,Size,File);
+  if (feof(File) || ferror(File))
+    return 0;
   mCurrentPosition += Result;
   return Result;
 }
