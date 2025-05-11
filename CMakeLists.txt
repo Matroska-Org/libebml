@@ -31,6 +31,20 @@ include(GNUInstallDirs)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+find_package(utf8cpp 3.2.0)
+if(NOT utf8cpp_FOUND)
+  include(FetchContent REQUIRED)
+  FetchContent_Declare(
+        utf8cpp
+        GIT_REPOSITORY https://github.com/nemtrif/utfcpp.git
+        GIT_TAG v3.2.5
+        GIT_PROGRESS TRUE
+        DOWNLOAD_EXTRACT_TIMESTAMP ON
+        OVERRIDE_FIND_PACKAGE
+    )
+    FetchContent_MakeAvailable(utf8cpp)
+endif()
+
 set(libebml_SOURCES
   src/Debug.cpp
   src/EbmlBinary.cpp
@@ -116,6 +130,8 @@ if(MSVC)
   target_compile_definitions(ebml PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()
 
+target_link_libraries(ebml PRIVATE $<BUILD_INTERFACE:utf8cpp>)
+
 include(GenerateExportHeader)
 generate_export_header(ebml EXPORT_MACRO_NAME EBML_DLL_API)
 target_sources(ebml
@@ -176,4 +192,4 @@ endif()
 
 feature_summary(DESCRIPTION "libebml options:" WHAT ENABLED_FEATURES)
 feature_summary(DESCRIPTION "libebml disabled options:" WHAT DISABLED_FEATURES)
-# feature_summary(DESCRIPTION "libebml packages used:" WHAT PACKAGES_FOUND)
+feature_summary(DESCRIPTION "libebml packages used:" WHAT PACKAGES_FOUND)
