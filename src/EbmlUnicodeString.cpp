@@ -40,7 +40,7 @@
 
 #include "ebml/EbmlUnicodeString.h"
 
-#include "lib/utf8-cpp/source/utf8/checked.h"
+#include <utf8/checked.h>
 
 namespace libebml {
 
