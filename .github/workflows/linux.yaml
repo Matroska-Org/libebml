@@ -7,7 +7,7 @@ on:
 
 jobs:
   Latest:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         cxx: ['g++-14', 'clang++-18']
@@ -15,6 +15,11 @@ jobs:
       CMAKE_OPTIONS: -DDEV_MODE=ON -DBUILD_TESTING=ON -G Ninja
       CXX: ${{matrix.cxx}}
     steps:
+      - name: install utf8cpp
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libutfcpp-dev
+
       - name: list compilers
         run: dpkg --list | grep compiler
 
