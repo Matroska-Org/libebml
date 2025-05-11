@@ -17,6 +17,7 @@
 #include <string>
 #include <limits>
 #include <cstddef>
+#include <stdexcept>
 
 namespace libebml {
 
@@ -518,13 +519,19 @@ class EBML_DLL_API EbmlSemanticContextMaster : public EbmlSemanticContext {
       return false;
     }
 
-        const EbmlSemantic & GetSemantic(std::size_t i) const;
+    inline constexpr const EbmlSemantic & GetSemantic(std::size_t i) const
+    {
+      if (i<GetSize())
+        return MyTable[i];
+
+      throw std::logic_error("EbmlSemanticContext::GetSemantic: programming error: index outside of table size");
+    }
 
     private:
         const EbmlSemantic *MyTable; ///< First element in the table
 };
 
-static inline const EbmlSemantic & tEBML_CTX_IDX(const EbmlSemanticContextMaster & c, std::size_t i)
+static inline constexpr const EbmlSemantic & tEBML_CTX_IDX(const EbmlSemanticContextMaster & c, std::size_t i)
 {
   return c.GetSemantic(i);
 }
