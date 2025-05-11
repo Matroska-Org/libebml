@@ -48,6 +48,20 @@ function(add_cxx_flag_if_supported)
   endforeach()
 endfunction()
 
+find_package(utf8cpp 3.2.0)
+if(NOT utf8cpp_FOUND)
+  include(FetchContent REQUIRED)
+  FetchContent_Declare(
+        utf8cpp
+        GIT_REPOSITORY https://github.com/nemtrif/utfcpp.git
+        GIT_TAG v3.2.5
+        GIT_PROGRESS TRUE
+        DOWNLOAD_EXTRACT_TIMESTAMP ON
+        OVERRIDE_FIND_PACKAGE
+    )
+    FetchContent_MakeAvailable(utf8cpp)
+endif()
+
 if(DEV_MODE)
   message(STATUS "Using developer mode for ${CMAKE_CXX_COMPILER_ID}")
   set(CMAKE_CXX_EXTENSIONS OFF)
@@ -122,6 +136,8 @@ target_include_directories(ebml
 if(WIN32)
   target_compile_definitions(ebml PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()
+
+target_link_libraries(ebml PRIVATE $<BUILD_INTERFACE:utf8cpp>)
 
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.20")
   if(${CMAKE_CXX_BYTE_ORDER} STREQUAL "BIG_ENDIAN")
@@ -237,4 +253,4 @@ endif()
 
 feature_summary(DESCRIPTION "libebml options:" WHAT ENABLED_FEATURES)
 feature_summary(DESCRIPTION "libebml disabled options:" WHAT DISABLED_FEATURES)
-# feature_summary(DESCRIPTION "libebml packages used:" WHAT PACKAGES_FOUND)
+feature_summary(DESCRIPTION "libebml packages used:" WHAT PACKAGES_FOUND)
