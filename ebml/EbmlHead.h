@@ -46,6 +46,8 @@ DECLARE_EBML_MASTER(EbmlHead)
     EbmlHead(const EbmlHead & ElementToClone)  = default;
 
         EBML_CONCRETE_CLASS(EbmlHead)
+
+    bool SetSizeInfinite(bool finite = true) override { return !finite; }
 };
 
 } // namespace libebml
