@@ -24,7 +24,7 @@ jobs:
         run: dpkg --list | grep compiler
 
       - name: Get pushed code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Configure
         run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
@@ -51,7 +51,7 @@ jobs:
         run: dpkg --list | grep compiler
 
       - name: Get pushed code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Configure
         run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
@@ -77,7 +77,7 @@ jobs:
         shell: alpine.sh {0}
     steps:
       - name: Get pushed code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - uses: jirutka/setup-alpine@v1
         with:
@@ -112,7 +112,7 @@ jobs:
         run: dpkg --list | grep compiler
 
       - name: Get pushed code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Configure
         run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built
