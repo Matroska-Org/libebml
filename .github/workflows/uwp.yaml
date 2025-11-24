@@ -22,7 +22,7 @@ jobs:
       # TODO use CreateFile2 and add -DENABLE_WIN32_IO=ON
     steps:
       - name: Get pushed code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Configure
         run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -A ${{ matrix.arch.option }} -DBUILD_SHARED_LIBS=OFF
