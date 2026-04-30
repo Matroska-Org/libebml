@@ -470,6 +470,9 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
         }
         ElementLevelA = FoundElt;
         if (IsFiniteSize() && ElementLevelA->IsFiniteSize()) {
+          if (ElementLevelA->GetEndPosition() > GetEndPosition()) {
+            goto processCrc; // found an upper element that ends after this, we were truncated
+          }
           MaxSizeToRead = GetEndPosition() - ElementLevelA->GetEndPosition(); // even if it's the default value
         }
         continue;
