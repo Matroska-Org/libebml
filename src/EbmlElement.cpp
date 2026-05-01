@@ -11,6 +11,7 @@
 #include <cstring>
 #include <iostream>
 #include <stdexcept>
+#include <new>
 
 #include "ebml/EbmlElement.h"
 #include "ebml/EbmlStream.h"
