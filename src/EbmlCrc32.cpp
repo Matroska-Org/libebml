@@ -38,6 +38,8 @@
 #include "ebml/EbmlContexts.h"
 #include "ebml/MemIOCallback.h"
 
+#include <new>
+
 #ifdef WORDS_BIGENDIAN
 static constexpr uint32_t CRC32_INDEX(uint32_t c) { return c >> 24; }
 static constexpr uint32_t CRC32_SHIFTED(uint32_t c) { return c << 8; }

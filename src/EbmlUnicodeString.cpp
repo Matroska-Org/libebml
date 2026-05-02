@@ -38,6 +38,7 @@
 #include <cassert>
 #include <iterator>
 #include <limits>
+#include <new>
 
 #include "ebml/EbmlUnicodeString.h"
 

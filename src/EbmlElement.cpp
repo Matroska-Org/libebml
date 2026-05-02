@@ -36,6 +36,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <new>
 #include <stdexcept>
 #include <sstream>
 
