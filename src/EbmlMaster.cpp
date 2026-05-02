@@ -36,6 +36,7 @@
 
 #include <cassert>
 #include <algorithm>
+#include <iterator>
 
 #include "ebml/EbmlMaster.h"
 #include "ebml/EbmlStream.h"
