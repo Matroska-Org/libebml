@@ -445,8 +445,13 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
 
           if (UpperEltFound) {
             --UpperEltFound;
-            if (UpperEltFound > 0 || MaxSizeToRead <= 0)
+            if (UpperEltFound > 0)
               goto processCrc;
+            if (MaxSizeToRead <= 0) {
+              delete FoundElt;
+              FoundElt = nullptr;
+              goto processCrc;
+            }
             ElementLevelA = FoundElt;
           }
 
@@ -458,6 +463,11 @@ void EbmlMaster::Read(EbmlStream & inDataStream, const EbmlSemanticContext & sCo
         UpperEltFound--;
         if (UpperEltFound > 0)
           goto processCrc;
+        if (MaxSizeToRead <= 0) {
+          delete FoundElt;
+          FoundElt = nullptr;
+          goto processCrc;
+        }
         ElementLevelA = FoundElt;
         if (IsFiniteSize() && ElementLevelA->IsFiniteSize()) {
           MaxSizeToRead = GetEndPosition() - ElementLevelA->GetEndPosition(); // even if it's the default value
