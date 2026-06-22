@@ -17,7 +17,7 @@ jobs:
       CMAKE_OPTIONS: -DDEV_MODE=ON -DBUILD_TESTING=ON -G Ninja
     steps:
       - name: Get pushed code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Configure
         run: cmake -S . -B _build ${{ env.CMAKE_OPTIONS }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -DCMAKE_OSX_ARCHITECTURES="${{ matrix.arch }}"
