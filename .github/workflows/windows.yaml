@@ -15,7 +15,7 @@ jobs:
         config: [Debug, Release]
     steps:
       - name: Get pushed code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Configure CMake
         run: cmake -S . -B _build -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -G Ninja
