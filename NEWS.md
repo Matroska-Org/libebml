@@ -1,3 +1,15 @@
+# Version 1.4.6 2026-07-xx
+
+* Set EbmlHead as not allowed to be infinite (as per RFC 8794)
+* Fix leak on upper element found inside the last element
+* EbmlString::ReadFully: use automatic memory management/fewer allocations
+* EbmlUnicodeString: use std::string when reading instead of manual memory management
+* IOCallback: avoid reading more than 2^32 at once
+* Fix some includes that are not implicit in modern compilers
+* Download utfcpp automatically
+* Show a summary of build configuration when configuring CMake
+* Add a DEV_MODE CMake option to check more compiler errors (default off)
+
 # Version 1.4.5 2023-12-12
 
 * Fix invalid memory access (reading beyond allocated memory) due to
