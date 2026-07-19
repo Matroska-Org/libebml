@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(ebml VERSION 1.4.5)
+project(ebml VERSION 1.4.6)
 
 include(CMakeDependentOption)
 
