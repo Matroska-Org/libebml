@@ -1,4 +1,4 @@
-# Version 1.4.6 2026-07-xx
+# Version 1.4.6 2026-07-19
 
 * Set EbmlHead as not allowed to be infinite (as per RFC 8794)
 * Fix leak on upper element found inside the last element
