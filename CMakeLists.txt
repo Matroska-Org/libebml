@@ -138,8 +138,6 @@ if(WIN32)
   target_compile_definitions(ebml PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()
 
-target_link_libraries(ebml PRIVATE $<BUILD_INTERFACE:utf8cpp>)
-
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.20")
   if(${CMAKE_CXX_BYTE_ORDER} STREQUAL "BIG_ENDIAN")
     set(BUILD_BIG_ENDIAN 1)
