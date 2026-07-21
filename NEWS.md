@@ -36,6 +36,7 @@
   parent projects via `add_subdirectory`.
 * Enabled building shared libraries via the usual CMake definition
   `BUILD_SHARES_LIBS` (default: off).
+* Fixed cmake rules for building with utf8cpp 4.x; fixes #344
 
 # Version 1.4.3 2022-09-30
 
