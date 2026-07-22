@@ -1,0 +1,28 @@
+name: "Linux Build"
+on:
+  push:
+    branches: [ v1.x ]
+  pull_request:
+    # branches: [ master ]
+
+jobs:
+  build_libebml:
+    name: libebml for Newer Linux
+    runs-on: ubuntu-26.04
+    steps:
+      - name: install utf8cpp
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libutfcpp-dev
+
+      - name: Get pushed code
+        uses: actions/checkout@v7
+
+      - name: Configure CMake
+        run: cmake -S . -B _build -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -G Ninja
+
+      - name: Build with CMake
+        run: cmake --build _build --parallel
+
+      - name: Test installation
+        run: cmake --install _build --prefix ${GITHUB_WORKSPACE}/_built
