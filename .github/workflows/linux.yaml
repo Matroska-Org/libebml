@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-26.04
     strategy:
       matrix:
-        cxx: ['g++-14', 'clang++-18']
+        cxx: ['g++-15', 'clang++-22']
     env:
       CMAKE_OPTIONS: -DDEV_MODE=ON -DBUILD_TESTING=ON -G Ninja
       CXX: ${{matrix.cxx}}
