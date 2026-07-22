@@ -1,4 +1,4 @@
-name: "Linux Build"
+name: "Linux Newer Build"
 on:
   push:
     branches: [ v1.x ]
@@ -7,13 +7,21 @@ on:
 
 jobs:
   build_libebml:
-    name: libebml for Newer Linux
+    name: libebml for Newer Linux ${{ matrix.cxx }}
     runs-on: ubuntu-26.04
+    strategy:
+      matrix:
+        cxx: ['g++-15', 'clang++-22']
+    env:
+      CXX: ${{matrix.cxx}}
     steps:
       - name: install utf8cpp
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends libutfcpp-dev
+
+      - name: list compilers
+        run: dpkg --list | grep compiler
 
       - name: Get pushed code
         uses: actions/checkout@v7
