@@ -1,3 +1,7 @@
+# Version 1.x.y 2026-??-??
+
+* Fixed cmake rules for building with utf8cpp 4.x; fixes #344
+
 # Version 1.4.6 2026-07-19
 
 * Set EbmlHead as not allowed to be infinite (as per RFC 8794)
