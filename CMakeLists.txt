@@ -48,7 +48,7 @@ function(add_cxx_flag_if_supported)
   endforeach()
 endfunction()
 
-find_package(utf8cpp 3.2.0)
+find_package(utf8cpp)
 if(NOT utf8cpp_FOUND)
   include(FetchContent REQUIRED)
   FetchContent_Declare(
@@ -60,6 +60,11 @@ if(NOT utf8cpp_FOUND)
         OVERRIDE_FIND_PACKAGE
     )
     FetchContent_MakeAvailable(utf8cpp)
+endif()
+if(TARGET utf8cpp::utf8cpp)
+  set(libebml_utf8cpp_link_libraries utf8cpp::utf8cpp)
+else()
+  set(libebml_utf8cpp_link_libraries $<BUILD_INTERFACE:utf8cpp>)
 endif()
 
 if(DEV_MODE)
@@ -138,7 +143,7 @@ if(WIN32)
   target_compile_definitions(ebml PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()
 
-target_link_libraries(ebml PRIVATE $<BUILD_INTERFACE:utf8cpp>)
+target_link_libraries(ebml PRIVATE ${libebml_utf8cpp_link_libraries})
 
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.20")
   if(${CMAKE_CXX_BYTE_ORDER} STREQUAL "BIG_ENDIAN")
