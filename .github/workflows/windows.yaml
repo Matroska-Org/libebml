@@ -7,18 +7,23 @@ on:
 
 jobs:
   build_libebml:
-    name: ${{ matrix.config }} libebml for Windows
+    name: ${{ matrix.config }} libebml for Windows (${{ matrix.lib.name }})
     runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
         config: [Debug, Release]
+        lib: [
+          { "name": "static", "option": "-DBUILD_SHARED_LIBS=OFF"},
+          { "name": "shared", "option": "-DBUILD_SHARED_LIBS=ON"},
+          { "name": "auto",   "option": ""},
+        ]
     steps:
       - name: Get pushed code
         uses: actions/checkout@v7
 
       - name: Configure CMake
-        run: cmake -S . -B _build -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -G Ninja
+        run: cmake -S . -B _build  ${{ matrix.lib.option }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -G Ninja
 
       - name: Build with CMake
         run: cmake --build _build --config ${{ matrix.config }} --parallel
