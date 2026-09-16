@@ -50,6 +50,11 @@ endfunction()
 
 find_package(utf8cpp)
 if(NOT utf8cpp_FOUND)
+  # a headers-only utf8cpp installation ships no CMake package
+  find_path(LIBEBML_UTF8CPP_INCLUDE_DIR utf8/checked.h PATH_SUFFIXES utf8cpp)
+  mark_as_advanced(LIBEBML_UTF8CPP_INCLUDE_DIR)
+endif()
+if(NOT utf8cpp_FOUND AND NOT LIBEBML_UTF8CPP_INCLUDE_DIR)
   include(FetchContent REQUIRED)
   FetchContent_Declare(
         utf8cpp
@@ -143,7 +148,11 @@ if(WIN32)
   target_compile_definitions(ebml PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()
 
-target_link_libraries(ebml PRIVATE ${libebml_utf8cpp_link_libraries})
+if(LIBEBML_UTF8CPP_INCLUDE_DIR)
+  target_include_directories(ebml PRIVATE ${LIBEBML_UTF8CPP_INCLUDE_DIR})
+else()
+  target_link_libraries(ebml PRIVATE ${libebml_utf8cpp_link_libraries})
+endif()
 
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.20")
   if(${CMAKE_CXX_BYTE_ORDER} STREQUAL "BIG_ENDIAN")
