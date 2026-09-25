@@ -7,11 +7,16 @@ on:
 
 jobs:
   build_libebml:
-    name: libebml for Linux ${{ matrix.cxx }}
+    name: libebml for Linux ${{ matrix.cxx }} (${{ matrix.lib.name }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
         cxx: ['g++-14', 'clang++-18']
+        lib: [
+          { "name": "static", "option": "-DBUILD_SHARED_LIBS=OFF"},
+          { "name": "shared", "option": "-DBUILD_SHARED_LIBS=ON"},
+          { "name": "auto",   "option": ""},
+        ]
     env:
       CXX: ${{matrix.cxx}}
     steps:
@@ -22,10 +27,17 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Configure CMake
-        run: cmake -S . -B _build -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -G Ninja
+        run: cmake -S . -B _build ${{ matrix.lib.option }} -DCMAKE_INSTALL_PREFIX:STRING=${GITHUB_WORKSPACE}/_built -G Ninja
 
       - name: Build with CMake
         run: cmake --build _build --parallel
 
       - name: Test installation
-        run: cmake --install _build --prefix ${GITHUB_WORKSPACE}/_built
+        run: |
+          cmake --install _build --prefix ${GITHUB_WORKSPACE}/_built
+          cmake -E remove_directory _build
+
+      - name: Check installed version links properly with CMake
+        run: |
+          cmake -S examples -B examples/_build ${{ matrix.lib.option }} -DCMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/_built"
+          cmake --build examples/_build --parallel
