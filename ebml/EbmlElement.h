@@ -193,8 +193,8 @@ class DllApi x : public BaseClass { \
 
 #define DECLARE_xxx_MASTER(x,DllApi)    \
   DECLARE_xxx_BASE_MASTER(x, DllApi, libebml::EbmlMaster) \
-  static const libebml::EbmlSemanticContextMaster SemanticContext; \
-  static const libebml::EbmlSemanticContextMaster & GetContextMaster() { return SemanticContext; }
+  static const libebml::EbmlSemanticContextMaster DllApi SemanticContext; \
+  static const libebml::EbmlSemanticContextMaster DllApi & GetContextMaster() { return SemanticContext; }
 
 #define DECLARE_xxx_BINARY(x,DllApi)    \
   DECLARE_xxx_BASE(x, DllApi, libebml::EbmlBinary)
