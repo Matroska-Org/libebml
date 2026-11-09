@@ -95,6 +95,8 @@ filepos_t EbmlBinary::ReadData(IOCallback & input, ScopeMode ReadFully)
 
 bool EbmlBinary::operator==(const EbmlBinary & ElementToCompare) const
 {
+  if (!ValueIsSet() || !ElementToCompare.ValueIsSet())
+    return false;
   return ((GetSize() == ElementToCompare.GetSize()) && (GetSize() == 0 || !memcmp(Data, ElementToCompare.Data, GetSize())));
 }
 
